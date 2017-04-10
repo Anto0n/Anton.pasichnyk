@@ -1,5 +1,7 @@
 package com.bionic.baglab.domains;
 
+import com.bionic.baglab.dto.user.UserDto;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -38,9 +40,20 @@ public class UserEntity {
         this.email = email;
         this.lastname = lastname;
     }
+
+    //no password
+    public UserEntity(UserDto userDto) {
+        this.idUser = userDto.getIdUser();
+        this.login = userDto.getLogin();
+        //this.password = password;
+        this.email = userDto.getEmail();
+        this.firstname = userDto.getFirstname();
+        this.lastname = userDto.getLastname();
+        this.role = userDto.getRole();
+        this.statusId = userDto.getStatusId();
+    }
+
     /* private Collection<FeedbackEntity> feedbacksByIdUser;
-    private Collection<ModelEntity> modelsByIdUser;
-    private Collection<OrderEntity> ordersByIdUser;
     private Collection<ShippingAdressEntity> shippingAdressesByIdUser;
     private UserRoles roleByRoleId;
     private UserStatusEntity userStatusByStatusId;*/

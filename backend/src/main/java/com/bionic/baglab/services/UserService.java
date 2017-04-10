@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
+//todo: logging
 @Service
 public class UserService {
     @Autowired
@@ -31,7 +31,7 @@ public class UserService {
             userEntities = (List<UserEntity>) userDao.findAll();
         }
         catch (Exception ex) {
-            System.out.println("error, no users found: " + ex); //todo: logging
+            System.out.println("error, no users found: " + ex);
         }
         userDtos = userEntities.stream()        //make list of userDto from userEntity list
                 .map(userEntity -> new UserDto(userEntity))
@@ -51,10 +51,36 @@ public class UserService {
             userEntities = userDao.findAllByRoleName(role);
         }
         catch (Exception ex) {
-            System.out.println("error, no users found. role: " + role+ " ex:" + ex); //todo: logging
+            System.out.println("error, no users found. role: " + role+ " ex:" + ex);
         }
         return this.getDtofromEntity(userEntities);
     }
+
+
+    /**
+     *
+     * @param userDto
+     * @param password
+     * @return true, if created success. False otherwise
+     */
+    public boolean createUser(UserDto userDto, String password){
+        UserEntity user;
+        try {
+         user = new UserEntity(userDto); //todo: check fields for values
+            user.setPassword(password);
+            userDao.save(user);
+        }
+        catch (Exception ex) {
+            return false; //"Error creating the user: " + ex.toString();
+        }
+       return true;// "User succesfully created! (id = " + user.getIdUser() + ")";
+    }
+
+
+    //delete
+    //get-by-email
+    //update
+
 
     /**
      * transform Enteties set to DTO set
@@ -67,4 +93,5 @@ public class UserService {
                 .collect(Collectors.toSet());
         return userDtos;
     }
+
 }

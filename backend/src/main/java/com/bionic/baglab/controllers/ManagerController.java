@@ -23,8 +23,8 @@ import java.util.Set;
 @RestController
 @RequestMapping("/manager")
 public class ManagerController {
-    private final String managerRole = "Factory"; //todo: delete temp constant
-    private final String orderStatus = "accepted";
+    private final String MANAGER_ROLE = "Factory"; //todo: delete temp constant
+    private final String ORDER_STATUS = "accepted";
 
     @Autowired
     UserService userService;
@@ -42,7 +42,7 @@ public class ManagerController {
      */
     @GetMapping(value = "/list") //
     public ResponseEntity<Set<UserDto>> listAllManagers(){
-        Set<UserDto> managers = userService.getAllUsersByRole(managerRole);
+        Set<UserDto> managers = userService.getAllUsersByRole(MANAGER_ROLE);
             if(managers.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);// HttpStatus.NOT_FOUND
             }
@@ -53,9 +53,9 @@ public class ManagerController {
      *
      * @return List all orders that was approved by Moderator + models in them
      */
-    @GetMapping(value = "/orders")  //todo: bug - show only one orderDTO
+    @GetMapping(value = "/orders")
     public ResponseEntity<List<OrderDto>> listApprovedOrders(){
-        List<OrderDto> orders = orderService.getAllOrdersByStatus(orderStatus);
+        List<OrderDto> orders = orderService.getAllOrdersByStatus(ORDER_STATUS);
         if(orders.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//HttpStatus.NOT_FOUND
         }
