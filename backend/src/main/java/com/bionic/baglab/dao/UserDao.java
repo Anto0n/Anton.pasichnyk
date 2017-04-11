@@ -27,4 +27,6 @@ public interface UserDao extends CrudRepository<UserEntity, Long> {
     public UserEntity findByLogin(String login);
 
     public List<UserEntity> findAllByRoleName(String role);
+
+    public void deleteByEmail(String emmail);
 }

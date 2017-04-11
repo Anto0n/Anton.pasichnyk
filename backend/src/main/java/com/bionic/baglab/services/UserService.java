@@ -6,12 +6,12 @@ import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.dto.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 //todo: logging
 @Service
 public class UserService {
@@ -53,7 +53,7 @@ public class UserService {
         catch (Exception ex) {
             System.out.println("error, no users found. role: " + role+ " ex:" + ex);
         }
-        return this.getDtofromEntity(userEntities);
+        return this.getDtosfromEntitys(userEntities);
     }
 
 
@@ -77,8 +77,29 @@ public class UserService {
     }
 
 
+    /**
+     *
+     * @param email
+     * @return userDTO, find by email
+     * @throws Exception
+     */
+    public UserDto getUserByEmail(String email) throws  Exception{
+        String userId;
+        UserDto userDto;
+        UserEntity user = userDao.findByEmail(email);
+        userDto = new UserDto(user);
+       return userDto;
+    }
+
     //delete
-    //get-by-email
+    @Transactional
+    public boolean deleteUserByEmail(String email) throws  Exception {
+        if (email == "" || email == null)
+            throw  new IllegalArgumentException(email);
+        userDao.deleteByEmail(email);
+        return true;
+    }
+
     //update
 
 
@@ -87,11 +108,12 @@ public class UserService {
      * @param userEntities
      * @return Set<UserDto>
      */
-    private Set<UserDto> getDtofromEntity(List<UserEntity> userEntities){
+    private Set<UserDto> getDtosfromEntitys(List<UserEntity> userEntities){
         Set<UserDto> userDtos = userEntities.stream()        //make list of userDto from userEntity list
                 .map(userEntity -> new UserDto(userEntity))
                 .collect(Collectors.toSet());
         return userDtos;
     }
+
 
 }

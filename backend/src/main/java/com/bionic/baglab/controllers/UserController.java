@@ -38,7 +38,7 @@ public class UserController {
   @PostMapping("/create")
   @ResponseBody
   public  ResponseEntity<Void> create(@PathVariable UserDto userDto, @PathVariable String password) {
-    Boolean created;
+   Boolean created;
    created = userService.createUser(userDto, password);
    if(created)
        return new ResponseEntity<>(HttpStatus.OK);
@@ -70,18 +70,19 @@ public class UserController {
    * @param email The email to search in the database.
    * @return The user id or a message error if the user is not found.
    */
-  @RequestMapping("/get-by-email{email}")
+  @GetMapping("/getbyemail{email}")
   @ResponseBody
-  public String getByEmail(@PathVariable  String email) {
-    String userId;
+  public ResponseEntity<UserDto> getByEmail(@PathVariable  String email) {
+  UserDto userDto;
     try {
-      UserEntity user = userDao.findByEmail(email);
-      userId = String.valueOf(user.getIdUser());
+      userDto = userService.getUserByEmail(email);
+    } catch (NullPointerException en){
+      return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     }
-    catch (Exception ex) {
-      return "User not found";
+    catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return "The user id is: " + userId;
+  return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
   }
   
   /**

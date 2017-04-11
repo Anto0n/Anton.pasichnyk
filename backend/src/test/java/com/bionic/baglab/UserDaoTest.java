@@ -1,7 +1,9 @@
 package com.bionic.baglab;
 
 import com.bionic.baglab.dao.UserDao;
+import com.bionic.baglab.dao.UserRoleDao;
 import com.bionic.baglab.domains.UserEntity;
+import com.bionic.baglab.domains.UserRole;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +21,19 @@ public class UserDaoTest {
     @Autowired
     private UserDao userDao;
 
+    @Autowired
+    UserRoleDao userRoleDao;
+
     @Test
-    public void getAllUsersByRoleName(){
+    public void getAllUsersByRoleNameTest(){
         List<UserEntity> userEntities =  userDao.findAllByRoleName(managerRole);
         Assert.assertNotNull(userEntities);
+    }
+
+    @Test
+    public void getUserRoleByIdTest(){
+        UserRole userRole = userRoleDao.findOne(5L);
+        Assert.assertNotNull(userRoleDao);
     }
 
 }
