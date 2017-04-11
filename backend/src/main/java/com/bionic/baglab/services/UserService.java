@@ -63,10 +63,11 @@ public class UserService {
      * @param password
      * @return true, if created success. False otherwise
      */
+    @Transactional
     public boolean createUser(UserDto userDto, String password){
         UserEntity user;
         try {
-         user = new UserEntity(userDto); //todo: check fields for values
+         user = new UserEntity(userDto); //todo: validate fields for values
             user.setPassword(password);
             userDao.save(user);
         }
@@ -101,7 +102,32 @@ public class UserService {
     }
 
     //update
+    @Transactional
+    public void updateUser(UserDto userDto) throws Exception {
+        UserEntity user;
+        user = new UserEntity(userDto);
+        userDao.save(user);
+    }
 
+
+    public UserDto findById(long id) {
+        UserEntity user = userDao.findOne(id);
+        if (user == null)
+            return null;
+        return new UserDto(user);
+    }
+
+    public boolean isUserExist(UserDto userDto) {
+        UserEntity userEntity;
+        try {
+            userEntity = userDao.findByEmail(userDto.getEmail());
+        } catch (Exception e){
+            return false;        //errors
+        }
+        if (userEntity == null)
+            return false;
+        return true;
+    }
 
     /**
      * transform Enteties set to DTO set
@@ -114,6 +140,7 @@ public class UserService {
                 .collect(Collectors.toSet());
         return userDtos;
     }
+
 
 
 }

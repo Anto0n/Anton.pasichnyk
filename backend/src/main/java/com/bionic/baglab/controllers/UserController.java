@@ -4,12 +4,18 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.dao.UserDao;
 import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.dto.user.UserDto;
+import com.bionic.baglab.dto.user.UserDtoAndPassword;
 import com.bionic.baglab.services.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+import springfox.documentation.service.ResponseMessage;
 
 import java.util.List;
 import java.util.Set;
@@ -19,7 +25,7 @@ import java.util.Set;
  * A class to test interactions with the MySQL database using the UserDao class. *
 
  */
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -31,19 +37,32 @@ public class UserController {
   /**
    * /create  --> Create a new user and save it in the database.
    * 
-   * @param password
-   * @param userDto
+   * @param userDtoAndPassword
    * @return A string describing if the user is succesitfully created or not.
    */
-  @PostMapping("/create")
-  @ResponseBody
-  public  ResponseEntity<Void> create(@PathVariable UserDto userDto, @PathVariable String password) {
+  @PostMapping(value = "/create")
+  public  ResponseEntity<Void> createUser(@RequestBody UserDtoAndPassword userDtoAndPassword, UriComponentsBuilder ucBuilder) { //,  UriComponentsBuilder ucBuilder)
+    String password = userDtoAndPassword.getPassword();
+    UserDto userDto = userDtoAndPassword.getUserDto();
+    if (userService.isUserExist(userDto)) {
+      return new ResponseEntity<>(HttpStatus.CONFLICT); //"A User with name " + userDto.getIdUser() + " already exist"
+    }
    Boolean created;
    created = userService.createUser(userDto, password);
-   if(created)
-       return new ResponseEntity<>(HttpStatus.OK);
-   else return new ResponseEntity<>(HttpStatus.OK);
+   if(!created)
+     return new ResponseEntity<>(HttpStatus.CONFLICT);
+
+    try {
+      userDto = userService.getUserByEmail(userDto.getEmail());   // renew DTO object
+    } catch (Exception e) { }
+
+    HttpHeaders headers = new HttpHeaders();
+   headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(userDto.getIdUser()).toUri());  // for what ???
+   return new ResponseEntity<>(HttpStatus.CREATED);
+
   }
+
+
   
     /**
    * /delete  --> Delete the user having the passed id.
@@ -51,9 +70,8 @@ public class UserController {
    * @param id The id of the user to delete
    * @return A string describing if the user is succesfully deleted or not.
    */
-  @RequestMapping("/delete")
-  @ResponseBody
-  public String delete(long id) {
+  @DeleteMapping("/delete{id}")
+  public String delete(@PathVariable("id") long id) {
     try {
       UserEntity user = new UserEntity(id);
       userDao.delete(user);
@@ -63,7 +81,9 @@ public class UserController {
     }
     return "User succesfully deleted!";
   }
-  
+
+
+
   /**
    * /get-by-email  --> Return the id for the user having the passed email.
    * 
@@ -71,7 +91,6 @@ public class UserController {
    * @return The user id or a message error if the user is not found.
    */
   @GetMapping("/getbyemail{email}")
-  @ResponseBody
   public ResponseEntity<UserDto> getByEmail(@PathVariable  String email) {
   UserDto userDto;
     try {
@@ -84,42 +103,82 @@ public class UserController {
     }
   return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
   }
-  
+
+
+
   /**
    * /update  --> Update the email and the name for the user in the database 
    * having the passed id.
    * 
-   * @param id The id for the user to update.
-   * @param email The new email.
-   * @param name The new name.
-   * @return A string describing if the user is succesfully updated or not.
+   * @param id The id for the user to update.   *
+   * @return user and status
    */
-  @RequestMapping("/update")
-  @ResponseBody
-  public String updateUser(long id, String email, String name) {
-    try {
-      UserEntity user = userDao.findOne(id);
-      System.out.println("lastname------" + name);
-      user.setEmail(email);
-      user.setLastname(name);
-      userDao.save(user);
+  @PutMapping("/update")
+  public ResponseEntity<UserDto> updateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
 
+    UserDto findUser = userService.findById(id);
+    if (findUser==null) {
+      return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND); //("User with id " + id + " not found");
     }
-    catch (Exception ex) {
-      return "Error updating the user: " + ex.toString();
+    try {
+      userService.updateUser(userDto);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
-    return "User succesfully updated!";
+    return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
   }
+
+
 
   /**
    *
    * @return list of all users
    */
-  @RequestMapping("/list")
-  @ResponseBody
-  public List<UserDto> getUsers() { //todo: logging
-    return userService.getAllUsers();
+  @GetMapping("/list")
+  public ResponseEntity<List<UserDto>> getUsers() { //todo: logging
+    List<UserDto> userList =  userService.getAllUsers();
+    if (userList.size() == 0)
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    return new ResponseEntity<List<UserDto>>(userList, HttpStatus.OK);
   }
+
+
+
+  /**
+   *
+   * @param id - user ID
+   * @return single user by ID, 404 otherwise
+   */
+  @GetMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
+    UserDto userDto = userService.findById(id);
+    if (userDto == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+    return new ResponseEntity<>(userDto, HttpStatus.OK);
+  }
+
 
 //todo: rewrite with dto/services
 }
+
+
+//create user:
+//    {
+//        "password": "asd13212dss",
+//        "userDto": {
+//        "login": "man2age2rD2a",
+//        "email": "l2sd3ao@1D",
+//        "firstname": "La22o1s",
+//        "lastname": "Dz123is",
+//        "role": {
+//        "idRole": 4,
+//        "name": "Factory",
+//        "description": "Create products according to orders.",
+//        "deleted": 0
+//        },
+//        "statusId": 1,
+//        "deleted": 0
+//        }
+//    }

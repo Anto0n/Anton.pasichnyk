@@ -38,6 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/login?logout")
                 .and()
                 .exceptionHandling().accessDeniedPage("/403");
+                http.csrf().disable();  // To enable POST method
     }
 
     @Bean(name = "passwordEncoder")
