@@ -10,6 +10,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { ManagerOrdersComponent } from './manager/manager-orders/manager-orders.component';
 import {RestService} from "./shared/services/rest.service";
 import {TestComponent} from "./test/test.component";
+import {ModeratorOrdersComponent} from "./moderator/show-orders/orders.component";
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {TestComponent} from "./test/test.component";
     MainComponent,
     HomePageComponent,
     ManagerOrdersComponent,
-    TestComponent
+    TestComponent,
+    ModeratorOrdersComponent
   ],
   imports: [
     BrowserModule,
