@@ -3,6 +3,8 @@ package com.bionic.baglab.domains;
 import com.bionic.baglab.dto.user.UserDto;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Collection;
 
@@ -17,12 +19,24 @@ public class UserEntity {
     public final static String user = "Admin";
 
     private long idUser;
+    @NotNull(message = "error.login.notnull")
+    @Size(min = 1, max = 45, message = "error.login.size")
     private String login;
+    @NotNull(message = "error.password.notnull")
+    @Size(max = 64, message = "error.password.size")
     private String password;
+    @NotNull(message = "error.email.notnull")
+    @Size(min = 1, max = 254, message = "error.email.size")
     private String email;
+    @NotNull(message = "error.firstname.notnull")
+    @Size(min = 1, max = 45, message = "error.firstname.size")
     private String firstname;
+    @NotNull(message = "error.lastname.notnull")
+    @Size(min = 1, max = 45, message = "error.lastname.size")
     private String lastname;
+    @NotNull(message = "error.role.notnull")
     private UserRole role;
+    @NotNull(message = "error.statusId.notnull")
     private long statusId;
     private Timestamp userCreate;
     private Timestamp userUpdate;

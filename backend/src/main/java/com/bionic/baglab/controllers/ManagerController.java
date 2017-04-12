@@ -67,7 +67,7 @@ public class ManagerController {
      * @param id - order id
      * @param action - new order status
      */
-    @PostMapping(value = "/{id}/{action}") //todo: add limitation to possible actions for Order status
+    @PutMapping(value = "/changeOrderStatus/{id}/{action}") //todo: add limitation to possible actions for Order status
     @ResponseBody
     public ResponseEntity<Void> acceptOrder(@PathVariable long id, @PathVariable String action) {
         OrderEntity orderEntity;
@@ -78,10 +78,13 @@ public class ManagerController {
         } catch (Exception ex ) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        if(orderEntity == null || orderStatusEntity == null )
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
             if (!orderEntity.getOrderStatus().equals(orderStatusEntity)){
                 orderEntity.setOrderStatus(orderStatusEntity);
                 orderService.save(orderEntity);
-                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+                return new ResponseEntity<>(HttpStatus.OK);
             }  else
                 return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }

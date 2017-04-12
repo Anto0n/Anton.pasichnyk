@@ -1,8 +1,14 @@
 package com.bionic.baglab.dto.user;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class UserDtoAndPassword {
-    UserDto userDto;
-    String password;
+    @NotNull(message = "error.userDto.notnull")
+    private UserDto userDto;
+    @NotNull(message = "error.password.notnull")
+    @Size(min = 1, max = 64, message = "error.password.size")
+    private String password;
 
     public UserDtoAndPassword() {
     }

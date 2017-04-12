@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 import springfox.documentation.service.ResponseMessage;
@@ -41,7 +42,7 @@ public class UserController {
    * @return A string describing if the user is succesitfully created or not.
    */
   @PostMapping(value = "/create")
-  public  ResponseEntity<Void> createUser(@RequestBody UserDtoAndPassword userDtoAndPassword, UriComponentsBuilder ucBuilder) { //,  UriComponentsBuilder ucBuilder)
+  public  ResponseEntity<Void> createUser(@Validated @RequestBody UserDtoAndPassword userDtoAndPassword) { //,  UriComponentsBuilder ucBuilder)
     String password = userDtoAndPassword.getPassword();
     UserDto userDto = userDtoAndPassword.getUserDto();
     if (userService.isUserExist(userDto)) {
@@ -56,8 +57,8 @@ public class UserController {
       userDto = userService.getUserByEmail(userDto.getEmail());   // renew DTO object
     } catch (Exception e) { }
 
-    HttpHeaders headers = new HttpHeaders();
-   headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(userDto.getIdUser()).toUri());  // for what ???
+    //HttpHeaders headers = new HttpHeaders();
+   //headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(userDto.getIdUser()).toUri());  // for what ???
    return new ResponseEntity<>(HttpStatus.CREATED);
 
   }
@@ -113,15 +114,15 @@ public class UserController {
    * @param id The id for the user to update.   *
    * @return user and status
    */
-  @PutMapping("/update")
-  public ResponseEntity<UserDto> updateUser(@PathVariable("id") long id, @RequestBody UserDto userDto) {
+  @PutMapping("/update{id}")
+  public ResponseEntity<UserDto> updateUser(@PathVariable("id") long id,  @Validated @RequestBody UserDto userDto) {
 
     UserDto findUser = userService.findById(id);
     if (findUser==null) {
       return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND); //("User with id " + id + " not found");
     }
     try {
-      userService.updateUser(userDto);
+      userService.updateUser(userDto,  id);
     } catch (Exception e) {
       e.printStackTrace();
       return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -164,7 +165,7 @@ public class UserController {
 }
 
 
-//create user:
+//create new user:
 //    {
 //        "password": "asd13212dss",
 //        "userDto": {

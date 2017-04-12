@@ -3,6 +3,8 @@ package com.bionic.baglab.dto.user;
 import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.domains.UserRole;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 /**
@@ -10,11 +12,21 @@ import java.sql.Timestamp;
  */
 public class UserDto {
     private long idUser;
-    private String login; //exclude?
+    @NotNull(message = "error.login.notnull")
+    @Size(min = 1, max = 45, message = "error.login.size")
+    private String login;
+    @NotNull(message = "error.email.notnull")
+    @Size(min = 1, max = 254, message = "error.email.size")
     private String email;
+    @NotNull(message = "error.firstname.notnull")
+    @Size(min = 1, max = 45, message = "error.firstname.size")
     private String firstname;
+    @NotNull(message = "error.lastname.notnull")
+    @Size(min = 1, max = 45, message = "error.lastname.size")
     private String lastname;
+    @NotNull(message = "error.role.notnull")
     private UserRole role;
+    @NotNull(message = "error.statusId.notnull")
     private long statusId;
     private Timestamp userCreate;
     private Timestamp userUpdate;
@@ -110,6 +122,17 @@ public class UserDto {
 
     public Timestamp getUserUpdate() {
         return userUpdate;
+    }
+
+    public UserEntity renewUserEntityFromUserDto(UserEntity oldUserEntity){
+        oldUserEntity.setLogin(this.getLogin());
+        oldUserEntity.setEmail(this.getEmail());
+        oldUserEntity.setFirstname(this.getFirstname());
+        oldUserEntity.setLastname(this.getLastname());
+        oldUserEntity.setRole(this.getRole());
+        oldUserEntity.setStatusId(this.getStatusId());
+//        this.deleted = userEntity.getDeleted();
+    return  oldUserEntity;
     }
 
 

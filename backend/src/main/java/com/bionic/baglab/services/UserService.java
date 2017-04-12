@@ -103,10 +103,11 @@ public class UserService {
 
     //update
     @Transactional
-    public void updateUser(UserDto userDto) throws Exception {
-        UserEntity user;
-        user = new UserEntity(userDto);
-        userDao.save(user);
+    public void updateUser(UserDto userDto, long id) throws Exception {
+        UserEntity user;                // 2 - renew field 3 -save
+        UserEntity userEntity = userDao.findOne(id);
+        userDto.renewUserEntityFromUserDto(userEntity);
+        userDao.save(userEntity);
     }
 
 
