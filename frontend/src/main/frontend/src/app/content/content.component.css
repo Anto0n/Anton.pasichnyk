@@ -1,0 +1,9 @@
+.Main {
+  margin: auto;
+  margin-top: 100px;
+  width: calc(100% - 150px);
+  min-height: 400px;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid black;
+}

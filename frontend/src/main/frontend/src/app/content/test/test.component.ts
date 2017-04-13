@@ -1,14 +1,9 @@
 import {Component} from "@angular/core";
-import {RestService} from "../shared/services/rest.service";
+import {RestService} from "../../shared/services/rest.service";
 import {IUser} from "./test.model";
 @Component({
   selector: 'test',
-  template: `
-      <div *ngFor="let user of users" >
-        {{user.firstname}}, {{user.email}}
-      </div>
-    <button (click)="getUser()">GetData</button>
-  `
+  templateUrl: './test.components.html'
 })
 export class TestComponent {
 
@@ -24,6 +19,10 @@ export class TestComponent {
       }, ()=>console.log('err'));
   }
 
+/*  createUser(){
+    this.restService.postJson('/user/create')
+      .subscribe()
+  }*/
 
 }
 

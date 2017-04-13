@@ -1,0 +1,36 @@
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+ul li {
+  display: inline-block;
+  background: #2b6ca3;
+  width: 10%;
+  height: 50px;
+  border-right: 1px solid #050f16;
+  border-bottom: 1px solid #050f16;
+  border-radius: 5px 5px 0 0;
+  margin-left: -4px;
+  text-align: center;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+ul li:first-child {
+  margin-left: 0;
+  background: rgba(205, 215, 226, 1);
+  border-bottom: none;
+}
+
+ul li:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+a {
+  text-decoration: none;
+  display: block;
+  height: 100%;
+}

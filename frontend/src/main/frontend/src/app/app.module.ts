@@ -2,28 +2,53 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { Routes, RouterModule } from '@angular/router';
+
 //import {} from "@angular/router"; //RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS
 
-import { AppComponent } from './app.component';
-import { MainComponent } from './main/main.component';
-import { HomePageComponent } from './home-page/home-page.component';
-import { ManagerOrdersComponent } from './manager/manager-orders/manager-orders.component';
+import {AppComponent } from './app.component';
 import {RestService} from "./shared/services/rest.service";
-import {TestComponent} from "./test/test.component";
+import {TestComponent} from "./content/test/test.component";
+
+
+import { MenuComponent } from './menu/menu.component';
+import { ContentComponent } from './content/content.component';
+import { HomeComponent } from './content/home/home.component';
+import { NewComponent } from './content/new/new.component';
+import { OrdersComponent } from './content/orders/orders.component';
+import { AboutComponent } from './content/about/about.component';
+import { HelpComponent } from './content/help/help.component';
+
+const appRoutes: Routes = [
+  {path: 'home', component: HomeComponent},
+  {path: 'new', component: NewComponent},
+  {path: 'orders', component: OrdersComponent},
+  {path: 'about', component: AboutComponent},
+  {path: 'help', component: HelpComponent},
+  {path: 'test', component: TestComponent}
+];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainComponent,
-    HomePageComponent,
-    ManagerOrdersComponent,
-    TestComponent
+    TestComponent,
+    MenuComponent,
+    ContentComponent,
+    HomeComponent,
+    NewComponent,
+    OrdersComponent,
+    AboutComponent,
+    HelpComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [RestService],
   bootstrap: [AppComponent]
