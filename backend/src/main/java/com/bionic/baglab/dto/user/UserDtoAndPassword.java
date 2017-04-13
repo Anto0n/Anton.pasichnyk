@@ -3,6 +3,10 @@ package com.bionic.baglab.dto.user;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Two DTO objects in on
+ * POST can send&receive only one object
+ */
 public class UserDtoAndPassword {
     @NotNull(message = "error.userDto.notnull")
     private UserDto userDto;

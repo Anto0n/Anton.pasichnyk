@@ -52,7 +52,6 @@ public class UserController {
    created = userService.createUser(userDto, password);
    if(!created)
      return new ResponseEntity<>(HttpStatus.CONFLICT);
-
     try {
       userDto = userService.getUserByEmail(userDto.getEmail());   // renew DTO object
     } catch (Exception e) { }
@@ -72,15 +71,15 @@ public class UserController {
    * @return A string describing if the user is succesfully deleted or not.
    */
   @DeleteMapping("/delete{id}")
-  public String delete(@PathVariable("id") long id) {
+  public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
     try {
       UserEntity user = new UserEntity(id);
       userDao.delete(user);
     }
     catch (Exception ex) {
-      return "Error deleting the user: " + ex.toString();
+      return new ResponseEntity<>(HttpStatus.CONFLICT);     //"Error deleting the user: " + ex.toString();
     }
-    return "User succesfully deleted!";
+    return new ResponseEntity<>(HttpStatus.OK);
   }
 
 
