@@ -15,14 +15,14 @@ insert into baglab.orderStatus (code, description) values ('processing', 'order 
 insert into baglab.orderStatus (code, description) values ('denied', 'order is denied by moderator');
 insert into baglab.orderStatus (code, description) values ('send', 'order is shipped from factory');
 
-insert into baglab.material (name, price) values ('cotton', 20.2);
-insert into baglab.material (name, price) values ('jeans', 28.1);
-insert into baglab.material (name, price) values ('leather', 38.5);
+insert into baglab.material (name) values ('cotton');
+insert into baglab.material (name) values ('jeans');
+insert into baglab.material (name) values ('leather');
 
 
-INSERT INTO `baglab`.`bag_type` (`idBagType`, `script`) VALUES ('1', '<asd></asd>');
-INSERT INTO `baglab`.`bag_type` (`idBagType`, `script`) VALUES ('2', 'asd sd');
-INSERT INTO `baglab`.`bag_type` (`idBagType`, `script`) VALUES ('3', 'script asd1s23');
+INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('<asd></asd>', 'Simle bag');
+INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('asd sd', 'Bag pojo');
+INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('script asd1s23', 'Extra bag');
 
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('admin','admin','admin@gmail.com',  'Ivan', 'Onobrenko',1);
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('Anna','annaPass', 'demoanna@gmail.com',  'John', 'Doe', 2);

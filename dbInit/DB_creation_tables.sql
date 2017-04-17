@@ -27,8 +27,10 @@ USE `baglab` ;
 DROP TABLE IF EXISTS `baglab`.`bag_type` ;
 
 CREATE TABLE IF NOT EXISTS `baglab`.`bag_type` (
-  `idBagType` BIGINT NOT NULL,
+  `idBagType` BIGINT NOT NULL AUTO_INCREMENT,
   `script` MEDIUMTEXT NOT NULL,
+  `name` VARCHAR(45) NOT NULL,
+  `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`idBagType`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -42,7 +44,6 @@ DROP TABLE IF EXISTS `baglab`.`material` ;
 CREATE TABLE IF NOT EXISTS `baglab`.`material` (
   `idmaterial` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `price` DOUBLE NOT NULL,
   `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`idmaterial`))
 ENGINE = InnoDB
@@ -233,7 +234,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`panel` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_panel_material1`
     FOREIGN KEY (`materialId`)
-    REFERENCES `baglab`.`material` (`idmaterial`)
+    REFERENCES `baglab`.`material` (`idMaterial`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
