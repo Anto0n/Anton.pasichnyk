@@ -2,7 +2,7 @@ package com.bionic.baglab.domains;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.deploy.uitoolkit.impl.awt.AWTPluginUIToolkit;
+//import com.sun.deploy.uitoolkit.impl.awt.AWTPluginUIToolkit;
 
 import javax.persistence.*;
 import java.util.ArrayList;

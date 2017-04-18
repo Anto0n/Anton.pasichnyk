@@ -9,6 +9,7 @@ import { Routes, RouterModule } from '@angular/router';
 import {AppComponent } from './app.component';
 import {RestService} from "./shared/services/rest.service";
 import {TestComponent} from "./content/test/test.component";
+import {ConfiguratorComponent} from "./configurator/configurator.component";
 
 
 import { MenuComponent } from './menu/menu.component';
@@ -18,6 +19,7 @@ import { NewComponent } from './content/new/new.component';
 import { OrdersComponent } from './content/orders/orders.component';
 import { AboutComponent } from './content/about/about.component';
 import { HelpComponent } from './content/help/help.component';
+import {SafePipe} from "./shared/safepipe.component";
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -39,7 +41,9 @@ const appRoutes: Routes = [
     NewComponent,
     OrdersComponent,
     AboutComponent,
-    HelpComponent
+    HelpComponent,
+    ConfiguratorComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,
