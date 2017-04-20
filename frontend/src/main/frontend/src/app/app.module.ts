@@ -20,6 +20,7 @@ import { OrdersComponent } from './content/orders/orders.component';
 import { AboutComponent } from './content/about/about.component';
 import { HelpComponent } from './content/help/help.component';
 import {SafePipe} from "./shared/safepipe.component";
+import { SafePipeComponent } from './configurator/safe-pipe.component';
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     AboutComponent,
     HelpComponent,
     ConfiguratorComponent,
-    SafePipe
+    SafePipe,
+    SafePipeComponent
   ],
   imports: [
     BrowserModule,
