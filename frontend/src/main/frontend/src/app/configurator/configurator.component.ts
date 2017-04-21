@@ -17,16 +17,22 @@ export class ConfiguratorComponent {
    //private URLjson = require("./libs/cotton_express.json");
    //private URLload = require("?load=");
  // private URLall = require("./libs/webplayer.html?load=cotton_express.json");
-  private URLcub= require("./cub.html");
+  private URLcub = ('./assets/cub.html');
 
   url: SafeResourceUrl;
 
-  constructor(sanitizer: DomSanitizer) {
+  //constructor(sanitizer: DomSanitizer) {
+
    // this.url = sanitizer.bypassSecurityTrustResourceUrl("./src/app/configurator/libs/webplayer.html");
-   // this.url = sanitizer.bypassSecurityTrustResourceUrl("cub.html");//&output=embed
+    //this.url = sanitizer.bypassSecurityTrustHtml("cub.html");//&output=embed
 
+  //}
+
+  constructor(private sanitizer: DomSanitizer) {}
+
+  ngOnInit():any {
+    this.url = this.sanitizer.bypassSecurityTrustHtml("./cub.html");//&output=embed
   }
-
 
  /* public url:SafeResourceUrl;
   constructor(private sanitizer:DomSanitizer) {

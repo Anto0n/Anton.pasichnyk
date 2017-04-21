@@ -21,7 +21,7 @@ header {
   top: 50px;
   width: 16%;
   height: 400px;
-  background: url("img/logo1.png") no-repeat;
+  background: url("../assets/img/logo1.png") no-repeat;
   background-size: 100%;
 }
 
