@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/api/news")
 public class PagesController { //todo: add services
 
     @Autowired
@@ -37,6 +37,11 @@ public class PagesController { //todo: add services
         }
         return new ResponseEntity<>(pagesSet, HttpStatus.OK);
     }
+
+    /**
+     *
+     * @return distinct news page by @id
+     */
 
     @GetMapping("/{id}")
     public ResponseEntity<PagesDto> getNewsById(){
@@ -62,7 +67,7 @@ public class PagesController { //todo: add services
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/update{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<Void> updateNews(@Validated @RequestBody PagesDto pagesDto){
         //get by id? error othervise, update
         try{

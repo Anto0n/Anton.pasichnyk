@@ -21,7 +21,7 @@ import java.util.Set;
  */
 
 @RestController
-@RequestMapping("/manager")
+@RequestMapping("/api/manager")
 public class ManagerController {
     private final String MANAGER_ROLE = "Factory"; //todo: delete temp constant
     private final String ORDER_STATUS = "accepted";

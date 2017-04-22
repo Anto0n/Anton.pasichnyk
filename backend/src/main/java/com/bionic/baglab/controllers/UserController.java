@@ -23,11 +23,11 @@ import java.util.Set;
 
 
 /**
- * A class to test interactions with the MySQL database using the UserDao class. *
+ * The class to interact with  MySQL database using e UserDto. *
 
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 
   @Autowired
