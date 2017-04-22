@@ -7,17 +7,17 @@ import javax.validation.constraints.Size;
  * Two DTO objects in on
  * POST can send&receive only one object
  */
-public class UserDtoAndPassword {
+public class UserDtoRegistration {
     @NotNull(message = "error.userDto.notnull")
     private UserDto userDto;
     @NotNull(message = "error.password.notnull")
     @Size(min = 1, max = 64, message = "error.password.size")
     private String password;
 
-    public UserDtoAndPassword() {
+    public UserDtoRegistration() {
     }
 
-    public UserDtoAndPassword(UserDto userDto, String password) {
+    public UserDtoRegistration(UserDto userDto, String password) {
         this.userDto = userDto;
         this.password = password;
     }

@@ -4,22 +4,16 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.dao.UserDao;
 import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.dto.user.UserDto;
-import com.bionic.baglab.dto.user.UserDtoAndPassword;
+import com.bionic.baglab.dto.user.UserDtoRegistration;
 import com.bionic.baglab.services.UserService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
-import springfox.documentation.service.ResponseMessage;
 
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -38,13 +32,13 @@ public class UserController {
   /**
    * /create  --> Create a new user and save it in the database.
    * 
-   * @param userDtoAndPassword
+   * @param userDtoRegistration
    * @return A string describing if the user is succesitfully created or not.
    */
   @PostMapping(value = "/create")
-  public  ResponseEntity<Void> createUser(@Validated @RequestBody UserDtoAndPassword userDtoAndPassword) { //,  UriComponentsBuilder ucBuilder)
-    String password = userDtoAndPassword.getPassword();
-    UserDto userDto = userDtoAndPassword.getUserDto();
+  public  ResponseEntity<Void> createUser(@Validated @RequestBody UserDtoRegistration userDtoRegistration) { //,  UriComponentsBuilder ucBuilder)
+    String password = userDtoRegistration.getPassword();
+    UserDto userDto = userDtoRegistration.getUserDto();
     if (userService.isUserExist(userDto)) {
       return new ResponseEntity<>(HttpStatus.CONFLICT); //"A User with name " + userDto.getIdUser() + " already exist"
     }

@@ -11,8 +11,17 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 })
 export class ConfiguratorComponent {
 
+  /*constructor(private configService: ConfigService){
+
+  }*/
+
   private URLcub = ('./assets/cub.html');
   private URLPlayerJson = ('./assets/libs/webplayer.html?load=cotton_express.json');//./assets/libs/webplayer.html?load=cotton_express.json
+
+  // declare Aclass
+  load(){
+
+  }
 
 
 }
