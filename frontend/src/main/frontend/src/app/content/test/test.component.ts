@@ -12,7 +12,7 @@ export class TestComponent {
   constructor(private restService: RestService) { }
 
   getUser(){
-    this.restService.getData('/api/user/list')
+    this.restService.getData('./api/user/list')
       .subscribe((data: IUser[]) => {
         this.users=data;
         console.log(data);

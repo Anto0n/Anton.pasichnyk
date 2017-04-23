@@ -9,7 +9,14 @@ import { SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
   templateUrl:'./configurator.component.html'
 
 })
+
 export class ConfiguratorComponent {
+/*
+  headers = new Headers({
+    'Access-Control-Allow-Origin': '*',
+    'X-Frame-Options': 'SAMEORIGIN'
+  });
+*/
 
   /*constructor(private configService: ConfigService){
 
@@ -22,6 +29,8 @@ export class ConfiguratorComponent {
   load(){
 
   }
+
+
 
 
 }
