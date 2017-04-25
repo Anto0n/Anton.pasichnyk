@@ -19,7 +19,8 @@ import { NewComponent } from './content/new/new.component';
 import { OrdersComponent } from './content/orders/orders.component';
 import { AboutComponent } from './content/about/about.component';
 import { HelpComponent } from './content/help/help.component';
-import {SafePipe} from "./shared/safepipe.component";
+import {SafePipe} from "./shared/safe.pipe.spec.";
+import { UserCreateComponent } from './user/user-create/user-create.component';
 
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -43,7 +44,8 @@ const appRoutes: Routes = [
     AboutComponent,
     HelpComponent,
     ConfiguratorComponent,
-    SafePipe
+    SafePipe,
+    UserCreateComponent
   ],
   imports: [
     BrowserModule,

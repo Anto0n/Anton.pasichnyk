@@ -24,7 +24,7 @@ export class ConfiguratorComponent {
 
   private URLcub = ('./assets/cub.html');
   private URLPlayerJson = ('./assets/libs/webplayer.html?load=cotton_express.json');//./assets/libs/webplayer.html?load=cotton_express.json
-
+  private URLPlayerTemp= ('./assets/libs/temp/webplayer.html?load=cotton_express.json');
   // declare Aclass
   load(){
 
