@@ -15,17 +15,17 @@ import static javax.persistence.CascadeType.*;
 public class BagTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "idBagType")
+    @Column(name = "[idBagType]")
     private long id;
 
     @Basic
-    @Column(name = "script", columnDefinition = "MEDIUMTEXT")
+    @Column(name = "[script]", columnDefinition = "MEDIUMTEXT")
     private String script;
 
-    @Column(name = "name")
+    @Column(name = "[name]")
     private String name;
 
-    @Column(name = "deleted", columnDefinition = "bit(1)")
+    @Column(name = "[deleted]", columnDefinition = "bit(1)")
     private boolean deleted = false;
 
     @OneToMany(mappedBy = "bagType", orphanRemoval = true, cascade = {PERSIST, REMOVE, REFRESH, DETACH})
