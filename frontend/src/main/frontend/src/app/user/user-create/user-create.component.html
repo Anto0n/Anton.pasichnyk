@@ -1,3 +1,19 @@
-<p>
-  user-create works!
-</p>
+
+<body>
+<form action="`" class="user_create_form">
+  <label>Enter first name:</label>
+  <input class="user_create_input" type="text" [(ngModel)]="firstName">
+  <label>Enter last name:</label>
+  <input class="user_create_input" type="text" [(ngModel)]="lastName">
+  <label>Enter login:</label>
+  <input class="user_create_input" type="text" [(ngModel)]="login">
+  <label>Enter email:</label>
+  <input class="user_create_input" type="email" [(ngModel)]="email">
+  <label>Enter password:</label>
+  <input class="user_create_input" type="password" [(ngModel)]="password1">
+  <label>Rewrite password:</label>
+  <input class="user_create_input" type="password" [(ngModel)]="password2">
+  <button class="user_create_btn" (click)="userCreate(login, email, password1, password2)">Submit</button>
+</form>
+</body>
+
