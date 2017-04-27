@@ -68,6 +68,12 @@ public class BagTypeController {
         return bagType;
     }
 
+    @RequestMapping(value = "/getJson/{id}", method = RequestMethod.GET)
+    public String findByIdJsonBody(@PathVariable("id") long id) {
+        BagTypeEntity bagType = bagTypeDao.findOne(id);
+        return bagType.getScript();
+    }
+
     /**
      *
      * @param id of the bag type that needs to be deleted
