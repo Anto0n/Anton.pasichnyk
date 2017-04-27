@@ -7,6 +7,7 @@ import com.bionic.baglab.domains.BagTypePriceEntity;
 import com.bionic.baglab.dto.BagTypeDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
-@RequestMapping("bag_type")
+@RequestMapping("/api/bag_type")
 public class BagTypeController {
     @Autowired
     private BagTypeDao bagTypeDao;
@@ -68,10 +69,11 @@ public class BagTypeController {
         return bagType;
     }
 
-    @RequestMapping(value = "/getJson/{id}", method = RequestMethod.GET)
-    public String findByIdJsonBody(@PathVariable("id") long id) {
-        BagTypeEntity bagType = bagTypeDao.findOne(id);
-        return bagType.getScript();
+    @GetMapping(value = "/getJson/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
+    public ResponseEntity<String> findByIdJsonBody(@PathVariable("id") long id) {               //todo: from BagTypeEntity - Table 'baglab.bag_type_price' doesn't exist
+        BagTypeEntity bagType = bagTypeDao.findOne(id); //if error - return HttpStatus.NOT_FOUND
+        String script = bagType.getScript();
+        return new ResponseEntity<>(script, HttpStatus.OK);
     }
 
     /**

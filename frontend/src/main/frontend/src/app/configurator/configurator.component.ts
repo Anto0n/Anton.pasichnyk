@@ -17,11 +17,11 @@ export class ConfiguratorComponent {
   constructor(private restService: RestService) { }
 
   getBag(){
-    this.restService.getData('/bag_type/getJson/1')
+    this.restService.getData('./api/user/1')
       .subscribe((data: any) => {
         this.jsonString=data;
         console.log(data);
-      }, ()=>console.log('err'));
+      });
   }
 
 }
