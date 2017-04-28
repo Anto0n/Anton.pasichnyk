@@ -1,25 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { User } from '../user';
-//import { UserCreateService } from 'user-create.service';
+import { Component, OnInit} from '@angular/core';
+import { UserCreate } from '../userCreate';
+import { UserCreateService } from './user-create.service';
 
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
-  styleUrls: ['./user-create.component.css']
- // providers: [UserCreateService]
+  styleUrls: ['./user-create.component.css'],
+  providers: [UserCreateService]
 })
 export class UserCreateComponent  {
+  users: UserCreate[] ;
 
-  users: User[] = [];
- // constructor (private userService: UserCreateService) {}
+  constructor (private userService: UserCreateService) {}
+
   userCreate (firstName, lastName, login, email, password1, password2) {
     if (password1 === password2) {
-     // new User  = new User(firstName, lastName, login, email, password1);
+     //newUser  = new UserCreate(firstName, lastName, login, email, password1);
+      this.userService.addUser(firstName, lastName, login, email, password1);
+
     }
   }
 }
 
-
+//on form submit send data to server
+//onSubmit() { }
 
 /*
 @Component({

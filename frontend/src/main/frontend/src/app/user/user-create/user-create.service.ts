@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
+import {Http, Headers, RequestOptions, Response} from "@angular/http";
+import { UserCreate } from '../userCreate';
 
-import { User } from '../user';
+//@Injectable - декоратор, который передает данные о нашем сервисе.
+@Injectable()
 export class UserCreateService {
-/*  data: User[] = [
+  data: UserCreate[]= [];
+  constructor (private http: Http) {}
+
+  UserCreate = [
     {
       login: "admin",
       email: "admin@gmail.com",
@@ -24,13 +30,23 @@ export class UserCreateService {
       firstName: "Martin",
       lastName: "Freeman"
     }
-  ]; */
+  ];
 
-data: User[]= [];
-  getUsers(): User[] {
+  getUsers(): UserCreate[] {
     return this.data;
   }
+
+/*data: User[]= [];
+  getUsers(): User[] {
+    return this.data;
+  }*/
+
   addUser (firstName: string, lastName: string, login: string, email: string, password: string) {
-    this.data.push(new User(firstName, lastName, login, email, password));
+    this.data.push(new UserCreate(firstName, lastName, login, email, password));
   }
+
+  postUser (url: string, data: any){
+   // postJson
+  }
+
 }
