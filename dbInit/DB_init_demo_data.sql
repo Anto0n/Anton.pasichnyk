@@ -19,7 +19,6 @@ insert into baglab.material (name) values ('cotton');
 insert into baglab.material (name) values ('jeans');
 insert into baglab.material (name) values ('leather');
 
-
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('<asd></asd>', 'Simle bag');
 INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('asd sd', 'Bag pojo');
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('script asd1s23', 'Extra bag');
@@ -312,6 +311,18 @@ insert into baglab.country (name) values ('Zimbabwe');
 
 insert into baglab.shipping_adress (contactName, countryId, street, apartment, state, city, zipcode, mobile, userId) values ('Ivan Onobrenko',132,'Tkachenko','23','Kiev','Kiev','08187','+380683842905', 1);
 insert into baglab.shipping_adress (contactName, countryId, street, apartment, state, city, zipcode, mobile, userId) values ('John Doe',135,'Main Avenu','3','Alabama', 'Calera','AL 35040','+1 205-668-0402', 2);
+
+#-------------------------
+insert into baglab.material_price(materialId, date, price) values (1,NOW(), 1778);
+insert into baglab.material_price(materialId, date, price) values (3,NOW(), 2778);
+insert into baglab.material_price(materialId, date, price) values (1,NOW(), 3778);
+insert into baglab.material_price(materialId, date, price) values (2,NOW(), 4778);
+
+#-------------------------
+insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 778);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 778);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 778);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 778);
 
 #-------------------------
 insert into baglab.pages_type (type) VALUES ('ACTIVE');

@@ -14,13 +14,9 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 -- Schema baglab
 -- -----------------------------------------------------
 
--- -----------------------------------------------------
--- Schema baglab
--- -----------------------------------------------------
-#Drop SCHEMA baglab;
+# Drop SCHEMA baglab;
 CREATE SCHEMA IF NOT EXISTS `baglab` DEFAULT CHARACTER SET utf8 ;
 USE `baglab` ;
-
 -- -----------------------------------------------------
 -- Table `baglab`.`bag_type`
 -- -----------------------------------------------------
@@ -32,8 +28,8 @@ CREATE TABLE IF NOT EXISTS `baglab`.`bag_type` (
   `name` VARCHAR(45) NOT NULL,
   `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`idBagType`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -46,8 +42,8 @@ CREATE TABLE IF NOT EXISTS `baglab`.`material` (
   `name` VARCHAR(45) NOT NULL,
   `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`idmaterial`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -361,8 +357,35 @@ CREATE TABLE IF NOT EXISTS `baglab`.`feedback` (
 ENGINE = InnoDB;
 
 -- -----------------------------------------------------
--- Table `baglab`.`model_price`
+-- Table `baglab`.`bag_type_price`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `baglab`.`bag_type_price`;
+CREATE TABLE `bag_type_price` (
+  `idbag_type_price` BIGINT    NOT NULL AUTO_INCREMENT,
+  `bag_type_id`      BIGINT   NOT NULL,
+  `date`             TIMESTAMP NULL     DEFAULT NULL,
+  `price`            INT(11)            DEFAULT NULL,
+  PRIMARY KEY (`idbag_type_price`),
+  CONSTRAINT `bag_type_id`
+  FOREIGN KEY (`bag_type_id`)
+  REFERENCES `baglab`.`bag_type` (`idBagType`)
+)
+  ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `baglab`.`material_price`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `baglab`.`material_price`;
+CREATE TABLE `baglab`.`material_price` (
+  `idmaterial_price` BIGINT    NOT NULL AUTO_INCREMENT,
+  `materialId`       BIGINT       NOT NULL,
+  `price`            INT       NULL,
+  `date`             TIMESTAMP NULL,
+  PRIMARY KEY (`idmaterial_price`),
+  CONSTRAINT `materialId`
+  FOREIGN KEY (`materialId`)
+  REFERENCES `baglab`.`material` (`idmaterial`))
+  ENGINE = InnoDB;
 
 /*
 create index model_price_modelId_date_index
