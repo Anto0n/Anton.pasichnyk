@@ -16,8 +16,8 @@ export class ConfiguratorComponent {
   private jsonString: any;
   constructor(private restService: RestService) { }
 
-  getBag(){
-    this.restService.getData('./api/user/1')
+  getBag(id: string){
+    this.restService.getData('./api/bag_type/getJson/'.concat(id))
       .subscribe((data: any) => {
         this.jsonString=data;
         console.log(data);
