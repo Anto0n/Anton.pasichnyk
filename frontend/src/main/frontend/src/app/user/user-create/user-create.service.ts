@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
 import { UserCreate } from '../userCreate';
+import {RestService} from "../../shared/services/rest.service";
 
 //@Injectable - декоратор, который передает данные о нашем сервисе.
 @Injectable()
 export class UserCreateService {
   data: UserCreate[]= [];
-  constructor (private http: Http) {}
+  constructor (private restService: RestService) {}
 
   UserCreate = [
     {
@@ -43,10 +44,11 @@ export class UserCreateService {
 
   addUser (firstName: string, lastName: string, login: string, email: string, password: string) {
     this.data.push(new UserCreate(firstName, lastName, login, email, password));
+
   }
 
-  postUser (url: string, data: any){
-   // postJson
-  }
+  postUser (url: string, data: any) {
 
+
+  }
 }

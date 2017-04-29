@@ -1,6 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 import { UserCreate } from '../userCreate';
 import { UserCreateService } from './user-create.service';
+import {RestService} from "../../shared/services/rest.service";
 
 @Component({
   selector: 'app-user-create',
@@ -9,7 +10,7 @@ import { UserCreateService } from './user-create.service';
   providers: [UserCreateService]
 })
 export class UserCreateComponent  {
-  users: UserCreate[] ;
+  users: UserCreate[] = [] ;
 
   constructor (private userService: UserCreateService) {}
 
@@ -17,7 +18,12 @@ export class UserCreateComponent  {
     if (password1 === password2) {
      //newUser  = new UserCreate(firstName, lastName, login, email, password1);
       this.userService.addUser(firstName, lastName, login, email, password1);
-
+      this.userService.postUser('/api/users/create', UserCreate);
+      /* this.userService.postUser('./api/user/list', data)
+        .subscribe((data: UserCreate[]) => {
+          this.users=data;
+          console.log(data);
+        }, ()=>console.log('err'));*/
     }
   }
 }
