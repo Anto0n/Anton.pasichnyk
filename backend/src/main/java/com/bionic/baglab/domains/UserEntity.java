@@ -20,7 +20,7 @@ public class UserEntity {
 
     private long idUser;
     @NotNull(message = "error.login.notnull")
-    @Size(min = 1, max = 45, message = "error.login.size")
+    @Size(min = 1, max = 254, message = "error.login.size")
     private String login;
     @NotNull(message = "error.password.notnull")
     @Size(max = 64, message = "error.password.size")

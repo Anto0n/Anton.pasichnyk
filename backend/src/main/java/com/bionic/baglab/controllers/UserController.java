@@ -37,18 +37,18 @@ public class UserController {
    */
   @PostMapping(value = "/create")
   public  ResponseEntity<Void> createUser(@Validated @RequestBody UserDtoRegistration userDtoRegistration) { //,  UriComponentsBuilder ucBuilder)
-    String password = userDtoRegistration.getPassword();
-    UserDto userDto = userDtoRegistration.getUserDto();
-    if (userService.isUserExist(userDto)) {
+    //String password = userDtoRegistration.getPassword();
+    String email = userDtoRegistration.getEmail();
+    if (userService.isUserExistByEmail(email)) {
       return new ResponseEntity<>(HttpStatus.CONFLICT); //"A User with name " + userDto.getIdUser() + " already exist"
     }
    Boolean created;
-   created = userService.createUser(userDto, password);
+   created = userService.createUser(userDtoRegistration);
    if(!created)
      return new ResponseEntity<>(HttpStatus.CONFLICT);
-    try {
+    /*try {
       userDto = userService.getUserByEmail(userDto.getEmail());   // renew DTO object
-    } catch (Exception e) { }
+    } catch (Exception e) { }*/
 
     //HttpHeaders headers = new HttpHeaders();
    //headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(userDto.getIdUser()).toUri());  // for what ???
@@ -57,7 +57,6 @@ public class UserController {
   }
 
 
-  
     /**
    * /delete  --> Delete the user having the passed id.
    * 

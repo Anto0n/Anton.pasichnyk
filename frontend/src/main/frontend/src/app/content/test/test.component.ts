@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {RestService} from "../../shared/services/rest.service";
-import {IUser} from "./test.model";
+import {RestService} from "../../services/rest.service";
+import {IUser} from "../../models/test.model";
 @Component({
   selector: 'test',
   templateUrl: './test.components.html'

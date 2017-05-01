@@ -2,8 +2,11 @@ package com.bionic.baglab.services;
 
 
 import com.bionic.baglab.dao.UserDao;
+import com.bionic.baglab.dao.UserRoleDao;
 import com.bionic.baglab.domains.UserEntity;
+import com.bionic.baglab.domains.UserRole;
 import com.bionic.baglab.dto.user.UserDto;
+import com.bionic.baglab.dto.user.UserDtoRegistration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +18,13 @@ import java.util.stream.Collectors;
 //todo: logging
 @Service
 public class UserService {
+    private final String USER_ROLE = "Customer";
+
     @Autowired
     private UserDao userDao;
+
+    @Autowired
+    private UserRoleDao userRoleDao;
 
 
     /**
@@ -55,28 +63,6 @@ public class UserService {
         }
         return this.getDtosfromEntitys(userEntities);
     }
-
-
-    /**
-     *
-     * @param userDto
-     * @param password
-     * @return true, if created success. False otherwise
-     */
-    @Transactional
-    public boolean createUser(UserDto userDto, String password){
-        UserEntity user;
-        try {
-         user = new UserEntity(userDto); //todo: validate fields for values
-            user.setPassword(password);
-            userDao.save(user);
-        }
-        catch (Exception ex) {
-            return false; //"Error creating the user: " + ex.toString();
-        }
-       return true;// "User succesfully created! (id = " + user.getIdUser() + ")";
-    }
-
 
     /**
      *
@@ -130,6 +116,18 @@ public class UserService {
         return true;
     }
 
+    public boolean isUserExistByEmail(String email) {
+        UserEntity userEntity;
+        try {
+            userEntity = userDao.findByEmail(email);
+        } catch (Exception e){
+            return false;        //errors
+        }
+        if (userEntity == null)
+            return false;
+        return true;
+    }
+
     /**
      * transform Enteties set to DTO set
      * @param userEntities
@@ -142,6 +140,45 @@ public class UserService {
         return userDtos;
     }
 
+    @Transactional
+    public Boolean createUser(UserDtoRegistration userDtoRegistration) {
+        UserEntity user;
+        try {
+            user = new UserEntity(); //todo: validate fields for values
+            user.setEmail(userDtoRegistration.getEmail());
+            user.setLogin(userDtoRegistration.getEmail());
+            user.setFirstname(userDtoRegistration.getFirstname());
+            user.setLastname(userDtoRegistration.getLastname());
+            user.setPassword(userDtoRegistration.getPassword()); //todo: Security, crypt password
+            UserRole userRole =  userRoleDao.findUserRoleByName(USER_ROLE);
+            user.setRole(userRole);
+            user.setStatusId(1);
+            userDao.save(user);
+        }
+        catch (Exception ex) {
+            return false; //"Error creating the user: " + ex.toString();
+        }
+        return true;// "User succesfully created! (id = " + user.getIdUser() + ")";
+    }
 
+    /**
+     *
+     * @param userDto
+     * @param password
+     * @return true, if created success. False otherwise
+     */
+    @Transactional
+    public boolean createUser(UserDto userDto, String password){
+        UserEntity user;
+        try {
+            user = new UserEntity(userDto); //todo: validate fields for values
+            user.setPassword(password);
+            userDao.save(user);
+        }
+        catch (Exception ex) {
+            return false; //"Error creating the user: " + ex.toString();
+        }
+        return true;// "User succesfully created! (id = " + user.getIdUser() + ")";
+    }
 
 }

@@ -82,7 +82,7 @@ DROP TABLE IF EXISTS `baglab`.`user` ;
 
 CREATE TABLE IF NOT EXISTS `baglab`.`user` (
   `idUser` BIGINT NOT NULL AUTO_INCREMENT,
-  `login` VARCHAR(45) NOT NULL,
+  `login` VARCHAR(254) NOT NULL,
   `password` VARCHAR(64) NOT NULL,
   `email` VARCHAR(254) NOT NULL,
   `firstname` VARCHAR(45) NOT NULL,

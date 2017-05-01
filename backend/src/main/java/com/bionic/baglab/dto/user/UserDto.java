@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 public class UserDto {
     private long idUser;
     @NotNull(message = "error.login.notnull")
-    @Size(min = 1, max = 45, message = "error.login.size")
+    @Size(min = 1, max = 254, message = "error.login.size")
     private String login;
     @NotNull(message = "error.email.notnull")
     @Size(min = 1, max = 254, message = "error.email.size")

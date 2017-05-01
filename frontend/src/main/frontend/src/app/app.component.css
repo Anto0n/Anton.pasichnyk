@@ -17,10 +17,10 @@ header {
 
 .logoImg {
   position: absolute;
-  left: 900px;
+  left: 80%;
   top: 50px;
   width: 16%;
-  height: 400px;
+  height: 350px;
   background: url("./assets/img/logo1.png") no-repeat;
   background-size: 100%;
 }

@@ -6,5 +6,5 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public interface UserRoleDao extends CrudRepository<UserRole, Long> {
-
+    public UserRole findUserRoleByName(String name);
 }

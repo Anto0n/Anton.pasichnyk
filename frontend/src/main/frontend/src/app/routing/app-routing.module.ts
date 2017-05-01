@@ -9,6 +9,9 @@ import {AboutComponent} from "../content/about/about.component";
 import {HelpComponent} from "../content/help/help.component";
 import {TestComponent} from "../content/test/test.component";
 import {PageNotFoundComponent} from "app/routing/not-found.component";
+import {TestformComponent} from "../content/testform/testform.component";
+import {LoginComponent} from "../shared/login/login.component";
+import {RegisterComponent} from "../shared/register/register.component";
 
 /*import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent }   from './not-found.component';
@@ -22,6 +25,9 @@ const appRoutes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'help', component: HelpComponent},
   {path: 'test', component: TestComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  {path: 'testform', component: TestformComponent},
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 
@@ -38,8 +44,8 @@ const appRoutes: Routes = [
 })
 export class AppRoutingModule {}
 
-/*
 
+/*
 @NgModule({
   imports: [
     RouterModule.forRoot(

@@ -8,26 +8,49 @@ import javax.validation.constraints.Size;
  * POST can send&receive only one object
  */
 public class UserDtoRegistration {
-    @NotNull(message = "error.userDto.notnull")
-    private UserDto userDto;
     @NotNull(message = "error.password.notnull")
     @Size(min = 1, max = 64, message = "error.password.size")
     private String password;
+    @NotNull(message = "error.email.notnull")
+    private String email;
+    @NotNull(message = "error.firstname.notnull")
+    private String firstname;
+    @NotNull(message = "error.lastname.notnull")
+    private String lastname;
 
     public UserDtoRegistration() {
     }
 
-    public UserDtoRegistration(UserDto userDto, String password) {
-        this.userDto = userDto;
+
+    public UserDtoRegistration(String password, String email, String firstname, String lastname) {
         this.password = password;
+        this.email = email;
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
-    public UserDto getUserDto() {
-        return userDto;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUserDto(UserDto userDto) {
-        this.userDto = userDto;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getPassword() {

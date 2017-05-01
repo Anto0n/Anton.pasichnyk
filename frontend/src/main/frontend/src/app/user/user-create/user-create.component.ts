@@ -1,49 +1,57 @@
 import { Component, OnInit} from '@angular/core';
-import { UserCreate } from '../userCreate';
-import { UserCreateService } from './user-create.service';
-import {RestService} from "../../shared/services/rest.service";
+import { UserCreate } from '../../models/userCreate';
+//import { UserCreateService } from './user-create.service';
+import {RestService} from "../../services/rest.service";
+import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-user-create',
   templateUrl: './user-create.component.html',
   styleUrls: ['./user-create.component.css'],
-  providers: [UserCreateService]
+  providers: [RestService]
 })
 export class UserCreateComponent  {
-  users: UserCreate[] = [] ;
+  errorMessage: string;
+  createUserForm: FormGroup;
+  myuser: UserCreate;
+  //private str: string;
 
-  constructor (private userService: UserCreateService) {}
+  constructor ( public fb: FormBuilder, private restService: RestService) {}
 
-  userCreate (firstName, lastName, login, email, password1, password2) {
-    if (password1 === password2) {
-     //newUser  = new UserCreate(firstName, lastName, login, email, password1);
-      this.userService.addUser(firstName, lastName, login, email, password1);
-      this.userService.postUser('/api/users/create', UserCreate);
-      /* this.userService.postUser('./api/user/list', data)
-        .subscribe((data: UserCreate[]) => {
-          this.users=data;
-          console.log(data);
-        }, ()=>console.log('err'));*/
-    }
+  ngOnInit() {  //Validations bring out from Template
+    this.createUserForm = this.fb.group({
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
+      email: ["", Validators.required],
+      password: ["", Validators.required]
+      });
   }
+
+  onSubmit(){ //Custom, on submit send data to server
+    var firstName = this.createUserForm.value.firstName;
+    var lastName = this.createUserForm.value.lastName;
+    var email = this.createUserForm.value.email;
+    var password = this.createUserForm.value.password;
+     this.myuser = new UserCreate(firstName,lastName,email,password);
+   // this.str = this.user.getemail;
+   // console.log('------------------' + this.user.greet());
+    console.log(this.createUserForm.value);   //DELETE after debug
+    this.restService.postJson('/api/user/create', this.myuser)
+      .subscribe(
+        UserCreate=> {
+        UserCreate => this.myuser = new UserCreate(email,firstName,lastName,password);
+      },
+      error => this.errorMessage = <any>error
+    );
+   // if (password1 === password2) {
+  }
+
 }
 
-//on form submit send data to server
-//onSubmit() { }
-
 /*
-@Component({
-  selector: 'uc-app',
-  templateUrl: "user-create.html",
-  styleUrls: ['style.css'],
-  providers: [UserService]
-})
-export class UserCreateComponent {
-  users: User[] = [];
-  constructor (private userService: UserService) {}
-  userCreate (firstName, lastName, login, email, password1, password2) {
-    if (password1 === password2) {
-      newUser = new User(firstName, lastName, login, email, password1);
-    }
-  }
+{
+"email": "sd335223ewrg4",
+  "firstname": "as2323dg34t",
+  "lastname": "asd23g34g",
+  "password": "as23dgf34g"
 }*/

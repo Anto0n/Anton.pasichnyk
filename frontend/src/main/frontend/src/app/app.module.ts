@@ -4,13 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {Routes, RouterModule, Router, PreloadAllModules} from '@angular/router';
 
-//import {} from "@angular/router"; //RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS
 
 import {AppComponent } from './app.component';
-import {RestService} from "./shared/services/rest.service";
+import {RestService} from "./services/rest.service";
 import {TestComponent} from "./content/test/test.component";
 import {ConfiguratorComponent} from "./configurator/configurator.component";
-import {LocationStrategy, HashLocationStrategy} from '@angular/common';
+
+import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 
 import { AppRoutingModule }        from './routing/app-routing.module';
 import { MenuComponent } from './menu/menu.component';
@@ -23,6 +23,14 @@ import { HelpComponent } from './content/help/help.component';
 import {SafePipe} from "./shared/safe.pipe.spec.";
 import { UserCreateComponent } from './user/user-create/user-create.component';
 import {PageNotFoundComponent} from "./routing/not-found.component";
+import {UserCRUDService} from "./services/user-crud.service";
+import {TestformComponent} from "./content/testform/testform.component";
+import {AlertService} from "./services/alert.service";
+import {AlertComponent} from "./shared/alert/alert.component";
+import {AuthenticationService} from "./services/authentication.service";
+import {UserService} from "./services/user.service";
+import {LoginComponent} from "./shared/login/login.component";
+import {RegisterComponent} from "./shared/register/register.component";
 
 /*const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -37,6 +45,7 @@ import {PageNotFoundComponent} from "./routing/not-found.component";
 @NgModule({
   declarations: [
     AppComponent,
+    TestformComponent,
     TestComponent,
     MenuComponent,
     ContentComponent,
@@ -46,6 +55,9 @@ import {PageNotFoundComponent} from "./routing/not-found.component";
     AboutComponent,
     HelpComponent,
     ConfiguratorComponent,
+    AlertComponent,
+    LoginComponent,
+    RegisterComponent,
     SafePipe,
     UserCreateComponent,
     PageNotFoundComponent
@@ -57,12 +69,13 @@ import {PageNotFoundComponent} from "./routing/not-found.component";
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
-  providers: [RestService],
+  providers: [RestService,AlertService, AuthenticationService,UserCRUDService, UserService],
   bootstrap: [AppComponent]
 })
-export class AppModule { // Diagnostic only: inspect router configuration
-  constructor(router: Router) {
+export class AppModule {
+  constructor(router: Router) { // Diagnostic only: inspect router configuration
     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
   } }

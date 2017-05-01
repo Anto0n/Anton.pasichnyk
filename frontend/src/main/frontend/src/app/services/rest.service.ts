@@ -14,7 +14,7 @@ export class RestService {
   });
 
   getData(restPath: string, param?: string): Observable<any> {
-    return this.http.get(restPath + (param ? param : '')).map(res => res.json());
+    return this.http.get(restPath + (param ? param : '')).map(res => res.json()).catch(this.handleError);
   }
 
   postJson(url: string, data: any): Observable<Response> {
@@ -25,7 +25,12 @@ export class RestService {
     ).catch(this.handleError)
   }
 
-  private handleError (error: Response) {
+  deleteData(restUrl: string): Observable<any> { // not tested
+    console.log('Delete: ' + restUrl);
+    return this.http.delete(restUrl).catch(this.handleError); //AppConfigService.prefixRestPath + restUrl
+  }
+
+  private handleError(error: Response) {
     //in a real world app, we may send the error to some remote logging infrastructure
     //instead of just logging it to the console
     console.error(error);
