@@ -6,10 +6,11 @@ export class UserCreate {
   private email: string;
   private password: string;*/
 
-  constructor(public email: string,
+  constructor(public password: string,
+              public email: string,
               public firstname: string,
               public lastname: string,
-              public password: string) {
+              ) {
 
   /*  this.email = _email;
     this.password = _password;

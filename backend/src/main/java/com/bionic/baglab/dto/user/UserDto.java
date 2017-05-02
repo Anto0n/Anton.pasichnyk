@@ -16,7 +16,7 @@ public class UserDto {
     @Size(min = 1, max = 254, message = "error.login.size")
     private String login;
     @NotNull(message = "error.email.notnull")
-    @Size(min = 1, max = 254, message = "error.email.size")
+    @Size(min = 3, max = 254, message = "error.email.size")
     private String email;
     @NotNull(message = "error.firstname.notnull")
     @Size(min = 1, max = 45, message = "error.firstname.size")

@@ -6,8 +6,8 @@ import { User } from '../models/index';
 @Injectable()
 export class UserService {
     constructor(private http: Http) { }
-
-  /*  getAll() {
+  //methods don't work correctly yet
+  getAll() {
         return this.http.get('/api/users', this.jwt()).map((response: Response) => response.json());
     }
 
@@ -25,7 +25,7 @@ export class UserService {
 
     delete(id: number) {
         return this.http.delete('/api/users/' + id, this.jwt()).map((response: Response) => response.json());
-    }*/
+    }
 
     // private helper methods
 

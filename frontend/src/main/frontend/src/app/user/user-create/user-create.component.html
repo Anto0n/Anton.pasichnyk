@@ -1,24 +1,31 @@
+<div class="col-md-6 col-md-offset-3">
+  <h2>Registration</h2>
+  <form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
 
-<form [formGroup]="createUserForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Enter first name:</label>
-    <input formControlName="firstName" type="text" placeholder="Your firstName">
-  </div>
-  <div>
-    <label>Enter last name:</label>
-    <input formControlName="lastName" type="text" placeholder="Your lastName">
-  </div>
-  <div>
-    <label>Enter     email:</label>
-    <input formControlName="email" type="text" placeholder="Your email">
-  </div>
-  <div>
-    <label>Enter password:</label>
-    <input formControlName="password" type="password" placeholder="Your password">
-  </div>
-  <button type="submit">submit</button>
-</form>
+      <label for="firstName">First Name</label>
+      <input formControlName="firstName" type="text" placeholder="Your first name" class="form-control"  >
 
+      <!--<div *ngIf="formErrors.firstName" class="alert alert-danger">
+        {{ formErrors.firstName }}
+      </div>-->
+    </div>
+
+      <label for="lastName">Last Name</label>
+      <input formControlName="lastName" type="text" placeholder="Your last name" class="form-control">
+
+
+      <label for="email">Email (login)</label>
+      <input formControlName="email" type="text" placeholder="Your email" class="form-control">
+
+
+      <label for="password">Password</label>
+      <input formControlName="password" type="password" placeholder="Your password" class="form-control">
+
+      <button type="submit" class="btn btn-primary" [disabled]="!createUserForm.valid">submit</button>
+
+  </form>
+</div>
 
 <!--<label>Enter first name:</label>
 <input class="user_create_input" type="text" [(ngModel)]="firstName">
