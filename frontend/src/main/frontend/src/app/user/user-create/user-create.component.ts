@@ -4,6 +4,7 @@ import { UserCreate } from '../../models/userCreate';
 import {RestService} from "../../services/rest.service";
 import {FormBuilder, FormControl, FormGroup, ValidatorFn, Validators, AbstractControl} from '@angular/forms';
 import {AlertService} from "../../services/alert.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-create',
@@ -11,64 +12,114 @@ import {AlertService} from "../../services/alert.service";
   styleUrls: ['./user-create.component.css'],
   providers: [RestService]
 })
-export class UserCreateComponent  {
+export class UserCreateComponent implements OnInit {
+  active = true;
+  loading = false;
   errorMessage: string;
   createUserForm: FormGroup;
-  model: UserCreate;
+  model: UserCreate = new UserCreate('', '', '', '','');
   //private str: string;
 
-  constructor ( private fb: FormBuilder, private restService: RestService, private alertService: AlertService) {}
+  constructor ( private router: Router, private fb: FormBuilder, private restService: RestService, private alertService: AlertService) {}
 
-  ngOnInit() {  //Validations bring out from Template
+  ngOnInit(): void {  //Validations bring out from Template
    this.buildForm();
   }
 
   buildForm(): void {
     this.createUserForm = this.fb.group({
-      firstName: ["", [Validators.required, this.forbiddenNameValidator(/bob/i), Validators.minLength(2), Validators.maxLength(45), ]],
-      lastName: ["", [Validators.required, Validators.minLength(2), Validators.maxLength(45)]],
-      email: ["", [Validators.required,Validators.maxLength(254) ,Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
-      password: ["", [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
+      'email': [this.model.email, [Validators.required,Validators.maxLength(254) ,Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")]],
+      'firstname': [this.model.firstname, [Validators.required, Validators.minLength(2), Validators.maxLength(45), ]],
+      'lastname': [this.model.lastname, [Validators.required, Validators.minLength(2), Validators.maxLength(45)]],
+      'password': [this.model.password, [Validators.required, Validators.minLength(3), Validators.maxLength(254)]],
+      'passwordConfirm': [this.model.passwordConfirm, [Validators.required, Validators.minLength(3), Validators.maxLength(254)]]
     });
+
+    this.createUserForm.valueChanges
+      .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged(); // (re)set validation messages now
   }
 
 //todo: Add error parsing from server
   onSubmit(){ //Custom, on submit send data to server
     var password = this.createUserForm.value.password;
     var email = this.createUserForm.value.email;
-    var firstName = this.createUserForm.value.firstName;
-    var lastName = this.createUserForm.value.lastName;
+    var firstName = this.createUserForm.value.firstname;
+    var lastName = this.createUserForm.value.lastname;
+    var passwordConfirm = this.createUserForm.value.passwordConfirm;
 
-     this.model = new UserCreate(password, email, firstName,lastName);
-    //console.log(this.createUserForm);   //DELETE after debug
-    this.restService.postJson('/api/user/create', this.model)
-      .subscribe(
-        UserCreate=> {
-        UserCreate => this.model = new UserCreate(password, email, firstName,lastName );
-          this.alertService.success('Registration successful', true);
-      },
-      error =>{ this.alertService.error(error);
-                this.errorMessage = <any>error;}
-    );
+    console.log(this.createUserForm.value);
+    if (passwordConfirm === password){
+      this.loading = true;
+
+      this.model = new UserCreate(password, email, firstName, lastName);
+      //console.log(this.createUserForm);   //DELETE after debug
+      this.restService.postJson('/api/user/create', this.model)
+        .subscribe(
+          UserCreate => {
+            UserCreate => this.model = new UserCreate(password, email, firstName, lastName);
+            this.alertService.success('Registration successful', true);
+            this.router.navigate(['/login']);
+          },
+          error => {
+            this.alertService.error(error);
+            this.errorMessage = <any>error;
+            this.loading = false;
+          }
+        );
+    } else {
+      this.alertService.error("passwords must by equal");
+      //console.log(password2);
+      this.errorMessage = <any>"passwords must by equal";
+      this.loading = false;
+    }
    // if (password1 === password2) {
    // pattern for email
   }
 
+  onValueChanged(data?: any) {
+    if (!this.createUserForm) { return; }
+    const form = this.createUserForm;
+
+    for (const field in this.formErrors) {
+      // clear previous error message (if any)
+      this.formErrors[field] = '';
+      const control = form.get(field);
+
+      if (control && control.dirty && !control.valid) {
+        const messages = this.validationMessages[field];
+        for (const key in control.errors) {
+          if (messages[key] != '')
+            this.formErrors[field] += messages[key] + ' ';
+        }
+      }
+    }
+  }
+
 
   validationMessages = {
-    'firstName': {
+    'name': {
       'required':      'Name is required.',
-      'minlength':     'Name must be at least 2 characters long.',
-      'maxlength':     'Name cannot be more than 45 characters long.'
-    },
+      'maxlength':     'Name cannot be more than 45 characters long.',
+      'minlength':     ''
+    },//'minlength':     'Name must be at least 2 characters long.',
     'email': {
-      'required': 'email is required.'
+      'required': 'email is required.',
+      'maxlength':     'email cannot be more than 254 characters long.',
+      'pattern':     'invalid email'
+    },
+    'password': {
+      'minlength':     '',
+      'maxlength':     'too long password',
+      'required': 'password is required.'
     }
   };
 
   formErrors = {
-    'firstName': '',
-    'email': ''
+    'name': '',
+    'email': '',
+    'password': ''
   };
 
   //not finished yet
@@ -81,10 +132,10 @@ export class UserCreateComponent  {
   //not works
    cannotContainSpace(control:FormControl){
     if(control.value.indexOf('')>=0)
-      return {    cannotContainSpace:null };
+      return {cannotContainSpace:null };
      return null;
   }
-  //works
+  //works this.forbiddenNameValidator(/bob/i),
   forbiddenNameValidator(nameRe: RegExp): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} => {
       const name = control.value;

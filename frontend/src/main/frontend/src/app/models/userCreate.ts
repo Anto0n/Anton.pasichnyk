@@ -10,6 +10,7 @@ export class UserCreate {
               public email: string,
               public firstname: string,
               public lastname: string,
+              public passwordConfirm? : string
               ) {
 
   /*  this.email = _email;
@@ -18,6 +19,7 @@ export class UserCreate {
     this.lastName = _lastName;*/
   }
 
+/*
 
   get getFirstName(): string {
     return this.firstname;
@@ -56,6 +58,7 @@ export class UserCreate {
     console.log("Hello", this.firstname);
   }
 
+*/
 
 
 }
