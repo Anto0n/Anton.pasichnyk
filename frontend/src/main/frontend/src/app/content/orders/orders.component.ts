@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent {
-  // title = 'app works!';
+  // constructor(private userService: UserService) {
+  //   this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  // }
 }

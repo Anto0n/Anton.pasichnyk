@@ -32,6 +32,7 @@ import {UserService} from "./services/user.service";
 import {LoginComponent} from "./shared/login/login.component";
 import {RegisterComponent} from "./shared/register/register.component";
 import {BfwComponent} from "./conf2/bfw.component";
+import {AuthGuard} from "../guards/auth.guard";
 
 /*const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -74,7 +75,7 @@ import {BfwComponent} from "./conf2/bfw.component";
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [RestService,AlertService, AuthenticationService,UserCRUDService, UserService, SafePipe],
+  providers: [RestService,AlertService, AuthenticationService,UserCRUDService, UserService, SafePipe, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -12,25 +12,27 @@ import {PageNotFoundComponent} from "app/routing/not-found.component";
 import {TestformComponent} from "../content/testform/testform.component";
 import {LoginComponent} from "../shared/login/login.component";
 import {RegisterComponent} from "../shared/register/register.component";
+import {UserCreateComponent} from "../user/user-create/user-create.component";
+import {AuthGuard} from "../../guards/auth.guard";
 
 /*import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent }   from './not-found.component';
 import { CanDeactivateGuard }      from './can-deactivate-guard.service';
 import { AuthGuard }               from './auth-guard.service';*/
-
+//, canActivate: [AuthGuard]
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'new', component: NewComponent},
-  {path: 'orders', component: OrdersComponent},
+  {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
   {path: 'about', component: AboutComponent},
   {path: 'help', component: HelpComponent},
   {path: 'test', component: TestComponent},
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'register', component: UserCreateComponent },
   {path: 'testform', component: TestformComponent},
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
-
+  //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
 ];
 @NgModule({
   imports: [
