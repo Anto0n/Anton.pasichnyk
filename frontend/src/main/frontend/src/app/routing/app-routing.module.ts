@@ -12,7 +12,7 @@ import {PageNotFoundComponent} from "app/routing/not-found.component";
 import {TestformComponent} from "../content/testform/testform.component";
 import {LoginComponent} from "../shared/login/login.component";
 import {RegisterComponent} from "../shared/register/register.component";
-import {UserCreateComponent} from "../user/user-create/user-create.component";
+import {UserCreateComponent} from "../shared/register/user-create.component";
 import {AuthGuard} from "../../guards/auth.guard";
 
 /*import { ComposeMessageComponent } from './compose-message.component';

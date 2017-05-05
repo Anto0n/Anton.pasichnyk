@@ -21,7 +21,7 @@ import { OrdersComponent } from './content/orders/orders.component';
 import { AboutComponent } from './content/about/about.component';
 import { HelpComponent } from './content/help/help.component';
 import {SafePipe} from "./shared/safe.pipe.spec.";
-import { UserCreateComponent } from './user/user-create/user-create.component';
+import { UserCreateComponent } from './shared/register/user-create.component';
 import {PageNotFoundComponent} from "./routing/not-found.component";
 import {UserCRUDService} from "./services/user-crud.service";
 import {TestformComponent} from "./content/testform/testform.component";
