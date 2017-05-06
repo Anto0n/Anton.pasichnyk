@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {AuthenticationService} from "./services/authentication.service";
 
 
 @Component({
@@ -9,7 +10,15 @@ import { Component } from '@angular/core';
 
 
 export class AppComponent {
-  // title = 'app works!';
+  constructor(private authService: AuthenticationService) {}
+
+  isAuth() {
+    return this.authService.isAuthenticated();
+  }
+
+  onLogout() {
+   this.authService.logout();
+  }
 }
 
 

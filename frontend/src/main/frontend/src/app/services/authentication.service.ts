@@ -53,7 +53,16 @@ export class AuthenticationService {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
     }
-}
+
+  isAuthenticated() {
+    var user = localStorage.getItem('currentUser');
+
+    if (user) {
+      return true;
+    } else {
+      return false;
+    }
+  }}
 
 
 /*
