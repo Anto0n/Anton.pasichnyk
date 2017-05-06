@@ -2,7 +2,7 @@
  * Created by Anton on 18-Apr-17.
  */
 import {Component, OnInit} from '@angular/core';
-import {RestService} from "../shared/services/rest.service";
+import {RestService} from "../services/rest.service";
 
 declare var b4w: any;
 
