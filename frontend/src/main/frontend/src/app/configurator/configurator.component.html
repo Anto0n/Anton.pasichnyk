@@ -1,15 +1,11 @@
 
-<!--
-<iframe  allowfullscreen [src]="url | safe" width="300" height="200"></iframe>
--->
 
 <button (click)="getBag()">Get bag</button>
-<iframe class="e2e-iframe-trusted-src"  width="800" height="500" [src]="URLPlayerJson | safe" ></iframe>
-<!--<iframe width="800" height="500" [src]="url" ></iframe>-->
+<div id="wrapper_container">
+ <div id="canvas_cont" style="width: 600px; height: 400px;"></div>
+  <button type="button">Click Me!</button>
+  <button type="button" (click)="do()">Hide / Show</button>
+  <button type="button">Get material</button>
+</div>
 
-<!--
-<script type="text/javascript">
-  window.web_page_integration_dry_run = true;
-</script>
--->
 
