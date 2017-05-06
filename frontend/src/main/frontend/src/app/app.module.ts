@@ -31,7 +31,6 @@ import {AuthenticationService} from "./services/authentication.service";
 import {UserService} from "./services/user.service";
 import {LoginComponent} from "./shared/login/login.component";
 import {RegisterComponent} from "./shared/register/register.component";
-import {BfwComponent} from "./conf2/bfw.component";
 import {AuthGuard} from "../guards/auth.guard";
 
 /*const appRoutes: Routes = [
@@ -62,8 +61,8 @@ import {AuthGuard} from "../guards/auth.guard";
     RegisterComponent,
     SafePipe,
     UserCreateComponent,
-    PageNotFoundComponent,
-    BfwComponent
+    PageNotFoundComponent
+
   ],
   imports: [
     BrowserModule,

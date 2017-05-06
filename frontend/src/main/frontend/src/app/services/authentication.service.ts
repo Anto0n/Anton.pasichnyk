@@ -34,9 +34,10 @@ export class AuthenticationService {
               console.log('retrievedObject: ', JSON.parse(retrievedObject));
              var user = response.json();
               console.log('----------'+ response.text());
-              //if (user.copyIn && user.role) { //user && user.role
-                  localStorage.setItem('currentUser', JSON.stringify(user));
-                  let temp = localStorage.getItem('currentUser');
+              if (user) { //user && user.role
+                localStorage.setItem('currentUser', JSON.stringify(user));
+              }
+              let temp = localStorage.getItem('currentUser');
               let  u2 =  JSON.parse(temp);
               console.log("retrievedObject: ",temp + u2.role);
               console.log("+++++++++++---------user"+user+'---||--'+user.role);
