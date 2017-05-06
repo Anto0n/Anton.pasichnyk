@@ -7,7 +7,7 @@ import java.util.Collection;
  * Created by potaychuk on 28.03.2017.
  */
 @Entity
-@Table(name = "[orderStatus]", schema = "baglab")
+@Table(name = "[order_status]", schema = "baglab")
 public class OrderStatusEntity {
     private long idOrderStatus;
     private String code;
@@ -18,7 +18,7 @@ public class OrderStatusEntity {
     //    private int deleted;
 
     @Id
-    @Column(name = "[idorder_status]", columnDefinition = "INT(11)")
+    @Column(name = "[idOrderStatus]", columnDefinition = "INT(11)")
     public long getIdOrderStatus() {
         return idOrderStatus;
     }

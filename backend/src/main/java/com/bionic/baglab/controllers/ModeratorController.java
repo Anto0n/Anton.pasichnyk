@@ -6,10 +6,7 @@ import com.bionic.baglab.dto.OrderDto;
 import com.bionic.baglab.services.OrderService;
 import com.bionic.baglab.services.OrderStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -24,14 +21,12 @@ public class ModeratorController {
     OrderStatusService orderStatusService;
 
 
-    @RequestMapping(value = "/orders")
-    @ResponseBody
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public Set<OrderDto> getOrders() {
         return orderService.findAll();
     }
 
-    @RequestMapping(value = "/order/{id}/{action}")
-    @ResponseBody
+    @RequestMapping(value = "/order/{id}/{action}", method = RequestMethod.PUT)
     public void acceptOrder(@PathVariable long id, @PathVariable String action) {
         OrderEntity oe = orderService.findOne(id);
         OrderStatusEntity ose = orderStatusService.findByCode(action);

@@ -15,6 +15,7 @@ public class OrderDto {
 
     private UserLightDto userDto;
     private long idOrder;
+    private long moderatorId;
     private OrderStatusDTO status;
     private Timestamp orderCreate;
     private Collection<ModelDto> models;
@@ -29,8 +30,17 @@ public class OrderDto {
         this.idOrder = orderEntity.getIdOrder();
         this.status = new OrderStatusDTO(orderEntity.getOrderStatus());
         this.orderCreate = orderEntity.getOrderCreate();
+        this.moderatorId = orderEntity.getModeratorId();
         models = new LinkedList<>();
         models.addAll(orderEntity.getModels().stream().map(ModelDto::new).collect(Collectors.toList()));
+    }
+
+    public long getModeratorId() {
+        return moderatorId;
+    }
+
+    public void setModeratorId(long moderatorId) {
+        this.moderatorId = moderatorId;
     }
 
     public Collection<ModelDto> getModels() {

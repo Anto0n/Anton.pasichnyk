@@ -181,4 +181,7 @@ public class UserService {
         return true;// "User succesfully created! (id = " + user.getIdUser() + ")";
     }
 
+    public UserEntity findByLogin(String login){
+        return userDao.findByLogin(login);
+    }
 }

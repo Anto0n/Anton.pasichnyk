@@ -143,14 +143,14 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `baglab`.`orderStatus`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `baglab`.`orderStatus` ;
+DROP TABLE IF EXISTS `baglab`.`order_status` ;
 
-CREATE TABLE IF NOT EXISTS `baglab`.`orderStatus` (
-  `idorder_status` BIGINT NOT NULL AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS `baglab`.`order_status` (
+  `idOrderStatus` BIGINT NOT NULL AUTO_INCREMENT,
   `code` VARCHAR(45) NOT NULL,
   `description` MEDIUMTEXT NULL DEFAULT NULL,
   `deleted` BOOLEAN NOT NULL DEFAULT 0,
-  PRIMARY KEY (`idorder_status`))
+  PRIMARY KEY (`idOrderStatus`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -163,6 +163,7 @@ DROP TABLE IF EXISTS `baglab`.`order` ;
 CREATE TABLE IF NOT EXISTS `baglab`.`order` (
   `idOrder` BIGINT NOT NULL AUTO_INCREMENT,
   `userId` BIGINT NOT NULL,
+  `moderatorId` BIGINT DEFAULT 0,
   `orderStatusId` BIGINT NOT NULL,
   `orderCreate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `orderUpdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -176,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`order` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_order_status1`
     FOREIGN KEY (`orderStatusId`)
-    REFERENCES `baglab`.`orderStatus` (`idorder_status`)
+    REFERENCES `baglab`.`order_status` (`idOrderStatus`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -230,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`panel` (
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_panel_material1`
     FOREIGN KEY (`materialId`)
-    REFERENCES `baglab`.`material` (`idMaterial`)
+    REFERENCES `baglab`.`material` (`idmaterial`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB

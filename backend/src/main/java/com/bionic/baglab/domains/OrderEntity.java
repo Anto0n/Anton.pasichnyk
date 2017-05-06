@@ -11,6 +11,7 @@ import java.util.Collection;
 @Table(name = "[order]", schema = "baglab")
 public class OrderEntity {
     private long idOrder;
+    private long moderatorId;
     private UserEntity user;
     private OrderStatusEntity orderStatus;
     private Timestamp orderCreate;
@@ -25,6 +26,15 @@ public class OrderEntity {
 
     public void setIdOrder(long idOrder) {
         this.idOrder = idOrder;
+    }
+
+    @Column(name = "[moderatorId]")
+    public long getModeratorId() {
+        return moderatorId;
+    }
+
+    public void setModeratorId(long moderatorId) {
+        this.moderatorId = moderatorId;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
