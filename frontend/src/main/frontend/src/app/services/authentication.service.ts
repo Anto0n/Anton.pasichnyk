@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable, EventEmitter} from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
@@ -6,6 +6,9 @@ import {RestService} from "./rest.service";
 
 @Injectable()
 export class AuthenticationService {
+
+    public roleEmiter = new EventEmitter<{role:string}>();
+
     constructor(private http: Http, private restService: RestService) { }
 
     login(username: string, password: string) {
@@ -20,38 +23,22 @@ export class AuthenticationService {
                     localStorage.setItem('currentUser', JSON.stringify(user));
                 }*/
             //temp solution:
-
-
-              var testObject = { 'one': 1, 'two': 2, 'three': 3 };
-
-              // Put the object into storage
-              localStorage.setItem('testObject', JSON.stringify(testObject));
-
-              // Retrieve the object from storage
-              var retrievedObject = localStorage.getItem('testObject');
-
-
-              console.log('retrievedObject: ', JSON.parse(retrievedObject));
-             var user = response.json();
-              console.log('----------'+ response.text());
+              let user:  any[] = response.json();
+              console.log('----USER!!!!!!------'+ user);
+              console.log(user);
               if (user) { //user && user.role
                 localStorage.setItem('currentUser', JSON.stringify(user));
               }
-              let temp = localStorage.getItem('currentUser');
-              let  u2 =  JSON.parse(temp);
-              console.log("retrievedObject: ",temp + u2.role);
-              console.log("+++++++++++---------user"+user+'---||--'+user.role);
+              console.log('!!!!');
 
-             // }
-
-
+              this.roleEmiter.emit(user[0]);
             });
-
     }
 
     logout() {
 
-        // remove user from local storage to log user out
+        // remove user from local storage to log user
+        this.roleEmiter.emit({role: "anonumus"});
         localStorage.removeItem('currentUser');
     }
 

@@ -18,6 +18,7 @@ export class ConfiguratorComponent implements OnInit {
   constructor(private restService: RestService) {
   }
 
+  
   ngOnInit() {
     b4w.register("conf_app", function (exports, require) {
 

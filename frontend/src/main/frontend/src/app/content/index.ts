@@ -1,4 +1,3 @@
-export * from './content.component';
 export * from './about/about.component';
 export * from './help/help.component';
 export * from './home/home.component';
