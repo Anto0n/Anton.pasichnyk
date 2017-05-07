@@ -30,7 +30,10 @@ import {AuthenticationService} from "./services/authentication.service";
 import {UserService} from "./services/user.service";
 import {LoginComponent} from "./shared/login/login.component";
 import {RegisterComponent} from "./shared/register/register.component";
-import {AuthGuard} from "../guards/auth.guard";
+import {AuthGuard} from "./shared/guards/auth.guard";
+import {FactoryComponent} from "app/content/factory/factory.component";
+import {ModeratorComponent} from "./content/moderator/moderator.component";
+import {AdminComponent} from "./content/admin/admin/admin.component";
 
 @NgModule({
   declarations: [
@@ -43,6 +46,9 @@ import {AuthGuard} from "../guards/auth.guard";
     OrdersComponent,
     AboutComponent,
     HelpComponent,
+    FactoryComponent,
+    ModeratorComponent,
+    AdminComponent,
     ConfiguratorComponent,
     AlertComponent,
     LoginComponent,
@@ -66,6 +72,8 @@ import {AuthGuard} from "../guards/auth.guard";
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(router: Router) { // Diagnostic only: inspect router configuration
+  constructor(router: Router, private authService: AuthenticationService) { // Diagnostic only: inspect router configuration
     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+   /* authService.init();
+    console.log('Auth service init');*/
   } }

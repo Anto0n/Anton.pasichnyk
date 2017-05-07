@@ -2,8 +2,8 @@ use baglab;
 
 insert into baglab.role (name, description) values ('Administrator', 'Administrator has permissions. Have to manage baglab system.');
 insert into baglab.role (name, description) values ('Moderator', 'Have to help customer make a valid order');
-insert into baglab.role (name, description) values ('Customer', 'Confihure and order product.');
-insert into baglab.role (name, description) values ('Factory', 'Create products according to orders.');
+insert into baglab.role (name, description) values ('Customer', 'Configure and order product.');
+insert into baglab.role (name, description) values ('Factory', 'Produce products according to orders.');
 insert into baglab.role (name, description) values ('Guest', 'Configure bags, view info.');
 
 insert into baglab.user_status (code, description) values ('Active', 'Default status');
@@ -23,14 +23,14 @@ INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('<asd></asd>', 'Simle bag
 INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('asd sd', 'Bag pojo');
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('script asd1s23', 'Extra bag');
 
-insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('admin','admin','admin@gmail.com',  'Ivan', 'Onobrenko',1);
-insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('Anna','annaPass', 'demoanna@gmail.com',  'John', 'Doe', 2);
-insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('Peter','peterthebest','peter86@mail.ru','Petruchio','Petrov', 3);
-insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('Finn','demopass','finnthehuman@gmail.com', 'John','Doe2',4);
-insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('Karla','pass','turk@gmail.com', 'John','Doe3',2);
-insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('manager','passm','lao@', 'Lao','Dzi',4);
-insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('manager12','passm','lao@2', 'Lao2','Dzi2',4);
-insert into baglab.user   (login,password,email, firstname, lastname, roleId) values ('user', '$2a$10$Cm.Vlort6l4eJsMU4fMfeOGj1YxgREVe4XWrjGinI9HV2koU/HIq.','user@mail.com', 'Lao2p','Dzi2p',1);
+insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('admin@gmail','admin','admin@gmail',  'Ivan', 'Onobrenko',1);
+insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('anna@gm','mod', 'anna@gm',  'John', 'Doe', 2);
+insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('peter86@mail','customer','peter86@mail','Petruchio','Petrov', 3);
+insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('fin@gma','demopass','fin@gma', 'John','Doe2',4);
+insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('tu@gmail.com','pass','tu@gmail.com', 'John','Doe3',2);
+insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('manager@m','passm','manager@m', 'Lao','Dzi',4);
+insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('lao@22','passm','lao@22', 'Lao2','Dzi2',4);
+insert into baglab.user   (login,password,email, firstname, lastname, roleId) values ('user@mail.com', '$2a$10$Cm.Vlort6l4eJsMU4fMfeOGj1YxgREVe4XWrjGinI9HV2koU/HIq.','user@mail.com', 'Lao2p','Dzi2p',1);
 
 insert into baglab.order (userId, orderStatusId) VALUES (1,1);
 insert into baglab.order (userId, orderStatusId) VALUES (1,2);

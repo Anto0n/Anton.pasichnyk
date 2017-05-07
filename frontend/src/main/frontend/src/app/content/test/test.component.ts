@@ -11,13 +11,7 @@ export class TestComponent {
 
   constructor(private restService: RestService) { }
 
-  getUser(){
-    this.restService.getData('./api/user/list')
-      .subscribe((data: IUser[]) => {
-        this.users=data;
-        console.log(data);
-      }, ()=>console.log('err'));
-  }
+
 
 /*  createUser(){
     this.restService.postJson('/user/create')

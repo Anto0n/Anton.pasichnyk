@@ -13,7 +13,10 @@ import {TestformComponent} from "../content/testform/testform.component";
 import {LoginComponent} from "../shared/login/login.component";
 import {RegisterComponent} from "../shared/register/register.component";
 import {UserCreateComponent} from "../shared/register/user-create.component";
-import {AuthGuard} from "../../guards/auth.guard";
+import {AuthGuard} from "../shared/guards/auth.guard";
+import {AdminComponent} from "../content/admin/admin/admin.component";
+import {ModeratorComponent} from "../content/moderator/moderator.component";
+import {FactoryComponent} from "../content/factory/factory.component";
 
 /*import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent }   from './not-found.component';
@@ -30,6 +33,9 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: UserCreateComponent },
   {path: 'testform', component: TestformComponent},
+  {path: 'admin', pathMatch: 'full',component: AdminComponent},
+  {path: 'moderator',pathMatch: 'full', component: ModeratorComponent},
+  {path: 'factory',pathMatch: 'full', component: FactoryComponent},
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
   //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },

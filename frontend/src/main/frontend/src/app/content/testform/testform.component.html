@@ -1,2 +1,11 @@
+<br>
+
+<div *ngFor="let user of users" >
+  {{user.firstname}}, {{user.email}}
+</div>
+<button (click)="getUser()">Get users</button>
+
+<!--
 <app-user-create></app-user-create>
 <br>
+-->

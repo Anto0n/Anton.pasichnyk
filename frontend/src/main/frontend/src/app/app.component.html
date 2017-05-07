@@ -1,4 +1,3 @@
-
 <header>
   <div class="logoImg">
 
@@ -9,7 +8,7 @@
 
 
     <div class="container-fluid" style="float:right;">
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav" *ngIf="!isAuth()">
         <li><a [routerLink]="['register']">Sign Up</a></li>
         <li><a [routerLink]="['login']">Log In</a></li>
       </ul>
@@ -24,7 +23,6 @@
       <app-menu>loading...</app-menu>
     </div>
   </div>
-
 
 </header>
 

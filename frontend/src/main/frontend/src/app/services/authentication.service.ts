@@ -1,46 +1,50 @@
 import {Injectable, EventEmitter} from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import {Http, Headers, Response} from '@angular/http';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import {RestService} from "./rest.service";
 
 @Injectable()
 export class AuthenticationService {
 
-    public roleEmiter = new EventEmitter<{role:string}>();
+  public roleEmiter;
 
-    constructor(private http: Http, private restService: RestService) { }
+  constructor(private http: Http, private restService: RestService) {
+    this.roleEmiter = new EventEmitter<{ role: string }>();
 
-    login(username: string, password: string) {
-        return this.restService.postJson('/api/login', ({ login: username, password: password }))
-            .map((response: Response) => {
-                // login successful if there's a jwt token in the response
-              //original:
-            /*    let user = response.json();
-              console.log("----------" + response.json());
-                if (user && user.token) {
-                                      // store user details and jwt token in local storage to keep user logged in between page refreshes
-                    localStorage.setItem('currentUser', JSON.stringify(user));
-                }*/
-            //temp solution:
-              let user:  any[] = response.json();
-              console.log('----USER!!!!!!------'+ user);
-              console.log(user);
-              if (user) { //user && user.role
-                localStorage.setItem('currentUser', JSON.stringify(user));
-              }
-              console.log('!!!!');
+  }
 
-              this.roleEmiter.emit(user[0]);
-            });
-    }
+  init() { //void method, use to init service
+  }
 
-    logout() {
+  login(username: string, password: string) {
+    return this.restService.postJson('./api/login', ({login: username, password: password}))
+      .map((response: Response) => {
+        // login successful if there's a jwt token in the response
+        //original:
+        /*    let user = response.json();
+         console.log("----------" + response.json());
+         if (user && user.token) {
+         // store user details and jwt token in local storage to keep user logged in between page refreshes
+         localStorage.setItem('currentUser', JSON.stringify(user));
+         }*/
 
-        // remove user from local storage to log user
-        this.roleEmiter.emit({role: "anonumus"});
-        localStorage.removeItem('currentUser');
-    }
+        //temp solution:
+        let user: userRole = response.json()[0];//!!!
+        console.log('----USER!!!!!!------' + user);
+        console.log(user);
+        if (user) { //user && user.role
+          localStorage.setItem('currentUser', user.role);
+        }
+        this.roleEmiter.emit(user);
+      });
+  }
+
+  logout() {
+    // remove user from local storage to log user
+    this.roleEmiter.emit( "Guest");
+    localStorage.removeItem('currentUser');
+  }
 
   isAuthenticated() {
     var user = localStorage.getItem('currentUser');
@@ -50,20 +54,24 @@ export class AuthenticationService {
     } else {
       return false;
     }
-  }}
+  }
+
+}
+
+export interface userRole {
+ role: string;
+ }
 
 
 /*
+ Save to local storage
 
+ localStorage.setItem('currentUser', JSON.stringify({ token: token, name: name }));
+ Load from local storage
 
-Save to local storage
-
-localStorage.setItem('currentUser', JSON.stringify({ token: token, name: name }));
-Load from local storage
-
-var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-var token = currentUser.token; // your token
-For more I suggest you go through this tutorial: Angular 2 JWT Authentication Example & Tutorial
+ var currentUser = JSON.parse(localStorage.getItem('currentUser'));
+ var token = currentUser.token; // your token
+ For more I suggest you go through this tutorial: Angular 2 JWT Authentication Example & Tutorial
 
  if (localStorage.getItem("infiniteScrollEnabled") === null) {
  //...
@@ -79,4 +87,4 @@ For more I suggest you go through this tutorial: Angular 2 JWT Authentication Ex
 
  console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
-*/
+ */

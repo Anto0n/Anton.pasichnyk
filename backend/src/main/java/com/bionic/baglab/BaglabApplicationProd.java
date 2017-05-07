@@ -10,6 +10,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 
 /*
+
 @SpringBootApplication
 public class BaglabApplicationProd extends SpringBootServletInitializer {
 
@@ -18,5 +19,6 @@ public class BaglabApplicationProd extends SpringBootServletInitializer {
         return application.sources(BaglabApplicationProd.class);
     }
 }
+
 
 */
