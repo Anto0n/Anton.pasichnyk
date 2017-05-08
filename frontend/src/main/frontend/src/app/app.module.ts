@@ -34,6 +34,7 @@ import {AuthGuard} from "./shared/guards/auth.guard";
 import {FactoryComponent} from "app/content/factory/factory.component";
 import {ModeratorComponent} from "./content/moderator/moderator.component";
 import {AdminComponent} from "./content/admin/admin/admin.component";
+import {UserRoleService} from "./services/user-role.service";
 
 @NgModule({
   declarations: [
@@ -68,7 +69,7 @@ import {AdminComponent} from "./content/admin/admin/admin.component";
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [RestService,AlertService, AuthenticationService,UserCRUDService, UserService, SafePipe, AuthGuard],
+  providers: [RestService,AlertService, AuthenticationService,UserCRUDService, UserService, UserRoleService, SafePipe, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

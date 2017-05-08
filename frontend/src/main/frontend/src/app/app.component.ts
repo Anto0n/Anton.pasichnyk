@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import {AuthenticationService} from "./services/authentication.service";
 import {MenuComponent} from "./menu/menu.component";
+import {UserRoleService} from "./services/user-role.service";
 
 
 @Component({
@@ -14,22 +15,18 @@ import {MenuComponent} from "./menu/menu.component";
 
 
 export class AppComponent implements  OnInit, DoCheck {
-
-  ngDoCheck(): void {
-    if (localStorage.getItem('currentUser')) {
-      console.log("1");
-      let user = localStorage.getItem('currentUser');
-      // let role1: any = user[0];
-      console.log(user);
-      this.authService.roleEmiter.emit(user);
-    } else {
-      console.log("2");
-      this.authService.roleEmiter.emit("Guest");
-    }
-  }
+  private  loadMenu :boolean = false;
 
   constructor(private authService: AuthenticationService) {
   }
+
+ ngDoCheck(): void {
+ }
+
+  ngAfterContentInit() {
+    // Component content has been initialized
+  }
+
 
   ngOnInit(): void {
   }
@@ -41,6 +38,7 @@ export class AppComponent implements  OnInit, DoCheck {
   onLogout() {
     this.authService.logout();
   }
+
 
 }
 

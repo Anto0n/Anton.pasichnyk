@@ -3,15 +3,14 @@ import {Http, Headers, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import {RestService} from "./rest.service";
+import {UserRoleService} from "./user-role.service";
 
 @Injectable()
 export class AuthenticationService {
 
-  public roleEmiter;
 
-  constructor(private http: Http, private restService: RestService) {
-    this.roleEmiter = new EventEmitter<{ role: string }>();
-
+  constructor( private restService: RestService, private roleService:UserRoleService ) {
+   // this.roleEmiter = new EventEmitter<{ role: string }>();
   }
 
   init() { //void method, use to init service
@@ -20,29 +19,19 @@ export class AuthenticationService {
   login(username: string, password: string) {
     return this.restService.postJson('./api/login', ({login: username, password: password}))
       .map((response: Response) => {
-        // login successful if there's a jwt token in the response
-        //original:
-        /*    let user = response.json();
-         console.log("----------" + response.json());
-         if (user && user.token) {
-         // store user details and jwt token in local storage to keep user logged in between page refreshes
-         localStorage.setItem('currentUser', JSON.stringify(user));
-         }*/
+        // login successful if there's a jwt token in the response (not done)
 
-        //temp solution:
         let user: userRole = response.json()[0];//!!!
-        console.log('----USER!!!!!!------' + user);
-        console.log(user);
         if (user) { //user && user.role
           localStorage.setItem('currentUser', user.role);
         }
-        this.roleEmiter.emit(user);
+        this.roleService.roleEmiter.emit(user.role);
       });
   }
 
   logout() {
     // remove user from local storage to log user
-    this.roleEmiter.emit( "Guest");
+    this.roleService.roleEmiter.emit( "Guest");
     localStorage.removeItem('currentUser');
   }
 
@@ -88,3 +77,11 @@ export interface userRole {
  console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
  */
+
+//original:
+/*    let user = response.json();
+ console.log("----------" + response.json());
+ if (user && user.token) {
+ // store user details and jwt token in local storage to keep user logged in between page refreshes
+ localStorage.setItem('currentUser', JSON.stringify(user));
+ }*/

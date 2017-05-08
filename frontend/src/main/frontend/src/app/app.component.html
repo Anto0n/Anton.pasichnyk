@@ -6,7 +6,6 @@
     <h1 class="logoText">THE BAG LAB</h1>
   </div>
 
-
     <div class="container-fluid" style="float:right;">
       <ul class="nav navbar-nav" *ngIf="!isAuth()">
         <li><a [routerLink]="['register']">Sign Up</a></li>
@@ -17,13 +16,11 @@
       </ul>
     </div>
 
-
-  <div class="menuBar">
-    <div class="mainMenu">
+  <div class="menuBar" >
+    <div class="mainMenu" >
       <app-menu>loading...</app-menu>
     </div>
   </div>
-
 </header>
 
 
@@ -41,25 +38,3 @@
 
 </footer>
 
-<!--
-
-<header>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
-
-      <ul class="nav navbar-nav">
-
-        <li><a [routerLink]="['signup']">Sign Up</a></li>
-        <li><a [routerLink]="['signin']">Sign In</a></li>
-        <li><a [routerLink]="['protected']">Protected</a></li>
-
-      </ul>
-      <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-
-        <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
-      </ul>
-    </div>&lt;!&ndash; /.container-fluid &ndash;&gt;
-
-  </nav>
-
-</header>-->
