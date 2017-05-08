@@ -1,6 +1,8 @@
 package com.bionic.baglab.controllers;
 
+import com.bionic.baglab.dto.user.UserDto;
 import com.bionic.baglab.dto.user.UserDtoLogin;
+import com.bionic.baglab.services.UserService;
 import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,15 +19,24 @@ public class AuthController {
    @Autowired
    UserDetailsService service;
 
+   @Autowired
+    UserService dtoService;
+
     @PostMapping(value="/login")
-    public String loginPage(@Validated @RequestBody UserDtoLogin userDtoLogin){
+    public ResponseEntity<UserDto> loginPage(@Validated @RequestBody UserDtoLogin userDtoLogin){
         String username = userDtoLogin.getLogin();
         String password = userDtoLogin.getPassword();
             if (service.loadUserByUsername(username).getPassword().equals(password)){
-                 String str = new Gson().toJson(service.loadUserByUsername(username).getAuthorities()).toString();
-                 return  str;
+                UserDto user = null;
+                //  String str = new Gson().toJson(service.loadUserByUsername(username).getAuthorities()).toString();
+                try {
+                     user = dtoService.getUserByEmail(username);
+                } catch (Exception e) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                }
+                return new ResponseEntity<>(user, HttpStatus.OK);
             }
-        return "404";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 

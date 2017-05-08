@@ -24,6 +24,8 @@ public interface ModelDao extends CrudRepository<ModelEntity, Long> {
     @Query("select model from ModelEntity model where model.user.idUser = :id")
     List<ModelEntity> findAllModelsbyUserId (@Param ("id") long userId);
 
+
+
 //    @Query("update ModelEntity e set e.priceEntities")
 //    void setPrice(@Param("modelId") Long modeId, @Param("price") Long newPrice);
 }

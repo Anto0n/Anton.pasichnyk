@@ -120,6 +120,8 @@ CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   `idModel` BIGINT NOT NULL AUTO_INCREMENT,
   `userId` BIGINT NOT NULL,
   `bagTypeId` BIGINT NOT NULL,
+  `mname` VARCHAR(45) NOT NULL,
+  `approved` BOOLEAN NOT NULL DEFAULT 0,
   `deleted` BOOLEAN DEFAULT FALSE,
   `modelCreate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modelUpdate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -364,7 +366,7 @@ DROP TABLE IF EXISTS `baglab`.`bag_type_price`;
 CREATE TABLE `bag_type_price` (
   `idbag_type_price` BIGINT    NOT NULL AUTO_INCREMENT,
   `bag_type_id`      BIGINT   NOT NULL,
-  `date`             TIMESTAMP NULL     DEFAULT NULL,
+  `date`             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `price`            INT(11)            DEFAULT NULL,
   PRIMARY KEY (`idbag_type_price`),
   CONSTRAINT `bag_type_id`
@@ -381,7 +383,7 @@ CREATE TABLE `baglab`.`material_price` (
   `idmaterial_price` BIGINT    NOT NULL AUTO_INCREMENT,
   `materialId`       BIGINT       NOT NULL,
   `price`            INT       NULL,
-  `date`             TIMESTAMP NULL,
+  `date`             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`idmaterial_price`),
   CONSTRAINT `materialId`
   FOREIGN KEY (`materialId`)

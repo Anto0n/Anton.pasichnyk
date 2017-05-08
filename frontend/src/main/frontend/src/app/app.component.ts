@@ -1,10 +1,8 @@
 import {
-  Component, OnChanges, OnInit, SimpleChanges, EventEmitter, AfterContentInit, DoCheck, AfterContentChecked,
-  AfterViewInit, AfterViewChecked, OnDestroy
+  Component, OnChanges, OnInit, DoCheck,
 } from '@angular/core';
 import {AuthenticationService} from "./services/authentication.service";
-import {MenuComponent} from "./menu/menu.component";
-import {UserRoleService} from "./services/user-role.service";
+
 
 
 @Component({
@@ -15,7 +13,6 @@ import {UserRoleService} from "./services/user-role.service";
 
 
 export class AppComponent implements  OnInit, DoCheck {
-  private  loadMenu :boolean = false;
 
   constructor(private authService: AuthenticationService) {
   }

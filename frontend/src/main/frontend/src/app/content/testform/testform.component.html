@@ -1,10 +1,15 @@
 <br>
 
 <div *ngFor="let user of users" >
-  {{user.firstname}}, {{user.email}}
+  {{user.idUser}} {{user.firstname}}, {{user.email}}, {{user.role.name}}
 </div>
 <button (click)="getUser()">Get users</button>
 
+<br>
+<div *ngFor="let model of models" >
+  {{model.id}},  {{model.mname}},  {{model.approved}},  {{model.modelCreate}}
+</div>
+<button (click)=" getModelsByUserId()"> getModelsByUserId</button>
 <!--
 <app-user-create></app-user-create>
 <br>

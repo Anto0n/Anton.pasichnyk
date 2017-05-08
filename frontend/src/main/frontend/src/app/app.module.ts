@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import {Routes, RouterModule, Router} from '@angular/router';
+import { Router} from '@angular/router';
 
 
 import {AppComponent } from './app.component';
@@ -22,19 +22,19 @@ import { HelpComponent } from './content/help/help.component';
 import {SafePipe} from "./shared/safe.pipe.spec.";
 import { UserCreateComponent } from './shared/register/user-create.component';
 import {PageNotFoundComponent} from "./routing/not-found.component";
-import {UserCRUDService} from "./services/user-crud.service";
+import {UserCRUDService} from "./services/user/user-crud.service";
 import {TestformComponent} from "./content/testform/testform.component";
 import {AlertService} from "./services/alert.service";
 import {AlertComponent} from "./shared/alert/alert.component";
 import {AuthenticationService} from "./services/authentication.service";
-import {UserService} from "./services/user.service";
+import {UserService} from "./services/user/user.service";
 import {LoginComponent} from "./shared/login/login.component";
-import {RegisterComponent} from "./shared/register/register.component";
 import {AuthGuard} from "./shared/guards/auth.guard";
 import {FactoryComponent} from "app/content/factory/factory.component";
 import {ModeratorComponent} from "./content/moderator/moderator.component";
 import {AdminComponent} from "./content/admin/admin/admin.component";
-import {UserRoleService} from "./services/user-role.service";
+import {UserRoleService} from "./services/user/user-role.service";
+import {ModelService} from "./services/model.service";
 
 @NgModule({
   declarations: [
@@ -53,7 +53,6 @@ import {UserRoleService} from "./services/user-role.service";
     ConfiguratorComponent,
     AlertComponent,
     LoginComponent,
-    RegisterComponent,
     SafePipe,
     UserCreateComponent,
     PageNotFoundComponent
@@ -69,7 +68,7 @@ import {UserRoleService} from "./services/user-role.service";
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [RestService,AlertService, AuthenticationService,UserCRUDService, UserService, UserRoleService, SafePipe, AuthGuard],
+  providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService, UserService, UserRoleService, SafePipe, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

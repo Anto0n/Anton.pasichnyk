@@ -1,15 +1,12 @@
 package com.bionic.baglab.domains;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
 
-import static java.util.Comparator.comparing;
 
 /**
  * Created by potaychuk on 29.03.2017.
@@ -21,9 +18,12 @@ public class ModelEntity {
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
     private boolean deleted;
+    private boolean approved;
+    private String mname;
     private UserEntity user;
     private Collection<OrderEntity> orders;
 //    private List<ModelPriceEntity> priceEntities;
+
 
     @Id
     @Column(name = "[idModel]", columnDefinition = "INT(11)")
@@ -64,6 +64,20 @@ public class ModelEntity {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
+
+    @Basic
+    @Column(name = "[approved]")
+    @NotNull(message = "error.approved.notnull")
+    public boolean getApproved() {  return approved; }
+
+    public void setApproved(boolean approved) {  this.approved = approved; }
+
+    @Basic
+    @Column(name = "[mname]")
+    public String getMname() { return mname; }
+
+    public void setMname(String mname) {  this.mname = mname;    }
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "[userId]", columnDefinition = "INT(11)")

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from "../services/authentication.service";
-import {UserRoleService} from "../services/user-role.service";
+import {UserRoleService} from "../services/user/user-role.service";
 
 @Component({
   selector: 'app-menu',
@@ -19,18 +19,14 @@ export class MenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("on init")
-    if (localStorage.getItem('currentUser')) {  // init menu on startup
-      console.log("1");
-      let role = localStorage.getItem('currentUser');
+    if (localStorage.getItem('currentUserRole')) {  // init menu on startup
+      let role = localStorage.getItem('currentUserRole');
       this.initMenu(role);
     } else {
-      console.log("2");
       this.initMenu("Guest");
     }
 
     this.roleService.roleEmiter.subscribe((role: string ) => {  // init menu from emiter
-      console.log("emit menu" + role)
       this.initMenu(role);
       }
     );

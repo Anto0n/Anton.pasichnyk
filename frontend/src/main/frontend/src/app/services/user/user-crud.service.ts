@@ -1,7 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import {Http, Headers, RequestOptions, Response} from "@angular/http";
-import { UserCreate } from '../models/userCreate';
-import {RestService} from "./rest.service";
+import { UserCreate } from '../../models/userCreate';
+import {RestService} from "../rest.service";
 
 
 /*@Component({

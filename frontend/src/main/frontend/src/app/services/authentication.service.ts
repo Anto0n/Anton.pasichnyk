@@ -3,7 +3,8 @@ import {Http, Headers, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map'
 import {RestService} from "./rest.service";
-import {UserRoleService} from "./user-role.service";
+import {UserRoleService} from "./user/user-role.service";
+import {IUser} from "app/models";
 
 @Injectable()
 export class AuthenticationService {
@@ -21,22 +22,24 @@ export class AuthenticationService {
       .map((response: Response) => {
         // login successful if there's a jwt token in the response (not done)
 
-        let user: userRole = response.json()[0];//!!!
+        //let user: userRole = response.json()[0];//!!!
+        let user: IUser = response.json()
         if (user) { //user && user.role
-          localStorage.setItem('currentUser', user.role);
+          localStorage.setItem('currentUserRole', user.role.name);
+          localStorage.setItem('currentUserId', JSON.stringify(user.idUser) );
         }
-        this.roleService.roleEmiter.emit(user.role);
+        this.roleService.roleEmiter.emit(user.role.name);
       });
   }
 
   logout() {
     // remove user from local storage to log user
     this.roleService.roleEmiter.emit( "Guest");
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUserRole');
   }
 
   isAuthenticated() {
-    var user = localStorage.getItem('currentUser');
+    let user = localStorage.getItem('currentUserRole');
 
     if (user) {
       return true;

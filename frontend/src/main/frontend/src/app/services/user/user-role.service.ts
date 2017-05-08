@@ -9,14 +9,10 @@ export class UserRoleService {
   }
 
   reloadMenuForUserRole(){
-    if (localStorage.getItem('currentUser')) {
-      console.log("1");
-      let user = localStorage.getItem('currentUser');
-      // let role1: any = user[0];
-      console.log(user);
+    if (localStorage.getItem('currentUserRole')) {
+      let user = localStorage.getItem('currentUserRole');
       this.roleEmiter.emit(user);
     } else {
-      console.log("2");
       this.roleEmiter.emit("Guest");
     }
   }

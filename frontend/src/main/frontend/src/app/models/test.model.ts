@@ -1,5 +1,6 @@
 
 export interface IUser{
+  "idUser": number,
   "login": string,
   "email": string,
   "firstname": string,
@@ -20,13 +21,3 @@ export interface IRole{
 }
 
 
-
-//create new user UserDtoAndPassword :
-//    {
-//        "password": "asd13212dss",
-//        "login": "man2age2rD2a",
-//        "email": "l2sd3ao@1D",
-//        "firstname": "La22o1s",
-//        "lastname": "Dz123is"
-//        }
-//    }

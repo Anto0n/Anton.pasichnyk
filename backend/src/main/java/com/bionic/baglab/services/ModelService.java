@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Anton on 03-Apr-17.
@@ -25,11 +26,34 @@ public class ModelService {
         return new ModelDto(modelDao.findOne(id));
     }
 
-    public List<ModelEntity> findAllModelsbyUserId(long id) {
-        return modelDao.findAllModelsbyUserId(id);
+    public List<ModelDto> findAllModelsbyUserId(long id) {
+        List<ModelDto> modelList;
+        modelList = getDtosfromEntitys(modelDao.findAllModelsbyUserId(id));
+        return modelList;
     }
 
     public void save(ModelEntity model) {
         modelDao.save(model);
     }
+
+    /**
+     * transform Enteties list to DTO list
+     * @param modelsEntities
+     * @return List<ModelDto>
+     */
+    private List<ModelDto> getDtosfromEntitys(List<ModelEntity> modelsEntities){
+        List<ModelDto> modelsDtos = modelsEntities.stream()        //make list of userDto from modelEntity list
+                .map(modelEntitie -> new ModelDto(modelEntitie))
+                .collect(Collectors.toList());
+        return modelsDtos;
+    }
+
+
+    public void setModelApproved(long modelId, boolean approved) {
+        ModelEntity model = modelDao.findOne(modelId);
+        model.setApproved(approved);
+        modelDao.save(model);
+    }
 }
+
+

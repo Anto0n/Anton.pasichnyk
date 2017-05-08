@@ -11,7 +11,6 @@ import {TestComponent} from "../content/test/test.component";
 import {PageNotFoundComponent} from "app/routing/not-found.component";
 import {TestformComponent} from "../content/testform/testform.component";
 import {LoginComponent} from "../shared/login/login.component";
-import {RegisterComponent} from "../shared/register/register.component";
 import {UserCreateComponent} from "../shared/register/user-create.component";
 import {AuthGuard} from "../shared/guards/auth.guard";
 import {AdminComponent} from "../content/admin/admin/admin.component";
