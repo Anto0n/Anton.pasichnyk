@@ -55,7 +55,7 @@ export class UserCreateComponent implements OnInit {
 
       this.model = new UserCreate(password, email, firstName, lastName);
       //console.log(this.createUserForm);   //DELETE after debug
-      this.restService.postJson('/api/user/create', this.model)
+      this.restService.postJson('./api/user/create', this.model)
         .subscribe(
           UserCreate => {
             UserCreate => this.model = new UserCreate(password, email, firstName, lastName);

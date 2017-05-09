@@ -6,15 +6,18 @@ import "rxjs/add/operator/map";
 @Injectable()
 export class RestService {
 
-  constructor(private http: Http) {
-  }
-
-  headers = new Headers({
+  private headers = new Headers({
     'Content-Type': 'application/json'
   });
 
+
+  constructor(private http: Http) {
+  }
+
   getData(restPath: string, param?: string): Observable<any> {
-    return this.http.get(restPath + (param ? param : '')).map(res => res.json()).catch(this.handleError);
+    return this.http.get(restPath + (param ? param : ''))
+      .map(res => res.json())
+      .catch(this.handleError);
   }
 
   postJson(url: string, data: any): Observable<Response> {
@@ -30,10 +33,20 @@ export class RestService {
     return this.http.delete(restUrl).catch(this.handleError); //AppConfigService.prefixRestPath + restUrl
   }
 
+  putData(restUrl: string, body: any, param?: string): Observable<Response> {
+    return this.http.put(restUrl + (param ? param : ''), JSON.stringify(body), {headers: this.headers})
+      .map((response: Response) => {
+        response.json()
+      })
+      .catch(this.handleError);
+  }
+
   private handleError(error: Response) {
     //in a real world app, we may send the error to some remote logging infrastructure
     //instead of just logging it to the console
     console.error(error);
-    return Observable.throw(error.json().error || 'Server error');
+    return Observable.throw(error);
   }
 }
+
+//return this.http.put('/api/users/' + user.id, user, this.jwt()).map((response: Response) => response.json());

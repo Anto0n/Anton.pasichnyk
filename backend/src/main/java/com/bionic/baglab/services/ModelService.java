@@ -3,6 +3,8 @@ package com.bionic.baglab.services;
 import com.bionic.baglab.dao.ModelDao;
 import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.ModelDto;
+import com.bionic.baglab.dto.ModelDtoCreate;
+import com.bionic.baglab.dto.enums.ModelStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +30,25 @@ public class ModelService {
 
     public List<ModelDto> findAllModelsbyUserId(long id) {
         List<ModelDto> modelList;
-        modelList = getDtosfromEntitys(modelDao.findAllModelsbyUserId(id));
+        modelList = getDtosfromEntitys(modelDao.findAllModelsByUserId(id));
         return modelList;
     }
 
     public void save(ModelEntity model) {
         modelDao.save(model);
+    }
+
+
+
+
+    public void setModelApproved(long modelId, ModelStatus approved) {
+        ModelEntity model = modelDao.findOne(modelId);
+        model.setApproved(approved);
+        modelDao.save(model);
+    }
+
+    public List<ModelDto> findAllModels() {
+        return this.getDtosfromEntitys((List<ModelEntity>) modelDao.findAll());
     }
 
     /**
@@ -48,11 +63,19 @@ public class ModelService {
         return modelsDtos;
     }
 
+    public boolean createModel(ModelDtoCreate modelDtoCreate) {
+        ModelEntity model = new ModelEntity();
+        model.setUserId(modelDtoCreate.getUserId());
+        model.setBagTypeId(modelDtoCreate.getBagTypeId());
+        model.setMname(modelDtoCreate.getMname());
+        model.setApproved(modelDtoCreate.getApproved());
+        try{
+            modelDao.save(model);
+        }catch(Exception ex){
+            return false;
+        }
+        return true;
 
-    public void setModelApproved(long modelId, boolean approved) {
-        ModelEntity model = modelDao.findOne(modelId);
-        model.setApproved(approved);
-        modelDao.save(model);
     }
 }
 

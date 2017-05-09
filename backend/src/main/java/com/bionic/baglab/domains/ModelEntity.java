@@ -1,26 +1,25 @@
 package com.bionic.baglab.domains;
 
 
+import com.bionic.baglab.dto.enums.ModelStatus;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-
-/**
- * Created by potaychuk on 29.03.2017.
- */
 @Entity
 @Table(name = "[model]", schema = "baglab")
 public class ModelEntity {
     private long idModel;
+    private long userId;
+    private long bagTypeId;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
     private boolean deleted;
-    private boolean approved;
+    private ModelStatus approved;
     private String mname;
-    private UserEntity user;
+    //private UserEntity user;
     private Collection<OrderEntity> orders;
 //    private List<ModelPriceEntity> priceEntities;
 
@@ -31,9 +30,31 @@ public class ModelEntity {
         return idModel;
     }
 
+
     public void setIdModel(long idModel) {
         this.idModel = idModel;
     }
+
+    @Basic
+    @Column(name = "[userId]")
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "[bagTypeId]")
+    public long getBagTypeId() {
+        return bagTypeId;
+    }
+
+    public void setBagTypeId(long bagTypeId) {
+        this.bagTypeId = bagTypeId;
+    }
+
 
     @Basic
     @Column(name = "[modelCreate]")
@@ -67,10 +88,11 @@ public class ModelEntity {
 
     @Basic
     @Column(name = "[approved]")
+    @Enumerated(EnumType.ORDINAL)
     @NotNull(message = "error.approved.notnull")
-    public boolean getApproved() {  return approved; }
+    public ModelStatus getApproved() {  return approved; }
 
-    public void setApproved(boolean approved) {  this.approved = approved; }
+    public void setApproved(ModelStatus approved) {  this.approved = approved; }
 
     @Basic
     @Column(name = "[mname]")
@@ -79,15 +101,15 @@ public class ModelEntity {
     public void setMname(String mname) {  this.mname = mname;    }
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "[userId]", columnDefinition = "INT(11)")
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public void setUser(UserEntity user) {
-        this.user = user;
-    }
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "[userId]", columnDefinition = "INT(11)")
+//    public UserEntity getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(UserEntity user) {
+//        this.user = user;
+//    }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "models_order", catalog = "baglab", joinColumns = {

@@ -42,7 +42,7 @@ public class UserEntity {
     private Timestamp userUpdate;
 //    private byte deleted;
     private Collection<OrderEntity> orders;
-    private Collection<ModelEntity> models;
+    //private Collection<ModelEntity> models;
     public UserEntity() {
     }
 
@@ -147,7 +147,7 @@ public class UserEntity {
         this.orders = orders;
     }
 
-    @OneToMany(mappedBy = "user")
+ /*   @OneToMany(mappedBy = "user")
     public Collection<ModelEntity> getModels() {
         return models;
     }
@@ -155,7 +155,7 @@ public class UserEntity {
     public void setModels(Collection<ModelEntity> models) {
         this.models = models;
     }
-
+*/
     public void setRole(UserRole role) {
         this.role = role;
     }
@@ -206,41 +206,39 @@ public class UserEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof UserEntity)) return false;
         UserEntity that = (UserEntity) o;
-
-        if (idUser != that.idUser) return false;
-        if (statusId != that.statusId) return false;
-//        if (deleted != that.deleted) return false;
-        if (login != null ? !login.equals(that.login) : that.login != null) return false;
-        if (password != null ? !password.equals(that.password) : that.password != null) return false;
-        if (email != null ? !email.equals(that.email) : that.email != null) return false;
-        if (firstname != null ? !firstname.equals(that.firstname) : that.firstname != null) return false;
-        if (lastname != null ? !lastname.equals(that.lastname) : that.lastname != null) return false;
-        if (role != null ? !role.equals(that.role) : that.role != null) return false;
-        if (userCreate != null ? !userCreate.equals(that.userCreate) : that.userCreate != null) return false;
-        if (userUpdate != null ? !userUpdate.equals(that.userUpdate) : that.userUpdate != null) return false;
-        if (orders != null ? !orders.equals(that.orders) : that.orders != null) return false;
-        return models != null ? models.equals(that.models) : that.models == null;
-
+        if (getIdUser() != that.getIdUser()) return false;
+        if (getStatusId() != that.getStatusId()) return false;
+        if (getLogin() != null ? !getLogin().equals(that.getLogin()) : that.getLogin() != null) return false;
+        if (getPassword() != null ? !getPassword().equals(that.getPassword()) : that.getPassword() != null)
+            return false;
+        if (getEmail() != null ? !getEmail().equals(that.getEmail()) : that.getEmail() != null) return false;
+        if (getFirstname() != null ? !getFirstname().equals(that.getFirstname()) : that.getFirstname() != null)
+            return false;
+        if (getLastname() != null ? !getLastname().equals(that.getLastname()) : that.getLastname() != null)
+            return false;
+        if (getRole() != null ? !getRole().equals(that.getRole()) : that.getRole() != null) return false;
+        if (getUserCreate() != null ? !getUserCreate().equals(that.getUserCreate()) : that.getUserCreate() != null)
+            return false;
+        if (getUserUpdate() != null ? !getUserUpdate().equals(that.getUserUpdate()) : that.getUserUpdate() != null)
+            return false;
+        return getOrders() != null ? getOrders().equals(that.getOrders()) : that.getOrders() == null;
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (idUser ^ (idUser >>> 32));
-        result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
-        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + (int) (statusId ^ (statusId >>> 32));
-        result = 31 * result + (userCreate != null ? userCreate.hashCode() : 0);
-        result = 31 * result + (userUpdate != null ? userUpdate.hashCode() : 0);
-//        result = 31 * result + (int) deleted;
-        result = 31 * result + (orders != null ? orders.hashCode() : 0);
-        result = 31 * result + (models != null ? models.hashCode() : 0);
+        int result = (int) (getIdUser() ^ (getIdUser() >>> 32));
+        result = 31 * result + (getLogin() != null ? getLogin().hashCode() : 0);
+        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
+        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
+        result = 31 * result + (getFirstname() != null ? getFirstname().hashCode() : 0);
+        result = 31 * result + (getLastname() != null ? getLastname().hashCode() : 0);
+        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
+        result = 31 * result + (int) (getStatusId() ^ (getStatusId() >>> 32));
+        result = 31 * result + (getUserCreate() != null ? getUserCreate().hashCode() : 0);
+        result = 31 * result + (getUserUpdate() != null ? getUserUpdate().hashCode() : 0);
+        result = 31 * result + (getOrders() != null ? getOrders().hashCode() : 0);
         return result;
     }
 }

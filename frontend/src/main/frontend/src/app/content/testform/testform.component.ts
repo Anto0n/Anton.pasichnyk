@@ -10,7 +10,8 @@ import {IModel} from "../../models/model";
 export class TestformComponent {
 
   private users: IUser[] = [];
-  private models: IModel[] = [];
+  private uModels: IModel[] = [];
+  private moderModels: IModel[] = [];
 
   constructor(private restService: RestService) { }
 
@@ -24,10 +25,24 @@ export class TestformComponent {
   }
 
   getModelsByUserId(){
-    this.restService.getData('./api/models/'+2+'/list')
+    this.restService.getData(`./api/models/${2}/list`)
       .subscribe((data: IModel[]) => {
-        this.models=data;
+        this.uModels=data;
         console.log(data);
       }, ()=>console.log('err'));
+  }
+
+  getModelsList(){
+    this.restService.getData('./api/models/list')
+      .subscribe((data: IModel[]) => {
+        this.moderModels=data;
+        console.log(data);
+      }, ()=>console.log('err'));
+  }
+
+  approveModel(id:number, approved:string ){
+    this.restService.getData('./api/models/approve', `/${id}?approved=${approved}`)
+      .subscribe(data => console.log(data));
+    console.log(''+id, ''+approved);
   }
 }

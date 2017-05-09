@@ -46,27 +46,33 @@ export class MenuComponent implements OnInit {
         break;
       case 'Moderator' :
         this.urls = [
-          new Route("moderator", "MODERATOR")
+          new Route("home", "Home"),
+          new Route("moderator", "MODERATOR"),
+          new Route("about", "About")
         ];
         break;
       case 'Factory' :
         this.urls = [
-          new Route("factory", "FACTORY")
+          new Route("home", "Home"),
+          new Route("factory", "FACTORY"),
+          new Route("about", "About")
         ];
         break;
       case 'Administrator' :
         console.log("draw admin menu")
         this.urls = [
-          new Route("admin", "ADMIN")
+          new Route("home", "Home"),
+          new Route("admin", "ADMIN"),
+          new Route("about", "About")
         ];
         break;
       case 'Guest' :
         console.log("draw GUEST menu")
         this.urls = [
           new Route("home", "Home"),
-          new Route("orders", "Orders"),
           new Route("test", "Test"),
           new Route("testform", "TEST FORM"),
+          new Route("about", "About")
         ];
         break;
       default :
@@ -76,6 +82,7 @@ export class MenuComponent implements OnInit {
           new Route("orders", "Orders"),
           new Route("test", "Test"),
           new Route("testform", "TEST FORM"),
+          new Route("about", "About")
         ];
     }
   }

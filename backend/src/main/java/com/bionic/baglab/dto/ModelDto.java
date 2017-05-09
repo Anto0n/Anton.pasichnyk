@@ -1,16 +1,16 @@
 package com.bionic.baglab.dto;
 
 import com.bionic.baglab.domains.ModelEntity;
+import com.bionic.baglab.dto.enums.ModelStatus;
 
 import java.sql.Timestamp;
 
-/**
- * Created by potaychuk on 29.03.2017.
- */
 public class ModelDto {
     private long id;
+    private long userId;
+    private long bagTypeId;
     private String mname;
-    private boolean approved;
+    private ModelStatus approved;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
 
@@ -18,14 +18,14 @@ public class ModelDto {
     }
 
 
-
     public ModelDto(ModelEntity modelEntity) {
-       this.id = modelEntity.getIdModel();
-       this.modelCreate =  modelEntity.getModelCreate();
-       this.modelUpdate =  modelEntity.getModelCreate();
-       this.approved = modelEntity.getApproved();
-       this.mname = modelEntity.getMname();
-
+        this.id = modelEntity.getIdModel();
+        this.userId = modelEntity.getUserId();
+        this.bagTypeId = modelEntity.getBagTypeId();
+        this.modelCreate =  modelEntity.getModelCreate();
+        this.modelUpdate =  modelEntity.getModelCreate();
+        this.approved = modelEntity.getApproved();
+        this.mname = modelEntity.getMname();
     }
 
     public long getId() {
@@ -34,6 +34,22 @@ public class ModelDto {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public long getBagTypeId() {
+        return bagTypeId;
+    }
+
+    public void setBagTypeId(long bagTypeId) {
+        this.bagTypeId = bagTypeId;
     }
 
     public Timestamp getModelCreate() {
@@ -56,15 +72,21 @@ public class ModelDto {
         return mname;
     }
 
+    public ModelStatus getApproved() {
+        return approved;
+    }
+
+    public void setApproved(ModelStatus approved) {
+        this.approved = approved;
+    }
+
     public void setMname(String mname) {
         this.mname = mname;
     }
 
-    public boolean isApproved() {
-        return approved;
-    }
 
-    public void setApproved(boolean approved) {
-        this.approved = approved;
-    }
+
+
+
+
 }

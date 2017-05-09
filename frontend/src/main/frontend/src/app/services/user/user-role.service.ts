@@ -8,7 +8,7 @@ export class UserRoleService {
     this.roleEmiter = new EventEmitter<{ role: string }>();
   }
 
-  reloadMenuForUserRole(){
+  reloadMenuForUserRole() {
     if (localStorage.getItem('currentUserRole')) {
       let user = localStorage.getItem('currentUserRole');
       this.roleEmiter.emit(user);
@@ -16,5 +16,15 @@ export class UserRoleService {
       this.roleEmiter.emit("Guest");
     }
   }
+
+  getUserRole() {
+    let user: string = localStorage.getItem('currentUserRole');
+    if (user) {
+      return user;
+    } else {
+      return "Guest";
+    }
+  }
+
 
 }
