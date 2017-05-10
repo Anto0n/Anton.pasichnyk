@@ -24,6 +24,13 @@ public class ModelEntity {
 //    private List<ModelPriceEntity> priceEntities;
 
 
+    public ModelEntity(long idModel) {
+        this.idModel = idModel;
+    }
+
+    public ModelEntity() {
+    }
+
     @Id
     @Column(name = "[idModel]", columnDefinition = "INT(11)")
     public long getIdModel() {

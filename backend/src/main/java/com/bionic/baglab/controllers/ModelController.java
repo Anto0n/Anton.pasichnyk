@@ -1,6 +1,8 @@
 package com.bionic.baglab.controllers;
 
+import com.bionic.baglab.dao.ModelDao;
 import com.bionic.baglab.domains.ModelEntity;
+import com.bionic.baglab.dto.JResponse;
 import com.bionic.baglab.dto.ModelDto;
 import com.bionic.baglab.dto.ModelDtoCreate;
 import com.bionic.baglab.dto.ModelSetDto;
@@ -20,8 +22,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/models")
 public class ModelController {
-
-
+    @Autowired
+    private ModelDao modelDao;
     @Autowired
     private ModelService modelService;
 
@@ -71,24 +73,19 @@ public class ModelController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<JResponse> deleteUser(@PathVariable("id") long id) {
+        try {
+            ModelEntity model = new ModelEntity(id);
+            modelDao.delete(model);
+        }
+        catch (Exception ex) {
+            JResponse message = new JResponse("error on deleting");
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);     //"Error deleting the user: " + ex.toString();
+        }
+        return new ResponseEntity<>(new JResponse(), HttpStatus.OK);
+    }
+
 
 }
 
-class JResponse {
-    private String responseMessage;
-
-    public JResponse(String responseMessage) {
-        this.responseMessage = responseMessage;
-    }
-
-    public JResponse() {
-    }
-
-    public String getResponseMessage() {
-        return responseMessage;
-    }
-
-    public void setResponseMessage(String responseMessage) {
-        this.responseMessage = responseMessage;
-    }
-}

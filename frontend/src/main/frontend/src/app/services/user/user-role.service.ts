@@ -26,5 +26,10 @@ export class UserRoleService {
     }
   }
 
+  getUserId() : string{
+    let userId:string = localStorage.getItem('currentUserId');
+    return userId;
+  }
+
 
 }

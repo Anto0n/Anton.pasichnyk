@@ -28,9 +28,10 @@ export class RestService {
     ).catch(this.handleError)
   }
 
-  deleteData(restUrl: string): Observable<any> { // not tested
-    console.log('Delete: ' + restUrl);
-    return this.http.delete(restUrl).catch(this.handleError); //AppConfigService.prefixRestPath + restUrl
+  deleteData(restUrl: string, param?: string): Observable<any> { // not tested
+    return this.http.delete(restUrl +  (param ? param : ''))
+      .map(res => res.json())
+      .catch(this.handleError);
   }
 
   putData(restUrl: string, body: any, param?: string): Observable<Response> {

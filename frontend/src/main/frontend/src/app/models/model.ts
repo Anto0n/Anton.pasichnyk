@@ -1,7 +1,9 @@
 export class IModel {
-  "approved": ModelStatus;
   "id": number;
+  "userId": number;
+  "bagTypeId": number;
   "mname": string;
+  "approved": ModelStatus;
   "modelCreate": number;
   "modelUpdate": number;
 }
@@ -17,3 +19,5 @@ export interface CreateModel{
   "userId": number;
 
 }
+
+

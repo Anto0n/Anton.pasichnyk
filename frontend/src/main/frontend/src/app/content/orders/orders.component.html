@@ -1,8 +1,40 @@
 <h1>Orders</h1>
-<p>Lorem ipsum dolor sit amet, consectetur
-  adipisicing elit. At ea facere libero,
-  mollitia natus nesciunt, odio perspiciatis
-  placeat reiciendis sapiente veritatis
-  voluptatibus? Accusantium dignissimos
-  enim mollitia nesciunt non, quasi repudiandae.
-</p>
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>user id</th>
+    <th>Bag type id</th>
+    <th>model name</th>
+    <th>status</th>
+    <th></th>
+  </tr>
+  </thead>
+
+
+    <tbody>
+    <tr *ngFor="let model of uModels">
+      <!--<th scope="row">1</th>-->
+      <td>{{model.id}}</td>
+      <td>{{model.userId}}</td>
+      <td>{{model.bagTypeId}}</td>
+      <td>{{model.mname}}</td>
+      <td>{{model.approved}}</td>
+      <td><button (click)=" deleteModel(model.id)"> del</button></td>
+    </tr>
+    </tbody>
+
+</table>
+
+<hr>
+
+
+<div *ngFor="let model of moderModels">
+  {{model.id}}, {{model.mname}}, {{model.approved}}, {{model.modelCreate}}
+</div>
+
+
+
+<button (click)=" createModel()"> create test model</button>
+<!--<button (click)=" getModelsList()"> getModelsList - moderator</button>-->
