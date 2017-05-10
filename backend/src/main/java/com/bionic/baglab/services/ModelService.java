@@ -77,6 +77,11 @@ public class ModelService {
         return true;
 
     }
+
+    public List<ModelDto> findAllModelsParam(ModelStatus approved) {
+        return this.getDtosfromEntitys((List<ModelEntity>) modelDao.findAllModelsByApproved(approved));
+    }
+
 }
 
 

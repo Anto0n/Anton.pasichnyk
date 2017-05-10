@@ -7,12 +7,10 @@ export class IModel {
   "modelCreate": number;
   "modelUpdate": number;
 }
-// 0 1 2
- enum ModelStatus {
-  NEW, APPROVED,  REJECTED
-}
+
 
 export interface CreateModel{
+  //"id"?:number;
   "approved": ModelStatus;
   "bagTypeId": number;
   "mname": string;
@@ -20,4 +18,18 @@ export interface CreateModel{
 
 }
 
+// 0 1 2
+export enum ModelStatus {
+  NEW, APPROVED,  REJECTED
+}
 
+
+/*
+{ Enum in javascript
+  0: "Green"
+  1: "Red"
+  2: "Blue"
+  "Blue": 2
+  "Green": 0
+  "Red": 1
+}*/

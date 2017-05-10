@@ -330,7 +330,15 @@ insert into baglab.pages_type (type) VALUES ('ARCHIVE');
 insert into baglab.pages_type (type) VALUES ('DELETED');
 
 
-insert into baglab.pages (body, header, pagesTypeId) VALUES ('body 1', 'header1', '1');
-insert into baglab.pages (body, header, pagesTypeId) VALUES ('body 2', 'header2', '1');
-insert into baglab.pages (body, header, pagesTypeId) VALUES ('body ARCHIVE', 'header ARCHIVE', '2');
-insert into baglab.pages (body, header, pagesTypeId) VALUES ('body DELETED', 'header DELETED', '3');
+insert into baglab.pages (body, header, pagesTypeId) VALUES ('A bag (also known regionally as a sack) is a common tool in the form of a non-rigid container. The use of bags predates recorded history, with the earliest bags being no more than lengths of animal skin, cotton, or woven plant fibers, folded up at the edges and secured in that shape with strings of the same material.', 'header1', '1');
+insert into baglab.pages (body, header, pagesTypeId) VALUES ('A diplomatic bag, also known as a diplomatic pouch, is a container with certain legal protections used for carrying official correspondence or other items between a diplomatic mission and its home government or other diplomatic, consular, or otherwise official entities.[1] The physical concept of a "diplomatic bag" is flexible and therefore can take many forms (e.g., a cardboard box, briefcase, duffel bag, large suitcase, crate or even a shipping container).[1] Additionally, a diplomatic bag usually has some form of lock and/or tamper-evident seal attached to it in order to deter interference by unauthorized third parties. The most important point is that as long as it is externally marked to show its status, the "bag" has diplomatic immunity from search or seizure,[2] as codified in article 27 of the 1961 Vienna Convention on Diplomatic Relations.[3] It may only contain articles intended for official use.[3] It is often escorted by a diplomatic courier, who is similarly immune from arrest and detention', 'header2', '1');
+insert into baglab.pages (body, header, pagesTypeId) VALUES ('BAG-LOVE FROM PUPPY
+We recently had a customer who bought our Dip Dye Tote at our Bag-all location on Mott street, NYC. Her puppy Row loved the bag as much as she did. This is the perfect bag for summer, great for both city and the beach. Happy Master equals Happy Pupp!', 'header ARCHIVE', '2');
+insert into baglab.pages (body, header, pagesTypeId) VALUES ('BEA HAYDEN AT THE MOTT STREET SHOP
+A few weeks ago we welcomed famous Chinese actress, Bea Hayden and Modern Fashion Lifestyle Channel to the Bag-all store on Mott Street.
+
+Bea was documenting one of her days in New York and ended up finding some favorite bags, which she aslo monogrammed with her name.
+
+They filmed their visit and if you speak Chinese, you can watch the full video here.
+
+Thank you for visiting Bea, you are welcome back any time!', 'header DELETED', '3');

@@ -65,6 +65,11 @@ public class ModelController {
         return new ResponseEntity<>(modelService.findAllModels(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/list/{approved}")
+    public ResponseEntity<List<ModelDto>> findAllModelsParam(@PathVariable("approved") ModelStatus approved) {
+        return new ResponseEntity<>(modelService.findAllModelsParam(approved), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/create")
     public ResponseEntity<ModelDtoCreate> createModelDto(@Validated @RequestBody ModelDtoCreate modelDtoCreate) {
         boolean created = modelService.createModel(modelDtoCreate);

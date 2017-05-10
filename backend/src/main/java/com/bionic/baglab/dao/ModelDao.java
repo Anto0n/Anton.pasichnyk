@@ -1,6 +1,7 @@
 package com.bionic.baglab.dao;
 
 import com.bionic.baglab.domains.ModelEntity;
+import com.bionic.baglab.dto.enums.ModelStatus;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.Repository;
@@ -25,6 +26,8 @@ public interface ModelDao extends CrudRepository<ModelEntity, Long> {
     List<ModelEntity> findAllModelsbyUserId (@Param ("id") long userId);
 */
         public List<ModelEntity> findAllModelsByUserId (long userId);
+        public List<ModelEntity> findAllModelsByApproved (ModelStatus approved);
+
 
 //    @Query("update ModelEntity e set e.priceEntities")
 //    void setPrice(@Param("modelId") Long modeId, @Param("price") Long newPrice);

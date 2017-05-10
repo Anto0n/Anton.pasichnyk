@@ -11,20 +11,18 @@
     <th></th>
   </tr>
   </thead>
-
-
     <tbody>
-    <tr *ngFor="let model of uModels">
+    <tr *ngFor="let model of uModels"  (click)="onSelect(model)"
+        [class.selected]="model === selectedModel">
       <!--<th scope="row">1</th>-->
       <td>{{model.id}}</td>
       <td>{{model.userId}}</td>
       <td>{{model.bagTypeId}}</td>
       <td>{{model.mname}}</td>
       <td>{{model.approved}}</td>
-      <td><button (click)=" deleteModel(model.id)"> del</button></td>
+      <td><button class="delete" (click)=" deleteModel(model); $event.stopPropagation()"> del</button></td>
     </tr>
     </tbody>
-
 </table>
 
 <hr>

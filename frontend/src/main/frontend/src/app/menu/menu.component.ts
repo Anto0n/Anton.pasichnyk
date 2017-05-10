@@ -63,6 +63,9 @@ export class MenuComponent implements OnInit {
         this.urls = [
           new Route("home", "Home"),
           new Route("admin", "ADMIN"),
+          new Route("orders", "Orders"),
+          new Route("factory", "FACTORY"),
+          new Route("test", "Test"),
           new Route("about", "About")
         ];
         break;
@@ -71,7 +74,7 @@ export class MenuComponent implements OnInit {
         this.urls = [
           new Route("home", "Home"),
           new Route("test", "Test"),
-          new Route("testform", "TEST FORM"),
+          new Route("testform", "T FORM"),
           new Route("about", "About")
         ];
         break;

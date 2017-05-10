@@ -11,9 +11,10 @@ import {Response} from "@angular/http";
   templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit {
-  private uId : string
+  private uId: string
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
+  private selectedModel:IModel;
   //CreateModel
 
   constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef) {
@@ -26,52 +27,59 @@ export class OrdersComponent implements OnInit {
 
   }
 
-  getModelsByUserId(){
-    this.uId  = this.roleService.getUserId();
+  getModelsByUserId() {
+    this.uId = this.roleService.getUserId();
+
     this.restService.getData(`./api/models/${this.uId}/list`)
       .subscribe((data: IModel[]) => {
-        this.uModels=data;
-      }, ()=>console.log('err'));
+        this.uModels = data;
+      }, () => console.log('err'));
   }
 
-deleteModel(id:string){
-    this.restService.deleteData('/api/models/delete'+`/${id}`).subscribe(
-  )
-  this.cd.markForCheck();
-  let delModel = this.uModels.find(myObj => myObj.id < 0)  ;
+  deleteModel(model: IModel) { //done
+    this.restService.deleteData('/api/models/delete' + `/${model.id}`).subscribe(
+      () => {
+          this.uModels = this.uModels.filter(m => m !== model);
+          if (this.selectedModel === model) {
+            this.selectedModel = null;
+          }
+        }
+    )
+  }
 
-  this.getModelsByUserId();
-
-}
-  createModel(){
-    let createModelobjT : any = {
+  createModel() {
+    let iid = this.roleService.getUserId(); //todo: RE
+    let createModelobjT: any = {
       "approved": "NEW",
       "bagTypeId": 1,
       "mname": "string",
       "userId": 3
     };
-     this.restService.postJson('./api/models/create', createModelobjT).subscribe(
+    this.restService.postJson('./api/models/create', createModelobjT).subscribe(
+      () => {
+        this.uModels.push(createModelobjT);
+        this.selectedModel = null;
+        this.getModelsByUserId();
+      }
+    )
 
-      )
-    this.getModelsByUserId()
-    this.cd.markForCheck();
   }
 
 }
 
 /*this.restService.postJson('./api/user/create', this.model)
-  .subscribe(
-    UserCreate => {
-      UserCreate => this.model = new UserCreate(password, email, firstName, lastName);
-      this.alertService.success('Registration successful', true);
-      this.router.navigate(['/login']);
-    },
-    error => {
-      this.alertService.error(error);
-      this.errorMessage = <any>error;
-      this.loading = false;
-    }
-  );*/
+ .subscribe(
+ UserCreate => {
+ UserCreate => this.model = new UserCreate(password, email, firstName, lastName);
+ this.alertService.success('Registration successful', true);
+ this.router.navigate(['/login']);
+ },
+ error => {
+ this.alertService.error(error);
+ this.errorMessage = <any>error;
+ this.loading = false;
+ }
+ );*/
 
 
 //Moderator
