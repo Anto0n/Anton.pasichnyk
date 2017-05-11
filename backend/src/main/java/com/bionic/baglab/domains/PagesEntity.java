@@ -39,7 +39,7 @@ public class PagesEntity {
     }
 
     @Basic
-    @Column(name = "header")
+    @Column(name = "header", columnDefinition="mediumtext")
     public String getHeader() {
         return header;
     }

@@ -3,13 +3,18 @@ package com.bionic.baglab.dto;
 import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.enums.ModelStatus;
 
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class ModelDto {
     private long id;
+    @NotNull(message = "error.uid.notnull")
     private long userId;
+    @NotNull(message = "error.bagTypeId.notnull")
     private long bagTypeId;
+    @NotNull(message = "error.bagmname.notnull")
     private String mname;
+    @NotNull(message = "error.modelStatus.notnull")
     private ModelStatus approved;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;

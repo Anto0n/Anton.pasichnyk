@@ -1,10 +1,10 @@
 <div  class="row">
 
-  <div  *ngFor="let n of news" class="col-sm-6 col-md-4">
+  <div  *ngFor="let n of news" class="col-sm-8 col-md-6">
     <div class="thumbnail">
-      <img src="https://cdn.shopify.com/s/files/1/0188/8308/articles/IMG_6542_1024x1024.JPG?v=1493147922" alt="...">
+      <img src="{{n.header}}" alt="img">
       <div class="caption">
-        <h3>Thumbnail label</h3>
+        <h3></h3>
         <p>{{n.body}}</p>
         <!--<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>-->
       </div>
