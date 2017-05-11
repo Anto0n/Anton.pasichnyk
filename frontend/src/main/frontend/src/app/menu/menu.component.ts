@@ -64,6 +64,7 @@ export class MenuComponent implements OnInit {
           new Route("home", "Home"),
           new Route("admin", "ADMIN"),
           new Route("orders", "Orders"),
+          new Route("moderator", "MODERATOR"),
           new Route("factory", "FACTORY"),
           new Route("test", "Test"),
           new Route("about", "About")

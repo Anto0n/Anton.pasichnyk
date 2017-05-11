@@ -53,7 +53,7 @@ export class OrdersComponent implements OnInit {
       "approved": "NEW",
       "bagTypeId": 1,
       "mname": "string",
-      "userId": 3
+      "userId": iid
     };
     this.restService.postJson('./api/models/create', createModelobjT).subscribe(
       () => {

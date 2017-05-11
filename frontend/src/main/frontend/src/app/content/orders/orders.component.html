@@ -20,7 +20,7 @@
       <td>{{model.bagTypeId}}</td>
       <td>{{model.mname}}</td>
       <td>{{model.approved}}</td>
-      <td><button class="delete" (click)=" deleteModel(model); $event.stopPropagation()"> del</button></td>
+      <td><button  *ngIf="model.approved==='NEW' " class="delete" (click)=" deleteModel(model); $event.stopPropagation()"> del</button></td>
     </tr>
     </tbody>
 </table>
