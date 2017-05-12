@@ -10,32 +10,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class AuthController {
-   @Autowired
-   UserDetailsService service;
+    @Autowired
+    UserDetailsService service;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
-   @Autowired
+    @Autowired
     UserService dtoService;
 
-    @PostMapping(value="/login")
-    public ResponseEntity<UserDto> loginPage(@Validated @RequestBody UserDtoLogin userDtoLogin){
-        String username = userDtoLogin.getLogin();
-        String password = userDtoLogin.getPassword();
-            if (service.loadUserByUsername(username).getPassword().equals(password)){
-                UserDto user = null;
-                //  String str = new Gson().toJson(service.loadUserByUsername(username).getAuthorities()).toString();
-                try {
-                     user = dtoService.getUserByEmail(username);
-                } catch (Exception e) {
-                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-                }
-                return new ResponseEntity<>(user, HttpStatus.OK);
+    @PostMapping(value = "/login")
+    public ResponseEntity<UserDto> loginPage(@Validated @RequestBody UserDtoLogin userDtoLogin) {
+        String inUsername = userDtoLogin.getLogin();
+        String rawPassword = userDtoLogin.getPassword();
+        String encPassword = service.loadUserByUsername(inUsername).getPassword();
+        if (passwordEncoder.matches(rawPassword, encPassword)) {
+            UserDto user = null;
+            //  String str = new Gson().toJson(service.loadUserByUsername(username).getAuthorities()).toString();
+            try {
+                user = dtoService.getUserByEmail(inUsername);
+            } catch (Exception e) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

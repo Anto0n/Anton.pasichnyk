@@ -31,11 +31,11 @@ public class UserController {
 
   /**
    * /create  --> Create a new user and save it in the database.
-   * 
+   * NO password encription
    * @param userDtoRegistration
    * @return A string describing if the user is succesitfully created or not.
    */
-  @PostMapping(value = "/create")
+/*  @PostMapping(value = "/create")
   public  ResponseEntity<Void> createUser(@Validated @RequestBody UserDtoRegistration userDtoRegistration) { //,  UriComponentsBuilder ucBuilder)
     //String password = userDtoRegistration.getPassword();
     String email = userDtoRegistration.getEmail();
@@ -46,15 +46,9 @@ public class UserController {
    created = userService.createUser(userDtoRegistration);
    if(!created)
      return new ResponseEntity<>(HttpStatus.CONFLICT);
-    /*try {
-      userDto = userService.getUserByEmail(userDto.getEmail());   // renew DTO object
-    } catch (Exception e) { }*/
-
-    //HttpHeaders headers = new HttpHeaders();
-   //headers.setLocation(ucBuilder.path("/user/{id}").buildAndExpand(userDto.getIdUser()).toUri());  // for what ???
    return new ResponseEntity<>(HttpStatus.CREATED);
 
-  }
+  }*/
 
 
     /**
