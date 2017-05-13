@@ -1,6 +1,5 @@
 package com.bionic.baglab.services;
 
-import com.bionic.baglab.dao.ModelsOrderDao;
 import com.bionic.baglab.dao.OrderDao;
 import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.ModelEntity;
