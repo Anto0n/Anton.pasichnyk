@@ -12,9 +12,6 @@ import org.springframework.ui.Model;
 import javax.transaction.Transactional;
 import java.util.List;
 
-/**
- * Created by nicot on 3/31/2017.
- */
 @Transactional
 //@RepositoryRestResource(collectionResourceRel = "models", path = "models")
 public interface ModelDao extends CrudRepository<ModelEntity, Long> {

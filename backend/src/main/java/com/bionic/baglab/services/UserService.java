@@ -104,6 +104,13 @@ public class UserService {
         return new UserDto(user);
     }
 
+    public UserEntity findEntityById(long id) {
+        UserEntity user = userDao.findOne(id);
+        if (user == null)
+            return null;
+        return user;
+    }
+
     public boolean isUserExist(UserDto userDto) {
         UserEntity userEntity;
         try {
