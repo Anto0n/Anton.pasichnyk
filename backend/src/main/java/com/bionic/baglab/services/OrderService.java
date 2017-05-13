@@ -3,7 +3,6 @@ package com.bionic.baglab.services;
 import com.bionic.baglab.dao.OrderDao;
 import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.ModelEntity;
-import com.bionic.baglab.domains.ModelsOrderEntity;
 import com.bionic.baglab.domains.OrderEntity;
 import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.dto.OrderDto;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.AssertTrue;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
