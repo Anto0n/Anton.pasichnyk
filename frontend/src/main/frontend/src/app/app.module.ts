@@ -35,6 +35,7 @@ import {ModeratorComponent} from "./content/moderator/moderator.component";
 import {AdminComponent} from "./content/admin/admin/admin.component";
 import {UserRoleService} from "./services/user/user-role.service";
 import {ModelService} from "./services/model.service";
+import { CreateNewsComponent } from './content/admin/news/create-news.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import {ModelService} from "./services/model.service";
     LoginComponent,
     SafePipe,
     UserCreateComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    CreateNewsComponent
 
   ],
   imports: [

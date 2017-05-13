@@ -22,8 +22,8 @@
     <td>{{model.bagTypeId}}</td>
     <td>{{model.mname}}</td>
     <td>{{model.approved}}</td>
-    <td><button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE</button></td>
-    <td><button *ngIf="model.approved==='NEW' || model.approved==='APPROVED'" (click)=" approveModel(model,'2'); $event.stopPropagation()"> REJECTE</button></td>
+    <td><button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-warning" (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE</button></td>
+    <td><button *ngIf="model.approved==='NEW' || model.approved==='APPROVED'" class="btn btn-success" (click)=" approveModel(model,'2'); $event.stopPropagation()"> REJECTE</button></td>
   </tr>
   </tbody>
 </table>
