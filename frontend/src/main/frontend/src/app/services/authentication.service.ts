@@ -9,9 +9,7 @@ import {IUser} from "app/models";
 @Injectable()
 export class AuthenticationService {
 
-
   constructor( private restService: RestService, private roleService:UserRoleService ) {
-   // this.roleEmiter = new EventEmitter<{ role: string }>();
   }
 
   init() { //void method, use to init service
@@ -40,7 +38,6 @@ export class AuthenticationService {
 
   isAuthenticated() {
     let user = localStorage.getItem('currentUserRole');
-
     if (user) {
       return true;
     } else {

@@ -1,5 +1,5 @@
 import {
-  Component, OnChanges, OnInit, DoCheck,
+  Component, OnChanges, OnInit, DoCheck, EventEmitter,
 } from '@angular/core';
 import {AuthenticationService} from "./services/authentication.service";
 
@@ -13,8 +13,9 @@ import {AuthenticationService} from "./services/authentication.service";
 
 
 export class AppComponent implements  OnInit, DoCheck {
-
+public logoutEmiter;
   constructor(private authService: AuthenticationService) {
+    this.logoutEmiter = new EventEmitter<{ islogin: boolean }>();
   }
 
  ngDoCheck(): void {
@@ -33,6 +34,7 @@ export class AppComponent implements  OnInit, DoCheck {
   }
 
   onLogout() {
+    this.logoutEmiter.emit(false);
     this.authService.logout();
   }
 

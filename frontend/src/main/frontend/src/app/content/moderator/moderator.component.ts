@@ -13,7 +13,7 @@ export class ModeratorComponent implements OnInit {
   private selectedModel:IModel;
   private approved : string;
 
-  constructor(private restService: RestService, private roleService: UserRoleService,) { }
+  constructor(private restService: RestService, private roleService: UserRoleService) { }
 
   ngOnInit() {
     this.getModelsByApproved(ModelStatus.NEW);

@@ -8,14 +8,14 @@ export class UserRoleService {
     this.roleEmiter = new EventEmitter<{ role: string }>();
   }
 
-  reloadMenuForUserRole() {
+/*  reloadMenuForUserRole() {
     if (localStorage.getItem('currentUserRole')) {
       let user = localStorage.getItem('currentUserRole');
       this.roleEmiter.emit(user);
     } else {
       this.roleEmiter.emit("Guest");
     }
-  }
+  }*/
 
   getUserRole() {
     let user: string = localStorage.getItem('currentUserRole');
@@ -29,6 +29,19 @@ export class UserRoleService {
   getUserId() : string{
     let userId:string = localStorage.getItem('currentUserId');
     return userId;
+  }
+
+  isAdmin() : boolean{
+    if(this.getUserRole() === 'Administrator')
+    return true;
+  }
+  isModerator() : boolean{
+    if(this.getUserRole() === 'Administrator')
+      return true;
+  }
+  isFactory() : boolean{
+    if(this.getUserRole() === 'Administrator')
+      return true;
   }
 
 

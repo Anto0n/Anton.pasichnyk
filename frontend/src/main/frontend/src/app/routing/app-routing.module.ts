@@ -16,6 +16,7 @@ import {AuthGuard} from "../shared/guards/auth.guard";
 import {AdminComponent} from "../content/admin/admin/admin.component";
 import {ModeratorComponent} from "../content/moderator/moderator.component";
 import {FactoryComponent} from "../content/factory/factory.component";
+import {CreateNewsComponent} from "../content/admin/news/create-news.component";
 
 /*import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent }   from './not-found.component';
@@ -29,14 +30,15 @@ const appRoutes: Routes = [
   {path: 'about', component: AboutComponent},
   {path: 'help', component: HelpComponent},
   {path: 'test', component: TestComponent},
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: UserCreateComponent },
+  {path: 'login', component: LoginComponent },
+  {path: 'register', component: UserCreateComponent },
   {path: 'testform', component: TestformComponent},
   {path: 'admin', pathMatch: 'full',component: AdminComponent},
   {path: 'moderator',pathMatch: 'full', component: ModeratorComponent},
   {path: 'factory',pathMatch: 'full', component: FactoryComponent},
-  { path: '',   redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  {path: 'editnews', component: CreateNewsComponent},
+  {path: '',   redirectTo: '/home', pathMatch: 'full' },
+  {path: '**', component: PageNotFoundComponent }
   //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
 ];
 @NgModule({
