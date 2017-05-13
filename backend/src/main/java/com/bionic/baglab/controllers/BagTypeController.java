@@ -1,10 +1,8 @@
 package com.bionic.baglab.controllers;
 
-import com.bionic.baglab.dao.BagTypeDao;
-import com.bionic.baglab.dao.BagTypePriceDao;
 import com.bionic.baglab.domains.BagTypeEntity;
-import com.bionic.baglab.domains.BagTypePriceEntity;
 import com.bionic.baglab.dto.BagTypeDto;
+import com.bionic.baglab.services.BagTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,60 +16,54 @@ import java.util.List;
 @RequestMapping("/api/bag_type")
 public class BagTypeController {
     @Autowired
-    private BagTypeDao bagTypeDao;
-    @Autowired
-    private BagTypePriceDao bagTypePriceDao;
+    private BagTypeService bagTypeService;
 
     /**
      * @return List of bag types
      */
     @GetMapping(value = "/list")
-    public ResponseEntity<List<BagTypeEntity>> listBagTypes() {
-        List<BagTypeEntity> bagTypeEntityList = bagTypeDao.findExistent();
-        return new ResponseEntity<>(bagTypeEntityList, HttpStatus.OK);
+    public ResponseEntity<List<BagTypeDto>> listBagTypes() {
+        List<BagTypeEntity> bagTypeEntityList = bagTypeService.findExistent();
+        return new ResponseEntity<>(bagTypeService.getListDto(bagTypeEntityList), HttpStatus.OK);
     }
 
     /**
      * Add new bag type
-     * @return created bag type object
+     * @return DTO of created bag type object
      */
     @PostMapping(value = "/add")
-    public BagTypeEntity addBagType(@RequestBody BagTypeDto bagTypeDto) {
-        BagTypeEntity bagTypeEntity = new BagTypeEntity(bagTypeDto.getName(), bagTypeDto.getScript(),
+    public BagTypeDto addBagType(@RequestBody BagTypeDto bagTypeDto) {
+        BagTypeEntity bagTypeEntity = bagTypeService.addBagType(bagTypeDto.getName(), bagTypeDto.getScript(),
                 bagTypeDto.getPrice());
-        bagTypeDao.save(bagTypeEntity);
-        return bagTypeEntity;
+        bagTypeService.save(bagTypeEntity);
+        return bagTypeService.getDtoFromBagType(bagTypeEntity);
     }
 
     /**
      * Change price of a bag type
-     * @return selected bag type with new price
+     * @return selected bag type DTO with new price
      */
     @PostMapping(value = "/{id}/change_price")
     @Transactional
-    public BagTypeEntity changePrice(@PathVariable("id") long id,
+    public BagTypeDto changePrice(@PathVariable("id") long id,
                                       @RequestParam("newPrice") int newPrice) {
-        BagTypeEntity bagType = bagTypeDao.findOne(id);
-        BagTypePriceEntity bagTypePrice = new BagTypePriceEntity(bagType, newPrice);
-        bagType.getPriceEntities().add(bagTypePrice);
-        bagTypePriceDao.save(bagTypePrice);
-        return bagType;
+       return bagTypeService.saveNewPrice(bagTypeService.findOne(id), newPrice);
     }
 
     /**
      *
      * @param id of the bag type that we are looking for
-     * @return bag type object
+     * @return bagTypeDto object
      */
     @PostMapping(value = "/{id}")
-    public BagTypeEntity findById(@PathVariable("id") long id) {
-        BagTypeEntity bagType = bagTypeDao.findOne(id);
+    public BagTypeDto findById(@PathVariable("id") long id) {
+        BagTypeDto bagType = bagTypeService.getDtoById(id);
         return bagType;
     }
 
     @GetMapping(value = "/getJson/{id}", produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<String> findByIdJsonBody(@PathVariable("id") long id) {               //todo: from BagTypeEntity - Table 'baglab.bag_type_price' doesn't exist
-        BagTypeEntity bagType = bagTypeDao.findOne(id); //if error - return HttpStatus.NOT_FOUND
+    public ResponseEntity<String> findByIdJsonBody(@PathVariable("id") long id) {
+        BagTypeEntity bagType = bagTypeService.findOne(id); //if error - return HttpStatus.NOT_FOUND
         String script = bagType.getScript();
         return new ResponseEntity<>(script, HttpStatus.OK);
     }
@@ -82,11 +74,9 @@ public class BagTypeController {
      * @return bag type object with field deleted marked as "true"
      */
     @PostMapping(value = "/delete/{id}")
-    public BagTypeEntity deleteMaterial(@PathVariable("id") long id) {
-        BagTypeEntity bagType = bagTypeDao.findOne(id);
-        bagType.setDeleted(true);
-        bagTypeDao.save(bagType);
-        return bagType;
+    public ResponseEntity deleteMaterial(@PathVariable("id") long id) {
+        bagTypeService.deleteBag(id);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }
 

@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-/**
- * Created by nicot on 4/1/2017.
- */
 @RestController
 @RequestMapping("/api/models")
 public class ModelController {
