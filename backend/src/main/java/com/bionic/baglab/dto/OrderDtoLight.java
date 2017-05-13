@@ -14,12 +14,10 @@ import java.util.List;
 @ApiModel
 public class OrderDtoLight {
 
-    @NotNull(message = "hello")
-//    @NotEmpty (message = "hello")
+    @NotNull(message = "user id cannot be null")
     private Long userId;
 
-    @NotNull(message = "hello")
-//    @NotEmpty(message = "hello")
+    @NotNull(message = "mdels in order cannot be null")
     private List<Long> modelsId = new ArrayList<>();
 
     @JsonCreator
