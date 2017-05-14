@@ -3,6 +3,7 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.dao.PagesDao;
 import com.bionic.baglab.domains.PagesEntity;
 import com.bionic.baglab.domains.UserEntity;
+import com.bionic.baglab.dto.CreatePagesDto;
 import com.bionic.baglab.dto.PagesDto;
 import com.bionic.baglab.services.PagesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +58,9 @@ public class PagesController { //todo: add services
 
 
     @PostMapping(value = "/create")
-    public  ResponseEntity<Void> createNews(@Validated @RequestBody PagesDto pagesDto ){
+    public  ResponseEntity<Void> createNews(@Validated @RequestBody CreatePagesDto pagesDto ){
         try{
-
+            pagesService.createNews(pagesDto);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
@@ -83,7 +84,7 @@ public class PagesController { //todo: add services
     public ResponseEntity<Void> deleteNews(@PathVariable("id") long id){
         PagesDto pagesDto = null;
         try {
-
+            pagesService.deleteNews(id);
         }
         catch (Exception ex) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);     //"Error deleting the news: " + ex.toString();

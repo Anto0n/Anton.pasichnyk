@@ -1,0 +1,41 @@
+<button *ngIf="!createNew" (click)="createNew = 'false'" type="button" class="btn btn-primary">Create news</button>
+
+<button  (click)=" getAllNews() " type="button" class="btn btn-primary">list news</button>
+
+
+<div *ngIf="createNew">
+  <form [formGroup]="createNewsForm" (ngSubmit)="createNewsForm.valid && onSubmitNews()">
+
+    <div class="form-group">
+      <label for="header">Image (src link)</label>
+      <input id="header" type="text" placeholder="img src" class="form-control" formControlName="header"
+             required>
+      <!--      <textarea [(ngModel)]='img' rows="3" cols="100">
+          </textarea>-->
+      <div *ngIf="formErrors.header" class="alert alert-danger">
+        {{ formErrors.header }}
+      </div> <!--errors-->
+    </div>
+
+    <div class="form-group">
+
+      <label for="body">Input text</label>
+      <textarea rows="30" cols="100" id="body" type="text" placeholder="news body" class="form-control" formControlName="body"
+                required> </textarea>
+      <div *ngIf="formErrors.body" class="alert alert-danger">
+        {{ formErrors.body }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+
+  </form>
+
+</div>
+
+
+<div *ngIf="listNews">
+  111
+</div>

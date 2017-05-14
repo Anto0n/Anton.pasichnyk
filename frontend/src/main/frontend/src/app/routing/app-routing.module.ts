@@ -16,7 +16,8 @@ import {AuthGuard} from "../shared/guards/auth.guard";
 import {AdminComponent} from "../content/admin/admin/admin.component";
 import {ModeratorComponent} from "../content/moderator/moderator.component";
 import {FactoryComponent} from "../content/factory/factory.component";
-import {CreateNewsComponent} from "../content/admin/news/create-news.component";
+import {CreateNewsComponent} from "../content/admin/editnews/edit-news.component";
+import {AdminGuard} from "../shared/guards/admin.guard";
 
 /*import { ComposeMessageComponent } from './compose-message.component';
 import { PageNotFoundComponent }   from './not-found.component';
@@ -33,10 +34,10 @@ const appRoutes: Routes = [
   {path: 'login', component: LoginComponent },
   {path: 'register', component: UserCreateComponent },
   {path: 'testform', component: TestformComponent},
-  {path: 'admin', pathMatch: 'full',component: AdminComponent},
+  {path: 'admin', pathMatch: 'full',component: AdminComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
   {path: 'moderator',pathMatch: 'full', component: ModeratorComponent},
   {path: 'factory',pathMatch: 'full', component: FactoryComponent},
-  {path: 'editnews', component: CreateNewsComponent},
+  {path: 'editnews', component: CreateNewsComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
   {path: '',   redirectTo: '/home', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponent }
   //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },

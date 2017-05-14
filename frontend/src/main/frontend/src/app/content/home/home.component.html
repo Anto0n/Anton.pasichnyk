@@ -1,6 +1,6 @@
-<button *ngIf ="roleAdmin" type="button" class="btn btn-primary" al>Edit News</button>
-<div  class="row">
+<button *ngIf ="roleAdmin" (click) = "editNewsRedir()" type="button" class="btn btn-primary" > Edit News</button>
 
+<div  class="row">
   <div  *ngFor="let n of news" class="col-sm-8 col-md-6">
     <div class="thumbnail">
       <img src="{{n.header}}" alt="img">
@@ -11,5 +11,4 @@
       </div>
     </div>
   </div>
-
 </div>

@@ -18,7 +18,6 @@ export class UserCreateComponent implements OnInit {
   errorMessage: string;
   createUserForm: FormGroup;
   model: UserCreate = new UserCreate('', '', '', '','');
-  //private str: string;
 
   constructor ( private router: Router, private fb: FormBuilder, private restService: RestService, private alertService: AlertService) {}
 
@@ -43,18 +42,16 @@ export class UserCreateComponent implements OnInit {
 
 //todo: Add error parsing from server
   onSubmit(){ //Custom, on submit send data to server
-    var password = this.createUserForm.value.password;
-    var email = this.createUserForm.value.email;
-    var firstName = this.createUserForm.value.firstname;
-    var lastName = this.createUserForm.value.lastname;
-    var passwordConfirm = this.createUserForm.value.passwordConfirm;
+    let password = this.createUserForm.value.password;
+    let email = this.createUserForm.value.email;
+    let firstName = this.createUserForm.value.firstname;
+    let lastName = this.createUserForm.value.lastname;
+    let passwordConfirm = this.createUserForm.value.passwordConfirm;
 
-    console.log(this.createUserForm.value);
     if (passwordConfirm === password){
       this.loading = true;
 
       this.model = new UserCreate(password, email, firstName, lastName);
-      //console.log(this.createUserForm);   //DELETE after debug
       this.restService.postJson('./api/registration', this.model)
         .subscribe(
           UserCreate => {
@@ -70,12 +67,10 @@ export class UserCreateComponent implements OnInit {
         );
     } else {
       this.alertService.error("passwords must by equal");
-      //console.log(password2);
       this.errorMessage = <any>"passwords must by equal";
       this.loading = false;
     }
-   // if (password1 === password2) {
-   // pattern for email
+
   }
 
   onValueChanged(data?: any) {
@@ -146,11 +141,3 @@ export class UserCreateComponent implements OnInit {
 
 
 }
-
-/*
-{
-  "email": "sd335223ewrg4",
-  "firstname": "as2323dg34t",
-  "lastname": "asd23g34g",
-  "password": "as23dgf34g"
-}*/

@@ -1,19 +1,36 @@
-import {Injectable, EventEmitter} from '@angular/core';
+import {Injectable, EventEmitter, OnDestroy} from '@angular/core';
 import {Http, Headers, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import 'rxjs/add/operator/map'
+import { Subject }    from 'rxjs/Subject';
+//import 'rxjs/add/operator/map'
 import {RestService} from "./rest.service";
 import {UserRoleService} from "./user/user-role.service";
 import {IUser} from "app/models";
 
 @Injectable()
-export class AuthenticationService {
+export class AuthenticationService implements OnDestroy {
+
+  private subjectAdminLogin = new Subject<boolean>();
+
 
   constructor( private restService: RestService, private roleService:UserRoleService ) {
   }
 
   init() { //void method, use to init service
   }
+
+  private sendAdminLogIn(inSystem : boolean){     //set true if Admin is Loged in
+    this.subjectAdminLogin.next(inSystem);
+  }
+
+  getAdminStatus(): Observable<boolean> { //true if loged-in
+    return this.subjectAdminLogin.asObservable();
+  }
+
+  isAdmin(): boolean{
+    return localStorage.getItem('currentUserRole') === "Administrator"
+  }
+
 
   login(username: string, password: string) {
     return this.restService.postJson('./api/login', ({login: username, password: password}))
@@ -25,6 +42,8 @@ export class AuthenticationService {
         if (user) { //user && user.role
           localStorage.setItem('currentUserRole', user.role.name);
           localStorage.setItem('currentUserId', JSON.stringify(user.idUser) );
+          if(user.role.name === "Administrator")
+               this.sendAdminLogIn(true);
         }
         this.roleService.roleEmiter.emit(user.role.name);
       });
@@ -34,6 +53,7 @@ export class AuthenticationService {
     // remove user from local storage to log user
     this.roleService.roleEmiter.emit( "Guest");
     localStorage.removeItem('currentUserRole');
+    this.sendAdminLogIn(false);
   }
 
   isAuthenticated() {
@@ -43,6 +63,10 @@ export class AuthenticationService {
     } else {
       return false;
     }
+  }
+
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
   }
 
 }

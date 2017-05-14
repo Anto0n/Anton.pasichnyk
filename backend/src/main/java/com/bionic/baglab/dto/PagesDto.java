@@ -3,11 +3,16 @@ package com.bionic.baglab.dto;
 import com.bionic.baglab.domains.PagesEntity;
 import com.bionic.baglab.domains.PagesTypeEntity;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 public class PagesDto {
     private long idnews;
+    @NotNull(message = "error.newsbody.notnull")
+    @Size(min = 3, max = 5592415, message = "error.newsbody.size")
     private String body;
+    @Size(min = 3, max = 5592415, message = "error.header.size")
     private String header;
     private Timestamp newsCreate;
     private Timestamp newsUpdate;
