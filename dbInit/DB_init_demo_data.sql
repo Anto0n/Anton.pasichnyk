@@ -43,10 +43,10 @@ insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,3);
 
-insert into baglab.model (userId, bagTypeId, mname) VALUES (1, 1, 'model_1');
-insert into baglab.model (userId, bagTypeId, mname) VALUES (1, 2, 'model_2');
-insert into baglab.model (userId, bagTypeId, mname) VALUES (2, 3, 'model_3');
-insert into baglab.model (userId, bagTypeId, mname) VALUES (2, 2, 'model_4');
+insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (1, 1, 1, 'model_1');
+insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (1, 2, 1, 'model_2');
+insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (2, 3, 2, 'model_3');
+insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (2, 2, 2, 'model_4');
 
 INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '1', '21', '243');
 INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '2', '123', '235');

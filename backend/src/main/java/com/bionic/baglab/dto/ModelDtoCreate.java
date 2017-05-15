@@ -11,6 +11,8 @@ public class ModelDtoCreate {
     private long userId;
     @NotNull(message = "error.bagTypeId.notnull")
     private long bagTypeId;
+    @NotNull(message = "error.materialId.notnull")
+    private long materialId;
     @NotNull(message = "error.mname.notnull")
     @Size(min = 1, max = 45, message = "error.mname.size")
     private String mname;
@@ -20,9 +22,10 @@ public class ModelDtoCreate {
     public ModelDtoCreate() {
     }
 
-    public ModelDtoCreate(long userId, long bagTypeId, String mname, ModelStatus approved) {
+    public ModelDtoCreate(long userId, long bagTypeId, long materialId, String mname, ModelStatus approved) {
         this.userId = userId;
         this.bagTypeId = bagTypeId;
+        this.materialId = materialId;
         this.mname = mname;
         this.approved = approved;
     }
@@ -41,6 +44,14 @@ public class ModelDtoCreate {
 
     public void setBagTypeId(long bagTypeId) {
         this.bagTypeId = bagTypeId;
+    }
+
+    public long getMaterialId() {
+        return materialId;
+    }
+
+    public void setMaterialId(long materialId) {
+        this.materialId = materialId;
     }
 
     public String getMname() {

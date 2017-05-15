@@ -12,6 +12,8 @@ public class ModelDto {
     private long userId;
     @NotNull(message = "error.bagTypeId.notnull")
     private long bagTypeId;
+    @NotNull(message = "error.bagTypeId.notnull")
+    private long materialId;
     @NotNull(message = "error.bagmname.notnull")
     private String mname;
     @NotNull(message = "error.modelStatus.notnull")
@@ -27,6 +29,7 @@ public class ModelDto {
         this.id = modelEntity.getIdModel();
         this.userId = modelEntity.getUserId();
         this.bagTypeId = modelEntity.getBagTypeId();
+        this.materialId = modelEntity.getMaterialId();
         this.modelCreate =  modelEntity.getModelCreate();
         this.modelUpdate =  modelEntity.getModelCreate();
         this.approved = modelEntity.getApproved();
@@ -89,9 +92,11 @@ public class ModelDto {
         this.mname = mname;
     }
 
+    public long getMaterialId() {
+        return materialId;
+    }
 
-
-
-
-
+    public void setMaterialId(long materialId) {
+        this.materialId = materialId;
+    }
 }

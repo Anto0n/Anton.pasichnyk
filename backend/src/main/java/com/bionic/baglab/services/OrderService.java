@@ -31,6 +31,9 @@ public class OrderService {
     private BagTypeService bagTypeService;
 
     @Autowired
+    private MaterialService materialService;
+
+    @Autowired
     private UserService userService;
 
     public Set<OrderDto> findAll() {
@@ -72,7 +75,8 @@ public class OrderService {
 
         ModelEntity modelEntity = modelService.findOne(modelId);
         BagTypeEntity bagTypeEntity = bagTypeService.findOne(modelEntity.getBagTypeId());
-        int modelPrice = bagTypeEntity.getLastPrice();
+        MaterialEntity materialEntity = materialService.findOne(modelEntity.getMaterialId());
+        int modelPrice = bagTypeEntity.getLastPrice() + materialEntity.getLastPrice();
 
         int count = orderItemDto.getCount();
         int orderItemPrice = modelPrice * count;

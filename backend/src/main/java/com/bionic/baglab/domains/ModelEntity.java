@@ -14,6 +14,7 @@ public class ModelEntity {
     private long idModel;
     private long userId;
     private long bagTypeId;
+    private long materialId;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
     private boolean deleted;
@@ -58,6 +59,15 @@ public class ModelEntity {
         this.bagTypeId = bagTypeId;
     }
 
+    @Basic
+    @Column(name = "[materialId]")
+    public long getMaterialId() {
+        return materialId;
+    }
+
+    public void setMaterialId(long materialId) {
+        this.materialId = materialId;
+    }
 
     @Basic
     @Column(name = "[modelCreate]")

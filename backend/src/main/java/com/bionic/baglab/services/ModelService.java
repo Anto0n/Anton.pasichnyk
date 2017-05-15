@@ -67,6 +67,7 @@ public class ModelService {
         ModelEntity model = new ModelEntity();
         model.setUserId(modelDtoCreate.getUserId());
         model.setBagTypeId(modelDtoCreate.getBagTypeId());
+        model.setMaterialId(modelDtoCreate.getMaterialId());
         model.setMname(modelDtoCreate.getMname());
         model.setApproved(modelDtoCreate.getApproved());
         try{

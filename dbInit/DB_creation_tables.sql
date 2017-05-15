@@ -120,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   `idModel` BIGINT NOT NULL AUTO_INCREMENT,
   `userId` BIGINT NOT NULL,
   `bagTypeId` BIGINT NOT NULL,
+  `materialId` BIGINT NOT NULL,
   `mname` VARCHAR(45) NOT NULL,
   `approved` INTEGER(4) NOT NULL DEFAULT 0,
   `deleted` BOOLEAN DEFAULT FALSE,
