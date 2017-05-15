@@ -187,23 +187,24 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `baglab`.`models_order`
+-- Table `baglab`.`order_item`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `baglab`.`models_order` ;
+DROP TABLE IF EXISTS `baglab`.`order_item` ;
 
-CREATE TABLE IF NOT EXISTS `baglab`.`models_order` (
+CREATE TABLE IF NOT EXISTS `baglab`.`order_item` (
+  `idOrderItem` BIGINT NOT NULL AUTO_INCREMENT,
   `modelId` BIGINT NOT NULL,
   `orderId` BIGINT NOT NULL,
   `count` INT(11) NOT NULL,
   `price` INT NOT NULL,
-  PRIMARY KEY (`modelId`, `orderId`),
-  INDEX `fk_modelsInOrder_Order1_idx` (`orderId` ASC),
-  CONSTRAINT `fk_modelsInOrder_Model1`
+  PRIMARY KEY (`idOrderItem`),
+  INDEX `fk_orderItem_order_idx` (`orderId` ASC),
+  CONSTRAINT `fk_orderItem_model`
     FOREIGN KEY (`modelId`)
     REFERENCES `baglab`.`model` (`idModel`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_modelsInOrder_Order1`
+  CONSTRAINT `fk_orderItem_order`
     FOREIGN KEY (`orderId`)
     REFERENCES `baglab`.`order` (`idOrder`)
     ON DELETE NO ACTION

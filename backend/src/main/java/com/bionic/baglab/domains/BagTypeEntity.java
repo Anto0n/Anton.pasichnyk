@@ -13,6 +13,7 @@ import static javax.persistence.CascadeType.*;
 @Entity
 @Table(name = "bag_type", schema = "baglab")
 public class BagTypeEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "[idBagType]")
@@ -71,9 +72,10 @@ public class BagTypeEntity {
     @Transient
     @JsonGetter
     public Integer getLastPrice() {
-        return !prices.isEmpty()
-                ? prices.get(prices.size() - 1).getPrice()
-                : -1;
+        if (prices.isEmpty()) {
+            throw new IllegalStateException("Can't find last price for bag type " + id + ". Prices is empty.");
+        }
+        return prices.get(prices.size() - 1).getPrice();
     }
 
     @Override

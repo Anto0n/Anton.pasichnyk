@@ -2,43 +2,56 @@ package com.bionic.baglab.domains;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * Created by potaychuk on 28.03.2017.
- */
 @Entity
 @Table(name = "[order]", schema = "baglab")
 public class OrderEntity {
-    private long idOrder;
-    private long moderatorId;
-    private UserEntity user;
-    private OrderStatusEntity orderStatus;
-    private Timestamp orderCreate;
-    private Timestamp orderUpdate;
-    private Collection<ModelEntity> models;
 
     @Id
+    @GeneratedValue
     @Column(name = "[idOrder]", columnDefinition = "INT(11)")
-    public long getIdOrder() {
+    private Long idOrder;
+
+    @Column(name = "[moderatorId]")
+    private Long moderatorId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "[userId]")
+    private UserEntity user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "[orderStatusId]")
+    private OrderStatusEntity orderStatus;
+
+    @Column(name = "[orderCreate]")
+    private Timestamp orderCreate = Timestamp.from(Instant.now());
+
+    @Column(name = "[orderUpdate]")
+    private Timestamp orderUpdate = Timestamp.from(Instant.now());
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "orderId", nullable = false)
+    private Collection<OrderItemEntity> items = new ArrayList<>();
+
+    public Long getIdOrder() {
         return idOrder;
     }
 
-    public void setIdOrder(long idOrder) {
+    public void setIdOrder(Long idOrder) {
         this.idOrder = idOrder;
     }
 
-    @Column(name = "[moderatorId]")
-    public long getModeratorId() {
+    public Long getModeratorId() {
         return moderatorId;
     }
 
-    public void setModeratorId(long moderatorId) {
+    public void setModeratorId(Long moderatorId) {
         this.moderatorId = moderatorId;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "[userId]", columnDefinition = "INT(11)")
     public UserEntity getUser() {
         return this.user;
     }
@@ -47,8 +60,6 @@ public class OrderEntity {
         this.user = user;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "[orderStatusId]", columnDefinition = "INT(11)")
     public OrderStatusEntity getOrderStatus() {
         return orderStatus;
     }
@@ -57,7 +68,6 @@ public class OrderEntity {
         this.orderStatus = orderStatusId;
     }
 
-    @Column(name = "[orderCreate]")
     public Timestamp getOrderCreate() {
         return orderCreate;
     }
@@ -66,7 +76,6 @@ public class OrderEntity {
         this.orderCreate = orderCreate;
     }
 
-    @Column(name = "[orderUpdate]")
     public Timestamp getOrderUpdate() {
         return orderUpdate;
     }
@@ -75,39 +84,11 @@ public class OrderEntity {
         this.orderUpdate = orderUpdate;
     }
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "orders")
-    public Collection<ModelEntity> getModels() {
-        return models;
+    public Collection<OrderItemEntity> getItems() {
+        return items;
     }
 
-    public void setModels(Collection<ModelEntity> models) {
-        this.models = models;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        OrderEntity that = (OrderEntity) o;
-
-        if (idOrder != that.idOrder) return false;
-        if (user != null ? !user.equals(that.user) : that.user != null) return false;
-        if (orderStatus != null ? !orderStatus.equals(that.orderStatus) : that.orderStatus != null) return false;
-        if (orderCreate != null ? !orderCreate.equals(that.orderCreate) : that.orderCreate != null) return false;
-        if (orderUpdate != null ? !orderUpdate.equals(that.orderUpdate) : that.orderUpdate != null) return false;
-        return models != null ? models.equals(that.models) : that.models == null;
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (idOrder ^ (idOrder >>> 32));
-        result = 31 * result + (user != null ? user.hashCode() : 0);
-        result = 31 * result + (orderStatus != null ? orderStatus.hashCode() : 0);
-        result = 31 * result + (orderCreate != null ? orderCreate.hashCode() : 0);
-        result = 31 * result + (orderUpdate != null ? orderUpdate.hashCode() : 0);
-        result = 31 * result + (models != null ? models.hashCode() : 0);
-        return result;
+    public void setItems(Collection<OrderItemEntity> items) {
+        this.items = items;
     }
 }

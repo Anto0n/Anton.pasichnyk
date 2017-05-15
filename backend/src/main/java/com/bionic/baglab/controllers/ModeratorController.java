@@ -2,7 +2,7 @@ package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.OrderEntity;
 import com.bionic.baglab.domains.OrderStatusEntity;
-import com.bionic.baglab.dto.OrderDto;
+import com.bionic.baglab.dto.order.OrderDto;
 import com.bionic.baglab.services.OrderService;
 import com.bionic.baglab.services.OrderStatusService;
 import org.springframework.beans.factory.annotation.Autowired;

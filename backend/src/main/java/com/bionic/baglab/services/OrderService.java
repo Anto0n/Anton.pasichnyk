@@ -2,17 +2,14 @@ package com.bionic.baglab.services;
 
 import com.bionic.baglab.dao.OrderDao;
 import com.bionic.baglab.dao.OrderStatusDao;
-import com.bionic.baglab.domains.ModelEntity;
-import com.bionic.baglab.domains.OrderEntity;
-import com.bionic.baglab.domains.UserEntity;
-import com.bionic.baglab.dto.OrderDto;
-import com.bionic.baglab.dto.OrderDtoLight;
+import com.bionic.baglab.domains.*;
+import com.bionic.baglab.dto.order.OrderDto;
+import com.bionic.baglab.dto.order.OrderDtoCreate;
+import com.bionic.baglab.dto.order.OrderItemDtoCreate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +26,9 @@ public class OrderService {
 
     @Autowired
     private ModelService modelService;
+
+    @Autowired
+    private BagTypeService bagTypeService;
 
     @Autowired
     private UserService userService;
@@ -52,26 +52,35 @@ public class OrderService {
         return ordersEntities.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
-    public OrderDto createOrder(OrderDtoLight orderDto) {
+    public OrderDto createOrder(OrderDtoCreate orderDto) {
         OrderEntity orderEntity = new OrderEntity();
-        Long id = orderDto.getUserId();
-        UserEntity user = userService.findEntityById(id);
-        orderEntity.setUser(user);
-        List<ModelEntity> models = new ArrayList<>();
-
-        for (Long modelId : orderDto.getModelsId()) {
-            models.add(modelService.findOne(modelId));
-        }
-        orderEntity.setModels(models);
-        orderEntity.setOrderCreate(Timestamp.from(Instant.now()));
-        orderEntity.setOrderUpdate(Timestamp.from(Instant.now()));
+        orderEntity.setUser(userService.findEntityById(orderDto.getUserId()));
         orderEntity.setOrderStatus(orderStatusDao.findByCode("processing"));
-        save(orderEntity);
+        orderEntity.setItems(orderDto.getItems()
+                .stream()
+                .map(this::orderItemDto2Entity)
+                .collect(Collectors.toList())
+        );
 
-        return getDtoFromEntity(orderEntity);
+        OrderEntity resOrderEntity = save(orderEntity);
+
+        return getDtoFromEntity(resOrderEntity);
     }
 
-    public OrderDto getDtoFromEntity(OrderEntity orderEntity){
+    private OrderItemEntity orderItemDto2Entity(OrderItemDtoCreate orderItemDto) {
+        Long modelId = orderItemDto.getModelId();
+
+        ModelEntity modelEntity = modelService.findOne(modelId);
+        BagTypeEntity bagTypeEntity = bagTypeService.findOne(modelEntity.getBagTypeId());
+        int modelPrice = bagTypeEntity.getLastPrice();
+
+        int count = orderItemDto.getCount();
+        int orderItemPrice = modelPrice * count;
+
+        return new OrderItemEntity(modelEntity, count, orderItemPrice);
+    }
+
+    private OrderDto getDtoFromEntity(OrderEntity orderEntity) {
         OrderDto orderDto = new OrderDto(orderEntity);
         return orderDto;
     }

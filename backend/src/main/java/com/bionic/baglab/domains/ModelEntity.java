@@ -19,10 +19,6 @@ public class ModelEntity {
     private boolean deleted;
     private ModelStatus approved;
     private String mname;
-    //private UserEntity user;
-    private Collection<OrderEntity> orders;
-//    private List<ModelPriceEntity> priceEntities;
-
 
     public ModelEntity(long idModel) {
         this.idModel = idModel;
@@ -106,46 +102,6 @@ public class ModelEntity {
     public String getMname() { return mname; }
 
     public void setMname(String mname) {  this.mname = mname;    }
-
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "[userId]", columnDefinition = "INT(11)")
-//    public UserEntity getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(UserEntity user) {
-//        this.user = user;
-//    }
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "models_order", catalog = "baglab", joinColumns = {
-            @JoinColumn(name = "modelId")}, inverseJoinColumns = {
-            @JoinColumn(name = "orderId")})
-    public Collection<OrderEntity> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Collection<OrderEntity> orders) {
-        this.orders = orders;
-    }
-
-//    @OneToMany(mappedBy = "[model]", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    public List<ModelPriceEntity> getPriceEntities() {
-//        return priceEntities;
-//    }
-//
-//    public void setPriceEntities(List<ModelPriceEntity> priceEntities) {
-//        this.priceEntities = priceEntities;
-//    }
-//
-//    @Transient
-//    public Integer getPrice() {
-//        return !priceEntities.isEmpty()
-//                ? priceEntities.get(priceEntities.size()-1).getPrice()
-//                : null;
-//    }
 
     @Override
     public boolean equals(Object o) {

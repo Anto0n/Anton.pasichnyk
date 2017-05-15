@@ -48,12 +48,12 @@ insert into baglab.model (userId, bagTypeId, mname) VALUES (1, 2, 'model_2');
 insert into baglab.model (userId, bagTypeId, mname) VALUES (2, 3, 'model_3');
 insert into baglab.model (userId, bagTypeId, mname) VALUES (2, 2, 'model_4');
 
-INSERT INTO `baglab`.`models_order` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '1', '21', '243');
-INSERT INTO `baglab`.`models_order` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '2', '123', '235');
-INSERT INTO `baglab`.`models_order` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '1', '32', '234');
-INSERT INTO `baglab`.`models_order` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '3', '43', '11');
-INSERT INTO `baglab`.`models_order` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '1', '34', '23');
-INSERT INTO `baglab`.`models_order` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '2', '54', '23');
+INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '1', '21', '243');
+INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '2', '123', '235');
+INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '1', '32', '234');
+INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '3', '43', '11');
+INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '1', '34', '23');
+INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '2', '54', '23');
 
 
 #------------------------------------------------------
