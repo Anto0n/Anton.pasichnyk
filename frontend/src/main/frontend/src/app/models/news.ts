@@ -25,4 +25,10 @@ export class NewsCreate{
 export class newsStatus{
   idnews: number;
   type: string;
+
+
+  constructor(idnews: number, type: string) {
+    this.idnews = idnews;
+    this.type = type;
+  }
 }

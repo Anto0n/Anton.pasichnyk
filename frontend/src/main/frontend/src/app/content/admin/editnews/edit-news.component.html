@@ -57,24 +57,24 @@
       <!--<th scope="row"></th>-->
       <th>   {{model.idnews}}</th>
       <th>   <img src="{{model.header}}" alt="img"></th>
-      <th >  {{model.header}}</th>
+      <th >  </th> <!--{{model.header}}-->
       <th >  {{model.body}}</th>
       <th>   {{model.pagesType.type}}</th>
       <th>
         <button *ngIf="model.pagesType.type==='DELETED' " class="btn btn-danger"
-                (click)=" deleteNews(model); $event.stopPropagation()"> del
+                (click)=" deleteNews(model); $event.stopPropagation()"> permanent del
         </button>
         <button *ngIf="model.pagesType.type==='ARCHIVE' || 'DELETED' " class="btn btn-success"
-                (click)="  $event.stopPropagation()"> restore
+                (click)=" setNewsStatus( model.idnews, 'ACTIVE');  $event.stopPropagation()"> restore
         </button>
         <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-warning"
-                (click)="  $event.stopPropagation()"> archive
+                (click)="   setNewsStatus( model.idnews, 'ARCHIVE'); $event.stopPropagation()"> archive
         </button>
-        <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-warning"
-                (click)="  $event.stopPropagation()"> archive
+        <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-danger"
+                (click)="  setNewsStatus( model.idnews, 'DELETED');  $event.stopPropagation()"> set as deleted
         </button>
         <button  class="btn btn-warning" class="btn btn-primary"
-                (click)="  $event.stopPropagation()"> edit
+                (click)="    $event.stopPropagation()"> edit
         </button>
       </th>
     </tr>

@@ -27,13 +27,15 @@ public class PagesService {
     @Autowired
     PagesTypeDao pagesTypeDao;
 
+    //admin only
     public Set<PagesDto> getAllNews() {
         List<PagesEntity> pagesEntities = pagesDao.findAll();
         return pagesEntities.stream().map(PagesDto::new).collect(Collectors.toSet());
     }
 
-    public Set<PagesDto> getAllNewsActive(PagesStatusNameEnum active) {
-        List<PagesEntity> pagesEntities = pagesDao.findAll();
+
+    public Set<PagesDto> getAllNewsByStatus(PagesStatusNameEnum status) {
+        List<PagesEntity> pagesEntities = pagesDao.findAllByPagesTypeType(status.name());
         return pagesEntities.stream().map(PagesDto::new).collect(Collectors.toSet());
     }
 

@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
   }
 
   getNews(){
-    this.restService.getData('./api/news/list')
+    this.restService.getData('./api/news/list/active')
       .subscribe((data: News[]) => {
         this.news=data;
         console.log(data);

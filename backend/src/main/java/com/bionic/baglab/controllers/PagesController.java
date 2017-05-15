@@ -24,11 +24,11 @@ public class PagesController { //todo: add services
      *
      * @return Set of all news pagesDto with status ACTIVE
      */
-    @GetMapping("/list")
+    @GetMapping("/list/active")
     public ResponseEntity<Set<PagesDto>> getAllNewsActive(){
         Set<PagesDto> pagesSet = null;
         try {
-            pagesSet = pagesService.getAllNewsActive(PagesStatusNameEnum.ACTIVE);
+            pagesSet = pagesService.getAllNewsByStatus(PagesStatusNameEnum.ACTIVE);
         }
         catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); //("error, no pages found: " + ex); //todo: logging
@@ -57,6 +57,7 @@ public class PagesController { //todo: add services
      * @return distinct news page by @id
      */
 
+/*
     @GetMapping("/{id}")
     public ResponseEntity<PagesDto> getNewsById(){
         PagesDto pagesDto = null;
@@ -68,6 +69,7 @@ public class PagesController { //todo: add services
         }
         return new ResponseEntity<PagesDto>(pagesDto, HttpStatus.OK);
     }
+*/
 
 
     @PostMapping(value = "/create")
@@ -81,19 +83,19 @@ public class PagesController { //todo: add services
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<Void> updateNews(@Validated @RequestBody PagesDto pagesDto){
-        //get by id? error othervise, update
-        try{
+//    @PutMapping("/update/{id}")
+//    public ResponseEntity<Void> updateNews(@Validated @RequestBody PagesDto pagesDto){
+//        //get by id? error othervise, update
+//        try{
+//
+//        }catch(Exception e){
+//            return new ResponseEntity<>(HttpStatus.CONFLICT);
+//        }
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 
-        }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PutMapping("/update/status/")
+    @PutMapping("/update/status")
     public ResponseEntity<Void> updateNews(@Validated @RequestBody PagesStatusDto pagesStatusDtoDto){
         //get by id? error othervise, update
         try{

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {News, NewsCreate} from "../../../models/news";
+import {News, NewsCreate, newsStatus} from "../../../models/news";
 import {RestService} from "../../../services/rest.service";
 import {UserRoleService} from "../../../services/user/user-role.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -104,7 +104,7 @@ export class CreateNewsComponent implements OnInit {
 
 
   getAllNews() {
-    this.restService.getData('./api/news/list').subscribe(
+    this.restService.getData('./api/news/list/all').subscribe(
       (data: News[]) => {
         this.newsList = data;
         this.listNews = true;
@@ -113,15 +113,26 @@ export class CreateNewsComponent implements OnInit {
   }
 
 
-  updateNews() {
-  }
+ /* updateNews() {
+  }*/
 
-  setNewsStatus(status:string){
-   // this.restService.putData()
+  setNewsStatus(id:number, status:string){
+    let nStatus: newsStatus = new newsStatus(id, status);
+
+    this.restService.putData('./api/news/update/status', nStatus).subscribe(
+      data => {
+
+      },
+      error => {
+        this.alertService.error(error);
+      }
+    );
+
+
   }
 
 deleteNews(model: News) { //done
-    this.restService.deleteData('/api/news/delete' + `/${model.idnews}`).subscribe(
+    this.restService.deleteData('./api/news/delete' + `/${model.idnews}`).subscribe(
       () => {
         this.newsList = this.newsList.filter(m => m !== model);
         if (this.selectedModel === model) {
@@ -131,3 +142,9 @@ deleteNews(model: News) { //done
     )
   }
 }
+/*
+
+{
+  "idnews": 0,
+  "type": "ACTIVE"
+}*/
