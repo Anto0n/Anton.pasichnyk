@@ -1,10 +1,9 @@
 package com.bionic.baglab.controllers;
 
-import com.bionic.baglab.dao.PagesDao;
-import com.bionic.baglab.domains.PagesEntity;
-import com.bionic.baglab.domains.UserEntity;
-import com.bionic.baglab.dto.CreatePagesDto;
-import com.bionic.baglab.dto.PagesDto;
+import com.bionic.baglab.dto.enums.PagesStatusNameEnum;
+import com.bionic.baglab.dto.pages.CreatePagesDto;
+import com.bionic.baglab.dto.pages.PagesDto;
+import com.bionic.baglab.dto.pages.PagesStatusDto;
 import com.bionic.baglab.services.PagesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -25,9 +22,25 @@ public class PagesController { //todo: add services
 
     /**
      *
-     * @return Set of all news pagesDto
+     * @return Set of all news pagesDto with status ACTIVE
      */
     @GetMapping("/list")
+    public ResponseEntity<Set<PagesDto>> getAllNewsActive(){
+        Set<PagesDto> pagesSet = null;
+        try {
+            pagesSet = pagesService.getAllNewsActive(PagesStatusNameEnum.ACTIVE);
+        }
+        catch (Exception ex){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //("error, no pages found: " + ex); //todo: logging
+        }
+        return new ResponseEntity<>(pagesSet, HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @return Set of all news pagesDto, all Statuses
+     */
+    @GetMapping("/list/all")
     public ResponseEntity<Set<PagesDto>> getAllNews(){
         Set<PagesDto> pagesSet = null;
         try {
@@ -79,6 +92,20 @@ public class PagesController { //todo: add services
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PutMapping("/update/status/")
+    public ResponseEntity<Void> updateNews(@Validated @RequestBody PagesStatusDto pagesStatusDtoDto){
+        //get by id? error othervise, update
+        try{
+        pagesService.changeStatus(pagesStatusDtoDto);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteNews(@PathVariable("id") long id){

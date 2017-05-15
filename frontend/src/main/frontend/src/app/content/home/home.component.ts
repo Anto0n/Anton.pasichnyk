@@ -12,22 +12,12 @@ import {Router} from "@angular/router";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  subscriptionAdmin: Subscription;
-
-
-  private roleAdmin:boolean = false;
-
+export class HomeComponent implements OnInit {
 
   private news : News[] = [];
 
   constructor(private restService: RestService, private roleService: UserRoleService, private authService : AuthenticationService, private router: Router) {
-    this.subscriptionAdmin = this.authService.getAdminStatus().subscribe(
-      roleAdmin => {this.roleAdmin = roleAdmin});
 
-    if(this.roleService.isAdmin()){
-      this.roleAdmin = true;
-    }
   }
 
 
@@ -35,10 +25,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getNews();
   }
 
-
-  editNewsRedir(){
-    this.router.navigate(['./editnews']);
-  }
   getNews(){
     this.restService.getData('./api/news/list')
       .subscribe((data: News[]) => {
@@ -47,9 +33,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }, ()=>console.log('err')); //todo: add Alert service
   }
 
-  ngOnDestroy(): void {
-    this.subscriptionAdmin.unsubscribe();
-  }
+
 
 }
 

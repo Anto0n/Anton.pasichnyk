@@ -20,6 +20,9 @@ export class NewsCreate{
     this.header = header;
     this.body = body;
   }
+}
 
-
+export class newsStatus{
+  idnews: number;
+  type: string;
 }

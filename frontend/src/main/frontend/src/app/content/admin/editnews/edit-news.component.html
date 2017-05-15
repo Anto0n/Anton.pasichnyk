@@ -1,6 +1,8 @@
-<button *ngIf="!createNew" (click)="createNew = 'false'" type="button" class="btn btn-primary">Create news</button>
+<div *ngIf="!createNew">
+  <button (click)="createNew = true" type="button" class="btn btn-primary">Create news</button>
+  <button (click)=" getAllNews() " type="button" class="btn btn-primary">list news</button>
 
-<button  (click)=" getAllNews() " type="button" class="btn btn-primary">list news</button>
+</div>
 
 
 <div *ngIf="createNew">
@@ -20,7 +22,8 @@
     <div class="form-group">
 
       <label for="body">Input text</label>
-      <textarea rows="30" cols="100" id="body" type="text" placeholder="news body" class="form-control" formControlName="body"
+      <textarea rows="30" cols="100" id="body" type="text" placeholder="news body" class="form-control"
+                formControlName="body"
                 required> </textarea>
       <div *ngIf="formErrors.body" class="alert alert-danger">
         {{ formErrors.body }}
@@ -29,13 +32,80 @@
 
     <div class="form-group">
       <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" (click)="createNew = false" class="btn btn-danger">Cancel</button>
     </div>
 
   </form>
 
 </div>
 
-
 <div *ngIf="listNews">
-  111
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th class="col-xs-1">id</th>
+      <th class="col-xs-2">img </th>
+      <th class="col-xs-2">img link</th>
+      <th class="col-xs-4">body</th>
+      <th class="col-xs-3">type</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let model of newsList" (click)="onSelect(model)"
+        [class.selected]="model === selectedModel">
+      <!--<th scope="row"></th>-->
+      <th>   {{model.idnews}}</th>
+      <th>   <img src="{{model.header}}" alt="img"></th>
+      <th >  {{model.header}}</th>
+      <th >  {{model.body}}</th>
+      <th>   {{model.pagesType.type}}</th>
+      <th>
+        <button *ngIf="model.pagesType.type==='DELETED' " class="btn btn-danger"
+                (click)=" deleteNews(model); $event.stopPropagation()"> del
+        </button>
+        <button *ngIf="model.pagesType.type==='ARCHIVE' || 'DELETED' " class="btn btn-success"
+                (click)="  $event.stopPropagation()"> restore
+        </button>
+        <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-warning"
+                (click)="  $event.stopPropagation()"> archive
+        </button>
+        <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-warning"
+                (click)="  $event.stopPropagation()"> archive
+        </button>
+        <button  class="btn btn-warning" class="btn btn-primary"
+                (click)="  $event.stopPropagation()"> edit
+        </button>
+      </th>
+    </tr>
+    </tbody>
+  </table>
 </div>
+
+
+<!--
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th>id</th>
+    <th>user id</th>
+    <th>Bag type id</th>
+    <th>model name</th>
+    <th>status</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let model of uModels"  (click)="onSelect(model)"
+      [class.selected]="model === selectedModel">
+    &lt;!&ndash;<th scope="row">1</th>&ndash;&gt;
+    <td>{{model.id}}</td>
+    <td>{{model.userId}}</td>
+    <td>{{model.bagTypeId}}</td>
+    <td>{{model.mname}}</td>
+    <td>{{model.approved}}</td>
+    <td><button  *ngIf="model.approved==='NEW' " class="btn btn-danger"  (click)=" deleteModel(model); $event.stopPropagation()"> del</button></td>
+  </tr>
+  </tbody>
+</table>-->

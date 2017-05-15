@@ -1,4 +1,4 @@
-package com.bionic.baglab.dto;
+package com.bionic.baglab.dto.pages;
 
 import com.bionic.baglab.domains.PagesEntity;
 import com.bionic.baglab.domains.PagesTypeEntity;

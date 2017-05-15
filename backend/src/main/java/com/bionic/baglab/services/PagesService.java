@@ -5,12 +5,13 @@ import com.bionic.baglab.dao.PagesDao;
 import com.bionic.baglab.dao.PagesTypeDao;
 import com.bionic.baglab.domains.PagesEntity;
 import com.bionic.baglab.domains.PagesTypeEntity;
-import com.bionic.baglab.dto.CreatePagesDto;
-import com.bionic.baglab.dto.PagesDto;
+import com.bionic.baglab.dto.enums.PagesStatusNameEnum;
+import com.bionic.baglab.dto.pages.CreatePagesDto;
+import com.bionic.baglab.dto.pages.PagesDto;
+import com.bionic.baglab.dto.pages.PagesStatusDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,6 +28,11 @@ public class PagesService {
     PagesTypeDao pagesTypeDao;
 
     public Set<PagesDto> getAllNews() {
+        List<PagesEntity> pagesEntities = pagesDao.findAll();
+        return pagesEntities.stream().map(PagesDto::new).collect(Collectors.toSet());
+    }
+
+    public Set<PagesDto> getAllNewsActive(PagesStatusNameEnum active) {
         List<PagesEntity> pagesEntities = pagesDao.findAll();
         return pagesEntities.stream().map(PagesDto::new).collect(Collectors.toSet());
     }
@@ -54,7 +60,19 @@ public class PagesService {
         }
     }
 
- /*   public boolean updateNews(Long newsId){
+    public boolean changeStatus(PagesStatusDto pagesStatusDto){
+        try{
+            PagesEntity ent = pagesDao.findOne(pagesStatusDto.getIdnews());
+            PagesTypeEntity type = pagesTypeDao.findDistinctByType(pagesStatusDto.getType().name());
+            ent.setPagesType(type);
+            pagesDao.save(ent);
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
+    }
+
+   /*   public boolean updateNews(Long newsId){
         try{
 
             return true;

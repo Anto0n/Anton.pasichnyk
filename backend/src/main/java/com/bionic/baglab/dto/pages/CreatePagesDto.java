@@ -1,4 +1,4 @@
-package com.bionic.baglab.dto;
+package com.bionic.baglab.dto.pages;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -36,3 +36,4 @@ public class CreatePagesDto {
         this.header = header;
     }
 }
+

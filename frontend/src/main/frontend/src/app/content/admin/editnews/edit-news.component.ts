@@ -3,6 +3,8 @@ import {News, NewsCreate} from "../../../models/news";
 import {RestService} from "../../../services/rest.service";
 import {UserRoleService} from "../../../services/user/user-role.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AlertService} from "../../../services/alert.service";
 
 @Component({
   selector: 'app-edit-news',
@@ -13,14 +15,20 @@ export class CreateNewsComponent implements OnInit {
   private createNewsForm: FormGroup;
   private createNew: boolean = false;
   private listNews: boolean = false;
+  private returnUrl: string;
   private model: NewsCreate = new NewsCreate('', '');
   private newsList: News[] = [];
+  private selectedModel: News;
 
-  constructor(private restService: RestService, private roleService: UserRoleService, private fb: FormBuilder) {
+  constructor(private restService: RestService, private roleService: UserRoleService, private fb: FormBuilder, private route: ActivatedRoute,
+              private router: Router,  private alertService: AlertService) {
 
   }
 
   ngOnInit() {
+    this.getAllNews();
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.buildForm();
   }
 
@@ -84,7 +92,12 @@ export class CreateNewsComponent implements OnInit {
     console.log("onSubmitNews" + header + body);
     this.model = new NewsCreate(header, body);
     this.restService.postJson('./api/news/create', this.model).subscribe(
-
+      data => {
+        this.router.navigate([this.returnUrl]); // go back
+      },
+      error => {
+        this.alertService.error(error);
+      }
     )
     this.createNew = false;
   }
@@ -99,13 +112,22 @@ export class CreateNewsComponent implements OnInit {
     )
   }
 
-  createNews() {
-  }
 
   updateNews() {
   }
 
-  deleteNews() {
+  setNewsStatus(status:string){
+   // this.restService.putData()
   }
 
+deleteNews(model: News) { //done
+    this.restService.deleteData('/api/news/delete' + `/${model.idnews}`).subscribe(
+      () => {
+        this.newsList = this.newsList.filter(m => m !== model);
+        if (this.selectedModel === model) {
+          this.selectedModel = null;
+        }
+      }
+    )
+  }
 }

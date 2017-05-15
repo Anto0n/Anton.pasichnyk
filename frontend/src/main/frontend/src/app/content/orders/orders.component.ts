@@ -79,32 +79,15 @@ export class OrdersComponent implements OnInit {
  this.errorMessage = <any>error;
  this.loading = false;
  }
- );*/
+ );
 
-
-//Moderator
-//private moderModels: IModel[] = [];
-//private users: IUser[] = [];
-/*  getModelsList(){
- this.restService.getData('./api/models/list')
- .subscribe((data: IModel[]) => {
- this.moderModels=data;
- console.log(data);
- }, ()=>console.log('err'));
- }*/
-/*
-
- getUser(){
- this.restService.getData('./api/user/list')
- .subscribe((data: IUser[]) => {
- this.users=data;
- console.log(data);
- }, ()=>console.log('err')); //todo: add Alert service
+ export class newsStatus{
+ idnews: number;
+ type: string;
  }
 
- Д
- approveModel(id:number, approved:string ){
- this.restService.getData('./api/models/approve', `/${id}?approved=${approved}`)
- .subscribe(data => console.log(data));
- console.log(''+id, ''+approved);
- }*/
+
+ */
+
+
+

@@ -11,13 +11,14 @@ import java.util.List;
 @Transactional
 public interface PagesDao extends CrudRepository<PagesEntity, Long> {
 
+  //public List<PagesEntity> findAllByStatus
   /**
    * Return all pages or null if no is found.
-   * 
-   *
    */
   public List<PagesEntity> findAll();
 
   public PagesEntity findByBody(String body);
+
+
 
 } // class UserDao

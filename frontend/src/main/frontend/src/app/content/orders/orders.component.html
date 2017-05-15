@@ -20,11 +20,10 @@
       <td>{{model.bagTypeId}}</td>
       <td>{{model.mname}}</td>
       <td>{{model.approved}}</td>
-      <td><button  *ngIf="model.approved==='NEW' " class="delete" (click)=" deleteModel(model); $event.stopPropagation()"> del</button></td>
+      <td><button  *ngIf="model.approved==='NEW' " class="btn btn-danger"  (click)=" deleteModel(model); $event.stopPropagation()"> del</button></td>
     </tr>
     </tbody>
 </table>
-
 <hr>
 
 
@@ -34,5 +33,5 @@
 
 
 
-<button (click)=" createModel()"> create test model</button>
+<button class="btn btn-success" (click)=" createModel()"> create test model</button>
 <!--<button (click)=" getModelsList()"> getModelsList - moderator</button>-->
