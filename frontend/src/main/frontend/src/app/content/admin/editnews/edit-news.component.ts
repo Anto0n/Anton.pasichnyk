@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef} from '@angular/core';
 import {News, NewsCreate, newsStatus} from "../../../models/news";
 import {RestService} from "../../../services/rest.service";
 import {UserRoleService} from "../../../services/user/user-role.service";
@@ -21,7 +21,7 @@ export class CreateNewsComponent implements OnInit {
   private selectedModel: News;
 
   constructor(private restService: RestService, private roleService: UserRoleService, private fb: FormBuilder, private route: ActivatedRoute,
-              private router: Router,  private alertService: AlertService) {
+              private router: Router,  private alertService: AlertService, private cd: ChangeDetectorRef) {
 
   }
 
@@ -30,11 +30,14 @@ export class CreateNewsComponent implements OnInit {
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     this.buildForm();
+    this.cd.markForCheck(); // delete???
   }
 
   buildForm(): void {
+    //let expression  =/(@^(https?|ftp)://[^\s/$.?#].[^\s]*$@iS)/g;
+    var regex = new RegExp("(@^(https?|ftp)://[^\s/$.?#].[^\s]*$@iS)");
     this.createNewsForm = this.fb.group({
-      'header': [this.model.header, [Validators.maxLength(5592415), , Validators.pattern("(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\\.(?:jpg|gif|png))(?:\\?([^#]*))?(?:#(.*))?")]],
+      'header': [this.model.header, [Validators.maxLength(5000), Validators.pattern("(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\\.(?:jpg|gif|png|.{0,}))(?:\\?([^#]*))?(?:#(.*))?")]],
       'body': [this.model.body, [Validators.required, Validators.minLength(3), Validators.maxLength(5592415)]]
     });
 
@@ -73,9 +76,9 @@ export class CreateNewsComponent implements OnInit {
   validationMessages = {
     'header': {
       'required': 'srting is required.',
-      'maxlength': 'Name cannot be more than 5592415 characters long.',
+      'maxlength': 'Name cannot be more than 5000 characters long.',
       'minLength': 'min length 3',
-      'pattern': 'invalid img src (png gif or jpg)'
+      'pattern': 'invalid pattern'
     },//'minlength':     'Name must be at least 2 characters long.',
     'body': {
       'required': 'text body',
@@ -116,11 +119,21 @@ export class CreateNewsComponent implements OnInit {
  /* updateNews() {
   }*/
 
-  setNewsStatus(id:number, status:string){
-    let nStatus: newsStatus = new newsStatus(id, status);
+  setNewsStatus(model : News, newStatus: string){
+    let id:number = model.idnews;
+    let statusDto: newsStatus = new newsStatus(id, newStatus);
 
-    this.restService.putData('./api/news/update/status', nStatus).subscribe(
-      data => {
+    this.restService.putData('./api/news/update/status', statusDto).subscribe(
+      () => {
+        console.log("-----------1111111111");
+        this.newsList = this.newsList.filter(m => m !== model);
+        //console.log(model);
+        console.log(this.selectedModel === model);
+        if (this.selectedModel === model) {
+          //this.selectedModel = model;
+          console.log(this.selectedModel.pagesType.type);
+          console.log("-----------");
+        }
 
       },
       error => {
@@ -148,3 +161,4 @@ deleteNews(model: News) { //done
   "idnews": 0,
   "type": "ACTIVE"
 }*/
+// Validators.pattern("(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\\.(?:jpg|gif|png))(?:\\?([^#]*))?(?:#(.*))?")

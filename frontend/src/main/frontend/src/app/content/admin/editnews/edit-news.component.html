@@ -64,14 +64,14 @@
         <button *ngIf="model.pagesType.type==='DELETED' " class="btn btn-danger"
                 (click)=" deleteNews(model); $event.stopPropagation()"> permanent del
         </button>
-        <button *ngIf="model.pagesType.type==='ARCHIVE' || 'DELETED' " class="btn btn-success"
-                (click)=" setNewsStatus( model.idnews, 'ACTIVE');  $event.stopPropagation()"> restore
+        <button *ngIf="model.pagesType.type!=='ACTIVE' " class="btn btn-success"
+                (click)=" setNewsStatus( model, 'ACTIVE');  $event.stopPropagation()"> restore
         </button>
         <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-warning"
-                (click)="   setNewsStatus( model.idnews, 'ARCHIVE'); $event.stopPropagation()"> archive
+                (click)="   setNewsStatus( model, 'ARCHIVE'); $event.stopPropagation()"> archive
         </button>
-        <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-danger"
-                (click)="  setNewsStatus( model.idnews, 'DELETED');  $event.stopPropagation()"> set as deleted
+        <button *ngIf="model.pagesType.type!=='ACTIVE' " class="btn btn-danger"
+                (click)="  setNewsStatus( model, 'DELETED');  $event.stopPropagation()"> set as deleted
         </button>
         <button  class="btn btn-warning" class="btn btn-primary"
                 (click)="    $event.stopPropagation()"> edit

@@ -1,5 +1,6 @@
 package com.bionic.baglab.controllers;
 
+import com.bionic.baglab.dto.JResponse;
 import com.bionic.baglab.dto.enums.PagesStatusNameEnum;
 import com.bionic.baglab.dto.pages.CreatePagesDto;
 import com.bionic.baglab.dto.pages.PagesDto;
@@ -96,29 +97,32 @@ public class PagesController { //todo: add services
 //    }
 
     @PutMapping("/update/status")
-    public ResponseEntity<Void> updateNews(@Validated @RequestBody PagesStatusDto pagesStatusDtoDto){
+    public ResponseEntity<JResponse> updateNews(@Validated @RequestBody PagesStatusDto pagesStatusDtoDto){
         //get by id? error othervise, update
+        JResponse resp = new JResponse();
         try{
         pagesService.changeStatus(pagesStatusDtoDto);
         }catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+            resp.setResponseMessage("error on update news status");
+            return new ResponseEntity<JResponse>(resp, HttpStatus.CONFLICT);
         }
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
 
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteNews(@PathVariable("id") long id){
+    public ResponseEntity<JResponse> deleteNews(@PathVariable("id") long id){
         PagesDto pagesDto = null;
+        JResponse resp = new JResponse();
         try {
             pagesService.deleteNews(id);
         }
         catch (Exception ex) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);     //"Error deleting the news: " + ex.toString();
+            resp.setResponseMessage("error");
+            return new ResponseEntity<>(resp, HttpStatus.CONFLICT);     //"Error deleting the news: " + ex.toString();
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
 }
