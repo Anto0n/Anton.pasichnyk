@@ -12,9 +12,9 @@
   </tr>
   </thead>
     <tbody>
-    <tr *ngFor="let model of uModels"  (click)="onSelect(model)"
+    <tr *ngFor="let model of uModels"
         [class.selected]="model === selectedModel">
-      <!--<th scope="row">1</th>-->
+      <!--<th scope="row">1</th>--> <!--(click)="onSelect(model)"-->
       <td>{{model.id}}</td>
       <td>{{model.userId}}</td>
       <td>{{model.bagTypeId}}</td>

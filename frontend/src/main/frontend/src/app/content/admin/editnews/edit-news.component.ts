@@ -125,16 +125,11 @@ export class CreateNewsComponent implements OnInit {
 
     this.restService.putData('./api/news/update/status', statusDto).subscribe(
       () => {
-        console.log("-----------1111111111");
-        this.newsList = this.newsList.filter(m => m !== model);
-        //console.log(model);
-        console.log(this.selectedModel === model);
-        if (this.selectedModel === model) {
-          //this.selectedModel = model;
-          console.log(this.selectedModel.pagesType.type);
-          console.log("-----------");
-        }
-
+        let index : number = this.newsList.indexOf(model);  //find index
+        this.selectedModel = this.newsList[index];          //get value
+        this.selectedModel.pagesType.type = newStatus;      // set new status
+        this.newsList[index] = this.selectedModel;          //store in array
+        this.selectedModel = null;
       },
       error => {
         this.alertService.error(error);
