@@ -84,17 +84,17 @@ public class PagesController { //todo: add services
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-//    @PutMapping("/update/{id}")
-//    public ResponseEntity<Void> updateNews(@Validated @RequestBody PagesDto pagesDto){
-//        //get by id? error othervise, update
-//        try{
-//
-//        }catch(Exception e){
-//            return new ResponseEntity<>(HttpStatus.CONFLICT);
-//        }
-//
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PutMapping("/update/updatepages")
+    public ResponseEntity<JResponse> updateNews(@Validated @RequestBody PagesDto pagesDto){
+        JResponse resp = new JResponse();
+        try{
+            pagesService.updateNews(pagesDto);
+        }catch(Exception e){
+            resp.setResponseMessage("error on update news");
+            return new ResponseEntity<JResponse>(resp, HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
 
     @PutMapping("/update/status")
     public ResponseEntity<JResponse> updateNews(@Validated @RequestBody PagesStatusDto pagesStatusDtoDto){

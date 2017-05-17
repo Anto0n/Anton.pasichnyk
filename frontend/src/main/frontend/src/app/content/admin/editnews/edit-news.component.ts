@@ -15,13 +15,15 @@ export class CreateNewsComponent implements OnInit {
   private createNewsForm: FormGroup;
   private createNew: boolean = false;
   private listNews: boolean = false;
+  private updateNews: boolean = false;
   private returnUrl: string;
   private model: NewsCreate = new NewsCreate('', '');
   private newsList: News[] = [];
   private selectedModel: News;
+  private updateNewsModel: News;
 
   constructor(private restService: RestService, private roleService: UserRoleService, private fb: FormBuilder, private route: ActivatedRoute,
-              private router: Router,  private alertService: AlertService, private cd: ChangeDetectorRef) {
+              private router: Router, private alertService: AlertService, private cd: ChangeDetectorRef) {
 
   }
 
@@ -92,17 +94,41 @@ export class CreateNewsComponent implements OnInit {
   onSubmitNews() {
     let header = this.createNewsForm.value.header;
     let body = this.createNewsForm.value.body;
-    console.log("onSubmitNews" + header + body);
-    this.model = new NewsCreate(header, body);
-    this.restService.postJson('./api/news/create', this.model).subscribe(
-      data => {
-        this.router.navigate([this.returnUrl]); // go back
-      },
-      error => {
-        this.alertService.error(error);
-      }
-    )
-    this.createNew = false;
+    if (!this.updateNews) {         //create news
+      this.model = new NewsCreate(header, body);
+      this.restService.postJson('./api/news/create', this.model).subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]); // go back
+        },
+        error => {
+          this.alertService.error(error);
+        }
+      )
+      this.createNew = false;
+    } else {                          //update news
+      this.updateNewsModel.header = this.createNewsForm.value.header;
+      this.updateNewsModel.body = this.createNewsForm.value.body;
+      this.restService.putData('./api/news/update/updatepages',  this.updateNewsModel).subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]); // go back
+          this.resetForm('','' );                   //clear form
+        },
+        error => {
+          this.alertService.error(error);
+        }
+      )
+      this.updateNews = false;
+
+    }
+  }
+
+  editNews(inModel: News) {
+    this.resetForm(inModel.header,inModel.body );
+    this.createNew = true;
+    this.updateNews = true;
+    this.updateNewsModel = inModel;
+    // this.createNewsForm.controls['header'].setValue('');  //clear form
+    // this.createNewsForm.controls['body'].setValue('');
   }
 
 
@@ -116,20 +142,20 @@ export class CreateNewsComponent implements OnInit {
   }
 
 
- /* updateNews() {
-  }*/
+  /* updateNews() {
+   }*/
 
-  setNewsStatus(model : News, newStatus: string){
-    let id:number = model.idnews;
+  setNewsStatus(model: News, newStatus: string) {
+    let id: number = model.idnews;
     let statusDto: newsStatus = new newsStatus(id, newStatus);
 
     this.restService.putData('./api/news/update/status', statusDto).subscribe(
       () => {
-        let index : number = this.newsList.indexOf(model);  //find index
+        let index: number = this.newsList.indexOf(model);  //find index
         this.selectedModel = this.newsList[index];          //get value
         this.selectedModel.pagesType.type = newStatus;      // set new status
         this.newsList[index] = this.selectedModel;          //store in array
-        this.selectedModel = null;
+        //this.selectedModel = null;
       },
       error => {
         this.alertService.error(error);
@@ -139,21 +165,29 @@ export class CreateNewsComponent implements OnInit {
 
   }
 
-deleteNews(model: News) { //done
-    this.restService.deleteData('./api/news/delete' + `/${model.idnews}`).subscribe(
-      () => {
-        this.newsList = this.newsList.filter(m => m !== model);
-        if (this.selectedModel === model) {
-          this.selectedModel = null;
+  deleteNews(model: News) { //done
+    let del: boolean = window.confirm('do you realy want delete?');
+    if (del) {
+      this.restService.deleteData('./api/news/delete' + `/${model.idnews}`).subscribe(
+        () => {
+          this.newsList = this.newsList.filter(m => m !== model);
+          if (this.selectedModel === model) {
+            this.selectedModel = null;
+          }
         }
-      }
-    )
+      )
+    }
+  }
+
+  private resetForm(header:string, body:string ){
+    this.createNewsForm.controls['header'].setValue(header);  //clear form
+    this.createNewsForm.controls['body'].setValue(body);
   }
 }
 /*
 
-{
-  "idnews": 0,
-  "type": "ACTIVE"
-}*/
+ {
+ "idnews": 0,
+ "type": "ACTIVE"
+ }*/
 // Validators.pattern("(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\\.(?:jpg|gif|png))(?:\\?([^#]*))?(?:#(.*))?")
