@@ -1,11 +1,18 @@
 
 
 <button (click)="getBag()">Get bag</button>
+
 <div id="wrapper_container">
- <div id="canvas_cont" style="width: 600px; height: 400px;"></div>
-  <button type="button">Click Me!</button>
-  <button type="button" (click)="do()">Hide / Show</button>
-  <button type="button">Get material</button>
+<!--  <input type="range" id="x_coord" min="-3" max="3" step="0.02" style="position:relative; z-index: 1;">
+  <input type="range" id="y_coord" min="-3" max="3" step="0.02" style="position:relative; z-index: 1;">-->
+  <input type="text"  #xInput>
+  <input type="text"  #yInput>
+  <button type="submit" (click) = 'changeImagePosition(xInput.value,yInput.value)'>DO</button>
+  <div id="canvas_cont"></div>
+ <!--<div id="canvas_cont" style="width: 600px; height: 400px;"></div>-->
+  <!--<button type="button">Click Me!</button>-->
+  <!--<button type="button" (click)="do()">Hide / Show</button>-->
+  <!--<button type="button">Get material</button>-->
 </div>
 
 
