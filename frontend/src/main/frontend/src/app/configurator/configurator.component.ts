@@ -97,6 +97,8 @@ export class ConfiguratorComponent implements OnInit {
       }
 
     });
+
+    function drowImage1(){}
     b4w.require(this.appName).init();
   }
 
@@ -106,6 +108,8 @@ export class ConfiguratorComponent implements OnInit {
         this.jsonString = data;
         console.log(data);
       });
+
+
   }
 
   do() {
@@ -113,7 +117,7 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   getModel1() {
-    b4w.require(this.appName).drowImage();
+    b4w.require(this.appName).drowImage1();
   }
   getModel2() {
     b4w.require(this.appName).hide_show_object();

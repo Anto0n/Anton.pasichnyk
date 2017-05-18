@@ -9,7 +9,13 @@
     pointer-events: none;
   }
 }
+div#wrapper_container {
+  position: relative;
+}
 
+div#canvas_elem{
+  position:  inherit;
+}
 
 
 h1 {
