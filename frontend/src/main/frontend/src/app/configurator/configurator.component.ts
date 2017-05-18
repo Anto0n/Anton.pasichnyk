@@ -6,6 +6,7 @@ import {RestService} from "../services/rest.service";
 
 declare var b4w: any;
 
+
 @Component({
   selector: 'configurator',
   templateUrl: './configurator.component.html',
@@ -14,6 +15,7 @@ declare var b4w: any;
 export class ConfiguratorComponent implements OnInit {
   private jsonString: any;
   private appName: string = "conf_app";
+  private sceneName: string = "";
 
   constructor(private restService: RestService) {
   }
