@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {IUser} from "../../models/test.model";
 import {RestService} from "../../services/rest.service";
 import {IModel} from "../../models/model";
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'app-testform',
@@ -45,4 +46,9 @@ export class TestformComponent {
       .subscribe(data => console.log(data));
     console.log(''+id, ''+approved);
   }
+
+  createOrder(){
+
+  }
+
 }
