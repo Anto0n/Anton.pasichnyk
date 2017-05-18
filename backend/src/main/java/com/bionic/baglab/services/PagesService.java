@@ -74,14 +74,17 @@ public class PagesService {
         }
     }
 
-   /*   public boolean updateNews(Long newsId){
+      public boolean updateNews(PagesDto pagesDto){
+          PagesEntity ent = pagesDao.findOne(pagesDto.getIdnews());
+          ent.setBody(pagesDto.getBody());
+          ent.setHeader(pagesDto.getHeader());
         try{
-
+            pagesDao.save(ent);
             return true;
         }catch (Exception ex){
             return false;
         }
-    }*/
+    }
 
 
 }

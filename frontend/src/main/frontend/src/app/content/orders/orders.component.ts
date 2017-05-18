@@ -39,10 +39,10 @@ export class OrdersComponent implements OnInit {
   deleteModel(model: IModel) { //done
     this.restService.deleteData('/api/models/delete' + `/${model.id}`).subscribe(
       () => {
-          this.uModels = this.uModels.filter(m => m !== model);
-          if (this.selectedModel === model) {
-            this.selectedModel = null;
-          }
+          this.uModels = this.uModels.filter(m => m !== model); //selectedModel - null
+
+          /*if (this.selectedModel === model) {
+            this.selectedModel = null;      }*/
         }
     )
   }

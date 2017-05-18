@@ -1,10 +1,10 @@
 export class News{
-  idnews?: number;
+  idnews: number;
   header: string;
   body: string;
   newsCreate?: number;
   newsUpdate?: number;
-  pagesType?: PagesType;
+  pagesType: PagesType;
 }
 
 export class PagesType{

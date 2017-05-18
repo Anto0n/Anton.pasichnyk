@@ -32,7 +32,7 @@
 
     <div class="form-group">
       <button type="submit" class="btn btn-primary">Submit</button>
-      <button type="submit" (click)="createNew = false" class="btn btn-danger">Cancel</button>
+      <button type="submit" (click)="resetForm(); createNew = false" class="btn btn-danger">Cancel</button>
     </div>
 
   </form>
@@ -61,20 +61,21 @@
       <th >  {{model.body}}</th>
       <th>   {{model.pagesType.type}}</th>
       <th>
-        <button *ngIf="model.pagesType.type==='DELETED' " class="btn btn-danger"
-                (click)=" deleteNews(model); $event.stopPropagation()"> permanent del
-        </button>
+
         <button *ngIf="model.pagesType.type!=='ACTIVE' " class="btn btn-success"
                 (click)=" setNewsStatus( model, 'ACTIVE');  $event.stopPropagation()"> restore
         </button>
         <button *ngIf="model.pagesType.type==='ACTIVE' " class="btn btn-warning"
                 (click)="   setNewsStatus( model, 'ARCHIVE'); $event.stopPropagation()"> archive
         </button>
-        <button *ngIf="model.pagesType.type!=='ACTIVE' " class="btn btn-danger"
+        <button *ngIf="model.pagesType.type=== 'ARCHIVE' " class="btn btn-danger"
                 (click)="  setNewsStatus( model, 'DELETED');  $event.stopPropagation()"> set as deleted
         </button>
+        <button *ngIf="model.pagesType.type==='DELETED' " class="btn btn-danger"
+                (click)=" deleteNews(model); $event.stopPropagation()"> permanent del
+        </button>
         <button  class="btn btn-warning" class="btn btn-primary"
-                (click)="    $event.stopPropagation()"> edit
+                (click)=" editNews(model);   $event.stopPropagation()"> edit
         </button>
       </th>
     </tr>

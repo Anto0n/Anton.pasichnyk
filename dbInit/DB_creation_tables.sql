@@ -176,7 +176,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`order` (
   CONSTRAINT `fk_Order_User1`
     FOREIGN KEY (`userId`)
     REFERENCES `baglab`.`user` (`idUser`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_order_order_status1`
     FOREIGN KEY (`orderStatusId`)
@@ -203,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`order_item` (
   CONSTRAINT `fk_orderItem_model`
     FOREIGN KEY (`modelId`)
     REFERENCES `baglab`.`model` (`idModel`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_orderItem_order`
     FOREIGN KEY (`orderId`)
