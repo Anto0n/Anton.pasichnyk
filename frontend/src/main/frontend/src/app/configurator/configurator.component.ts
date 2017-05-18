@@ -56,7 +56,7 @@ export class ConfiguratorComponent implements OnInit {
 
         m_app.enable_camera_controls();
 
-        var object_exists = m_scenes.check_object_by_name("Cube");
+        var object_exists = m_scenes.check_object_by_name("arch49_014_obj_02");
         if (object_exists) {
           console.log("Object is found");
         } else {
@@ -64,20 +64,13 @@ export class ConfiguratorComponent implements OnInit {
         }
 
 
-        var Cube = m_scenes.get_object_by_name("Cube");
+        var Cube = m_scenes.get_object_by_name("arch49_014_obj_02");
         var name = m_scenes.get_object_name(Cube);
         console.log(name);
-
-        // _img_1 = new Image();
-        // _img_1.src = _base64_image_1;
-        //
-        // _img_1.onload = function () {
-        //   load_my_image();
-
         }
-      // }
 
-      function load_data() {
+
+      function load_data(imageUrl : string) {
         var cube = m_scenes.get_object_by_name("arch49_014_obj_02");
         // var ctx_image = m_tex.get_canvas_ctx(cube, "Image");
         // var ctx_video = m_tex.get_canvas_ctx(cube, "Video");
@@ -85,7 +78,7 @@ export class ConfiguratorComponent implements OnInit {
 
 
           var img = new Image();
-          img.src = _base64_image_1;
+          img.src = imageUrl;
           img.onload = function() {
             ctx_picture.drawImage(img, 0, 0, ctx_picture.canvas.width,
               ctx_picture.canvas.height);
@@ -96,27 +89,11 @@ export class ConfiguratorComponent implements OnInit {
           }
       }
 
-
-
-      function draw_images(){
-        var ctx_1 = m_tex.get_canvas_texture_context("canvas_1");
-        ctx_1.drawImage(_img_1, 0, 0, ctx_1.canvas.width,ctx_1.canvas.height);
-        m_tex.update_canvas_texture_context("canvas_1");
+      exports.drawImage1 = function(){
+        load_data(_base64_image_1);
       }
-
-
-      exports.drowImage1 = function(){
-        // let img = new Image();
-        // let obj = m_scenes.get_object_by_name("arch49_014_obj_02");
-        // console.log("get_object_by_name");
-        // console.log(obj);
-        // console.log("textures");
-        // console.log(m_tex.get_texture_names(obj));
-        // if (obj && !_wait_for_image_loading) {
-        //   m_tex.change_image(obj, "canvas_tex", _base64_image_1, change_img_cb);
-        //   console.log("1111change_image11");
-        // }
-        load_data();
+      exports.drawImage2 = function(){
+        load_data(_base64_image_2);
       }
       exports.hide_show_object = function () {
         var Cube = m_scenes.get_object_by_name("Cube");
@@ -137,13 +114,7 @@ export class ConfiguratorComponent implements OnInit {
         m_data.load('../../assets/testConf/Bag_conf.json', load_cb,);
       }
 
-      function load_my_image() {
-        var cube = m_scenes.get_object_by_name("Cube");
-        var ctx = m_tex.get_canvas_ctx(cube, "Material");
-        console.log(m_tex.get_texture_names(cube));
-      }
-
-    })
+   })
 
 
     b4w.require(this.appName).init();
@@ -164,9 +135,9 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   getModel1() {
-    b4w.require(this.appName).drowImage1();
+    b4w.require(this.appName).drawImage1();
   }
   getModel2() {
-    b4w.require(this.appName).hide_show_object();
+    b4w.require(this.appName).drawImage2();
   }
 }
