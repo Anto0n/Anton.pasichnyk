@@ -15,7 +15,7 @@ declare var b4w: any;
 export class ConfiguratorComponent implements OnInit {
   private jsonString: any;
   private appName: string = "conf_app";
-  private sceneName: string = "";
+  private sceneName: string = '../../assets/testConf/Bag_conf.json';
 
   constructor(private restService: RestService) {
   }
@@ -87,7 +87,7 @@ export class ConfiguratorComponent implements OnInit {
           return;
         }
 
-        m_data.load("./assets/testConf/preview.json", load_cb,);
+        m_data.load('../../assets/testConf/Bag_conf.json', load_cb,);
       }
 
       function load_my_image() {
@@ -109,6 +109,13 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   do() {
+    b4w.require(this.appName).hide_show_object();
+  }
+
+  getModel1() {
+    b4w.require(this.appName).drowImage();
+  }
+  getModel2() {
     b4w.require(this.appName).hide_show_object();
   }
 }

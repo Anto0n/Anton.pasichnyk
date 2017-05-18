@@ -1,5 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
 /* Master Styles */
+@media screen and (min-width: 1000px) and (max-width: 1200px) {
+  #canvas_cont {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    bottom: -350px;
+    pointer-events: none;
+  }
+}
+
+
+
 h1 {
   color: #369;
   font-family: Arial, Helvetica, sans-serif;

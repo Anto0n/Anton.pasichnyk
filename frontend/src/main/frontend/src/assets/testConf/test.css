@@ -6,7 +6,7 @@ body {
 }
 
 div#main_canvas_container {
-    position: absolute;
+    position: inherit;
     left: 0px;
     top: 0px;
     width: 100%;

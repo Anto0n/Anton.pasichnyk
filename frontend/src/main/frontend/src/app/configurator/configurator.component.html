@@ -3,16 +3,11 @@
 <button (click)="getBag()">Get bag</button>
 
 <div id="wrapper_container">
-<!--  <input type="range" id="x_coord" min="-3" max="3" step="0.02" style="position:relative; z-index: 1;">
-  <input type="range" id="y_coord" min="-3" max="3" step="0.02" style="position:relative; z-index: 1;">-->
-  <input type="text"  #xInput>
-  <input type="text"  #yInput>
-  <button type="submit" (click) = 'changeImagePosition(xInput.value,yInput.value)'>DO</button>
-  <div id="main_canvas_container"></div>
- <!--<div id="canvas_cont" style="width: 600px; height: 400px;"></div>-->
-  <!--<button type="button">Click Me!</button>-->
-  <!--<button type="button" (click)="do()">Hide / Show</button>-->
-  <!--<button type="button">Get material</button>-->
+  <div id="canvas_cont" style="position: inherit; border: solid black 2px;"></div>
+  <button (click) = 'getModel1()'>image1</button>
+  <button (click) = 'getModel2()'>image2</button>
+
+
 </div>
 
 
