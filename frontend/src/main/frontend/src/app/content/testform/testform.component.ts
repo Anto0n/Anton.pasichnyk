@@ -3,6 +3,7 @@ import {IUser} from "../../models/test.model";
 import {RestService} from "../../services/rest.service";
 import {IModel} from "../../models/model";
 import {Subject} from "rxjs";
+import {OrderResp, OrderCreate} from "../../models/order";
 
 @Component({
   selector: 'app-testform',
@@ -13,6 +14,7 @@ export class TestformComponent {
   private users: IUser[] = [];
   private uModels: IModel[] = [];
   private moderModels: IModel[] = [];
+  private orderResp : OrderResp;
 
   constructor(private restService: RestService) { }
 
@@ -48,7 +50,26 @@ export class TestformComponent {
   }
 
   createOrder(){
-
+    let orderCreate : OrderCreate = {
+      "userId": 2,
+      "items": [
+        {
+          "modelId": 1,
+          "count": 15
+        },
+        {
+          "modelId": 1,
+          "count": 15
+        }
+      ]
+    };
+    this.restService.postJsonResp('./api/order/createOrder', orderCreate)
+      .subscribe((data: OrderResp)  => {
+        this.orderResp = data;
+        console.log(this.orderResp)
+      } ,
+      ()=>console.log('err')
+    )
   }
 
 }

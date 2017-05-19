@@ -28,6 +28,16 @@ export class RestService {
     ).catch(this.handleError)
   }
 
+  postJsonResp(url: string, data: any): Observable<any> {
+    return this.http.post(
+      url,
+      JSON.stringify(data),
+      {headers: this.headers}
+    )
+      .map(res => res.json())
+      .catch(this.handleError)
+  }
+
   deleteData(restUrl: string, param?: string): Observable<any> { // not tested
     return this.http.delete(restUrl +  (param ? param : ''))
       .map(res => res.json())

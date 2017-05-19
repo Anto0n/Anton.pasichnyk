@@ -37,6 +37,7 @@ import {UserRoleService} from "./services/user/user-role.service";
 import {ModelService} from "./services/model.service";
 import { CreateNewsComponent } from './content/admin/editnews/edit-news.component';
 import {AdminGuard} from "./shared/guards/admin.guard";
+import {OrderService} from "./services/order.service";
 
 @NgModule({
   declarations: [
@@ -71,7 +72,7 @@ import {AdminGuard} from "./shared/guards/admin.guard";
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService, UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard],
+  providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService, UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
