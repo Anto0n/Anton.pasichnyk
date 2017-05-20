@@ -1,4 +1,24 @@
+<div class="container">
+<!--  <button class="navbar-toggle hidden-sm-up"
+          type="button" data-toggle="collapse"
+          data-target="#exCollapsingNavbar">&#9776;
+  </button>-->
+  <!--<div class="collapse navbar-toggleble-xs"
+       id="exCollapsingNavbar">-->
+
+    <nav class="navbar navbar-light bg-faded" style="float:inherit;">
+      <ul class="nav navbar-nav justified">
+        <li *ngFor="let url of urls"><a class="navbar-brand" [routerLink]="[url.url]">{{url.value}}</a></li>
+      </ul>
+    </nav>
+
+ <!-- </div>-->
+</div>
+
+
+<!--
 <ul>
   <li *ngFor="let url of urls"><a [routerLink]="[url.url]">{{url.value}}</a></li>
 </ul>
+-->
 

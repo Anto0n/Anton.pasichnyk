@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-component',
-  templateUrl: './about.component.html'
+  templateUrl: './faqs.component.html'
 })
-export class AboutComponent {
+export class FAQsComponent {
   // title = 'app works!';
 }

@@ -15,10 +15,10 @@ import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import { AppRoutingModule }        from './routing/app-routing.module';
 import { MenuComponent } from './menu/menu.component';
 import { HomeComponent } from './content/home/home.component';
-import { NewComponent } from './content/new/new.component';
+import { ProductsComponent } from './content/products/products.component';
 import { OrdersComponent } from './content/orders/orders.component';
-import { AboutComponent } from './content/about/about.component';
-import { HelpComponent } from './content/help/help.component';
+import { FAQsComponent } from './content/FAQs/faqs.component';
+import { ContactComponent } from './content/contact/contact.component';
 import {SafePipe} from "./shared/safe.pipe.spec.";
 import { UserCreateComponent } from './shared/register/user-create.component';
 import {PageNotFoundComponent} from "./routing/not-found.component";
@@ -46,10 +46,10 @@ import {OrderService} from "./services/order.service";
     TestComponent,
     MenuComponent,
     HomeComponent,
-    NewComponent,
+    ProductsComponent,
     OrdersComponent,
-    AboutComponent,
-    HelpComponent,
+    FAQsComponent,
+    ContactComponent,
     FactoryComponent,
     ModeratorComponent,
     AdminComponent,
