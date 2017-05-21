@@ -1,21 +1,37 @@
+
 <div class="container">
+
 <!--  <button class="navbar-toggle hidden-sm-up"
           type="button" data-toggle="collapse"
           data-target="#exCollapsingNavbar">&#9776;
   </button>-->
   <!--<div class="collapse navbar-toggleble-xs"
        id="exCollapsingNavbar">-->
-
-    <nav class="navbar navbar-light bg-faded" style="float:inherit;">
-      <ul class="nav navbar-nav justified">
+<!--
+    <nav class="navbar navbar-light bg-faded" > &lt;!&ndash;style="float:inherit;"&ndash;&gt;
+      <ul class="nav navbar-nav ">
         <li *ngFor="let url of urls"><a class="navbar-brand" [routerLink]="[url.url]">{{url.value}}</a></li>
       </ul>
-    </nav>
+    </nav>-->
 
  <!-- </div>-->
+
+
+  <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+    <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+      &#9776;
+    </button>
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+      <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav ">
+          <li *ngFor="let url of urls"><a class="navbar-brand" [routerLink]="[url.url]">{{url.value}}</a></li>
+        </ul>
+      </ul>
+    </div>
+  </nav>
+
+
 </div>
-
-
 <!--
 <ul>
   <li *ngFor="let url of urls"><a [routerLink]="[url.url]">{{url.value}}</a></li>
