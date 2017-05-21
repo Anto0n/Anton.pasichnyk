@@ -37,7 +37,9 @@ import {UserRoleService} from "./services/user/user-role.service";
 import {ModelService} from "./services/model.service";
 import { CreateNewsComponent } from './content/admin/editnews/edit-news.component';
 import {AdminGuard} from "./shared/guards/admin.guard";
-import {OrderService} from "./services/order.service";
+import {OrderService} from "./services/order.service"
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import {OrderService} from "./services/order.service";
 
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
