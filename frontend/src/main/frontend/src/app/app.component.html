@@ -1,24 +1,24 @@
 <header>
- <!-- <div class="logoImg">
-    <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
+  <!-- <div class="logoImg">
+     <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
 
-  </div>-->
+   </div>-->
   <div class="topBar">
     <img src="./assets/logo_bl.bmp">
   </div>
 
-    <div class="container-fluid" style="float:right;">
-      <ul class="nav navbar-nav" *ngIf="!isAuth()">
-        <li  class="nav-item" > <a   class="nav-link active" [routerLink]="['register']">Sign Up</a></li>
-        <li> <a [routerLink]="['login']">Log In</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-        <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
-      </ul>
-    </div>
+  <div class="container-fluid" style="float:right;">
+    <ul class="nav navbar-nav" *ngIf="!isAuth()">
+      <li class="nav-item"><a class="nav-link active" [routerLink]="['register']">Sign Up</a></li>
+      <li><a [routerLink]="['login']">Log In</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
+      <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
+    </ul>
+  </div>
 
-  <div class="menuBar" >
-    <div class="mainMenu" >
+  <div class="menuBar">
+    <div class="mainMenu">
       <app-menu>loading...</app-menu>
     </div>
   </div>
@@ -28,14 +28,57 @@
 <!-- main app container -->
 <div class="jumbotron">
   <div class="container">
-    <div class="col-sm-8 col-sm-offset-2">
-      <alert></alert>
-      <router-outlet></router-outlet>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <alert></alert>
+        <router-outlet></router-outlet>
+      </div>
     </div>
   </div>
 </div>
 
 <footer>
-footer
+  <div class="container">
+    <div class="row">
+      <div class="col-md-2 col-md-offset-2">
+        <div class="footer1">
+          <p><b>HELP</b></p>
+          <p><a href="mailto:info@keyme.eu" style="color: black">Email</a></p>
+          <p>Contact Form</p>
+          <p>FAQ`s</p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="footer2">
+          <p><b>CORPORATE INFORMATION</b></p>
+          <p>Corporate Social Responsibility</p>
+          <p>General Terms & Conditions</p>
+          <p>Return Policy</p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="footer3">
+          <p><b>THE BAG LAB</b></p>
+          <p>How we work</p>
+          <p>Bag Tutorial</p>
+          <p>Our contacts</p>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="footer4">
+          <p><b>FOLLOW US</b></p>
+          <img src="../facebook-logo.png" style="width: 15%; height: 15%">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div clas="copyright-block">
+    <div class="container">
+      <div class="row">
+        <div class=" col-md-3 col-md-offset-9" style="padding-bottom: 2%">
+          <p>© 2017 thebaglab.eu - all rights reserved</p></div>
+      </div>
+    </div>
+  </div>
 </footer>
 
