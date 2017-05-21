@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import {IUser} from "../../models/test.model";
 import {RestService} from "../../services/rest.service";
 import {IModel} from "../../models/model";
-import {Subject} from "rxjs";
 import {OrderResp, OrderCreate} from "../../models/order";
 
 @Component({
