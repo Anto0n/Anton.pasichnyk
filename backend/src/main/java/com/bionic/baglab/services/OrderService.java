@@ -5,11 +5,14 @@ import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.*;
 import com.bionic.baglab.dto.order.OrderDto;
 import com.bionic.baglab.dto.order.OrderDtoCreate;
+import com.bionic.baglab.dto.order.OrderDtoUpdate;
 import com.bionic.baglab.dto.order.OrderItemDtoCreate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -45,6 +48,10 @@ public class OrderService {
         return orderDao.findOne(id);
     }
 
+    public OrderStatusEntity findOrderStatusById(Long id) {
+        return orderStatusDao.findOne(id);
+    }
+
     @Transactional
     public OrderEntity save(OrderEntity orderEntity) {
         return orderDao.save(orderEntity);
@@ -70,6 +77,7 @@ public class OrderService {
         return getDtoFromEntity(resOrderEntity);
     }
 
+
     private OrderItemEntity orderItemDto2Entity(OrderItemDtoCreate orderItemDto) {
         Long modelId = orderItemDto.getModelId();
 
@@ -87,5 +95,29 @@ public class OrderService {
     private OrderDto getDtoFromEntity(OrderEntity orderEntity) {
         OrderDto orderDto = new OrderDto(orderEntity);
         return orderDto;
+    }
+
+    public OrderDto changeStatus(long orderId, long orderStatusId) {
+        OrderEntity orderEntity = findOne(orderId);
+        orderEntity.setOrderStatus(findOrderStatusById(orderStatusId));
+        orderEntity.setOrderUpdate(Timestamp.from(Instant.now()));
+
+        return getDtoFromEntity(orderEntity);
+    }
+
+    public OrderDto changeOrder(OrderDtoUpdate orderDto) {
+        OrderEntity orderEntity = findOne(orderDto.getOrderId());
+        orderEntity.setOrderStatus(orderStatusDao.findByCode("processing"));
+        orderEntity.setItems(orderDto.getItems()
+                .stream()
+                .map(this::orderItemDto2Entity)
+                .collect(Collectors.toList())
+        );
+        OrderEntity resOrderEntity = save(orderEntity);
+        return getDtoFromEntity(resOrderEntity);
+    }
+
+    public void deleteOrder(long orderId) {
+       orderDao.delete(orderId);
     }
 }
