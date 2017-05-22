@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {News} from "../../models/news";
 import {RestService} from "app/services";
 import {UserRoleService} from "../../services/user/user-role.service";
-import {AppComponent} from "../../app.component";
 import {Subscription} from "rxjs";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Router} from "@angular/router";
