@@ -1,27 +1,27 @@
 <header>
-  <!-- <div class="logoImg">
-     <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
+ <!-- <div class="logoImg">
+    <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
 
-   </div>-->
+  </div>-->
   <div class="topBar">
     <img src="./assets/logo_bl.bmp">
   </div>
 
-  <div class="container-fluid" style="float:right;">
-    <ul class="nav navbar-nav" *ngIf="!isAuth()">
-      <li class="nav-item"><a class="nav-link active" [routerLink]="['register']">Sign Up</a></li>
-      <li><a [routerLink]="['login']">Log In</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-      <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
-    </ul>
-  </div>
-
-  <div class="menuBar">
-    <div class="mainMenu">
-      <app-menu>loading...</app-menu>
+    <div class="container-fluid" style="float:right;">
+      <ul class="nav navbar-nav" *ngIf="!isAuth()">
+        <li  class="nav-item" > <a class="nav-link active" [routerLink]="['register']">Sign Up</a></li>
+        <li class="nav-item"> <a class="nav-link active" [routerLink]="['login']">Log In</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
+        <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
+      </ul>
     </div>
-  </div>
+  <app-menu>loading...</app-menu>
+<!--  <div class="menuBar" >
+    <div class="mainMenu" >
+
+    </div>
+  </div>-->
 </header>
 
 
