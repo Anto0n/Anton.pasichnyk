@@ -30,6 +30,8 @@ export class ConfiguratorComponent implements OnInit {
       var m_print = require("__print");
       var m_main   = require("main");
       var m_tex    = require("textures");
+      var m_mat = require("material");
+      var m_rgb = require("rgb");
 
       var _base64_image_3 = "../../assets/testConf/temp/default_img.png";
       var _base64_image_4 = "../../assets/testConf/temp/logo.png";
@@ -58,7 +60,7 @@ export class ConfiguratorComponent implements OnInit {
 
         m_app.enable_camera_controls();
 
-        var object_exists = m_scenes.check_object_by_name("arch49_014_obj_02");
+        var object_exists = m_scenes.check_object_by_name("pakr_body_001");
         if (object_exists) {
           console.log("Object is found");
         } else {
@@ -66,16 +68,17 @@ export class ConfiguratorComponent implements OnInit {
         }
 
 
-        var Cube = m_scenes.get_object_by_name("arch49_014_obj_02");
+        var Cube = m_scenes.get_object_by_name("pakr_body_001");
         var name = m_scenes.get_object_name(Cube);
         console.log(name);
         }
 
 
       function load_data(imageUrl : string) {
-        let cube = m_scenes.get_object_by_name("arch49_014_obj_02");
-        let texture = m_tex.get_canvas_ctx(cube, "canvas_tex");
-        // m_tex.update_canvas_ctx(cube, "canvas_tex");
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        let texture = m_tex.get_canvas_ctx(cube, "Texture.003");
+        console.log(cube);
+        // m_tex.update_canvas_ctx(cube, "Texture.003");
 
         let img = new Image();
           img.src = imageUrl;
@@ -86,7 +89,7 @@ export class ConfiguratorComponent implements OnInit {
             texture.fillStyle = "rgba(255,0,0,255)";
             texture.font = "250px Arial";
             texture.fillText("Hello, World!", 300, 300);
-            m_tex.update_canvas_ctx(cube, "canvas_tex");
+            m_tex.update_canvas_ctx(cube, "Texture.003");
           }
       }
 
@@ -94,18 +97,29 @@ export class ConfiguratorComponent implements OnInit {
         load_data(_base64_image_1);
       }
       exports.drawImage3 = function(){
-        let cube = m_scenes.get_object_by_name("arch49_014_obj_02");
-        m_tex.change_image(cube, "canvas_tex", _base64_image_3);
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        m_tex.change_image(cube, "Texture.003", _base64_image_3);
       }
       exports.drawImage4 = function(){
-        let cube = m_scenes.get_object_by_name("arch49_014_obj_02");
-        m_tex.change_image(cube, "canvas_tex", _base64_image_4);
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        m_tex.change_image(cube, "Texture.003", _base64_image_4);
       }
       exports.drawImage2 = function(){
         load_data(_base64_image_2);
       }
+
+      exports.changeImgColor = function () {
+
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        m_mat.set_nodemat_rgb(cube, ["Material.001", "RGB"], 255, 0, 0,);
+      }
+
+      exports.resetImgColor = function () {
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        m_mat.set_nodemat_rgb(cube, ["Material.001", "RGB"], 0.5, 0.5, 0.5);
+      }
       exports.hide_show_object = function () {
-        let Cube = m_scenes.get_object_by_name("arch49_014_obj_02");
+        let Cube = m_scenes.get_object_by_name("pakr_body_001");
         let object_is_hidden = m_scenes.is_hidden(Cube);
 
         if (!object_is_hidden) {
@@ -120,7 +134,7 @@ export class ConfiguratorComponent implements OnInit {
           return;
         }
 
-        m_data.load('../../assets/testConf/Bag_conf.json', load_cb,);
+        m_data.load('../../assets/testConf/demo_bag.json', load_cb,);
       }
 
    })
@@ -154,11 +168,17 @@ export class ConfiguratorComponent implements OnInit {
     b4w.require(this.appName).hide_show_object();
     b4w.require(this.appName).drawImage2();
   }
-
+  changeImgColor() {
+    b4w.require(this.appName).changeImgColor();
+  }
+  resetImgColor(){
+    b4w.require(this.appName).resetImgColor();
+  }
   getModel3() {
     b4w.require(this.appName).drawImage3();
   }
   getModel4() {
     b4w.require(this.appName).drawImage4();
   }
+
 }
