@@ -10,6 +10,8 @@ insert into baglab.user_status (code, description) values ('Active', 'Default st
 insert into baglab.user_status (code, description) values ('Inactive', 'User lost of permission');
 insert into baglab.user_status (code, description) values ('Bane', 'User is banned');
 
+insert into baglab.order_status (code, description) values ('bucket', 'items in bucket, order is not created yet');
+insert into baglab.order_status (code, description) values ('new', 'new created order');
 insert into baglab.order_status (code, description) values ('accepted', 'order is accepted and send to factory');
 insert into baglab.order_status (code, description) values ('processing', 'order is processing by moderator');
 insert into baglab.order_status (code, description) values ('denied', 'order is denied by moderator');
