@@ -1,6 +1,6 @@
 package com.bionic.baglab.domains;
 
-import com.bionic.baglab.dto.enums.OrderStatusEnum;
+import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import java.util.Collection;
 @Table(name = "[order_status]", schema = "baglab")
 public class OrderStatusEntity {
     private long idOrderStatus;
-    private OrderStatusEnum code;
+    private OrderStatusNameEnum code;
     private String description;
     private Collection<OrderEntity> orders;
     //    private int deleted;
@@ -32,10 +32,10 @@ public class OrderStatusEntity {
 
     @Column(name = "[code]")
     @Enumerated(EnumType.STRING)
-    public OrderStatusEnum getCode() {
+    public OrderStatusNameEnum getCode() {
         return code;
     }
-    public void setCode(OrderStatusEnum code) {
+    public void setCode(OrderStatusNameEnum code) {
         this.code = code;
     }
 

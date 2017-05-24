@@ -2,7 +2,7 @@ package com.bionic.baglab.services;
 
 import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.OrderStatusEntity;
-import com.bionic.baglab.dto.enums.OrderStatusEnum;
+import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,7 @@ public class OrderStatusService {
         return orderStatusDao.findOne(id);
     }
 
-    public OrderStatusEntity findByCode(OrderStatusEnum code){
+    public OrderStatusEntity findByCode(OrderStatusNameEnum code){
         return orderStatusDao.findByCode(code);
     }
 }

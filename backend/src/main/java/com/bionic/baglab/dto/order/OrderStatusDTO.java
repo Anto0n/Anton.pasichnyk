@@ -1,8 +1,7 @@
 package com.bionic.baglab.dto.order;
 
 import com.bionic.baglab.domains.OrderStatusEntity;
-import com.bionic.baglab.dto.enums.OrderStatusEnum;
-import org.hibernate.validator.constraints.NotEmpty;
+import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -14,7 +13,7 @@ public class OrderStatusDTO {
 
     @NotNull(message = "error.code.notnull")
     @Valid
-    private OrderStatusEnum codeEnum;
+    private OrderStatusNameEnum codeEnum;
 
     @NotNull(message = "error.description.notnull")
     @Valid
@@ -28,16 +27,16 @@ public class OrderStatusDTO {
         this.description = orderStatusEntity.getDescription();
     }
 
-    public OrderStatusDTO(OrderStatusEnum code, String description) {
+    public OrderStatusDTO(OrderStatusNameEnum code, String description) {
         this.codeEnum = code;
         this.description = description;
     }
 
-    public OrderStatusEnum getCode() {
+    public OrderStatusNameEnum getCode() {
         return codeEnum;
     }
 
-    public void setCode(OrderStatusEnum code) {
+    public void setCode(OrderStatusNameEnum code) {
         this.codeEnum = code;
     }
 

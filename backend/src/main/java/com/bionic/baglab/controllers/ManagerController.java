@@ -3,7 +3,7 @@ package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.OrderEntity;
 import com.bionic.baglab.domains.OrderStatusEntity;
-import com.bionic.baglab.dto.enums.OrderStatusEnum;
+import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import com.bionic.baglab.dto.order.OrderDto;
 import com.bionic.baglab.dto.user.UserDto;
 import com.bionic.baglab.services.OrderService;
@@ -70,7 +70,7 @@ public class ManagerController {
      */
     @PutMapping(value = "/changeOrderStatus/{id}/{action}") //todo: add limitation to possible actions for Order status
     @ResponseBody
-    public ResponseEntity<Void> acceptOrder(@PathVariable long id, @PathVariable OrderStatusEnum action) {
+    public ResponseEntity<Void> acceptOrder(@PathVariable long id, @PathVariable OrderStatusNameEnum action) {
         OrderEntity orderEntity;
         OrderStatusEntity orderStatusEntity;                                                    //todo: Move to Service
         try {

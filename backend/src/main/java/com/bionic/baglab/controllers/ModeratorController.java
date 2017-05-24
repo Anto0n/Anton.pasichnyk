@@ -2,7 +2,7 @@ package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.OrderEntity;
 import com.bionic.baglab.domains.OrderStatusEntity;
-import com.bionic.baglab.dto.enums.OrderStatusEnum;
+import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import com.bionic.baglab.dto.order.OrderDto;
 import com.bionic.baglab.services.OrderService;
 import com.bionic.baglab.services.OrderStatusService;
@@ -28,7 +28,7 @@ public class ModeratorController {
     }
 
     @RequestMapping(value = "/order/{id}/{action}", method = RequestMethod.PUT)
-    public void acceptOrder(@PathVariable long id, @PathVariable OrderStatusEnum action) {
+    public void acceptOrder(@PathVariable long id, @PathVariable OrderStatusNameEnum action) {
         OrderEntity oe = orderService.findOne(id);
         OrderStatusEntity ose = orderStatusService.findByCode(action);
         if (!oe.getOrderStatus().equals(ose)){

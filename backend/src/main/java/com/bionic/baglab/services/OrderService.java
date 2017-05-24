@@ -3,7 +3,7 @@ package com.bionic.baglab.services;
 import com.bionic.baglab.dao.OrderDao;
 import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.*;
-import com.bionic.baglab.dto.enums.OrderStatusEnum;
+import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import com.bionic.baglab.dto.order.OrderDto;
 import com.bionic.baglab.dto.order.OrderDtoCreate;
 import com.bionic.baglab.dto.order.OrderDtoUpdate;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,6 +52,10 @@ public class OrderService {
         return orderStatusDao.findOne(id);
     }
 
+    public OrderStatusEntity findOrderStatusByName(OrderStatusNameEnum name){
+        return orderStatusDao.findByCode(name);
+    }
+
     @Transactional
     public OrderEntity save(OrderEntity orderEntity) {
         return orderDao.save(orderEntity);
@@ -71,7 +74,7 @@ public class OrderService {
     public OrderDto createOrder(OrderDtoCreate orderDto) {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUser(userService.findEntityById(orderDto.getUserId()));
-        orderEntity.setOrderStatus(orderStatusDao.findByCode(OrderStatusEnum.BUCKET));
+        orderEntity.setOrderStatus(orderStatusDao.findByCode(OrderStatusNameEnum.BUCKET));
         orderEntity.setItems(orderDto.getItems()
                 .stream()
                 .map(this::orderItemDto2Entity)
@@ -103,9 +106,9 @@ public class OrderService {
         return orderDto;
     }
 
-    public OrderDto changeStatus(long orderId, long orderStatusId) {
+    public OrderDto changeStatus(long orderId, OrderStatusNameEnum orderStatusNameEnum) {
         OrderEntity orderEntity = findOne(orderId);
-        orderEntity.setOrderStatus(findOrderStatusById(orderStatusId));
+        orderEntity.setOrderStatus(findOrderStatusByName(orderStatusNameEnum));
         orderEntity.setOrderUpdate(Timestamp.from(Instant.now()));
 
         return getDtoFromEntity(orderEntity);

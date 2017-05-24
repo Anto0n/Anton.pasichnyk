@@ -1,9 +1,11 @@
 package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.OrderEntity;
+import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import com.bionic.baglab.dto.order.OrderDto;
 import com.bionic.baglab.dto.order.OrderDtoCreate;
 import com.bionic.baglab.dto.order.OrderDtoUpdate;
+import com.bionic.baglab.dto.order.OrderStatusChangeDTO;
 import com.bionic.baglab.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,10 +36,10 @@ public class OrderController {
 
     //TODO security check, get user id from principal and save it as moderator id!!
     @PutMapping("/changeStatus")
-    public OrderDto changeOrderStatus(@PathVariable("id") long orderId,
-                                      @PathVariable("status_id") long orderStatusId) {
+    public OrderDto changeOrderStatus(@Valid @RequestBody OrderStatusChangeDTO orderStatusChangeDTO) {
 
-        return orderService.changeStatus(orderId, orderStatusId);
+        return orderService.changeStatus(orderStatusChangeDTO.getOrderId(),
+                            orderStatusChangeDTO.getOrderStatusNameEnum());
     }
 
     //TODO add security check
@@ -47,9 +49,25 @@ public class OrderController {
     }
 
     //TODO double check on FE if user is sure
-    @DeleteMapping("/deleteOrder")
+    @DeleteMapping("/deleteOrder/{orderId}")
     public ResponseEntity deleteOrder(@PathVariable("orderId") long orderId) {
         orderService.deleteOrder(orderId);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    /**
+     *
+     * @param userId
+     * @return Order with Status.BUCKET by user Id (if exist)
+     */
+  /*  @GetMapping("/findbucket/{userid}")
+    public ResponseEntity getBucketByUserId(@PathVariable("userid") long userId){
+        //OrderStatusNameEnum.BUCKET
+    }*/
+
+    //@GetMapping("/findall/{userid}")
+  /*  public Set<OrderDto> getOrdersByUserId(@PathVariable("userid") long userId){
+
+    }*/
+
 }
