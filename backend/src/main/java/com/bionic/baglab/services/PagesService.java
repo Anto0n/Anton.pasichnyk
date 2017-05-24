@@ -5,7 +5,7 @@ import com.bionic.baglab.dao.PagesDao;
 import com.bionic.baglab.dao.PagesTypeDao;
 import com.bionic.baglab.domains.PagesEntity;
 import com.bionic.baglab.domains.PagesTypeEntity;
-import com.bionic.baglab.dto.enums.PagesStatusNameEnum;
+import com.bionic.baglab.dto.enums.PagesStatusEnum;
 import com.bionic.baglab.dto.pages.CreatePagesDto;
 import com.bionic.baglab.dto.pages.PagesDto;
 import com.bionic.baglab.dto.pages.PagesStatusDto;
@@ -34,7 +34,7 @@ public class PagesService {
     }
 
 
-    public Set<PagesDto> getAllNewsByStatus(PagesStatusNameEnum status) {
+    public Set<PagesDto> getAllNewsByStatus(PagesStatusEnum status) {
         List<PagesEntity> pagesEntities = pagesDao.findAllByPagesTypeType(status.name());
         return pagesEntities.stream().map(PagesDto::new).collect(Collectors.toSet());
     }

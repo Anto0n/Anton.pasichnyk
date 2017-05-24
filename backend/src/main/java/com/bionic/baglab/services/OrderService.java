@@ -3,6 +3,7 @@ package com.bionic.baglab.services;
 import com.bionic.baglab.dao.OrderDao;
 import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.*;
+import com.bionic.baglab.dto.enums.OrderStatusEnum;
 import com.bionic.baglab.dto.order.OrderDto;
 import com.bionic.baglab.dto.order.OrderDtoCreate;
 import com.bionic.baglab.dto.order.OrderDtoUpdate;
@@ -62,10 +63,15 @@ public class OrderService {
         return ordersEntities.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
+    /**
+     * create Order with status "BUCKET"
+     * @param orderDto
+     * @return
+     */
     public OrderDto createOrder(OrderDtoCreate orderDto) {
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUser(userService.findEntityById(orderDto.getUserId()));
-        orderEntity.setOrderStatus(orderStatusDao.findByCode("processing"));
+        orderEntity.setOrderStatus(orderStatusDao.findByCode(OrderStatusEnum.BUCKET));
         orderEntity.setItems(orderDto.getItems()
                 .stream()
                 .map(this::orderItemDto2Entity)
@@ -107,7 +113,7 @@ public class OrderService {
 
     public OrderDto changeOrder(OrderDtoUpdate orderDto) {
         OrderEntity orderEntity = findOne(orderDto.getOrderId());
-        orderEntity.setOrderStatus(orderStatusDao.findByCode("processing"));
+       // orderEntity.setOrderStatus(orderStatusDao.findByCode("processing")); Do not change orderStatus while uptating Order
         orderEntity.setItems(orderDto.getItems()
                 .stream()
                 .map(this::orderItemDto2Entity)

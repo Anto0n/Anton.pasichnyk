@@ -24,6 +24,7 @@ public class OrderEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "[orderStatusId]")
+    //@Enumerated(EnumType.ORDINAL)
     private OrderStatusEntity orderStatus;
 
     @Column(name = "[orderCreate]")

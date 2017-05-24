@@ -1,6 +1,7 @@
 package com.bionic.baglab.dao;
 
 import com.bionic.baglab.domains.OrderStatusEntity;
+import com.bionic.baglab.dto.enums.OrderStatusEnum;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -11,5 +12,5 @@ import java.util.List;
 public interface OrderStatusDao extends CrudRepository<OrderStatusEntity, Long> {
     List<OrderStatusEntity> findAll();
     OrderStatusEntity findOne(Long id);
-    OrderStatusEntity findByCode(String code);
+    OrderStatusEntity findByCode(OrderStatusEnum code);
 }

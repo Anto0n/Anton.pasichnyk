@@ -33,20 +33,21 @@ public class OrderController {
     }
 
     //TODO security check, get user id from principal and save it as moderator id!!
-    @PostMapping("/changeStatus")
+    @PutMapping("/changeStatus")
     public OrderDto changeOrderStatus(@PathVariable("id") long orderId,
                                       @PathVariable("status_id") long orderStatusId) {
+
         return orderService.changeStatus(orderId, orderStatusId);
     }
 
     //TODO add security check
-    @PostMapping("/changeOrder")
+    @PutMapping("/changeOrder")
     public OrderDto updateOrder(@Valid @RequestBody OrderDtoUpdate orderDto) {
         return orderService.changeOrder(orderDto);
     }
 
     //TODO double check on FE if user is sure
-    @PostMapping("/deleteOrder")
+    @DeleteMapping("/deleteOrder")
     public ResponseEntity deleteOrder(@PathVariable("orderId") long orderId) {
         orderService.deleteOrder(orderId);
         return new ResponseEntity(HttpStatus.OK);

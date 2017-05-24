@@ -1,13 +1,13 @@
 package com.bionic.baglab.dto.order;
 
 import com.bionic.baglab.domains.OrderEntity;
-import com.bionic.baglab.dto.ModelDto;
-import com.bionic.baglab.dto.OrderStatusDTO;
 import com.bionic.baglab.dto.user.UserLightDto;
+import org.hibernate.validator.constraints.NotEmpty;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.stream.Collectors;
 
 /**
@@ -15,12 +15,33 @@ import java.util.stream.Collectors;
  */
 public class OrderDto {
 
-    private final long idOrder;
-    private final Long moderatorId;
-    private final UserLightDto userDto;
-    private final OrderStatusDTO status;
-    private final Timestamp orderCreate;
-    private final Collection<OrderItemDto> items;
+    @NotNull(message = "error.idOrder.notnull")
+    @NotEmpty(message = "error.idOrder.notempty")
+    @Valid
+    private  long idOrder;
+
+    @NotNull(message = "error.moderatorId.notnull")
+    @NotEmpty(message = "error.moderatorId.notempty")
+    @Valid
+    private  Long moderatorId;
+
+    @NotNull(message = "error.userDto.notnull")
+    @NotEmpty(message = "error.userDto.notempty")
+    @Valid
+    private  UserLightDto userDto;
+
+    @NotNull(message = "error.status.notnull")
+    @NotEmpty(message = "error.status.notempty")
+    @Valid
+    private  OrderStatusDTO status;
+    private  Timestamp orderCreate;
+
+    @NotNull(message = "error.OrderItem.notnull")
+    @Valid
+    private Collection<OrderItemDto> items;
+
+    public OrderDto() {
+    }
 
     public OrderDto(OrderEntity orderEntity) {
         this.idOrder = orderEntity.getIdOrder();

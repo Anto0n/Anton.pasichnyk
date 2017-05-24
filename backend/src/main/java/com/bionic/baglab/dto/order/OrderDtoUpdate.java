@@ -12,14 +12,14 @@ import java.util.List;
 @ApiModel
 public class OrderDtoUpdate {
 
-    @NotNull(message = "userId should exist")
+    @NotNull(message = "error.UserId.notnull")
     private final Long userId;
 
-    @NotNull(message = "items should exist")
-    @NotEmpty(message = "items should not be empty")
+    @NotNull(message = "error.orderId.notnull")
     @Valid
     private final Long orderId;
-    @NotEmpty(message = "items should not be empty")
+
+    @NotNull(message = "error.orderItems.notnull")
     @Valid
     private final List<OrderItemDtoCreate> items;
 

@@ -1,7 +1,7 @@
 package com.bionic.baglab.dto;
 
 import com.bionic.baglab.domains.ModelEntity;
-import com.bionic.baglab.dto.enums.ModelStatus;
+import com.bionic.baglab.dto.enums.ModelStatusEnum;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -17,7 +17,7 @@ public class ModelDto {
     @NotNull(message = "error.bagmname.notnull")
     private String mname;
     @NotNull(message = "error.modelStatus.notnull")
-    private ModelStatus approved;
+    private ModelStatusEnum approved;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
 
@@ -80,11 +80,11 @@ public class ModelDto {
         return mname;
     }
 
-    public ModelStatus getApproved() {
+    public ModelStatusEnum getApproved() {
         return approved;
     }
 
-    public void setApproved(ModelStatus approved) {
+    public void setApproved(ModelStatusEnum approved) {
         this.approved = approved;
     }
 
