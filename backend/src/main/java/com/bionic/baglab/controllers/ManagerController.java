@@ -25,7 +25,7 @@ import java.util.Set;
 @RequestMapping("/api/manager")
 public class ManagerController {
     private final String MANAGER_ROLE = "Factory"; //todo: delete temp constant
-    private final String ORDER_STATUS = "accepted";
+    //private final String ORDER_STATUS = "accepted";
 
     @Autowired
     UserService userService;
@@ -44,9 +44,9 @@ public class ManagerController {
     @GetMapping(value = "/list") //
     public ResponseEntity<Set<UserDto>> listAllManagers(){
         Set<UserDto> managers = userService.getAllUsersByRole(MANAGER_ROLE);
-            if(managers.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);// HttpStatus.NOT_FOUND
-            }
+        if(managers.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);// HttpStatus.NOT_FOUND
+        }
         return new ResponseEntity<>(managers, HttpStatus.OK);
     }
 
@@ -56,7 +56,7 @@ public class ManagerController {
      */
     @GetMapping(value = "/orders")
     public ResponseEntity<List<OrderDto>> listApprovedOrders(){
-        List<OrderDto> orders = orderService.getAllOrdersByStatus(ORDER_STATUS);
+        List<OrderDto> orders = orderService.getAllOrdersByStatus(OrderStatusNameEnum.ACCEPTED);
         if(orders.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//HttpStatus.NOT_FOUND
         }
@@ -82,15 +82,15 @@ public class ManagerController {
         if(orderEntity == null || orderStatusEntity == null )
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
-            if (!orderEntity.getOrderStatus().equals(orderStatusEntity)){
-                orderEntity.setOrderStatus(orderStatusEntity);
-                orderService.save(orderEntity);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }  else
-                return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
-
+        if (!orderEntity.getOrderStatus().equals(orderStatusEntity)){
+            orderEntity.setOrderStatus(orderStatusEntity);
+            orderService.save(orderEntity);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }  else
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
+
+}
 
 
 

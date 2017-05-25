@@ -37,9 +37,11 @@ import {UserRoleService} from "./services/user/user-role.service";
 import {ModelService} from "./services/model.service";
 import { CreateNewsComponent } from './content/admin/editnews/edit-news.component';
 import {AdminGuard} from "./shared/guards/admin.guard";
-import {OrderService} from "./services/order.service"
+import {OrderService} from "./services/order/order.service"
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CardMenuComponent } from './content/orders/card-menu.component';
+import {CardOrderService} from "./services/order/card-order.service";
 
 @NgModule({
   declarations: [
@@ -61,7 +63,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     SafePipe,
     UserCreateComponent,
     PageNotFoundComponent,
-    CreateNewsComponent
+    CreateNewsComponent,
+    CardMenuComponent
 
   ],
   imports: [
@@ -75,12 +78,13 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService, UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService],
+  providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService,
+    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService, CardOrderService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(router: Router, private authService: AuthenticationService) { // Diagnostic only: inspect router configuration
     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
-   /* authService.init();
-    console.log('Auth service init');*/
+    /* authService.init();
+     console.log('Auth service init');*/
   } }

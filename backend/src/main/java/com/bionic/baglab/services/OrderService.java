@@ -9,6 +9,7 @@ import com.bionic.baglab.dto.order.OrderDtoCreate;
 import com.bionic.baglab.dto.order.OrderDtoUpdate;
 import com.bionic.baglab.dto.order.OrderItemDtoCreate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -61,9 +62,14 @@ public class OrderService {
         return orderDao.save(orderEntity);
     }
 
-    public List<OrderDto> getAllOrdersByStatus(String status) {
-        List<OrderEntity> ordersEntities = orderDao.findAllOrdersByOrderStatusCode(status);
+    public List<OrderDto> getAllOrdersByStatus(OrderStatusNameEnum status) {        // didnt work??
+        List<OrderEntity> ordersEntities = orderDao.findAllOrdersByOrderStatusCode(status.name());
         return ordersEntities.stream().map(OrderDto::new).collect(Collectors.toList());
+    }
+
+    public Set<OrderDto> getAllOrdersByUserId(long userId) {
+        List<OrderEntity> temp = orderDao.findAllByUserIdUser(userId);
+        return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
     }
 
     /**
@@ -116,7 +122,7 @@ public class OrderService {
 
     public OrderDto changeOrder(OrderDtoUpdate orderDto) {
         OrderEntity orderEntity = findOne(orderDto.getOrderId());
-       // orderEntity.setOrderStatus(orderStatusDao.findByCode("processing")); Do not change orderStatus while uptating Order
+        // orderEntity.setOrderStatus(orderStatusDao.findByCode("processing")); Do not change orderStatus while uptating Order
         orderEntity.setItems(orderDto.getItems()
                 .stream()
                 .map(this::orderItemDto2Entity)
@@ -127,6 +133,13 @@ public class OrderService {
     }
 
     public void deleteOrder(long orderId) {
-       orderDao.delete(orderId);
+        orderDao.delete(orderId);
     }
+
+    public OrderDto getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
+        OrderEntity orderEntity = orderDao.findOrderByUserIdUserAndOrderStatusCode(userId, statusCode );
+        return getDtoFromEntity(orderEntity);
+    }
+
+
 }

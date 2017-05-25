@@ -1,72 +1,29 @@
 <header>
- <!-- <div class="logoImg">
-    <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
+  <!-- <div class="logoImg">
+     <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
 
-  </div>-->
+   </div>-->
   <div class="topBar">
     <img src="./assets/logo_bl.bmp">
   </div>
-<!--items bucket-->
-  <div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown" style="float:inherit;">
-    <button class="btn btn-outline-primary" id="dropdownManual" ngbDropdownToggle data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Cart: 2 item(s) - $20.00 </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownManual">
-      <!-- <button class="dropdown-item">Action - 1</button>-->
-      <div class="dropdown-item dropdown-menu-right" aria-labelledby="cartDropdownMenu">
-        <table class="table table-bordered table-inverse">
-          <thead>
-          <tr>
-            <th>Name</th>
-            <th>Amount</th>
-            <th>Qty</th>
-            <th>Sum</th>
-          </tr>
-          </thead>
-          <tfoot>
-          <tr>
-            <td colspan="4" style="text-align:center">
-              Total:<strong>$20.00</strong><br>
-              <div class="btn-group">
-                <button class="btn btn-primary">View Cart</button>
-                <button class="btn btn-success">Checkout</button>
-              </div>
-            </td>
-          </tr>
-          </tfoot>
-          <tbody>
-          <tr>
-            <td >Product 1</td>
-            <td >$10</td>
-            <td >x1<br><span class="delete-cart">Del</span></td>
-            <td >$10.00</td>
-          </tr>
-          <tr>
-            <td >Product 2</td>
-            <td >$5.00</td>
-            <td >x2<br><span class="delete-cart">Del</span></td>
-            <td >$10.00</td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <!--items bucket-->
+  <app-card-menu></app-card-menu>
+
+  <div class="container-fluid" style="float:right;">
+    <ul class="nav navbar-nav" *ngIf="!isAuth()">
+      <li class="nav-item"><a class="nav-link active" [routerLink]="['register']">Sign Up</a></li>
+      <li class="nav-item"><a class="nav-link active" [routerLink]="['login']">Log In</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
+      <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
+    </ul>
   </div>
-
-    <div class="container-fluid" style="float:right;">
-      <ul class="nav navbar-nav" *ngIf="!isAuth()">
-        <li  class="nav-item" > <a class="nav-link active" [routerLink]="['register']">Sign Up</a></li>
-        <li class="nav-item"> <a class="nav-link active" [routerLink]="['login']">Log In</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-        <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
-      </ul>
-    </div>
   <app-menu>loading...</app-menu>
-<!--  <div class="menuBar" >
-    <div class="mainMenu" >
+  <!--  <div class="menuBar" >
+      <div class="mainMenu" >
 
-    </div>
-  </div>-->
+      </div>
+    </div>-->
 </header>
 
 
@@ -75,9 +32,9 @@
   <div class="container">
     <div class="row">
       <!--<div class="col-sm-8 col-sm-offset-2">-->
-        <alert></alert>
-        <router-outlet></router-outlet>
-     <!-- </div>-->
+      <alert></alert>
+      <router-outlet></router-outlet>
+      <!-- </div>-->
     </div>
   </div>
 </div>
