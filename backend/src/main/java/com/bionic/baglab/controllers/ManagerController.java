@@ -25,7 +25,7 @@ import java.util.Set;
 @RequestMapping("/api/manager")
 public class ManagerController {
     private final String MANAGER_ROLE = "Factory"; //todo: delete temp constant
-    private final String ORDER_STATUS = "accepted";
+    //private final String ORDER_STATUS = "accepted";
 
     @Autowired
     UserService userService;
@@ -56,7 +56,7 @@ public class ManagerController {
      */
     @GetMapping(value = "/orders")
     public ResponseEntity<List<OrderDto>> listApprovedOrders(){
-        List<OrderDto> orders = orderService.getAllOrdersByStatus(ORDER_STATUS);
+        List<OrderDto> orders = orderService.getAllOrdersByStatus(OrderStatusNameEnum.ACCEPTED);
         if(orders.isEmpty()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);//HttpStatus.NOT_FOUND
         }
