@@ -1,28 +1,43 @@
-import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {RestService} from "../../services/rest.service";
 import {IModel, CreateModel} from "../../models/model";
 import {IUser} from "../../models/test.model";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {Response} from "@angular/http";
+import {AuthenticationService} from "../../services/authentication.service";
+import {Subscription} from "rxjs";
 //  changeDetection: ChangeDetectionStrategy.OnPush
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html'
 })
-export class OrdersComponent implements OnInit {
+export class OrdersComponent implements OnInit, OnDestroy {
   private uId: string
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
   private selectedModel:IModel;
-  //CreateModel
+ // private subscription: Subscription;
 
-  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef) {
+
+  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef, private authService : AuthenticationService) {
+    // if(this.authService.isAuthenticated()){
+    //   this.getModelsByUserId();
+    // }
+    this.authService.subjectLogin.subscribe((auth: boolean ) => {
+      if(auth){
+        this.getModelsByUserId();  //refresh models on login
+      }else{
+        // void
+      }
+    });
 
   }
 
   ngOnInit(): void {
-    this.getModelsByUserId();
+    if(this.authService.isAuthenticated()){
+      this.getModelsByUserId();
+    }
     this.cd.markForCheck();
 
   }
@@ -55,14 +70,20 @@ export class OrdersComponent implements OnInit {
       "mname": "string",
       "userId": iid
     };
-    this.restService.postJson('./api/models/create', createModelobjT).subscribe(
-      () => {
+    this.restService.postJsonResp('./api/models/create', createModelobjT).subscribe(
+      (data: IModel[]) => {
         this.uModels.push(createModelobjT);
         this.selectedModel = null;
-        this.getModelsByUserId();
-      }
-    )
+        this.uModels = data;
+        //this.getModelsByUserId();
+      }, () => console.log('err'));
 
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    //this.authService.subjectLogin.unsubscribe();  error Object unsecribed
+    //this.roleService.roleEmiter.unsubscribe(); //error ???
   }
 
 }

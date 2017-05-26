@@ -15,7 +15,7 @@ export class RestService {
   }
 
   getData(restPath: string, param?: string): Observable<any> {
-    return this.http.get(restPath + (param ? param : ''))
+    return this.http.get(restPath + (param ? param : ''),   {headers: this.headers})
       .map(res => res.json())
       .catch(this.handleError);
   }

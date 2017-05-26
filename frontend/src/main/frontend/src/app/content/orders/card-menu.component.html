@@ -1,9 +1,9 @@
-<div class="d-inline-block" ngbDropdown #myDrop="ngbDropdown" style="float:inherit;">
+<div *ngIf="this.authService.isAuthenticated()" class="d-inline-block" ngbDropdown #myDrop="ngbDropdown" style="float:inherit;">
 
   <button class="btn btn-outline-primary" id="dropdownManual" ngbDropdownToggle data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false" >
-      <div *ngIf="orderRespListener.items && orderRespListener.sumPrice">Cart: {{ orderRespListener.items.length }} item(s) - $ {{orderRespListener.sumPrice}}</div>
-       <div *ngIf="!orderRespListener">Cart: 0 item(s) - $ 00.00</div>
+      <div *ngIf="orderRespListener.items?.length > 0 ">Cart: {{ orderRespListener.items.length }} item(s) - $ {{orderRespListener.sumPrice}}</div>
+       <div *ngIf="orderRespListener.items?.length === 0">Cart: 0 item(s) - $ 00.00</div>
  </button>
   <div class="dropdown-menu" aria-labelledby="dropdownManual">
     <!-- <button class="dropdown-item">Action - 1</button>-->

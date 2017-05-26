@@ -67,11 +67,12 @@ public class ModelController {
     }
 
     @PostMapping(value = "/create")
-    public ResponseEntity<ModelDtoCreate> createModelDto(@Validated @RequestBody ModelDtoCreate modelDtoCreate) {
+    public  ResponseEntity<List<ModelDto>> createModelDto(@Validated @RequestBody ModelDtoCreate modelDtoCreate) {
+        long userId = modelDtoCreate.getUserId();
         boolean created = modelService.createModel(modelDtoCreate);
         if(!created)
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(modelService.findAllModelsbyUserId(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -57,7 +57,7 @@ public class OrderController {
     }
 
     /**
-     *
+     * If bucket is not exist, create new one.
      * @param userId
      * @return Order with Status.BUCKET by user Id (if exist)
      */
@@ -67,6 +67,9 @@ public class OrderController {
         OrderDto dto = null;
         try{
            set = orderService.getOrderByUserIdAndStatus(userId, OrderStatusNameEnum.BUCKET);
+           if(set.isEmpty()){           // No bucket found
+               set.add(orderService.createBucket(userId, OrderStatusNameEnum.BUCKET));
+           }
            //dto = set.iterator().next(); // get first
         } catch (Exception ex){
             return new ResponseEntity(HttpStatus.NOT_FOUND);

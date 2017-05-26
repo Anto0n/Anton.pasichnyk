@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -142,6 +143,12 @@ public class OrderService {
     }
 
 
+    public OrderDto createBucket(long userId, OrderStatusNameEnum bucket) {        // create new one Bucket
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setUser(userService.findEntityById(userId));
+        orderEntity.setOrderStatus(orderStatusDao.findByCode(bucket));
+        OrderEntity resOrderEntity = save(orderEntity);
+        return  getDtoFromEntity(resOrderEntity);
 
-
+    }
 }

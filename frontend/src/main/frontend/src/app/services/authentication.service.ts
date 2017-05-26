@@ -10,7 +10,7 @@ import {CardOrderService} from "./order/card-order.service";
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
-
+  public subjectLogin = new Subject<boolean>();
   private subjectAdminLogin = new Subject<boolean>();
 
 
@@ -47,6 +47,7 @@ export class AuthenticationService implements OnDestroy {
                this.sendAdminLogIn(true);
         }
         this.roleService.roleEmiter.emit(user.role.name);
+        this.subjectLogin.next(true);
       });
   }
 
@@ -56,6 +57,7 @@ export class AuthenticationService implements OnDestroy {
     localStorage.removeItem('currentUserRole');
     this.sendAdminLogIn(false);
     this.carServ.clearMessage(); // clear bucket/card
+    this.subjectLogin.next(false);
   }
 
   isAuthenticated() {
@@ -67,9 +69,16 @@ export class AuthenticationService implements OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
+ /* getLoginSubscript(): Observable<boolean> {
+    return this.subjectLogin.asObservable();
+  }*/
+
+  ngOnDestroy() {
+  this.subjectLogin.unsubscribe();
+  this.subjectAdminLogin.unsubscribe();
   }
+
+
 
 }
 
