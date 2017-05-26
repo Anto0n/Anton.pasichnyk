@@ -11,6 +11,9 @@ public class OrderItemEntity {
     private int count;
     private int price;
 
+    public OrderItemEntity() {
+    }
+
     public OrderItemEntity(ModelEntity modelEntity, int count, int price) {
         this.modelEntity = modelEntity;
         this.count = count;

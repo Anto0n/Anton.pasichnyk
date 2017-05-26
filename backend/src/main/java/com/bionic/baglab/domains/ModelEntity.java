@@ -1,12 +1,11 @@
 package com.bionic.baglab.domains;
 
 
-import com.bionic.baglab.dto.enums.ModelStatus;
+import com.bionic.baglab.dto.enums.ModelStatusEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.util.Collection;
 
 @Entity
 @Table(name = "[model]", schema = "baglab")
@@ -18,7 +17,7 @@ public class ModelEntity {
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
     private boolean deleted;
-    private ModelStatus approved;
+    private ModelStatusEnum approved;
     private String mname;
 
     public ModelEntity(long idModel) {
@@ -103,9 +102,9 @@ public class ModelEntity {
     @Column(name = "[approved]")
     @Enumerated(EnumType.ORDINAL)
     @NotNull(message = "error.approved.notnull")
-    public ModelStatus getApproved() {  return approved; }
+    public ModelStatusEnum getApproved() {  return approved; }
 
-    public void setApproved(ModelStatus approved) {  this.approved = approved; }
+    public void setApproved(ModelStatusEnum approved) {  this.approved = approved; }
 
     @Basic
     @Column(name = "[mname]")

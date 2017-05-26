@@ -5,8 +5,7 @@ import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.JResponse;
 import com.bionic.baglab.dto.ModelDto;
 import com.bionic.baglab.dto.ModelDtoCreate;
-import com.bionic.baglab.dto.ModelSetDto;
-import com.bionic.baglab.dto.enums.ModelStatus;
+import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import com.bionic.baglab.services.ModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +43,7 @@ public class ModelController {
 
     @GetMapping(value = "/approve/{modelId}")
     public ResponseEntity<JResponse> setModelApprovedFalse(@PathVariable("modelId") long modelId,
-                                                           @RequestParam ModelStatus approved) {
+                                                           @RequestParam ModelStatusEnum approved) {
         modelService.setModelApproved(modelId, approved);
         return new ResponseEntity<>(new JResponse(), HttpStatus.OK);
     }
@@ -63,7 +62,7 @@ public class ModelController {
     }
 
     @GetMapping(value = "/list/{approved}")
-    public ResponseEntity<List<ModelDto>> findAllModelsParam(@PathVariable("approved") ModelStatus approved) {
+    public ResponseEntity<List<ModelDto>> findAllModelsParam(@PathVariable("approved") ModelStatusEnum approved) {
         return new ResponseEntity<>(modelService.findAllModelsParam(approved), HttpStatus.OK);
     }
 

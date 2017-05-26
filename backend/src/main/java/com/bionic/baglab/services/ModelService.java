@@ -4,11 +4,10 @@ import com.bionic.baglab.dao.ModelDao;
 import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.ModelDto;
 import com.bionic.baglab.dto.ModelDtoCreate;
-import com.bionic.baglab.dto.enums.ModelStatus;
+import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +40,7 @@ public class ModelService {
 
 
 
-    public void setModelApproved(long modelId, ModelStatus approved) {
+    public void setModelApproved(long modelId, ModelStatusEnum approved) {
         ModelEntity model = modelDao.findOne(modelId);
         model.setApproved(approved);
         modelDao.save(model);
@@ -79,7 +78,7 @@ public class ModelService {
 
     }
 
-    public List<ModelDto> findAllModelsParam(ModelStatus approved) {
+    public List<ModelDto> findAllModelsParam(ModelStatusEnum approved) {
         return this.getDtosfromEntitys((List<ModelEntity>) modelDao.findAllModelsByApproved(approved));
     }
 

@@ -37,7 +37,7 @@ export class OrdersComponent implements OnInit {
   }
 
   deleteModel(model: IModel) { //done
-    this.restService.deleteData('/api/models/delete' + `/${model.id}`).subscribe(
+    this.restService.deleteData('./api/models/delete' + `/${model.id}`).subscribe(
       () => {
           this.uModels = this.uModels.filter(m => m !== model); //selectedModel - null
 

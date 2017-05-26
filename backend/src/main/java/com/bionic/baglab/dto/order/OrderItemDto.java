@@ -3,6 +3,10 @@ package com.bionic.baglab.dto.order;
 import com.bionic.baglab.domains.OrderItemEntity;
 import com.bionic.baglab.dto.ModelDto;
 import io.swagger.annotations.ApiModel;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by nicot on 5/16/2017.
@@ -10,18 +14,30 @@ import io.swagger.annotations.ApiModel;
 @ApiModel
 public class OrderItemDto {
 
-    private final ModelDto model;
-    private final int count;
-    private final int price;
+    @NotNull(message = "error.model.notnull")
+    @NotEmpty(message = "error.model.notempty")
+    @Valid
+    private  ModelDto models;
+
+    @NotNull(message = "error.count.notnull")
+    @Valid
+    private  int count;
+
+    @NotNull(message = "error.price.notnull")
+    @Valid
+    private  int price;
+
+    public OrderItemDto() {
+    }
 
     public OrderItemDto(OrderItemEntity orderItemEntity) {
-        this.model = new ModelDto(orderItemEntity.getModelEntity());
+        this.models = new ModelDto(orderItemEntity.getModelEntity());
         this.count = orderItemEntity.getCount();
         this.price = orderItemEntity.getPrice();
     }
 
     public ModelDto getModel() {
-        return model;
+        return models;
     }
 
     public int getCount() {
@@ -35,7 +51,7 @@ public class OrderItemDto {
     @Override
     public String toString() {
         return "OrderItemDto{" +
-                "model=" + model +
+                "model=" + models +
                 ", count=" + count +
                 ", price=" + price +
                 '}';

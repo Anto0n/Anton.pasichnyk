@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthenticationService} from "../services/authentication.service";
 import {UserRoleService} from "../services/user/user-role.service";
 
@@ -8,7 +8,8 @@ import {UserRoleService} from "../services/user/user-role.service";
   styleUrls: ['./menu.component.css']
 })
 
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
+
 
   private urls: Route[] = [];
 
@@ -37,59 +38,74 @@ export class MenuComponent implements OnInit {
     switch (role) {
       case 'Customer' :
         this.urls = [
-          new Route("home", "Home"),
-          new Route("orders", "Orders"),
-          new Route("test", "Test"),
+          new Route("home", "HOME"),
+          new Route("products", "PRODUCTS"),
+          new Route("orders", "ORDERS"),
+          new Route("test", "THEBAGLAB"),
           new Route("testform", "TEST FORM"),
-          new Route("about", "About"),
+          new Route("faqs", "FAQ's"),
+          new Route("contact", "CONTACT")
         ];
         break;
       case 'Moderator' :
         this.urls = [
-          new Route("home", "Home"),
+          new Route("home", "HOME"),
+          new Route("products", "PRODUCTS"),
           new Route("moderator", "MODERATOR"),
-          new Route("about", "About")
+          new Route("faqs", "FAQ's"),
+          new Route("contact", "CONTACT")
         ];
         break;
       case 'Factory' :
         this.urls = [
-          new Route("home", "Home"),
+          new Route("home", "HOME"),
+          new Route("products", "PRODUCTS"),
           new Route("factory", "FACTORY"),
-          new Route("about", "About")
+          new Route("faqs", "FAQ's"),
+          new Route("contact", "CONTACT")
         ];
         break;
       case 'Administrator' :
         console.log("draw admin menu")
         this.urls = [
-          new Route("home", "Home"),
+          new Route("home", "HOME"),
+          new Route("products", "PRODUCTS"),
           new Route("admin", "ADMIN"),
-          new Route("orders", "Orders"),
+          new Route("orders", "ORDERS"),
           new Route("moderator", "MODERATOR"),
           new Route("factory", "FACTORY"),
-          new Route("test", "Test"),
+          new Route("test", "THEBAGLAB"),
           new Route("testform", "TEST FORM"),
-          new Route("about", "About")
+          new Route("faqs", "FAQ's"),
+          new Route("contact", "CONTACT")
         ];
         break;
       case 'Guest' :
         console.log("draw GUEST menu")
         this.urls = [
-          new Route("home", "Home"),
-          new Route("test", "Test"),
+          new Route("home", "HOME"),
+          new Route("products", "PRODUCTS"),
+          new Route("test", "THEBAGLAB"),
           new Route("testform", "T FORM"),
-          new Route("about", "About")
+          new Route("faqs", "FAQ's"),
+          new Route("contact", "CONTACT")
         ];
         break;
       default :
         console.log("draw DEFAULT menu");
         this.urls = [
-          new Route("home", "Home"),
-          new Route("orders", "Orders"),
-          new Route("test", "Test"),
+          new Route("home", "HOME"),
+          new Route("products", "PRODUCTS"),
+          new Route("orders", "ORDERS"),
+          new Route("test", "THEBAGLAB"),
           new Route("testform", "TEST FORM"),
-          new Route("about", "About")
+          new Route("faqs", "FAQ's"),
+          new Route("contact", "CONTACT")
         ];
     }
+  }
+  ngOnDestroy(){
+    this.roleService.roleEmiter.unsubscribe();
   }
 
 }
@@ -109,7 +125,7 @@ class Route {
  {path: 'home', component: HomeComponent},
  {path: 'new', component: NewComponent},
  {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
- {path: 'about', component: AboutComponent},
+ {path: 'about', component: FAQsComponent},
  {path: 'help', component: HelpComponent},
  {path: 'test', component: TestComponent},
  { path: 'login', component: LoginComponent },

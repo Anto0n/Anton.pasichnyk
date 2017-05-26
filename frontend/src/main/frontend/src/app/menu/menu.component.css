@@ -1,3 +1,4 @@
+/*
 ul {
   list-style: none;
   padding-left: 0;
@@ -34,3 +35,20 @@ a {
   display: block;
   height: 100%;
 }
+*/
+
+
+/*new navbar*/
+/*.navbar .navbar-nav {*/
+  /*display: inline-block;*/
+  /*float: none;*/
+/*}*/
+
+/*.navbar .navbar-collapse {*/
+  /*text-align: center;*/
+/*}*/
+
+/*.justified {*/
+  /*position:absolute;*/
+  /*left:20%;*/
+/*}*/

@@ -1,13 +1,124 @@
-
-<div  class="row">
+<!--<div  class="row">
   <div  *ngFor="let n of news" class="col-sm-8 col-md-6">
     <div class="thumbnail">
-      <img src="{{n.header}}" alt="img">
+      <img src="{{n.header}}" class="img-fluid center-block product-item"    alt="img">
       <div class="caption">
         <h3></h3>
         <p>{{n.body}}</p>
-        <!--<p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>-->
       </div>
     </div>
   </div>
+</div>-->
+
+<!--<div class="col-md-3">
+<ngb-carousel>
+  <div *ngFor="let n of news">
+    <ng-template ngbSlide>
+      <img src="{{n.header}}" alt="img slide">
+      <div class="carousel-caption">
+        &lt;!&ndash; <h3> slide HEADER label</h3>&ndash;&gt;
+        <p style="color: #1d1e1f">{{n.body}} </p>
+      </div>
+    </ng-template>
+  </div>
+</ngb-carousel>
+</div>-->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Carousel container -->
+
+        <ngb-carousel>
+          <div *ngFor="let n of news">
+            <ng-template ngbSlide>
+              <img class="card-img-top center-block product-item" src="{{n.header}}" alt="img slide">
+              <div class="carousel-caption">
+                <!-- <h3> slide HEADER label</h3>-->
+                <p style="color: #1d1e1f">{{n.body}} </p>
+              </div>
+            </ng-template>
+          </div>
+        </ngb-carousel>
+
+
+      <!-- Center the image -->
+      <!--<style scoped>
+      .carousel-item img{
+          margin: 0 auto;
+      }
+      </style>-->
+    </div>
+  </div>
+  <!-- /.row -->
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="card">
+        <img class="card-img-top center-block product-item" src="http://placehold.it/270x171" alt="Bakery">
+        <div class="card-block">
+          <h4 class="card-title">Bags</h4>
+          <p class="card-text">The best ... and     more.
+          </p>
+          <a href="#" class="btn btn-primary">Browse</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="card">
+        <img class="card-img-top center-block product-item" src="http://placehold.it/270x171" alt="Takeaway">
+        <div class="card-block">
+          <h4 class="card-title">Backpack</h4>
+          <p class="card-text">It's  excellent, produced from high quality materials.</p>
+          <a href="#" class="btn btn-primary">Browse</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="card">
+        <img class="card-img-top center-block product-item" src="http://placehold.it/270x171" alt="Dairy">
+        <div class="card-block">
+          <h4 class="card-title">Bag2</h4>
+          <p class="card-text">The  product is .....<br><br></p>
+          <a href="#" class="btn btn-primary">Browse</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="card">
+        <img class="card-img-top center-block product-item" src="http://placehold.it/270x171" alt="Meat">
+        <div class="card-block">
+          <h4 class="card-title">Bag3</h4>
+          <p class="card-text">Only superior quality.<br><br></p>
+          <a href="#" class="btn btn-primary">Browse</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="card">
+        <img class="card-img-top center-block product-item" src="http://placehold.it/270x171" alt="Seafood">
+        <div class="card-block">
+          <h4 class="card-title">Bag4</h4>
+          <p class="card-text">Great place to buy bags at reasonable prices!<br><br></p>
+          <a href="#" class="btn btn-primary">Browse</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col -->
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="card">
+        <img class="card-img-top center-block product-item" src="http://placehold.it/270x171" alt="Fruit & Veg">
+        <div class="card-block">
+          <h4 class="card-title">Bag5</h4>
+          <p class="card-text">A variety of variants.<br><br><br></p>
+          <a href="#" class="btn btn-primary">Browse</a>
+        </div>
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
 </div>
