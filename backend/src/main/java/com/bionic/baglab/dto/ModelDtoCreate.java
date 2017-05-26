@@ -1,7 +1,7 @@
 package com.bionic.baglab.dto;
 
 
-import com.bionic.baglab.dto.enums.ModelStatus;
+import com.bionic.baglab.dto.enums.ModelStatusEnum;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -17,12 +17,12 @@ public class ModelDtoCreate {
     @Size(min = 1, max = 45, message = "error.mname.size")
     private String mname;
     @NotNull(message = "error.approved.notnull")
-    private ModelStatus approved;
+    private ModelStatusEnum approved;
 
     public ModelDtoCreate() {
     }
 
-    public ModelDtoCreate(long userId, long bagTypeId, long materialId, String mname, ModelStatus approved) {
+    public ModelDtoCreate(long userId, long bagTypeId, long materialId, String mname, ModelStatusEnum approved) {
         this.userId = userId;
         this.bagTypeId = bagTypeId;
         this.materialId = materialId;
@@ -62,11 +62,11 @@ public class ModelDtoCreate {
         this.mname = mname;
     }
 
-    public ModelStatus getApproved() {
+    public ModelStatusEnum getApproved() {
         return approved;
     }
 
-    public void setApproved(ModelStatus approved) {
+    public void setApproved(ModelStatusEnum approved) {
         this.approved = approved;
     }
 }

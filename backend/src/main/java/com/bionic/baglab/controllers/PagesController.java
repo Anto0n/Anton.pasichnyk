@@ -1,7 +1,7 @@
 package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.dto.JResponse;
-import com.bionic.baglab.dto.enums.PagesStatusNameEnum;
+import com.bionic.baglab.dto.enums.PagesStatusEnum;
 import com.bionic.baglab.dto.pages.CreatePagesDto;
 import com.bionic.baglab.dto.pages.PagesDto;
 import com.bionic.baglab.dto.pages.PagesStatusDto;
@@ -29,7 +29,7 @@ public class PagesController { //todo: add services
     public ResponseEntity<Set<PagesDto>> getAllNewsActive(){
         Set<PagesDto> pagesSet = null;
         try {
-            pagesSet = pagesService.getAllNewsByStatus(PagesStatusNameEnum.ACTIVE);
+            pagesSet = pagesService.getAllNewsByStatus(PagesStatusEnum.ACTIVE);
         }
         catch (Exception ex){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); //("error, no pages found: " + ex); //todo: logging
@@ -97,11 +97,11 @@ public class PagesController { //todo: add services
     }
 
     @PutMapping("/update/status")
-    public ResponseEntity<JResponse> updateNews(@Validated @RequestBody PagesStatusDto pagesStatusDtoDto){
+    public ResponseEntity<JResponse> updateNews(@Validated @RequestBody PagesStatusDto pagesStatusDto){
         //get by id? error othervise, update
         JResponse resp = new JResponse();
         try{
-        pagesService.changeStatus(pagesStatusDtoDto);
+        pagesService.changeStatus(pagesStatusDto);
         }catch(Exception e){
             resp.setResponseMessage("error on update news status");
             return new ResponseEntity<JResponse>(resp, HttpStatus.CONFLICT);

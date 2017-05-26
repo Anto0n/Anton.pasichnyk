@@ -1,5 +1,5 @@
 package com.bionic.baglab.dto.enums;
 
-public enum PagesStatusNameEnum {
+public enum PagesStatusEnum {
    ACTIVE, ARCHIVE, DELETED;
 }

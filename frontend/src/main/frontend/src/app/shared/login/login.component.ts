@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { AlertService, AuthenticationService } from '../../services/index';
+import {CardOrderService} from "../../services/order/card-order.service";
 
 @Component({
     moduleId: module.id,
@@ -17,7 +18,8 @@ export class LoginComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private authenticationService: AuthenticationService,
-        private alertService: AlertService) { }
+        private alertService: AlertService,
+        private carServ:CardOrderService) { }
 
     ngOnInit() {
         // reset login status
@@ -38,5 +40,6 @@ export class LoginComponent implements OnInit {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+      //this.carServ.reloadBucket();
     }
 }

@@ -1,12 +1,10 @@
 import { NgModule }     from '@angular/core';
-import {
-  RouterModule, Routes,
-} from '@angular/router';
+import {  RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "../content/home/home.component";
-import {NewComponent} from "../content/new/new.component";
+import {ProductsComponent} from "../content/products/products.component";
 import {OrdersComponent} from "../content/orders/orders.component";
-import {AboutComponent} from "../content/about/about.component";
-import {HelpComponent} from "../content/help/help.component";
+import {FAQsComponent} from "../content/FAQs/faqs.component";
+import {ContactComponent} from "../content/contact/contact.component";
 import {TestComponent} from "../content/test/test.component";
 import {PageNotFoundComponent} from "app/routing/not-found.component";
 import {TestformComponent} from "../content/testform/testform.component";
@@ -19,17 +17,13 @@ import {FactoryComponent} from "../content/factory/factory.component";
 import {CreateNewsComponent} from "../content/admin/editnews/edit-news.component";
 import {AdminGuard} from "../shared/guards/admin.guard";
 
-/*import { ComposeMessageComponent } from './compose-message.component';
-import { PageNotFoundComponent }   from './not-found.component';
-import { CanDeactivateGuard }      from './can-deactivate-guard.service';
-import { AuthGuard }               from './auth-guard.service';*/
-//, canActivate: [AuthGuard]
+
 const appRoutes: Routes = [
   {path: 'home', component: HomeComponent},
-  {path: 'new', component: NewComponent},
+  {path: 'products', component: ProductsComponent},
   {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
-  {path: 'about', component: AboutComponent},
-  {path: 'help', component: HelpComponent},
+  {path: 'faqs', component: FAQsComponent},
+  {path: 'contact', component: ContactComponent},
   {path: 'test', component: TestComponent},
   {path: 'login', component: LoginComponent },
   {path: 'register', component: UserCreateComponent },
@@ -55,39 +49,5 @@ const appRoutes: Routes = [
 export class AppRoutingModule {}
 
 
-/*
-@NgModule({
-  imports: [
-    RouterModule.forRoot(
-      appRoutes
-    )
-  ],
-  exports: [
-    RouterModule
-  ],
-  providers: [
-    CanDeactivateGuard
-  ]
-})
 
- {
- path: 'compose',
- component: ComposeMessageComponent,
- outlet: 'popup'
- },
- {
- path: 'admin',
- loadChildren: 'app/admin/admin.module#AdminModule',
- canLoad: [AuthGuard]
- },
- {
- path: 'crisis-center',
- loadChildren: 'app/crisis-center/crisis-center.module#CrisisCenterModule'
- },
- { path: '',   redirectTo: '/heroes', pathMatch: 'full' },
- { path: '**', component: PageNotFoundComponent }
-
-
-*/
-// ActivatedRouteSnapshot
 

@@ -15,10 +15,10 @@ import { ReactiveFormsModule } from '@angular/forms';  // <-- #1 import module
 import { AppRoutingModule }        from './routing/app-routing.module';
 import { MenuComponent } from './menu/menu.component';
 import { HomeComponent } from './content/home/home.component';
-import { NewComponent } from './content/new/new.component';
+import { ProductsComponent } from './content/products/products.component';
 import { OrdersComponent } from './content/orders/orders.component';
-import { AboutComponent } from './content/about/about.component';
-import { HelpComponent } from './content/help/help.component';
+import { FAQsComponent } from './content/FAQs/faqs.component';
+import { ContactComponent } from './content/contact/contact.component';
 import {SafePipe} from "./shared/safe.pipe.spec.";
 import { UserCreateComponent } from './shared/register/user-create.component';
 import {PageNotFoundComponent} from "./routing/not-found.component";
@@ -37,6 +37,11 @@ import {UserRoleService} from "./services/user/user-role.service";
 import {ModelService} from "./services/model.service";
 import { CreateNewsComponent } from './content/admin/editnews/edit-news.component';
 import {AdminGuard} from "./shared/guards/admin.guard";
+import {OrderService} from "./services/order/order.service"
+
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { CardMenuComponent } from './content/orders/card-menu.component';
+import {CardOrderService} from "./services/order/card-order.service";
 
 @NgModule({
   declarations: [
@@ -45,10 +50,10 @@ import {AdminGuard} from "./shared/guards/admin.guard";
     TestComponent,
     MenuComponent,
     HomeComponent,
-    NewComponent,
+    ProductsComponent,
     OrdersComponent,
-    AboutComponent,
-    HelpComponent,
+    FAQsComponent,
+    ContactComponent,
     FactoryComponent,
     ModeratorComponent,
     AdminComponent,
@@ -58,10 +63,12 @@ import {AdminGuard} from "./shared/guards/admin.guard";
     SafePipe,
     UserCreateComponent,
     PageNotFoundComponent,
-    CreateNewsComponent
+    CreateNewsComponent,
+    CardMenuComponent
 
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -71,12 +78,13 @@ import {AdminGuard} from "./shared/guards/admin.guard";
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService, UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard],
+  providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService,
+    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService, CardOrderService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(router: Router, private authService: AuthenticationService) { // Diagnostic only: inspect router configuration
     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
-   /* authService.init();
-    console.log('Auth service init');*/
+    /* authService.init();
+     console.log('Auth service init');*/
   } }
