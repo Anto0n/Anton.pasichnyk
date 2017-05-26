@@ -111,7 +111,12 @@
 <button class="btn btn-outline-danger" (click)="$event.stopPropagation(); myDrop.close();">Close from outside</button>
 </div>
 
+<!--test card-bucket Observable-->
+<div>
+  <button class="btn btn-outline-success" (click)="$event.stopPropagation();  sendTestDataToObservable() ">Send data to bucket Observable</button>
+  <button class="btn btn-primary" (click)="$event.stopPropagation(); clearTestDataToObservable()">Clear data = > bucket Observable</button>
 
+</div>
 
 <!--
 <hr>

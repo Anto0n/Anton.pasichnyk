@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {AuthenticationService} from "../services/authentication.service";
 import {UserRoleService} from "../services/user/user-role.service";
 
@@ -8,7 +8,8 @@ import {UserRoleService} from "../services/user/user-role.service";
   styleUrls: ['./menu.component.css']
 })
 
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
+
 
   private urls: Route[] = [];
 
@@ -102,6 +103,9 @@ export class MenuComponent implements OnInit {
           new Route("contact", "CONTACT")
         ];
     }
+  }
+  ngOnDestroy(){
+    this.roleService.roleEmiter.unsubscribe();
   }
 
 }

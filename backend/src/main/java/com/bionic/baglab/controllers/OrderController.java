@@ -40,7 +40,7 @@ public class OrderController {
     public OrderDto changeOrderStatus(@Valid @RequestBody OrderStatusChangeDTO orderStatusChangeDTO) {
 
         return orderService.changeStatus(orderStatusChangeDTO.getOrderId(),
-                            orderStatusChangeDTO.getOrderStatusNameEnum());
+                orderStatusChangeDTO.getOrderStatusNameEnum());
     }
 
     //TODO add security check
@@ -63,28 +63,30 @@ public class OrderController {
      */
     @GetMapping("/findbucket/{userid}")
     public ResponseEntity getBucketByUserId(@PathVariable("userid") long userId){
-        OrderDto orderDto ;
+        Set<OrderDto> set = null;
+        OrderDto dto = null;
         try{
-            orderDto = orderService.getOrderByUserIdAndStatus(userId, OrderStatusNameEnum.BUCKET);
+           set = orderService.getOrderByUserIdAndStatus(userId, OrderStatusNameEnum.BUCKET);
+           //dto = set.iterator().next(); // get first
         } catch (Exception ex){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-       return new ResponseEntity(orderDto, HttpStatus.OK);
+        return new ResponseEntity(set, HttpStatus.OK);
     }
 
     @GetMapping("/findall/{userid}/{status}")
     public ResponseEntity getOrdersByUserIdAndStatus(@PathVariable("userid") long userId, @PathVariable("status") OrderStatusNameEnum statusCode ){
-        OrderDto orderDto ;
+        Set<OrderDto> set = null;
         try{
-            orderDto = orderService.getOrderByUserIdAndStatus(userId, statusCode);
+            set = orderService.getOrderByUserIdAndStatus(userId, statusCode);
         } catch (Exception ex){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(orderDto, HttpStatus.OK);
+        return new ResponseEntity(set, HttpStatus.OK);
     }
 
-   @GetMapping("/findall/{userid}")
-   public ResponseEntity<Set<OrderDto>> getOrdersByUserId(@PathVariable("userid") long userId){
+    @GetMapping("/findall/{userid}")
+    public ResponseEntity<Set<OrderDto>> getOrdersByUserId(@PathVariable("userid") long userId){
         Set<OrderDto> set = null;
         try{
             set = orderService.getAllOrdersByUserId(userId);
@@ -92,8 +94,5 @@ public class OrderController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(set, HttpStatus.OK);
-   }
-
-
-
+    }
 }

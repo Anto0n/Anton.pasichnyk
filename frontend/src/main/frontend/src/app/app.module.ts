@@ -85,6 +85,6 @@ import {CardOrderService} from "./services/order/card-order.service";
 export class AppModule {
   constructor(router: Router, private authService: AuthenticationService) { // Diagnostic only: inspect router configuration
     console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
-   /* authService.init();
-    console.log('Auth service init');*/
+    /* authService.init();
+     console.log('Auth service init');*/
   } }

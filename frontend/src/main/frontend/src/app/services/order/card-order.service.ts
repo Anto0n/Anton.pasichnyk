@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs/Subject';
 import {OrderResp} from "../../models/order";
+import {AuthenticationService} from "../authentication.service";
+import {RestService} from "../rest.service";
+import {UserRoleService} from "../user/user-role.service";
 
 @Injectable()
 export class CardOrderService {
@@ -14,18 +17,27 @@ export class CardOrderService {
   //   this.subject.next({ text: message });
   // }
 
+/*  constructor(private roleService: UserRoleService, private restService: RestService, private authService: AuthenticationService){
+
+  }*/
+
   sendOrderResp(message: OrderResp) {
     this.subjectOrderResp.next(message);
   }
 
   clearMessage() {
-    this.subjectOrderResp.next();
+    let resp : OrderResp = new OrderResp();
+    this.subjectOrderResp.next(resp);
   }
 
   getMessage(): Observable<OrderResp> {
     return this.subjectOrderResp.asObservable();
   }
 
+
+
+
+ // refreshOrderBucket
 /*  sendMessage(message: string) {
     this.subject.next({ text: message });
   }

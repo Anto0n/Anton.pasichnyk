@@ -2,6 +2,7 @@ export class IModel {
   "id": number;
   "userId": number;
   "bagTypeId": number;
+  "materialId":number;
   "mname": string;
   "approved": ModelStatus;
   "modelCreate": number;

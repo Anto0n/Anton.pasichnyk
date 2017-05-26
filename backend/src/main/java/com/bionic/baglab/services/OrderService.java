@@ -72,6 +72,11 @@ public class OrderService {
         return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
     }
 
+    public  Set<OrderDto> getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
+        List<OrderEntity> temp = orderDao.findAllOrderByUserIdUserAndOrderStatusCode(userId, statusCode );
+        return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
+    }
+
     /**
      * create Order with status "BUCKET"
      * @param orderDto
@@ -122,7 +127,7 @@ public class OrderService {
 
     public OrderDto changeOrder(OrderDtoUpdate orderDto) {
         OrderEntity orderEntity = findOne(orderDto.getOrderId());
-       // orderEntity.setOrderStatus(orderStatusDao.findByCode("processing")); Do not change orderStatus while uptating Order
+        // orderEntity.setOrderStatus(orderStatusDao.findByCode("processing")); Do not change orderStatus while uptating Order
         orderEntity.setItems(orderDto.getItems()
                 .stream()
                 .map(this::orderItemDto2Entity)
@@ -133,13 +138,10 @@ public class OrderService {
     }
 
     public void deleteOrder(long orderId) {
-       orderDao.delete(orderId);
+        orderDao.delete(orderId);
     }
 
-    public OrderDto getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
-        OrderEntity orderEntity = orderDao.findOrderByUserIdUserAndOrderStatusCode(userId, statusCode );
-        return getDtoFromEntity(orderEntity);
-    }
+
 
 
 }

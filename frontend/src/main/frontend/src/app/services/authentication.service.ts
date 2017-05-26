@@ -6,6 +6,7 @@ import { Subject }    from 'rxjs/Subject';
 import {RestService} from "./rest.service";
 import {UserRoleService} from "./user/user-role.service";
 import {IUser} from "app/models";
+import {CardOrderService} from "./order/card-order.service";
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
@@ -13,7 +14,7 @@ export class AuthenticationService implements OnDestroy {
   private subjectAdminLogin = new Subject<boolean>();
 
 
-  constructor( private restService: RestService, private roleService:UserRoleService ) {
+  constructor( private restService: RestService, private roleService:UserRoleService, private carServ:CardOrderService ) {
   }
 
   init() { //void method, use to init service
@@ -54,6 +55,7 @@ export class AuthenticationService implements OnDestroy {
     this.roleService.roleEmiter.emit( "Guest");
     localStorage.removeItem('currentUserRole');
     this.sendAdminLogIn(false);
+    this.carServ.clearMessage(); // clear bucket/card
   }
 
   isAuthenticated() {

@@ -11,7 +11,7 @@ export class OrderResp{
   sumPrice: number;
 }
 
-export interface statusOrderDto{
+export class statusOrderDto{
   code: string;
   description: string;
 }
@@ -20,13 +20,13 @@ export class OrderCreate{
   userId : number;
   items: ItemsCreate[];
 }
-export interface Items{
+export class Items{
   models: IModel[];
   count: number;
   price: number;
 }
 
-export interface  ItemsCreate{
+export class  ItemsCreate{
   modelId: number;
   count: number;
 }
