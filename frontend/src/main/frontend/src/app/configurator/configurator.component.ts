@@ -3,9 +3,9 @@
  */
 import {Component, OnInit} from '@angular/core';
 import {RestService} from "../services/rest.service";
+import {ModelConfig} from "../models/modelConfig";
 
 declare var b4w: any;
-
 
 @Component({
   selector: 'configurator',
@@ -13,15 +13,19 @@ declare var b4w: any;
   styleUrls: ['../../assets/testConf/test.css']
 })
 export class ConfiguratorComponent implements OnInit {
+  private modelConfig: ModelConfig;
   private jsonString: any;
   private appName: string = "conf_app";
   private sceneName: string = '../../assets/testConf/Bag_conf.json';
+  base64_image_3 = "../../assets/testConf/temp/default_img.png";
+  base64_image_4 = "../../assets/testConf/temp/logo.png";
 
   constructor(private restService: RestService) {
   }
 
 
   ngOnInit() {
+    this.modelConfig=new ModelConfig('','');
     b4w.register(this.appName, function (exports, require) {
 
       var m_app = b4w.require("app");
@@ -113,6 +117,11 @@ export class ConfiguratorComponent implements OnInit {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], 255, 0, 0,);
       }
+      exports.setImgColor = function (r:number,g:number,b:number) {
+
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], r, g, b,);
+      }
 
       exports.resetImgColor = function () {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
@@ -137,8 +146,10 @@ export class ConfiguratorComponent implements OnInit {
         }
 
         m_data.load('../../assets/testConf/demo_bag.json', load_cb,);
-      }
+    }
+      exports.getImage = function () {
 
+      }
    })
 
 
@@ -171,16 +182,47 @@ export class ConfiguratorComponent implements OnInit {
     b4w.require(this.appName).drawImage2();
   }
   changeImgColor() {
+    this.modelConfig.rgb=[255, 0, 0];
     b4w.require(this.appName).changeImgColor();
   }
   resetImgColor(){
+    this.modelConfig.rgb=[0.5, 0.5, 0.5];
     b4w.require(this.appName).resetImgColor();
   }
-  getModel3() {
-    b4w.require(this.appName).drawImage3();
-  }
-  getModel4() {
-    b4w.require(this.appName).drawImage4();
+  ci(a:number) {
+    if(a===1){
+      this.modelConfig.image=this.base64_image_3;
+      b4w.require(this.appName).drawImage3();
+    } else {
+      this.modelConfig.image=this.base64_image_4;
+      b4w.require(this.appName).drawImage4();
+    }
+
   }
 
+
+  save() {
+    let app = b4w.require(this.appName);
+    console.log(this.modelConfig);
+    this.restService.postJson("/api/user/saveModel", this.modelConfig);
+  }
+  setColor(r:number, g:number, b:number){
+    console.log(r,g,b);
+    this.modelConfig.rgb=[r,g,b];
+    b4w.require(this.appName).setImgColor(r,g,b);
+
+  }
+  changeColor(){
+    document.getElementById("palette").hidden=false;
+    document.getElementById("hide_palette_button").hidden=false;
+  }
+  hidePalette(){
+    document.getElementById("palette").hidden=true;
+    document.getElementById("hide_palette_button").hidden=true;
+
+  }
+
+  showCustomizer(){
+    document.getElementById("customizer").hidden=false;
+  }
 }

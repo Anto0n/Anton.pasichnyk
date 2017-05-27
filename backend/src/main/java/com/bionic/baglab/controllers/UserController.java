@@ -3,6 +3,8 @@ package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.dao.UserDao;
 import com.bionic.baglab.domains.UserEntity;
+import com.bionic.baglab.dto.ImageDto;
+import com.bionic.baglab.dto.ModelProxyDto;
 import com.bionic.baglab.dto.user.UserDto;
 import com.bionic.baglab.dto.user.UserDtoRegistration;
 import com.bionic.baglab.services.UserService;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -146,7 +149,17 @@ public class UserController {
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
+  @PostMapping(value = "/upload")
+  public void uploadImage(@RequestBody String file){
+    System.out.println("Hi" + file);
+    System.out.println("Hi");
+  }
 
+  @PostMapping(value = "/saveModel")
+  public void uploadImage(@RequestBody ModelProxyDto dto){
+    System.out.println("Hi" + dto);
+    System.out.println("Hi");
+  }
 //todo: rewrite with dto/services
 }
 

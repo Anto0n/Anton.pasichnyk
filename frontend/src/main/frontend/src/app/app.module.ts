@@ -42,6 +42,7 @@ import {OrderService} from "./services/order/order.service"
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CardMenuComponent } from './content/orders/card-menu.component';
 import {CardOrderService} from "./services/order/card-order.service";
+import {ImageUploadModule} from "angular2-image-upload";
 
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import {CardOrderService} from "./services/order/card-order.service";
   ],
   imports: [
     NgbModule.forRoot(),
+    ImageUploadModule.forRoot(),
     BrowserModule,
     FormsModule,
     HttpModule,
