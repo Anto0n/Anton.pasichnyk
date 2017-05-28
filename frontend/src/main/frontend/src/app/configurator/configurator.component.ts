@@ -9,7 +9,7 @@ declare var b4w: any;
 @Component({
   selector: 'configurator',
   templateUrl: './configurator.component.html',
-  styleUrls: ['../../assets/testConf/style.css']
+  styleUrls: ['./configurator_style.css']
 })
 export class ConfiguratorComponent implements OnInit {
   private jsonString: any;
@@ -18,7 +18,7 @@ export class ConfiguratorComponent implements OnInit {
   constructor(private restService: RestService) {
   }
 
-  
+
   ngOnInit() {
     b4w.register("conf_app", function (exports, require) {
 

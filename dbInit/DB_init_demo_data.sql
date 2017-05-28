@@ -33,13 +33,13 @@ insert into baglab.user  (login,password,email, firstname, lastname, roleId) val
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('manager@m','$2a$10$2TWwSqLR/o8yOqyOojc8RuJzpoGsSXLIoOIk1kmRtyRdgAYUt6e/C','manager@m', 'Lao','Dzi',4);
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('lao@22','passm','lao@22', 'Lao2','Dzi2',4);
 
-insert into baglab.order (userId, orderStatusId) VALUES (1,1);
+insert into baglab.order (userId, orderStatusId) VALUES (1,3);
 insert into baglab.order (userId, orderStatusId) VALUES (1,2);
 insert into baglab.order (userId, orderStatusId) VALUES (1,2);
 insert into baglab.order (userId, orderStatusId) VALUES (1,2);
-insert into baglab.order (userId, orderStatusId) VALUES (2,1);
 insert into baglab.order (userId, orderStatusId) VALUES (2,2);
-insert into baglab.order (userId, orderStatusId) VALUES (3,1);
+insert into baglab.order (userId, orderStatusId) VALUES (2,2);
+insert into baglab.order (userId, orderStatusId) VALUES (3,3);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);

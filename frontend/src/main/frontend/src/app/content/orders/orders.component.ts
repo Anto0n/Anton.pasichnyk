@@ -6,6 +6,8 @@ import {UserRoleService} from "../../services/user/user-role.service";
 import {Response} from "@angular/http";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
+import {CardOrderService} from "../../services/order/card-order.service";
+import {OrderResp} from "../../models/order";
 //  changeDetection: ChangeDetectionStrategy.OnPush
 
 @Component({
@@ -18,9 +20,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private uModels: IModel[] = [];
   private selectedModel:IModel;
  // private subscription: Subscription;
+  private subsOrderResp: Subscription;
+  private oId: number;
 
 
-  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef, private authService : AuthenticationService) {
+  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef,
+              private authService : AuthenticationService, private cardOrderService : CardOrderService) {
     // if(this.authService.isAuthenticated()){
     //   this.getModelsByUserId();
     // }
@@ -30,6 +35,14 @@ export class OrdersComponent implements OnInit, OnDestroy {
       }else{
         // void
       }
+
+      this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
+        let r : OrderResp = orderResp;
+        this.oId = r.idOrder;
+        console.log(r);
+      });
+
+
     });
 
   }
@@ -39,6 +52,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
       this.getModelsByUserId();
     }
     this.cd.markForCheck();
+
+
 
   }
 
@@ -78,6 +93,31 @@ export class OrdersComponent implements OnInit, OnDestroy {
         //this.getModelsByUserId();
       }, () => console.log('err'));
 
+  }
+
+  addModelToBucket(quantity: number, modelid:number){
+    let iid = this.roleService.getUserId();
+    let orid = this.getOrderId();
+    console.log(orid + "--")
+    let data = {
+      "userId": iid,
+      "orderId": orid,
+      "items": [
+        {
+          "modelId": modelid,
+          "count": quantity
+        }
+      ]
+    }
+    this.restService.putData("./api/order/additems", data).subscribe(
+      () => {
+        // this.cardOrderService.reloadBucket();
+      }, () => console.log('err'));
+  }
+
+  getOrderId() : number{
+
+    return this.oId;
   }
 
   ngOnDestroy() {

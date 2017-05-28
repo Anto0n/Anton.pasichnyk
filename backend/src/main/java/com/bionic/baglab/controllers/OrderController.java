@@ -16,6 +16,7 @@ import javax.validation.Valid;
 import javax.xml.ws.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Iterator;
 import java.util.Set;
 
 @RestController
@@ -44,7 +45,7 @@ public class OrderController {
     }
 
     //TODO add security check
-    @PutMapping("/changeOrder")
+    @PutMapping("/additems")
     public OrderDto updateOrder(@Valid @RequestBody OrderDtoUpdate orderDto) {
         return orderService.changeOrder(orderDto);
     }
@@ -70,11 +71,14 @@ public class OrderController {
            if(set.isEmpty()){           // No bucket found
                set.add(orderService.createBucket(userId, OrderStatusNameEnum.BUCKET));
            }
+            Iterator iter = set.iterator();
+
+            dto = (OrderDto) iter.next();
            //dto = set.iterator().next(); // get first
         } catch (Exception ex){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(set, HttpStatus.OK);
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     @GetMapping("/findall/{userid}/{status}")

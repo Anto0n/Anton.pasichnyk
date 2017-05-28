@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OrderResp} from "../../models/order";
+import {mItems, OrderResp} from "../../models/order";
 import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {RestService} from "../../services/rest.service";
+import {forEachToken} from "tslint";
+import {IModel} from "../../models/model";
 
 @Component({
   selector: 'app-card-menu',
@@ -21,11 +23,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
 
     this.subscription = this.cardServ.getMessage().subscribe(orderResp => {
       this.orderRespListener = orderResp;
-    /*  if (orderResp.items.length == 0) {
-        this.emtyCard = true;
-      } else{
-        this.emtyCard = false;
-      }*/
+
     });
   }
 
@@ -39,12 +37,13 @@ export class CardMenuComponent implements OnInit, OnDestroy {
       }
     );
 
+    this.reloadBucket();
+
   }
 
   initBucket(role: string) {
     switch (role) {
       case 'Customer' :
-        this.recreateBucket();
         this.reloadBucket();
         break;
       case 'Moderator' :
@@ -69,34 +68,17 @@ export class CardMenuComponent implements OnInit, OnDestroy {
     if (this.authService.isAuthenticated()) {
       let uId = this.roleService.getUserId();
       this.restService.getData(`./api/order/findbucket/${uId}`)
-        .subscribe((data: OrderResp[]) => {
-          this.orderRespListener = data[0]; // attach first value from array
-        /*  if (data[0].items?.length > 0) {
-            this.emtyCard = true;
-          } else{
-            this.emtyCard = false;
-          }*/
+        .subscribe((data: OrderResp) => {
+          this.orderRespListener = data;
+          //this.cardServ.sendOrderResp(data); //req!!!! err
         }, () => console.log('err'))
 
-      // this.orderRespListener = orderRespL;
-      //this.cardServ.sendOrderResp(orderRespL);
-      //if is empty [] - create new one
-      //check on login/logout
     } else {
       this.cardServ.clearMessage();
     }
   }
 
-  recreateBucket() {
-
-  }
-
-  private createBucketIfNotExist() {
-
-  }
-
   private clearBucket() {
-
     this.cardServ.clearMessage();
     this.orderRespListener = new OrderResp();
   }

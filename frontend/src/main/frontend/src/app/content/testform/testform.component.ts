@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {IUser} from "../../models/test.model";
 import {RestService} from "../../services/rest.service";
 import {IModel, ModelStatus} from "../../models/model";
-import {OrderResp, OrderCreate, Items} from "../../models/order";
+import {OrderResp, OrderCreate, mItems} from "../../models/order";
 import {CardOrderService} from "../../services/order/card-order.service";
 import { Subscription } from 'rxjs/Subscription';
 
@@ -73,7 +73,7 @@ export class TestformComponent  {
   }
 
   sendTestDataToObservable(){
-    let iMods : IModel[] = [{
+    let iMod : IModel = {
       "id": 1,
       "userId": 1,
       "bagTypeId": 1,
@@ -82,28 +82,35 @@ export class TestformComponent  {
       "approved": ModelStatus.NEW,
       "modelCreate": 1495664395000,
       "modelUpdate": 1495664395000
-    },
+    };
+
+
+    let iMod2 : IModel =   {
+      "id": 2,
+      "userId": 2,
+      "bagTypeId": 2,
+      "materialId": 2,
+      "mname": "mod2",
+      "approved": ModelStatus.NEW,
+      "modelCreate": 1495664395000,
+      "modelUpdate": 1495664395000
+    }
+
+
+
+    let tIt : mItems[] = [
       {
-        "id": 2,
-        "userId": 2,
-        "bagTypeId": 2,
-        "materialId": 2,
-        "mname": "model_1",
-        "approved": ModelStatus.NEW,
-        "modelCreate": 1495664395000,
-        "modelUpdate": 1495664395000
-      }];
-
-
-
-    let tIt : Items[] = [
+        "count": 12,
+        "price": 12.95,
+        "model": iMod
+      },
       {
-        "models": iMods,
-        "count": 123,
-        "price": 235
+        "count": 5,
+        "price": 15,
+        "model": iMod2
       }
-
     ]
+
     let testD : OrderResp =  {
       "idOrder": 2,
       "moderatorId": 0,
@@ -119,7 +126,7 @@ export class TestformComponent  {
       },
       "orderCreate": 1495664395000,
       "items": tIt,
-      "sumPrice": 258
+      "sumPrice": 230.4
     }
     this.corServ.sendOrderResp(testD);
   }

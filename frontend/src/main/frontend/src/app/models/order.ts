@@ -7,7 +7,7 @@ export class OrderResp{
   userDto: UserDto;
   status: statusOrderDto;
   orderCreate: number;
-  items: Items[];
+  items: mItems[];
   sumPrice: number;
 }
 
@@ -20,10 +20,10 @@ export class OrderCreate{
   userId : number;
   items: ItemsCreate[];
 }
-export class Items{
-  models: IModel[];
+export class mItems{
   count: number;
   price: number;
+  model: IModel;
 }
 
 export class  ItemsCreate{
@@ -33,3 +33,4 @@ export class  ItemsCreate{
 
 
 
+//models vs model
