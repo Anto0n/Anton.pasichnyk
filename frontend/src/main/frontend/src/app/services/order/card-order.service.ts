@@ -11,6 +11,7 @@ export class CardOrderService {
   private subjectOrderResp = new Subject<OrderResp>();
   private subjectItems = new Subject<OrderResp>();
   private subsOrderResp: Subscription;
+  private subjectReloadBucket = new Subject<boolean>();
 
 
   // private subject = new Subject<any>();
@@ -24,6 +25,7 @@ export class CardOrderService {
   }*/
 
   sendOrderResp(message: OrderResp) {
+    console.log("send OrdResp service");
     this.subjectOrderResp.next(message);
   }
 
@@ -33,9 +35,17 @@ export class CardOrderService {
   }
 
   getMessage(): Observable<OrderResp> {
+    console.log("get OrdResp service");
     return this.subjectOrderResp.asObservable();
   }
 
+  sendEmitReloadBucket(){
+    this.subjectReloadBucket.next(true);
+  }
+
+  getEmitReloadBucket(): Observable<boolean>{
+    return this.subjectReloadBucket.asObservable();
+  }
 
 
 

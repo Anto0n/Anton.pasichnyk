@@ -1,0 +1,34 @@
+<div *ngIf="orderRespListener.items?.length > 0">
+  <form #form="ngForm">
+    <div class="table-responsive">
+      <table class="table table-sm table-striped
+table-bordered table-cart">
+        <tbody>
+        <tr>
+          <td class="font-weight-bold">Title</td>
+          <td class="font-weight-bold">Price per item</td>
+          <td class="font-weight-bold">Count</td>
+          <td class="font-weight-bold">Amount</td>
+        </tr>
+        <tr *ngFor="let item of orderRespListener.items">
+          <td>{{item.model.mname}}</td>
+          <td>{{(item.price/item.count) |
+            currency:'USD':true:'1.2-2'}}
+          </td>
+          <td>{{item.count}}</td>
+       <!--   <td>
+            <input type="number"
+                   name="{{item.product.id}}" min="1"
+                   [ngModel]="item.count"
+                   (ngModelChange)="item.count = update($event, item)">
+          </td>-->
+          <td>{{item.price |
+            currency:'USD':true:'1.2-2'}}
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+</div>
+<div class="emty-cart" *ngIf="orderRespListener.items?.length < 1">The cart is empty!</div>

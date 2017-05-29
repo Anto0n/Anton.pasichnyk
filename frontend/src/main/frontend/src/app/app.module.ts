@@ -42,6 +42,7 @@ import {OrderService} from "./services/order/order.service"
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { CardMenuComponent } from './content/orders/card-menu.component';
 import {CardOrderService} from "./services/order/card-order.service";
+import { CardViewComponent } from './content/orders/card-view.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import {CardOrderService} from "./services/order/card-order.service";
     UserCreateComponent,
     PageNotFoundComponent,
     CreateNewsComponent,
-    CardMenuComponent
+    CardMenuComponent,
+    CardViewComponent
 
   ],
   imports: [

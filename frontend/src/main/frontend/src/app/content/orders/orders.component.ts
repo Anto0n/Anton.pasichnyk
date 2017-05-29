@@ -8,6 +8,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
 import {OrderResp} from "../../models/order";
+import {AlertService} from "../../services/alert.service";
 //  changeDetection: ChangeDetectionStrategy.OnPush
 
 @Component({
@@ -21,30 +22,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private selectedModel:IModel;
  // private subscription: Subscription;
   private subsOrderResp: Subscription;
-  private oId: number;
-
+  private currentOrder : OrderResp = new OrderResp();
 
   constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef,
-              private authService : AuthenticationService, private cardOrderService : CardOrderService) {
-    // if(this.authService.isAuthenticated()){
-    //   this.getModelsByUserId();
-    // }
-    this.authService.subjectLogin.subscribe((auth: boolean ) => {
-      if(auth){
-        this.getModelsByUserId();  //refresh models on login
-      }else{
-        // void
-      }
-
-      this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
-        let r : OrderResp = orderResp;
-        this.oId = r.idOrder;
-        console.log(r);
-      });
-
-
-    });
-
+              private authService : AuthenticationService, private cardOrderService : CardOrderService, private alertService : AlertService) {
+    this.cardOrderService.sendEmitReloadBucket();
   }
 
   ngOnInit(): void {
@@ -53,11 +35,25 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
     this.cd.markForCheck();
 
+    this.authService.isAuthenticatedSubject.subscribe((auth: boolean ) => {
+      if(auth){
+        console.log("send reload bucket on login");
+        this.getModelsByUserId();  //refresh models on login
+        // this.cardOrderService.sendEmitReloadBucket();  //reload bucket on login
+      }else{
+        //this.cardOrderService.clearMessage(); // clear local bucket (front only)
+      }
+    });
 
-
+    this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
+      console.log("order comp get Resp 111");
+      console.log(orderResp);
+      this.currentOrder = orderResp;
+      console.log(this.currentOrder.idOrder + "--")
+    });
   }
 
-  getModelsByUserId() {
+  private getModelsByUserId() {
     this.uId = this.roleService.getUserId();
 
     this.restService.getData(`./api/models/${this.uId}/list`)
@@ -70,7 +66,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.restService.deleteData('./api/models/delete' + `/${model.id}`).subscribe(
       () => {
           this.uModels = this.uModels.filter(m => m !== model); //selectedModel - null
-
           /*if (this.selectedModel === model) {
             this.selectedModel = null;      }*/
         }
@@ -82,26 +77,27 @@ export class OrdersComponent implements OnInit, OnDestroy {
     let createModelobjT: any = {
       "approved": "NEW",
       "bagTypeId": 1,
-      "mname": "string",
+      "materialId": 1,
+      "mname": "new model name",
       "userId": iid
     };
     this.restService.postJsonResp('./api/models/create', createModelobjT).subscribe(
       (data: IModel[]) => {
-        this.uModels.push(createModelobjT);
+        //this.uModels.push(createModelobjT);
         this.selectedModel = null;
         this.uModels = data;
         //this.getModelsByUserId();
       }, () => console.log('err'));
-
   }
 
   addModelToBucket(quantity: number, modelid:number){
+    if(quantity > 0){
     let iid = this.roleService.getUserId();
-    let orid = this.getOrderId();
-    console.log(orid + "--")
+    //console.log(this.currentOrder.idOrder + "--")
+    let oid : number = this.currentOrder.idOrder;
     let data = {
       "userId": iid,
-      "orderId": orid,
+      "orderId": oid,
       "items": [
         {
           "modelId": modelid,
@@ -111,17 +107,18 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
     this.restService.putData("./api/order/additems", data).subscribe(
       () => {
-        // this.cardOrderService.reloadBucket();
+         this.cardOrderService.sendEmitReloadBucket();  //reload bucket
+         this.alertService.success(quantity + " items added to bucket", false)
       }, () => console.log('err'));
+        this.alertService.error("error");
+    } else{
+      this.alertService.error("set items quantity");
+    }
   }
 
-  getOrderId() : number{
-
-    return this.oId;
-  }
-
-  ngOnDestroy() {
+   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
+     //this.subsOrderResp.unsubscribe();
     //this.authService.subjectLogin.unsubscribe();  error Object unsecribed
     //this.roleService.roleEmiter.unsubscribe(); //error ???
   }
