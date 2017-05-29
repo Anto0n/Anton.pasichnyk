@@ -122,8 +122,8 @@ public class OrderService {
         OrderEntity orderEntity = findOne(orderId);
         orderEntity.setOrderStatus(findOrderStatusByName(orderStatusNameEnum));
         orderEntity.setOrderUpdate(Timestamp.from(Instant.now()));
-
-        return getDtoFromEntity(orderEntity);
+        OrderEntity resOrderEntity = save(orderEntity);
+        return getDtoFromEntity(resOrderEntity);
     }
 
     public OrderDto changeOrder(OrderDtoUpdate orderDto) {

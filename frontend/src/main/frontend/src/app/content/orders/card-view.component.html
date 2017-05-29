@@ -32,3 +32,34 @@ table-bordered table-cart">
   </form>
 </div>
 <div class="emty-cart" *ngIf="orderRespListener.items?.length < 1">The cart is empty!</div>
+
+<button  *ngIf="orderRespListener.items?.length > 0" (click)="putOrder()" >submit order</button>
+
+
+<div class="table-responsive">
+  <table class="table table-sm table-striped
+table-bordered table-cart">
+    <tbody>
+    <tr>
+      <td class="font-weight-bold">ID</td>
+      <td class="font-weight-bold">Status</td>
+      <td class="font-weight-bold">Count</td>
+      <td class="font-weight-bold">total price</td>
+    </tr>
+    <tr *ngFor="let order of myOrders">
+      <td>{{order.idOrder}}</td>
+      <td>{{order.status.code}} </td>
+      <td>{{order.items?.length}}</td>
+      <!--   <td>
+           <input type="number"
+                  name="{{item.product.id}}" min="1"
+                  [ngModel]="item.count"
+                  (ngModelChange)="item.count = update($event, item)">
+         </td>-->
+      <td>{{order.sumPrice |
+        currency:'USD':true:'1.2-2'}}
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,30 +1,75 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CardOrderService} from "../../services/order/card-order.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
-import {OrderResp} from "../../models/order";
+import {OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {Subscription} from "rxjs";
+import {subscribeOn} from "rxjs/operator/subscribeOn";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-card-view',
   templateUrl: './card-view.component.html'
 })
-export class CardViewComponent implements OnInit {
+export class CardViewComponent implements OnInit, OnDestroy {
   private orderRespListener: OrderResp = new OrderResp();
   private subscription: Subscription;
+  private myOrders : OrderResp[];
   //private subscrReloadBucket: Subscription;
 
-  constructor(private cardServ: CardOrderService, private authService: AuthenticationService,
-              private roleService: UserRoleService, private restService: RestService) {
+  constructor(private cardOrderService: CardOrderService, private authService: AuthenticationService,
+              private roleService: UserRoleService, private restService: RestService, private alertService: AlertService) {
 
-    this.subscription = this.cardServ.getMessage().subscribe(orderResp => {
-      console.log("card view ordResp")
-      this.orderRespListener = orderResp;
-    });
   }
 
   ngOnInit() {
+    this.cardOrderService.sendEmitReloadBucket();
+    this.reloadMyOrdersList();
+    this.subscription = this.cardOrderService.getMessage().subscribe(orderResp => {   // subscribeOn on change
+     this.orderRespListener = orderResp;
+    });
+
+    this.authService.isAuthenticatedSubject.subscribe((auth: boolean ) => {
+      if(auth){
+        this.cardOrderService.sendEmitReloadBucket();
+      }
+    });
+
+  }
+
+  putOrder(){
+    let nstatus = {
+      "orderId": this.orderRespListener.idOrder,
+      "orderStatusNameEnum": OrderStatusNameEnum[1]
+    };
+    this.restService.putData("./api/order/changeStatus", nstatus ).subscribe(
+      () => {
+        this.alertService.success( " order submitted", false)
+        this.cardOrderService.clearMessage();
+        this.orderRespListener = new OrderResp();
+        this.reloadMyOrdersList();
+      }, () => {console.log('err')
+        this.alertService.error("error");
+      });
+
+
+  }
+
+  reloadMyOrdersList(){
+    let id = this.roleService.getUserId();
+    this.restService.getData('./api/order/findall' + `/${id}`).subscribe(
+      (data: OrderResp[]) => {
+          this.myOrders = data;
+      }, () => console.log('err')
+    );
+  }
+
+  ngOnDestroy() {
+    // unsubscribe to ensure no memory leaks
+    //this.subsOrderResp.unsubscribe();
+    //this.authService.subjectLogin.unsubscribe();  error Object unsecribed
+    //this.roleService.roleEmiter.unsubscribe(); //error ???
   }
 
   //this.cardOrderService.sendEmitReloadBucket();

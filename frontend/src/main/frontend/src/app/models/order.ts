@@ -31,6 +31,8 @@ export class  ItemsCreate{
   count: number;
 }
 
-
+export enum OrderStatusNameEnum {
+  BUCKET, NEW, ACCEPTED, PROCESSING, DENIED, SEND
+}
 
 //models vs model

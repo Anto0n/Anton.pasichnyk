@@ -92,6 +92,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   addModelToBucket(quantity: number, modelid:number){
     if(quantity > 0){
+      this.cardOrderService.sendEmitReloadBucket();  //reload bucket
     let iid = this.roleService.getUserId();
     //console.log(this.currentOrder.idOrder + "--")
     let oid : number = this.currentOrder.idOrder;
@@ -107,10 +108,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
     this.restService.putData("./api/order/additems", data).subscribe(
       () => {
-         this.cardOrderService.sendEmitReloadBucket();  //reload bucket
          this.alertService.success(quantity + " items added to bucket", false)
-      }, () => console.log('err'));
-        this.alertService.error("error");
+        this.cardOrderService.sendEmitReloadBucket();  //reload bucket after order added
+      }, () => {console.log('err')
+                this.alertService.error("error");
+      });
+
     } else{
       this.alertService.error("set items quantity");
     }
