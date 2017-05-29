@@ -204,6 +204,7 @@ summary {
 
 canvas {
   display: inline-block;
+  width: 1000px;
 }
 
 template {

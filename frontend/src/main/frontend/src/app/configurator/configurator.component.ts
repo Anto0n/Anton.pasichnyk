@@ -25,15 +25,15 @@ export class ConfiguratorComponent implements OnInit {
 
 
   ngOnInit() {
-    this.modelConfig=new ModelConfig('','');
+    this.modelConfig = new ModelConfig('', '');
     b4w.register(this.appName, function (exports, require) {
-
+      var testImg = new Image();
       var m_app = b4w.require("app");
       var m_data = b4w.require("data");
       var m_scenes = require("scenes");
       var m_print = require("__print");
-      var m_main   = require("main");
-      var m_tex    = require("textures");
+      var m_main = require("main");
+      var m_tex = require("textures");
       var m_mat = require("material");
       var m_rgb = require("rgb");
 
@@ -75,49 +75,69 @@ export class ConfiguratorComponent implements OnInit {
         var Cube = m_scenes.get_object_by_name("pakr_body_001");
         var name = m_scenes.get_object_name(Cube);
         console.log(name);
-        }
+      }
 
 
-      function load_data(imageUrl : string) {
+      function load_data(imageUrl: string) {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         let texture = m_tex.get_canvas_ctx(cube, "Texture.003");
         console.log(cube);
+        console.log('!!!!!!!!!!!');
+        console.log(texture);
+        console.log('!!!!!!!!!!!');
+        console.log(texture);
         // m_tex.update_canvas_ctx(cube, "Texture.003");
 
         let img = new Image();
-          img.src = imageUrl;
-          img.onload = function() {
-            // texture.removeHitRegion();
-            texture.drawImage(img, 0, 0, texture.canvas.width,
-              texture.canvas.height);
-            texture.fillStyle = "rgba(255,0,0,255)";
-            texture.font = "250px Arial";
-            texture.fillText("Hello, World!", 300, 300);
-            m_tex.update_canvas_ctx(cube, "Texture.003");
-          }
+        img.src = imageUrl;
+        img.onload = function () {
+          let texture = m_tex.get_canvas_ctx(cube, "Texture.003");
+          // texture.removeHitRegion();
+          texture.drawImage(img, 0, 0, texture.canvas.width,  texture.canvas.height);
+          // texture.fillStyle = "rgba(255,0,0,255)";
+          // texture.font = "250px Arial";
+          // texture.fillText("Hello, World!", 300, 300);
+          m_tex.update_canvas_ctx(cube, "Texture.003");
+        }
       }
 
-      exports.drawImage1 = function(){
-        load_data(_base64_image_1);
+      exports.drawImage = function (base64) {
+        let img = new Image();
+        img.src = base64;
+        let ctx = m_tex.get_canvas_texture_context('Texture.003');
+        console.log(ctx);
+        ctx.drawImage(img, 0, 0, ctx.canvas.width, ctx.canvas.height);
+        m_tex.update_canvas_texture_context("Texture.003");
+
       }
-      exports.drawImage3 = function(){
+
+      exports.drawImage3 = function () {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_tex.change_image(cube, "Texture.003", _base64_image_3);
       }
-      exports.drawImage4 = function(){
+
+      exports.drawImage4 = function () {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_tex.change_image(cube, "Texture.003", _base64_image_4);
       }
-      exports.drawImage2 = function(){
+
+      exports.drawImage2 = function () {
         load_data(_base64_image_2);
       }
+
+      exports.drawImageOnBag = function () {
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        m_tex.change_image(cube, "Texture.003", testImg);
+        // load_data(src);
+      };
 
       exports.changeImgColor = function () {
 
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], 255, 0, 0,);
       }
-      exports.setImgColor = function (r:number,g:number,b:number) {
+
+      exports.setImgColor = function (r: number, g: number, b: number) {
 
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], r, g, b,);
@@ -139,6 +159,7 @@ export class ConfiguratorComponent implements OnInit {
           m_scenes.show_object(Cube);
         }
       }
+
       function init_cb(canvas_elem, success) {
         if (!success) {
           console.log("b4w init failure");
@@ -146,11 +167,23 @@ export class ConfiguratorComponent implements OnInit {
         }
 
         m_data.load('../../assets/testConf/demo_bag.json', load_cb,);
-    }
-      exports.getImage = function () {
-
       }
-   })
+
+      exports.getAllTextures = function () {
+        let s = m_scenes.get_object_by_name("pakr_body_001");
+        return m_tex.get_texture_names(s);
+      }
+
+      exports.updImg = function (base64) {
+        // testImg.src=src;
+        let img2=new Image();
+        // img2.src=base64;
+        let cube = m_scenes.get_object_by_name("pakr_body_001");
+        m_tex.change_image(cube, "Texture.003", base64);
+        // load_data(src);
+      }
+
+    })
 
 
     b4w.require(this.appName).init();
@@ -175,54 +208,80 @@ export class ConfiguratorComponent implements OnInit {
     b4w.require(this.appName).hide_show_object();
     b4w.require(this.appName).drawImage1();
   }
+
   getModel2() {
 
     b4w.require(this.appName).hide_show_object();
     b4w.require(this.appName).hide_show_object();
     b4w.require(this.appName).drawImage2();
   }
+
   changeImgColor() {
-    this.modelConfig.rgb=[255, 0, 0];
+    this.modelConfig.rgb = [255, 0, 0];
     b4w.require(this.appName).changeImgColor();
   }
-  resetImgColor(){
-    this.modelConfig.rgb=[0.5, 0.5, 0.5];
+
+  resetImgColor() {
+    this.modelConfig.rgb = [0.5, 0.5, 0.5];
     b4w.require(this.appName).resetImgColor();
   }
-  ci(a:number) {
-    if(a===1){
-      this.modelConfig.image=this.base64_image_3;
+
+  ci(a: number) {
+    if (a === 1) {
+      this.modelConfig.image = this.base64_image_3;
       b4w.require(this.appName).drawImage3();
     } else {
-      this.modelConfig.image=this.base64_image_4;
+      this.modelConfig.image = this.base64_image_4;
       b4w.require(this.appName).drawImage4();
     }
 
   }
 
-
-  save() {
+  save(modelConfig: ModelConfig) {
     let app = b4w.require(this.appName);
-    console.log(this.modelConfig);
-    this.restService.postJson("/api/user/saveModel", this.modelConfig);
+    console.log(modelConfig);
+    console.log(app.getAllTextures());
+    this.restService.postJson("/api/user/saveModel", modelConfig)
+      .subscribe(data => console.log(data));
   }
-  setColor(r:number, g:number, b:number){
-    console.log(r,g,b);
-    this.modelConfig.rgb=[r,g,b];
-    b4w.require(this.appName).setImgColor(r,g,b);
 
-  }
-  changeColor(){
-    document.getElementById("palette").hidden=false;
-    document.getElementById("hide_palette_button").hidden=false;
-  }
-  hidePalette(){
-    document.getElementById("palette").hidden=true;
-    document.getElementById("hide_palette_button").hidden=true;
+  setColor(r: number, g: number, b: number) {
+    console.log(r, g, b);
+    this.modelConfig.rgb = [r, g, b];
+    b4w.require(this.appName).setImgColor(r, g, b);
 
   }
 
-  showCustomizer(){
-    document.getElementById("customizer").hidden=false;
+  changeColor() {
+    document.getElementById("palette").hidden = false;
+    document.getElementById("hide_palette_button").hidden = false;
   }
+
+  hidePalette() {
+    document.getElementById("palette").hidden = true;
+    document.getElementById("hide_palette_button").hidden = true;
+
+  }
+
+  showCustomizer() {
+    document.getElementById("customizer").hidden = false;
+  }
+
+  imageUploaded(data: {src:string, pending: boolean, file: any}){
+    console.log('data');
+    console.log(data);
+    //if(this.checkFile(data.file))
+    let str = new String(data.src);
+    b4w.require(this.appName).updImg(str);
+      //b4w.require(this.appName).drawImageOnBag(data.src);
+
+  }
+
+  private checkFile(imgFile : {type:string} ) : boolean {
+    return true;
+  }
+
+  // imageUploaded(event:any){
+  //   console.log(event.file);
+  // }
 }

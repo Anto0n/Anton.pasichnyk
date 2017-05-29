@@ -4,13 +4,11 @@
   <div id="canvas_cont" STYLE="width: 1000px"></div>
   <button id="configure_new_bag_button" (click)="showCustomizer()">configure new bag</button>
   <div id="customizer" hidden>
-    <image-upload
-      [url]="'/api/user/upload'"
-      [max]="1"></image-upload>
+    <image-upload (onFileUploadFinish)="imageUploaded($event)"></image-upload>
     <button (click)='ci(1)'>ci1</button>
     <button (click)='ci(2)'>ci2</button>
     <button (click)='resetImgColor()'>reset</button>
-    <button (click)='save()'>save</button>
+    <button (click)='save(modelConfig)'>save</button>
     <button (click)="changeColor()">Change color</button>
     <button id="hide_palette_button" (click)="hidePalette()" hidden>hide</button>
 

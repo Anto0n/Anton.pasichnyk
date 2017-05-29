@@ -1,17 +1,19 @@
 package com.bionic.baglab.dto;
 
+import java.util.List;
+
 /**
  * Created by Potaychuk Sviatoslav on 26.05.2017.
  */
 public class ModelProxyDto {
     private String image;
-    private String rgb;
+    private List<String> rgb;
 
 
     public ModelProxyDto() {
     }
 
-    public ModelProxyDto(String image, String rgb) {
+    public ModelProxyDto(String image, List<String> rgb) {
         this.image = image;
         this.rgb = rgb;
     }
@@ -24,11 +26,11 @@ public class ModelProxyDto {
         this.image = image;
     }
 
-    public String getRgb() {
+    public List<String> getRgb() {
         return rgb;
     }
 
-    public void setRgb(String rgb) {
+    public void setRgb(List<String> rgb) {
         this.rgb = rgb;
     }
 }

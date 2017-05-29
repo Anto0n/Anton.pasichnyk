@@ -149,9 +149,9 @@ public class UserController {
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
-  @PostMapping(value = "/upload")
-  public void uploadImage(@RequestBody String file){
-    System.out.println("Hi" + file);
+  @PostMapping(value = "/upload", consumes = "image/png")
+  public void uploadImage(@RequestBody String multipartFile){
+    System.out.println("Hi"+multipartFile);
     System.out.println("Hi");
   }
 

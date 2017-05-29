@@ -31,6 +31,14 @@ CREATE TABLE IF NOT EXISTS `baglab`.`bag_type` (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
+DROP TABLE IF EXISTS `baglab`.`palette` ;
+
+CREATE TABLE IF NOT EXISTS `baglab`.`palette` (
+  `idColor` BIGINT NOT NULL AUTO_INCREMENT,
+  `rgb` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idColor`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `baglab`.`material`

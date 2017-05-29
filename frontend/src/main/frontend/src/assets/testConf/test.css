@@ -15,8 +15,9 @@ div#main_canvas_container {
 @media screen and (min-width: 1000px) and (max-width: 1200px) {
   #canvas_cont {
     position: absolute;
-    width: inherit;
-    height: inherit;
+    width: 1000px;
+    height: 1000px;
+    border: solid red 1px;
     /*bottom: -350px;*/
     pointer-events: none;
   }
@@ -25,8 +26,9 @@ div#main_canvas_container {
 @media screen and (min-width: 1000px) and (max-width: 1200px) {
   #main_canvas_container {
     position: absolute;
-    width: inherit;
-    height: inherit;
+    width: 1000px;
+    height: 1000px;
+    border: solid red 1px;
     bottom: -350px;
     pointer-events: none;
   }
