@@ -10,7 +10,7 @@ declare var b4w: any;
 @Component({
   selector: 'configurator',
   templateUrl: './configurator.component.html',
-  styleUrls: ['../../assets/testConf/test.css']
+  styleUrls: ['./configurator.component.css'],
 })
 export class ConfiguratorComponent implements OnInit {
   private modelConfig: ModelConfig;
@@ -110,8 +110,7 @@ export class ConfiguratorComponent implements OnInit {
         m_tex.update_canvas_texture_context("Texture.003");
 
       }
-
-      exports.drawImage3 = function () {
+      exports.drawImage3 = function(){
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_tex.change_image(cube, "Texture.003", _base64_image_3);
       }
@@ -120,8 +119,7 @@ export class ConfiguratorComponent implements OnInit {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_tex.change_image(cube, "Texture.003", _base64_image_4);
       }
-
-      exports.drawImage2 = function () {
+      exports.drawImage2 = function(){
         load_data(_base64_image_2);
       }
 
@@ -217,12 +215,11 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   changeImgColor() {
-    this.modelConfig.rgb = [255, 0, 0];
+    this.modelConfig.rgb=[255, 0, 0];
     b4w.require(this.appName).changeImgColor();
   }
-
-  resetImgColor() {
-    this.modelConfig.rgb = [0.5, 0.5, 0.5];
+  resetImgColor(){
+    this.modelConfig.rgb=[0.5, 0.5, 0.5];
     b4w.require(this.appName).resetImgColor();
   }
 
