@@ -1,6 +1,7 @@
 package com.bionic.baglab.dao;
 
 import com.bionic.baglab.domains.OrderEntity;
+import com.bionic.baglab.domains.OrderItemEntity;
 import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import org.springframework.data.repository.CrudRepository;
 
@@ -18,5 +19,6 @@ public interface OrderDao extends CrudRepository<OrderEntity, Long> {
     OrderEntity save(OrderEntity orderEntity);
     List<OrderEntity> findAllOrdersByOrderStatusCode(String orderStatus);
     List <OrderEntity> findAllOrderByUserIdUserAndOrderStatusCode(Long uid, OrderStatusNameEnum statusCode);
+    //OrderEntity deleteInOrderEntityContainingModels(Long orderId, List<OrderItemEntity> items);
 
 }

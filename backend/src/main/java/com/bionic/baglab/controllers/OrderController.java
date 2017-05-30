@@ -2,10 +2,7 @@ package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.OrderEntity;
 import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
-import com.bionic.baglab.dto.order.OrderDto;
-import com.bionic.baglab.dto.order.OrderDtoCreate;
-import com.bionic.baglab.dto.order.OrderDtoUpdate;
-import com.bionic.baglab.dto.order.OrderStatusChangeDTO;
+import com.bionic.baglab.dto.order.*;
 import com.bionic.baglab.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,6 +42,10 @@ public class OrderController {
     }
 
     //TODO add security check
+    /**
+     * @param OrderDtoUpdate add  item(s) to Order
+     * @return
+     */
     @PutMapping("/additems")
     public OrderDto updateOrder(@Valid @RequestBody OrderDtoUpdate orderDto) {
         return orderService.changeOrder(orderDto);
@@ -54,6 +55,12 @@ public class OrderController {
     @DeleteMapping("/deleteOrder/{orderId}")
     public ResponseEntity deleteOrder(@PathVariable("orderId") long orderId) {
         orderService.deleteOrder(orderId);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delitemsorder/")
+    public ResponseEntity deleteItemsFromBucket(@Valid @RequestBody OrderItemDtoCreate[] dto){
+        orderService.deleteItemsInOrder(dto);
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -49,6 +49,7 @@ export class CardViewComponent implements OnInit, OnDestroy {
         this.cardOrderService.clearMessage();
         this.orderRespListener = new OrderResp();
         this.reloadMyOrdersList();
+        this.cardOrderService.sendEmitReloadBucket();
       }, () => {console.log('err')
         this.alertService.error("error");
       });
@@ -61,8 +62,17 @@ export class CardViewComponent implements OnInit, OnDestroy {
     this.restService.getData('./api/order/findall' + `/${id}`).subscribe(
       (data: OrderResp[]) => {
           this.myOrders = data;
+          this.myOrders =  this.myOrders.sort((a, b): number => {   //sor array by
+            if (a.status.code < b.status.code) return 1;
+            if (a.status.code > b.status.code) return -1;
+            return 0;
+          })
       }, () => console.log('err')
     );
+  }
+
+  clearCart(){
+
   }
 
   ngOnDestroy() {

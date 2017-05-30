@@ -151,4 +151,8 @@ public class OrderService {
         return  getDtoFromEntity(resOrderEntity);
 
     }
+
+    public void deleteItemsInOrder(OrderItemDtoCreate[] dto) {
+        //orderDao.deleteInOrderEntityContainingModels(dto[0].)
+    }
 }

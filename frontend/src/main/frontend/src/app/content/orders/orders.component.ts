@@ -46,10 +46,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     });
 
     this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
-      console.log("order comp get Resp 111");
-      console.log(orderResp);
       this.currentOrder = orderResp;
-      console.log(this.currentOrder.idOrder + "--")
     });
   }
 
