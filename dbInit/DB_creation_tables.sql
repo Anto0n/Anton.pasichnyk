@@ -137,8 +137,8 @@ CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   CONSTRAINT `fk_model_bag_type1`
     FOREIGN KEY (`bagTypeId`)
     REFERENCES `baglab`.`bag_type` (`idBagType`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -203,13 +203,13 @@ CREATE TABLE IF NOT EXISTS `baglab`.`order_item` (
   CONSTRAINT `fk_orderItem_model`
     FOREIGN KEY (`modelId`)
     REFERENCES `baglab`.`model` (`idModel`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_orderItem_order`
     FOREIGN KEY (`orderId`)
     REFERENCES `baglab`.`order` (`idOrder`)
     ON DELETE CASCADE
-    ON UPDATE CASCADE)
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

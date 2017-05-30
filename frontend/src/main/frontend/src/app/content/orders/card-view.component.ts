@@ -72,7 +72,15 @@ export class CardViewComponent implements OnInit, OnDestroy {
   }
 
   clearCart(){
-
+    let oid = this.orderRespListener.idOrder;
+     this.restService.deleteData('./api/order/delitemsorder/' + `/${oid}`).subscribe(
+       () =>{
+         this.cardOrderService.sendEmitReloadBucket();    //clean bucket
+         this.orderRespListener = new OrderResp();
+         this.cardOrderService.clearMessage();
+         console.log("RESPONSE");
+       } , () => console.log('err')
+     );
   }
 
   ngOnDestroy() {

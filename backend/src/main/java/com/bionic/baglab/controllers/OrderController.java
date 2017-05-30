@@ -1,6 +1,7 @@
 package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.OrderEntity;
+import com.bionic.baglab.dto.JResponse;
 import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import com.bionic.baglab.dto.order.*;
 import com.bionic.baglab.services.OrderService;
@@ -43,8 +44,8 @@ public class OrderController {
 
     //TODO add security check
     /**
-     * @param OrderDtoUpdate add  item(s) to Order
-     * @return
+     * @param orderDto add  item(s) to Order
+     * @return OrderDto
      */
     @PutMapping("/additems")
     public OrderDto updateOrder(@Valid @RequestBody OrderDtoUpdate orderDto) {
@@ -58,10 +59,22 @@ public class OrderController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delitemsorder/")
-    public ResponseEntity deleteItemsFromBucket(@Valid @RequestBody OrderItemDtoCreate[] dto){
-        orderService.deleteItemsInOrder(dto);
-        return new ResponseEntity(HttpStatus.OK);
+    /**
+     *
+     * @param orderid - delete all items from specified order
+     * @return true
+     */
+    @DeleteMapping("/delitemsorder/{orderId}")
+    public ResponseEntity<JResponse> deleteItemsFromBucket(@PathVariable("orderId") long orderid){
+        boolean result = false;
+        result = orderService.deleteItemsInOrderBucket (orderid);
+        JResponse resp = new JResponse("error");
+        if(result){
+            resp.setResponseMessage("success");
+            new ResponseEntity<JResponse>(resp, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+
     }
 
     /**

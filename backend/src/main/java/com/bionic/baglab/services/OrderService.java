@@ -1,6 +1,7 @@
 package com.bionic.baglab.services;
 
 import com.bionic.baglab.dao.OrderDao;
+import com.bionic.baglab.dao.OrderItemDao;
 import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.*;
 import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
@@ -40,6 +41,9 @@ public class OrderService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderItemDao orderItemDao;
 
     public Set<OrderDto> findAll() {
         List<OrderEntity> temp = orderDao.findAll();
@@ -152,7 +156,28 @@ public class OrderService {
 
     }
 
-    public void deleteItemsInOrder(OrderItemDtoCreate[] dto) {
+    /**
+     *  DOES NOT WORK
+     * @param orderId - order ID -  for removing all ent from Order-Item table
+     */
+    public boolean deleteItemsInOrderBucket(long orderId) {
+       // try{
+        OrderEntity ordEnt = orderDao.findOne(orderId);
+        OrderStatusNameEnum en = ordEnt.getOrderStatus().getCode();
+        System.out.println(OrderStatusNameEnum.BUCKET.toString());
+        System.out.println(en);
+        if(OrderStatusNameEnum.BUCKET.toString().equals(en) ){
+            System.out.println("WRONG STATUS");
+            return false;
+        }
+           // orderItemDao.deleteOrderItemEntityByIdOrderItem(orderId);
+        orderDao.deleteOrderItemEntetiseByIdOrder(orderId);
+        System.out.println("DONE");
+            return true;
+       /* }catch (Exception ex){
+            System.out.println("exception: " + ex);
+            return false;
+        }*/
         //orderDao.deleteInOrderEntityContainingModels(dto[0].)
     }
 }
