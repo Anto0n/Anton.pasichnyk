@@ -5,17 +5,18 @@
    </div>-->
   <div class="topBar">
     <img src="./assets/logo_bl.bmp">
+    <button class="navbar-toggler-right"><a class="nav-link active" [routerLink]="['register']">Sign Up</a></button>
+    <button class="navbar-toggler-right"><a class="nav-link active" [routerLink]="['login']">Log In</a></button>
   </div>
   <!--items bucket-->
   <app-card-menu></app-card-menu>
 
   <div class="container-fluid" style="float:right;">
     <ul class="nav navbar-nav" *ngIf="!isAuth()">
-      <li class="nav-item"><a class="nav-link active" [routerLink]="['register']">Sign Up</a></li>
-      <li class="nav-item"><a class="nav-link active" [routerLink]="['login']">Log In</a></li>
+
     </ul>
     <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-      <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
+      <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>c
     </ul>
   </div>
   <app-menu>loading...</app-menu>
