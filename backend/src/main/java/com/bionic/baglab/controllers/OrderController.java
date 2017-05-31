@@ -64,14 +64,14 @@ public class OrderController {
      * @param orderid - delete all items from specified order
      * @return true
      */
-    @DeleteMapping("/delitemsorder/{orderId}")
+    @DeleteMapping("/cleanbucket/{orderId}")
     public ResponseEntity<JResponse> deleteItemsFromBucket(@PathVariable("orderId") long orderid){
         boolean result = false;
         result = orderService.deleteItemsInOrderBucket (orderid);
         JResponse resp = new JResponse("error");
         if(result){
             resp.setResponseMessage("success");
-            new ResponseEntity<JResponse>(resp, HttpStatus.OK);
+            return new ResponseEntity<>(resp, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
 

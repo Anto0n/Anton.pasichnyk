@@ -100,11 +100,13 @@ export class TestformComponent  {
 
     let tIt : mItems[] = [
       {
+        "idOrderItem": 3333,
         "count": 12,
         "price": 12.95,
         "model": iMod
       },
       {
+        "idOrderItem": 3334,
         "count": 5,
         "price": 15,
         "model": iMod2

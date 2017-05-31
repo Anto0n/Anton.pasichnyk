@@ -65,8 +65,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
           this.uModels = this.uModels.filter(m => m !== model); //selectedModel - null
           /*if (this.selectedModel === model) {
             this.selectedModel = null;      }*/
-        }
-    )
+        }, () => {console.log('err')
+      this.alertService.error("can't delete model, used in orders");
+    });
+
   }
 
   createModel() {

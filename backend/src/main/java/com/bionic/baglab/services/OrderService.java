@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,7 +59,7 @@ public class OrderService {
         return orderStatusDao.findOne(id);
     }
 
-    public OrderStatusEntity findOrderStatusByName(OrderStatusNameEnum name){
+    public OrderStatusEntity findOrderStatusByName(OrderStatusNameEnum name) {
         return orderStatusDao.findByCode(name);
     }
 
@@ -77,13 +78,14 @@ public class OrderService {
         return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
     }
 
-    public  Set<OrderDto> getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
-        List<OrderEntity> temp = orderDao.findAllOrderByUserIdUserAndOrderStatusCode(userId, statusCode );
+    public Set<OrderDto> getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
+        List<OrderEntity> temp = orderDao.findAllOrderByUserIdUserAndOrderStatusCode(userId, statusCode);
         return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
     }
 
     /**
      * create Order with status "BUCKET"
+     *
      * @param orderDto
      * @return
      */
@@ -130,6 +132,12 @@ public class OrderService {
         return getDtoFromEntity(resOrderEntity);
     }
 
+    /**
+     * add items from orderDto into DB
+     *
+     * @param orderDto
+     * @return
+     */
     public OrderDto changeOrder(OrderDtoUpdate orderDto) {
         OrderEntity orderEntity = findOne(orderDto.getOrderId());
         // orderEntity.setOrderStatus(orderStatusDao.findByCode("processing")); Do not change orderStatus while uptating Order
@@ -146,38 +154,31 @@ public class OrderService {
         orderDao.delete(orderId);
     }
 
-
     public OrderDto createBucket(long userId, OrderStatusNameEnum bucket) {        // create new one Bucket
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUser(userService.findEntityById(userId));
         orderEntity.setOrderStatus(orderStatusDao.findByCode(bucket));
         OrderEntity resOrderEntity = save(orderEntity);
-        return  getDtoFromEntity(resOrderEntity);
+        return getDtoFromEntity(resOrderEntity);
 
     }
 
     /**
-     *  DOES NOT WORK
+     * DOES NOT WORK
+     *
      * @param orderId - order ID -  for removing all ent from Order-Item table
      */
+    @Transactional
     public boolean deleteItemsInOrderBucket(long orderId) {
-       // try{
         OrderEntity ordEnt = orderDao.findOne(orderId);
         OrderStatusNameEnum en = ordEnt.getOrderStatus().getCode();
-        System.out.println(OrderStatusNameEnum.BUCKET.toString());
-        System.out.println(en);
-        if(OrderStatusNameEnum.BUCKET.toString().equals(en) ){
-            System.out.println("WRONG STATUS");
+        if (OrderStatusNameEnum.BUCKET.toString().equals(en)) {// WRONG STATUS Bucket
             return false;
         }
-           // orderItemDao.deleteOrderItemEntityByIdOrderItem(orderId);
-        orderDao.deleteOrderItemEntetiseByIdOrder(orderId);
-        System.out.println("DONE");
-            return true;
-       /* }catch (Exception ex){
-            System.out.println("exception: " + ex);
-            return false;
-        }*/
-        //orderDao.deleteInOrderEntityContainingModels(dto[0].)
+        Collection<OrderItemEntity> list = ordEnt.getItems();
+        orderItemDao.delete(list);
+        return true;
+
+
     }
 }

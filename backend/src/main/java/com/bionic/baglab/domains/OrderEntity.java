@@ -6,6 +6,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
+
 @Entity
 @Table(name = "[order]", schema = "baglab")
 public class OrderEntity {
@@ -33,8 +34,8 @@ public class OrderEntity {
     @Column(name = "[orderUpdate]")
     private Timestamp orderUpdate = Timestamp.from(Instant.now());
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderId", nullable = false)
+    @OneToMany(fetch = FetchType.EAGER, cascade={ CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.DETACH}) // CascadeType.ALL CascadeType.PERSIST,
+    @JoinColumn(name = "[orderId]", nullable = false)
     private Collection<OrderItemEntity> items = new ArrayList<>();
 
     public Long getIdOrder() {

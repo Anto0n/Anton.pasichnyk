@@ -14,6 +14,10 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 public class OrderItemDto {
 
+    @NotNull(message = "error.idOrderItem.notnull")
+    @Valid
+    private long idOrderItem;
+
     @NotNull(message = "error.model.notnull")
     @NotEmpty(message = "error.model.notempty")
     @Valid
@@ -31,6 +35,7 @@ public class OrderItemDto {
     }
 
     public OrderItemDto(OrderItemEntity orderItemEntity) {
+        this.idOrderItem = orderItemEntity.getIdOrderItem();
         this.models = new ModelDto(orderItemEntity.getModelEntity());
         this.count = orderItemEntity.getCount();
         this.price = orderItemEntity.getPrice();
@@ -48,9 +53,12 @@ public class OrderItemDto {
         return price;
     }
 
+    public long getIdOrderItem() {return  idOrderItem;}
+
     @Override
     public String toString() {
         return "OrderItemDto{" +
+                "idOrderItem=" + idOrderItem +
                 "model=" + models +
                 ", count=" + count +
                 ", price=" + price +

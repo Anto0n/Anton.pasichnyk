@@ -2,21 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import {IModel, ModelStatus} from "../../models/model";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
+import {OrderResp, OrderStatusNameEnum} from "../../models/order";
 
 @Component({
   selector: 'app-moderator',
-  templateUrl: './moderator.component.html',
-  styles: []
+  templateUrl: './moderator.component.html'
 })
 export class ModeratorComponent implements OnInit {
   private uModels: IModel[] = [];
   private selectedModel:IModel;
   private approved : string;
+  private  showEditOrder : boolean = true;
+  private myOrders : OrderResp[] = [];
 
   constructor(private restService: RestService, private roleService: UserRoleService) { }
 
   ngOnInit() {
     this.getModelsByApproved(ModelStatus.NEW);
+    this.getOrders();
   }
 
 
@@ -42,4 +45,40 @@ export class ModeratorComponent implements OnInit {
       );
   }
 
+  showModels(){
+    this.getModelsByApproved(ModelStatus.NEW);
+    this.showEditOrder = false;
+    // refresh models ent
+  }
+
+  showOrders(){
+    this.getOrders();
+    this.showEditOrder = true;
+    //refresh orders ent
+  }
+
+  getOrders(){
+    //"./api/order/listOrders"
+    this.restService.getData('./api/order/listOrders').subscribe(
+      (data: OrderResp[]) => {
+        this.myOrders = data;
+        this.myOrders =  this.myOrders.sort((a, b): number => {   //sor array by status
+          if (a.status.code < b.status.code) return 1;
+          if (a.status.code > b.status.code) return -1;
+          return 0;
+        })
+      }, () => console.log('err')
+    );
+  }
+
+  approveOrder(ord : OrderResp, oStatus : OrderStatusNameEnum ){
+
+  }
+
 }
+
+/*
+
+export enum OrderStatusNameEnum {
+  BUCKET, NEW, ACCEPTED, PROCESSING, DENIED, SEND
+}*/

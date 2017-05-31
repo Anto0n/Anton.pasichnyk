@@ -1,29 +1,92 @@
-<button (click)=" this.getModelsByApproved('0')"> NEW</button>
-<button (click)="getModelsByApproved('1')"> APPROVED</button>
-<button (click)="getModelsByApproved('2')"> REJECTED</button>
+<div class="container">
+  <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>
+  <button class="btn btn-primary" (click)="showModels()">MODELS</button>
 
-<table class="table table-striped">
-  <thead>
-  <tr>
-    <th>id</th>
-    <th>user id</th>
-    <th>Bag type id</th>
-    <th>model name</th>
-    <th>status</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let model of uModels"  (click)="onSelect(model)"
-      [class.selected]="model === selectedModel">
-    <!--<th scope="row">1</th>-->
-    <td>{{model.id}}</td>
-    <td>{{model.userId}}</td>
-    <td>{{model.bagTypeId}}</td>
-    <td>{{model.mname}}</td>
-    <td>{{model.approved}}</td>
-    <td><button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-warning" (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE</button></td>
-    <td><button *ngIf="model.approved==='NEW' || model.approved==='APPROVED'" class="btn btn-success" (click)=" approveModel(model,'2'); $event.stopPropagation()"> REJECTE</button></td>
-  </tr>
-  </tbody>
-</table>
+  <div class="row">
+    <div class="col-md-9" *ngIf="!showEditOrder">
+      <h3> MODELS </h3>
+
+      <button class="btn btn-outline-info" (click)="getModelsByApproved('0')"> NEW</button>
+      <button class="btn btn-outline-success" (click)="getModelsByApproved('1')"> APPROVED</button>
+      <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')"> REJECTED</button>
+
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>user id</th>
+          <th>Bag type id</th>
+          <th>model name</th>
+          <th>status</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let model of uModels" (click)="onSelect(model)"
+            [class.selected]="model === selectedModel">
+          <!--<th scope="row">1</th>-->
+          <td>{{model.id}}</td>
+          <td>{{model.userId}}</td>
+          <td>{{model.bagTypeId}}</td>
+          <td>{{model.mname}}</td>
+          <td>{{model.approved}}</td>
+          <td>
+            <button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-success"
+                    (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE
+            </button>
+          </td>
+          <td>
+            <button *ngIf="model.approved==='NEW' || model.approved==='APPROVED'" class="btn btn-warning"
+                    (click)=" approveModel(model,'2'); $event.stopPropagation()"> REJECTE
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!--orders-->
+    <div class="col-md-9" *ngIf="showEditOrder">
+      <br>
+      <h3> Orders</h3>
+      <div class="table-responsive">
+        <table class="table table-sm table-striped
+ table-bordered table-cart">
+          <tbody>
+          <tr>
+            <td class="font-weight-bold">ID</td>
+            <td class="font-weight-bold">Count</td>
+            <td class="font-weight-bold">total price</td>
+            <td class="font-weight-bold">Status</td>
+          </tr>
+          <tr *ngFor="let order of myOrders">
+            <td>{{order.idOrder}}</td>
+            <td>{{order.items?.length}}</td>
+            <!--  <td>
+                 <input type="number"
+                        name="{{item.product.id}}" min="1"
+                        [ngModel]="item.count"
+                        (ngModelChange)="item.count = update($event, item)">
+               </td>-->
+            <td>{{order.sumPrice |
+              currency:'USD':true:'1.2-2'}}
+            </td>
+            <td>{{order.status.code}}</td>
+            <td>
+              <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
+                      (click)=" approveOrder(order,'2'); $event.stopPropagation()"> APPROVE
+              </button>
+            </td>
+            <td>
+              <button *ngIf="order.status.code==='NEW' " class="btn btn-warning"
+                      (click)=" approveOrder(order,'4'); $event.stopPropagation()"> REJECTE
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>

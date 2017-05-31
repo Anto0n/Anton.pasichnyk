@@ -21,6 +21,7 @@ export class OrderCreate{
   items: ItemsCreate[];
 }
 export class mItems{
+  idOrderItem: number;
   count: number;
   price: number;
   model: IModel;
