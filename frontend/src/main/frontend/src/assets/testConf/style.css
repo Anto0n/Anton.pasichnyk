@@ -7,19 +7,23 @@
     pointer-events: none;
   }
 }
+
+@media screen and (min-width: 1000px) and (max-width: 1200px) {
+  #main_canvas_container {
+    position: absolute;
+    width: 600px;
+    height: 400px;
+    bottom: -350px;
+    pointer-events: none;
+  }
+}
+
 div#wrapper_container {
     position: relative;
 }
 
 div#canvas_elem{
   position:  inherit;
-}
-
-@media screen and (min-width: 1000px) and (max-width: 1200px) {
-    #canvas_cont {
-        height: 1000px;
-        width: 1000px;
-    }
 }
 
 @media screen and (max-width: 1000px) {

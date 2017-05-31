@@ -1,8 +1,10 @@
 package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.MaterialEntity;
+import com.bionic.baglab.domains.PaletteEntity;
 import com.bionic.baglab.dto.MaterialDto;
 import com.bionic.baglab.services.MaterialService;
+import com.bionic.baglab.services.PaletteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,15 @@ import java.util.List;
 @RequestMapping("material")
 public class MaterialController {
 
+    private final MaterialService materialService;
+
+    private final PaletteService paletteService;
+
     @Autowired
-    private MaterialService materialService;
+    public MaterialController(PaletteService paletteService, MaterialService materialService) {
+        this.paletteService = paletteService;
+        this.materialService = materialService;
+    }
 
     /**
      * @return List of materials
@@ -50,5 +59,10 @@ public class MaterialController {
     public ResponseEntity deleteMaterial(@PathVariable("id") long id) {
         materialService.deleteMaterial(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/palette")
+    public List<PaletteEntity> getPalette() {
+        return paletteService.findAll();
     }
 }
