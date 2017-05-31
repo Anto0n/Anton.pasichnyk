@@ -10,7 +10,7 @@ import {CardOrderService} from "./order/card-order.service";
 
 @Injectable()
 export class AuthenticationService implements OnDestroy {
-  public subjectLogin = new Subject<boolean>();
+  private subjectLogin = new Subject<boolean>();
   private subjectAdminLogin = new Subject<boolean>();
 
 
@@ -48,6 +48,7 @@ export class AuthenticationService implements OnDestroy {
         }
         this.roleService.roleEmiter.emit(user.role.name);
         this.subjectLogin.next(true);
+
       });
   }
 
@@ -78,6 +79,9 @@ export class AuthenticationService implements OnDestroy {
   this.subjectAdminLogin.unsubscribe();
   }
 
+  get isAuthenticatedSubject():Observable<boolean>{
+    return this.subjectLogin.asObservable();
+  }
 
 
 }

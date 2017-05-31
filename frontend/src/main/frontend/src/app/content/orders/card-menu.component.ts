@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {OrderResp} from "../../models/order";
+import {mItems, OrderResp} from "../../models/order";
 import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {RestService} from "../../services/rest.service";
+
 
 @Component({
   selector: 'app-card-menu',
@@ -14,19 +15,31 @@ export class CardMenuComponent implements OnInit, OnDestroy {
   //ordModels : OrderResp[] =[]
   private orderRespListener: OrderResp = new OrderResp();
   private subscription: Subscription;
-  private emtyCard: boolean;
+  private subscrReloadBucket: Subscription;
+  //private emtyCard: boolean;
 
   constructor(private cardServ: CardOrderService, private authService: AuthenticationService,
               private roleService: UserRoleService, private restService: RestService) {
 
     this.subscription = this.cardServ.getMessage().subscribe(orderResp => {
       this.orderRespListener = orderResp;
-    /*  if (orderResp.items.length == 0) {
-        this.emtyCard = true;
-      } else{
-        this.emtyCard = false;
-      }*/
     });
+
+
+   /* this.authService.isAuthenticatedSubject.subscribe((auth: boolean ) => {
+      if(auth){
+        console.log("send reload bucket on login from card-menu");
+        this.reloadBucket();
+      }else{   }
+    });*/
+
+    this.subscrReloadBucket = this.cardServ.getEmitReloadBucket().subscribe(    //reload bucket by comand
+      booleanIn => {
+      if(booleanIn){
+        this.reloadBucket();
+      }
+      }
+    )
   }
 
   ngOnInit() {
@@ -38,13 +51,12 @@ export class CardMenuComponent implements OnInit, OnDestroy {
         this.initBucket(role);
       }
     );
-
+    this.reloadBucket();
   }
 
   initBucket(role: string) {
     switch (role) {
       case 'Customer' :
-        this.recreateBucket();
         this.reloadBucket();
         break;
       case 'Moderator' :
@@ -65,46 +77,30 @@ export class CardMenuComponent implements OnInit, OnDestroy {
   }
 
   private reloadBucket() {
-    let orderRespL: OrderResp;
+    //let orderRespL: OrderResp;
     if (this.authService.isAuthenticated()) {
       let uId = this.roleService.getUserId();
       this.restService.getData(`./api/order/findbucket/${uId}`)
-        .subscribe((data: OrderResp[]) => {
-          this.orderRespListener = data[0]; // attach first value from array
-        /*  if (data[0].items?.length > 0) {
-            this.emtyCard = true;
-          } else{
-            this.emtyCard = false;
-          }*/
-        }, () => console.log('err'))
+        .subscribe((data: OrderResp) => {
+          this.orderRespListener = data;
+          console.log("BUCKET SEND MESS");
+          this.cardServ.sendOrderResp(data); //req!!!! err
+        }, () => console.log('err'));
 
-      // this.orderRespListener = orderRespL;
-      //this.cardServ.sendOrderResp(orderRespL);
-      //if is empty [] - create new one
-      //check on login/logout
     } else {
-      this.cardServ.clearMessage();
+      this.clearBucket();
     }
   }
 
-  recreateBucket() {
-
-  }
-
-  private createBucketIfNotExist() {
-
-  }
-
   private clearBucket() {
-
     this.cardServ.clearMessage();
     this.orderRespListener = new OrderResp();
   }
 
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
-    this.subscription.unsubscribe();
-    this.roleService.roleEmiter.unsubscribe();
+    //this.subscription.unsubscribe();
+   // this.roleService.roleEmiter.unsubscribe();
   }
 
 

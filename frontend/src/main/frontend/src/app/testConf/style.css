@@ -12,23 +12,23 @@ div#wrapper_container {
 }
 
 div#canvas_elem{
-  position:  inherit;
+  position:  ab;
 }
 
-@media screen and (min-width: 1000px) and (max-width: 1200px) {
-    #canvas_cont {
-        height: 1000px;
-        width: 1000px;
-    }
-}
+/*@media screen and (min-width: 1000px) and (max-width: 1200px) {*/
+    /*#canvas_cont {*/
+        /*height: 1000px;*/
+        /*width: 1000px;*/
+    /*}*/
+/*}*/
 
-@media screen and (max-width: 1000px) {
-    #canvas_cont {
-        width: 100vw;
-        height: 100vw;
-        bottom: 0;
-    }
-}
+/*@media screen and (max-width: 1000px) {*/
+    /*#canvas_cont {*/
+        /*width: 100vw;*/
+        /*height: 100vw;*/
+        /*bottom: 0;*/
+    /*}*/
+/*}*/
 
 div#run_button.ru,
 div#run_button.en {

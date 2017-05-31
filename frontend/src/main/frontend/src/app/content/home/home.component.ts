@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
     this.restService.getData('./api/news/list/active')
       .subscribe((data: News[]) => {
         this.news=data;
-        console.log(data);
       }, ()=>console.log('err')); //todo: add Alert service
   }
 

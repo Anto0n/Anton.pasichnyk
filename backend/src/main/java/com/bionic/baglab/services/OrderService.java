@@ -1,6 +1,7 @@
 package com.bionic.baglab.services;
 
 import com.bionic.baglab.dao.OrderDao;
+import com.bionic.baglab.dao.OrderItemDao;
 import com.bionic.baglab.dao.OrderStatusDao;
 import com.bionic.baglab.domains.*;
 import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +43,9 @@ public class OrderService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OrderItemDao orderItemDao;
+
     public Set<OrderDto> findAll() {
         List<OrderEntity> temp = orderDao.findAll();
         return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
@@ -54,7 +59,7 @@ public class OrderService {
         return orderStatusDao.findOne(id);
     }
 
-    public OrderStatusEntity findOrderStatusByName(OrderStatusNameEnum name){
+    public OrderStatusEntity findOrderStatusByName(OrderStatusNameEnum name) {
         return orderStatusDao.findByCode(name);
     }
 
@@ -73,13 +78,14 @@ public class OrderService {
         return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
     }
 
-    public  Set<OrderDto> getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
-        List<OrderEntity> temp = orderDao.findAllOrderByUserIdUserAndOrderStatusCode(userId, statusCode );
+    public Set<OrderDto> getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
+        List<OrderEntity> temp = orderDao.findAllOrderByUserIdUserAndOrderStatusCode(userId, statusCode);
         return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
     }
 
     /**
      * create Order with status "BUCKET"
+     *
      * @param orderDto
      * @return
      */
@@ -122,10 +128,16 @@ public class OrderService {
         OrderEntity orderEntity = findOne(orderId);
         orderEntity.setOrderStatus(findOrderStatusByName(orderStatusNameEnum));
         orderEntity.setOrderUpdate(Timestamp.from(Instant.now()));
-
-        return getDtoFromEntity(orderEntity);
+        OrderEntity resOrderEntity = save(orderEntity);
+        return getDtoFromEntity(resOrderEntity);
     }
 
+    /**
+     * add items from orderDto into DB
+     *
+     * @param orderDto
+     * @return
+     */
     public OrderDto changeOrder(OrderDtoUpdate orderDto) {
         OrderEntity orderEntity = findOne(orderDto.getOrderId());
         // orderEntity.setOrderStatus(orderStatusDao.findByCode("processing")); Do not change orderStatus while uptating Order
@@ -142,13 +154,31 @@ public class OrderService {
         orderDao.delete(orderId);
     }
 
-
     public OrderDto createBucket(long userId, OrderStatusNameEnum bucket) {        // create new one Bucket
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUser(userService.findEntityById(userId));
         orderEntity.setOrderStatus(orderStatusDao.findByCode(bucket));
         OrderEntity resOrderEntity = save(orderEntity);
-        return  getDtoFromEntity(resOrderEntity);
+        return getDtoFromEntity(resOrderEntity);
+
+    }
+
+    /**
+     * DOES NOT WORK
+     *
+     * @param orderId - order ID -  for removing all ent from Order-Item table
+     */
+    @Transactional
+    public boolean deleteItemsInOrderBucket(long orderId) {
+        OrderEntity ordEnt = orderDao.findOne(orderId);
+        OrderStatusNameEnum en = ordEnt.getOrderStatus().getCode();
+        if (OrderStatusNameEnum.BUCKET.toString().equals(en)) {// WRONG STATUS Bucket
+            return false;
+        }
+        Collection<OrderItemEntity> list = ordEnt.getItems();
+        orderItemDao.delete(list);
+        return true;
+
 
     }
 }

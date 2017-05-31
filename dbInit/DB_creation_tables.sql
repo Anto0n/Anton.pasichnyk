@@ -31,6 +31,14 @@ CREATE TABLE IF NOT EXISTS `baglab`.`bag_type` (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
+DROP TABLE IF EXISTS `baglab`.`palette` ;
+
+CREATE TABLE IF NOT EXISTS `baglab`.`palette` (
+  `idColor` BIGINT NOT NULL AUTO_INCREMENT,
+  `rgb` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idColor`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 -- -----------------------------------------------------
 -- Table `baglab`.`material`
@@ -203,12 +211,12 @@ CREATE TABLE IF NOT EXISTS `baglab`.`order_item` (
   CONSTRAINT `fk_orderItem_model`
     FOREIGN KEY (`modelId`)
     REFERENCES `baglab`.`model` (`idModel`)
-    ON DELETE CASCADE
+    ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_orderItem_order`
     FOREIGN KEY (`orderId`)
     REFERENCES `baglab`.`order` (`idOrder`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;

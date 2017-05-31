@@ -1,11 +1,9 @@
 package com.bionic.baglab.controllers;
 
 import com.bionic.baglab.domains.OrderEntity;
+import com.bionic.baglab.dto.JResponse;
 import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
-import com.bionic.baglab.dto.order.OrderDto;
-import com.bionic.baglab.dto.order.OrderDtoCreate;
-import com.bionic.baglab.dto.order.OrderDtoUpdate;
-import com.bionic.baglab.dto.order.OrderStatusChangeDTO;
+import com.bionic.baglab.dto.order.*;
 import com.bionic.baglab.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +14,7 @@ import javax.validation.Valid;
 import javax.xml.ws.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Iterator;
 import java.util.Set;
 
 @RestController
@@ -44,7 +43,11 @@ public class OrderController {
     }
 
     //TODO add security check
-    @PutMapping("/changeOrder")
+    /**
+     * @param orderDto add  item(s) to Order
+     * @return OrderDto
+     */
+    @PutMapping("/additems")
     public OrderDto updateOrder(@Valid @RequestBody OrderDtoUpdate orderDto) {
         return orderService.changeOrder(orderDto);
     }
@@ -54,6 +57,24 @@ public class OrderController {
     public ResponseEntity deleteOrder(@PathVariable("orderId") long orderId) {
         orderService.deleteOrder(orderId);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    /**
+     *
+     * @param orderid - delete all items from specified order
+     * @return true
+     */
+    @DeleteMapping("/cleanbucket/{orderId}")
+    public ResponseEntity<JResponse> deleteItemsFromBucket(@PathVariable("orderId") long orderid){
+        boolean result = false;
+        result = orderService.deleteItemsInOrderBucket (orderid);
+        JResponse resp = new JResponse("error");
+        if(result){
+            resp.setResponseMessage("success");
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+
     }
 
     /**
@@ -70,11 +91,14 @@ public class OrderController {
            if(set.isEmpty()){           // No bucket found
                set.add(orderService.createBucket(userId, OrderStatusNameEnum.BUCKET));
            }
+            Iterator iter = set.iterator();
+
+            dto = (OrderDto) iter.next();
            //dto = set.iterator().next(); // get first
         } catch (Exception ex){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(set, HttpStatus.OK);
+        return new ResponseEntity(dto, HttpStatus.OK);
     }
 
     @GetMapping("/findall/{userid}/{status}")

@@ -6,6 +6,9 @@ import {UserRoleService} from "../../services/user/user-role.service";
 import {Response} from "@angular/http";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
+import {CardOrderService} from "../../services/order/card-order.service";
+import {OrderResp} from "../../models/order";
+import {AlertService} from "../../services/alert.service";
 //  changeDetection: ChangeDetectionStrategy.OnPush
 
 @Component({
@@ -18,20 +21,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private uModels: IModel[] = [];
   private selectedModel:IModel;
  // private subscription: Subscription;
+  private subsOrderResp: Subscription;
+  private currentOrder : OrderResp = new OrderResp();
 
-
-  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef, private authService : AuthenticationService) {
-    // if(this.authService.isAuthenticated()){
-    //   this.getModelsByUserId();
-    // }
-    this.authService.subjectLogin.subscribe((auth: boolean ) => {
-      if(auth){
-        this.getModelsByUserId();  //refresh models on login
-      }else{
-        // void
-      }
-    });
-
+  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef,
+              private authService : AuthenticationService, private cardOrderService : CardOrderService, private alertService : AlertService) {
+    this.cardOrderService.sendEmitReloadBucket();
   }
 
   ngOnInit(): void {
@@ -40,9 +35,22 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
     this.cd.markForCheck();
 
+    this.authService.isAuthenticatedSubject.subscribe((auth: boolean ) => {
+      if(auth){
+        console.log("send reload bucket on login");
+        this.getModelsByUserId();  //refresh models on login
+        // this.cardOrderService.sendEmitReloadBucket();  //reload bucket on login
+      }else{
+        //this.cardOrderService.clearMessage(); // clear local bucket (front only)
+      }
+    });
+
+    this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
+      this.currentOrder = orderResp;
+    });
   }
 
-  getModelsByUserId() {
+  private getModelsByUserId() {
     this.uId = this.roleService.getUserId();
 
     this.restService.getData(`./api/models/${this.uId}/list`)
@@ -55,11 +63,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.restService.deleteData('./api/models/delete' + `/${model.id}`).subscribe(
       () => {
           this.uModels = this.uModels.filter(m => m !== model); //selectedModel - null
-
           /*if (this.selectedModel === model) {
             this.selectedModel = null;      }*/
-        }
-    )
+        }, () => {console.log('err')
+      this.alertService.error("can't delete model, used in orders");
+    });
+
   }
 
   createModel() {
@@ -67,21 +76,51 @@ export class OrdersComponent implements OnInit, OnDestroy {
     let createModelobjT: any = {
       "approved": "NEW",
       "bagTypeId": 1,
-      "mname": "string",
+      "materialId": 1,
+      "mname": "new model name",
       "userId": iid
     };
     this.restService.postJsonResp('./api/models/create', createModelobjT).subscribe(
       (data: IModel[]) => {
-        this.uModels.push(createModelobjT);
+        //this.uModels.push(createModelobjT);
         this.selectedModel = null;
         this.uModels = data;
         //this.getModelsByUserId();
       }, () => console.log('err'));
-
   }
 
-  ngOnDestroy() {
+  addModelToBucket(quantity: number, modelid:number){
+    if(quantity > 0){
+      this.cardOrderService.sendEmitReloadBucket();  //reload bucket
+    let iid = this.roleService.getUserId();
+    //console.log(this.currentOrder.idOrder + "--")
+    let oid : number = this.currentOrder.idOrder;
+    let data = {
+      "userId": iid,
+      "orderId": oid,
+      "items": [
+        {
+          "modelId": modelid,
+          "count": quantity
+        }
+      ]
+    }
+    this.restService.putData("./api/order/additems", data).subscribe(
+      () => {
+         this.alertService.success(quantity + " items added to bucket", false)
+        this.cardOrderService.sendEmitReloadBucket();  //reload bucket after order added
+      }, () => {console.log('err')
+                this.alertService.error("error");
+      });
+
+    } else{
+      this.alertService.error("set items quantity");
+    }
+  }
+
+   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
+     //this.subsOrderResp.unsubscribe();
     //this.authService.subjectLogin.unsubscribe();  error Object unsecribed
     //this.roleService.roleEmiter.unsubscribe(); //error ???
   }

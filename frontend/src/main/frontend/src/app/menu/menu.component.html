@@ -1,5 +1,5 @@
 
-<div class="container">
+
 
 <!--  <button class="navbar-toggle hidden-sm-up"
           type="button" data-toggle="collapse"
@@ -18,20 +18,18 @@
 
 
   <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-    <button class="navbar-toggler hidden-sm-up" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
       &#9776;
     </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse" id="navbarToggleExternalContent">
       <ul class="nav navbar-nav">
-        <ul class="nav navbar-nav ">
-          <li *ngFor="let url of urls"><a class="navbar-brand" [routerLink]="[url.url]">{{url.value}}</a></li>
-        </ul>
+          <li class="nav-item" *ngFor="let url of urls"><a class="nav-link" [routerLink]="[url.url]">{{url.value}}</a></li>
       </ul>
     </div>
   </nav>
 
 
-</div>
+
 <!--
 <ul>
   <li *ngFor="let url of urls"><a [routerLink]="[url.url]">{{url.value}}</a></li>

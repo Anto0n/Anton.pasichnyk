@@ -10,6 +10,12 @@ insert into baglab.user_status (code, description) values ('Active', 'Default st
 insert into baglab.user_status (code, description) values ('Inactive', 'User lost of permission');
 insert into baglab.user_status (code, description) values ('Bane', 'User is banned');
 
+insert into baglab.palette (rgb) value ('0.5,0.5,0.5');
+insert into baglab.palette (rgb) value ('160,82,45');
+insert into baglab.palette (rgb) value ('205,92,92');
+insert into baglab.palette (rgb) value ('255,69,0');
+insert into baglab.palette (rgb) value ('255,140,0');
+
 insert into baglab.order_status (code, description) values ('BUCKET', 'items in bucket, order is not created yet');
 insert into baglab.order_status (code, description) values ('NEW', 'new created order');
 insert into baglab.order_status (code, description) values ('ACCEPTED', 'order is accepted and send to factory');
@@ -33,13 +39,13 @@ insert into baglab.user  (login,password,email, firstname, lastname, roleId) val
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('manager@m','$2a$10$2TWwSqLR/o8yOqyOojc8RuJzpoGsSXLIoOIk1kmRtyRdgAYUt6e/C','manager@m', 'Lao','Dzi',4);
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('lao@22','passm','lao@22', 'Lao2','Dzi2',4);
 
-insert into baglab.order (userId, orderStatusId) VALUES (1,1);
+insert into baglab.order (userId, orderStatusId) VALUES (1,3);
 insert into baglab.order (userId, orderStatusId) VALUES (1,2);
 insert into baglab.order (userId, orderStatusId) VALUES (1,2);
 insert into baglab.order (userId, orderStatusId) VALUES (1,2);
-insert into baglab.order (userId, orderStatusId) VALUES (2,1);
 insert into baglab.order (userId, orderStatusId) VALUES (2,2);
-insert into baglab.order (userId, orderStatusId) VALUES (3,1);
+insert into baglab.order (userId, orderStatusId) VALUES (2,2);
+insert into baglab.order (userId, orderStatusId) VALUES (3,3);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);
