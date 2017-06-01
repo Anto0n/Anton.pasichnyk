@@ -204,7 +204,6 @@ summary {
 
 canvas {
   display: inline-block;
-  width: 1000px;
 }
 
 template {
@@ -6085,9 +6084,7 @@ button.close {
 }
 
 .bg-faded {
-  background-color: #ffffff;
-  text-align: center;
-  /*left: 30%;*/
+  background-color: #f7f7f7
 }
 
 .bg-primary {

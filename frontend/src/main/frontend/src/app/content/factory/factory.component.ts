@@ -21,6 +21,7 @@ export class FactoryComponent implements OnInit {
 
   ngOnInit() {
     this.getModelsByApproved(ModelStatus.APPROVED);
+    this.getOrdersByStatus(2); //accepted
   }
 
 
@@ -34,18 +35,18 @@ export class FactoryComponent implements OnInit {
 
   /*EDIT/refactor  this code>>*/
   showModels(){
-    this.getModelsByApproved(ModelStatus.NEW);
+    this.getModelsByApproved(ModelStatus.APPROVED);
     this.showEditOrder = false;
     // refresh models ent
   }
 
   showOrders(){
-    this.getOrders();
+    this.getOrdersByStatus(2); //Accepted
     this.showEditOrder = true;
     //refresh orders ent
   }
 
-  getOrders(){
+ /* getOrders(){ //All
     //"./api/order/listOrders"
     this.restService.getData('./api/order/listOrders').subscribe(
       (data: OrderResp[]) => {
@@ -57,9 +58,34 @@ export class FactoryComponent implements OnInit {
         })
       }, () => console.log('err')
     );
+  }*/
+
+  getOrdersByStatus(status : OrderStatusNameEnum){
+    let mstat : string = OrderStatusNameEnum[status];// Accepted
+    this.restService.getData('./api/order/findallByStatus', `/${mstat}`)
+      .subscribe(
+        (data: OrderResp[]) => {
+          this.myOrders = data},
+        () => console.log('err')
+      );
   }
 
-  approveOrder(ord : OrderResp, oStatus : OrderStatusNameEnum ){
+  // change order status
+  approveOrder(ord : OrderResp, newStatus : OrderStatusNameEnum ){
+    let mstat : string = OrderStatusNameEnum[newStatus];
+    let model  = {
+      "orderId": ord.idOrder,
+      "orderStatusNameEnum": mstat
+    };
+    this.restService.putData("./api/order/changeStatus", model).subscribe(
+      (data: OrderResp) => {
+        let newOr : OrderResp = data;
+        let foundIndex : number = this.myOrders.findIndex(x => x == newOr);  // find in array
+
+        this.myOrders[foundIndex] = newOr;                                    // replace in arr
+        this.getOrdersByStatus(2); //reload arr Accepted     Rewrite to change detection
+      }
+    ),  () => console.log('err')
 
   }
 

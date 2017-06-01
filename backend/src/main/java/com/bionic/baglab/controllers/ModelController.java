@@ -7,6 +7,7 @@ import com.bionic.baglab.dto.ModelDto;
 import com.bionic.baglab.dto.ModelDtoCreate;
 import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import com.bionic.baglab.services.ModelService;
+import com.bionic.baglab.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ public class ModelController {
     private ModelDao modelDao;
     @Autowired
     private ModelService modelService;
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping(value = "/{modelId}/delete", method = RequestMethod.GET) //TODO change to POST method
     public ResponseEntity<?> delete(@PathVariable("modelId") long modelId) {
@@ -77,12 +80,16 @@ public class ModelController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<JResponse> deleteUser(@PathVariable("id") long id) {
+        //if exist in order-item - false
+        JResponse message = new JResponse("error on deleting");
+        if (orderService.modelInUse(id)) {
+            return new ResponseEntity<>(message, HttpStatus.CONFLICT);
+        }
         try {
             ModelEntity model = new ModelEntity(id);
             modelDao.delete(model);
         }
         catch (Exception ex) {
-            JResponse message = new JResponse("error on deleting");
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);     //"Error deleting the user: " + ex.toString();
         }
         return new ResponseEntity<>(new JResponse(), HttpStatus.OK);

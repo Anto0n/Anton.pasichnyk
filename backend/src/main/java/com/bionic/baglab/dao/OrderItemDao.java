@@ -13,6 +13,9 @@ public interface OrderItemDao extends CrudRepository<OrderItemEntity, Long> {
 
     @Override
     void delete(Iterable<? extends OrderItemEntity> entities);
+
+    OrderItemEntity findDistinctByModelEntityIdModel(long id);
+
     //void deleteOrderItemEntityByIdOrderItem(long orderId);
 
    // void delete(List<OrderItemEntity> ent);

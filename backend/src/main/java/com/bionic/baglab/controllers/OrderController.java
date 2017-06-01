@@ -15,6 +15,7 @@ import javax.xml.ws.Response;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -74,7 +75,6 @@ public class OrderController {
             return new ResponseEntity<>(resp, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);
-
     }
 
     /**
@@ -110,6 +110,17 @@ public class OrderController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity(set, HttpStatus.OK);
+    }
+
+    @GetMapping("/findallByStatus/{status}")
+    public ResponseEntity getOrdersByStatus(@PathVariable("status") OrderStatusNameEnum statusCode ){
+        List<OrderDto> list = null;
+        try{
+            list = orderService.getOrderByStatus(statusCode);
+        } catch (Exception ex){
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 
     @GetMapping("/findall/{userid}")

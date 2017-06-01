@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, NgZone} from '@angular/core';
 import {IModel, ModelStatus} from "../../models/model";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
@@ -15,11 +15,14 @@ export class ModeratorComponent implements OnInit {
   private  showEditOrder : boolean = true;
   private myOrders : OrderResp[] = [];
 
-  constructor(private restService: RestService, private roleService: UserRoleService) { }
+  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef, private zone: NgZone) {
+  }
+
+
 
   ngOnInit() {
     this.getModelsByApproved(ModelStatus.NEW);
-    this.getOrders();
+    this.getOrdersByApproved(1);
   }
 
 
@@ -57,7 +60,7 @@ export class ModeratorComponent implements OnInit {
     //refresh orders ent
   }
 
-  getOrders(){
+  getOrders(){  //all orders
     //"./api/order/listOrders"
     this.restService.getData('./api/order/listOrders').subscribe(
       (data: OrderResp[]) => {
@@ -71,9 +74,37 @@ export class ModeratorComponent implements OnInit {
     );
   }
 
-  approveOrder(ord : OrderResp, oStatus : OrderStatusNameEnum ){
+ // change order status
+  approveOrder(ord : OrderResp, newStatus : OrderStatusNameEnum ){
+    let mstat : string = OrderStatusNameEnum[newStatus];
+    let model  = {
+      "orderId": ord.idOrder,
+      "orderStatusNameEnum": mstat
+    };
+    this.restService.putData("./api/order/changeStatus", model).subscribe(
+      (data: OrderResp) => {
+        let newOr : OrderResp = data;
+        let foundIndex : number = this.myOrders.findIndex(x => x == newOr);  // find in array
+
+        this.myOrders[foundIndex] = newOr;                                    // replace in arr
+        this.getOrdersByApproved(1); //reload arr NEW     Rewrite to change detection
+      }
+    ),  () => console.log('err')
 
   }
+
+  getOrdersByApproved(status : OrderStatusNameEnum){
+    let mstat : string = OrderStatusNameEnum[status];
+    this.restService.getData('./api/order/findallByStatus', `/${mstat}`)
+      .subscribe(
+        (data: OrderResp[]) => {
+          this.myOrders = data},
+        () => console.log('err')
+      );
+  }
+
+
+
 
 }
 

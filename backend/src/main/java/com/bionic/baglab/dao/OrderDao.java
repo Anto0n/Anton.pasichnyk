@@ -17,7 +17,7 @@ public interface OrderDao extends CrudRepository<OrderEntity, Long> {
     List<OrderEntity> findAllByUserIdUser(long iduser);
     OrderEntity findOne(Long id);
     OrderEntity save(OrderEntity orderEntity);
-    List<OrderEntity> findAllOrdersByOrderStatusCode(String orderStatus);
+    List<OrderEntity> findAllOrdersByOrderStatusCode(OrderStatusNameEnum statusCode);
     List <OrderEntity> findAllOrderByUserIdUserAndOrderStatusCode(Long uid, OrderStatusNameEnum statusCode);
     //void deleteOrderItemsByIdOrder(long oid);
 
