@@ -5,8 +5,11 @@
    </div>-->
   <div class="topBar">
     <img src="./assets/logo_bl.bmp">
-    <button *ngIf="!isAuth()" ><a class="nav-link active" [routerLink]="['register']">Sign Up</a></button>
-    <button *ngIf="!isAuth()"  class="navbar-toggler-right"><a class="nav-link active" [routerLink]="['login']">Log In</a></button>
+    <br>
+    <div  class="container-fluid" style="float:right;">
+      <button *ngIf="!isAuth()" class="btn btn-outline-success" ><a class="nav-link active"  [routerLink]="['register']">Sign Up</a></button>
+      <button *ngIf="!isAuth()" class="btn btn-outline-success" ><a class="nav-link active"  [routerLink]="['login']">LogIn</a></button>
+    </div>
   </div>
   <!--items bucket-->
   <app-card-menu></app-card-menu>
@@ -16,7 +19,7 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-      <li><a (click)="onLogout()" style="cursor: pointer;">Logout</a></li>
+      <button class="btn btn-outline-danger" ><a (click)="onLogout()" style="cursor: pointer;">Logout</a></button>
     </ul>
   </div>
   <app-menu>loading...</app-menu>
@@ -35,7 +38,7 @@
       <!--<div class="col-sm-8 col-sm-offset-2">-->
       <alert></alert>
       <router-outlet></router-outlet>
-       <!--</div>-->
+      <!--</div>-->
     </div>
   </div>
 </div>

@@ -49,6 +49,10 @@
     <div class="col-md-9" *ngIf="showEditOrder">
       <br>
       <h3> Orders</h3>
+      <button class="btn btn-outline-info" (click)="getOrdersByApproved('1')"> NEW</button>
+      <button class="btn btn-outline-success" (click)="getOrdersByApproved('2')"> APPROVED</button>
+      <button class="btn btn-outline-warning" (click)="getOrdersByApproved('4')"> REJECTED</button>
+
       <div class="table-responsive">
         <table class="table table-sm table-striped
  table-bordered table-cart">
@@ -72,6 +76,7 @@
               currency:'USD':true:'1.2-2'}}
             </td>
             <td>{{order.status.code}}</td>
+            <td> <button class="btn-outline-info" > view </button></td>
             <td>
               <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
                       (click)=" approveOrder(order,'2'); $event.stopPropagation()"> APPROVE
@@ -82,6 +87,7 @@
                       (click)=" approveOrder(order,'4'); $event.stopPropagation()"> REJECTE
               </button>
             </td>
+
           </tr>
           </tbody>
         </table>

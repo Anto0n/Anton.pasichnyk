@@ -69,7 +69,7 @@ public class OrderService {
     }
 
     public List<OrderDto> getAllOrdersByStatus(OrderStatusNameEnum status) {        // didnt work??
-        List<OrderEntity> ordersEntities = orderDao.findAllOrdersByOrderStatusCode(status.name());
+        List<OrderEntity> ordersEntities = orderDao.findAllOrdersByOrderStatusCode(status);
         return ordersEntities.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
@@ -180,5 +180,9 @@ public class OrderService {
         return true;
 
 
+    }
+
+    public List<OrderDto> getOrderByStatus(OrderStatusNameEnum statusCode) {
+        return getAllOrdersByStatus(statusCode);
     }
 }

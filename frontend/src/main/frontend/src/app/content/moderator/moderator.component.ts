@@ -57,7 +57,7 @@ export class ModeratorComponent implements OnInit {
     //refresh orders ent
   }
 
-  getOrders(){
+  getOrders(){  //all orders
     //"./api/order/listOrders"
     this.restService.getData('./api/order/listOrders').subscribe(
       (data: OrderResp[]) => {
