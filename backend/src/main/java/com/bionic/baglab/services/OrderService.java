@@ -185,4 +185,10 @@ public class OrderService {
     public List<OrderDto> getOrderByStatus(OrderStatusNameEnum statusCode) {
         return getAllOrdersByStatus(statusCode);
     }
+
+    public boolean modelInUse(long id) {
+        if (orderItemDao.findDistinctByModelEntityIdModel(id) != null)
+            return true;
+        return false;
+    }
 }

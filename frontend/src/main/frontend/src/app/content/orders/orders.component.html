@@ -30,12 +30,12 @@
     </td>
     <!--quantity-->
     <td style="width:5%">
-      <input #newItem (keyup.enter)="addModelToBucket(newItem.value, model.id);  newItem.value=''"
+      <input #newItem (keyup.enter)="addModelToBucket(newItem.value, model);  newItem.value=''"
              type="number" min="1"/>
     </td>
 
     <td>
-      <button class="btn btn-success" (click)="addModelToBucket(newItem.value, model.id);  newItem.value=''">To bucket</button>
+      <button class="btn btn-success" (click)="addModelToBucket(newItem.value, model);  newItem.value=''">To bucket</button>
     <td>
   </tr>
   </tbody>

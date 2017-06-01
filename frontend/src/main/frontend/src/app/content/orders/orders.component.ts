@@ -89,7 +89,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
       }, () => console.log('err'));
   }
 
-  addModelToBucket(quantity: number, modelid:number){
+  addModelToBucket(quantity: number, model:IModel){
+    let modelid:number = model.id;
     if(quantity > 0){
       this.cardOrderService.sendEmitReloadBucket();  //reload bucket
     let iid = this.roleService.getUserId();

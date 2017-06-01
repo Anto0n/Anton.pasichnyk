@@ -44,7 +44,7 @@ export class RestService {
       .catch(this.handleError);
   }
 
-  putData(restUrl: string, body: any, param?: string): Observable<Response> {
+  putData(restUrl: string, body: any, param?: string): Observable<any> {
     return this.http.put(restUrl + (param ? param : ''), JSON.stringify(body), {headers: this.headers})
       .map((response: Response) => {
         response.json()
