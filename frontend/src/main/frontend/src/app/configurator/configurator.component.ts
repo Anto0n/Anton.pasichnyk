@@ -17,7 +17,7 @@ export class ConfiguratorComponent{
   @ViewChild('config')
   configurator: IConfigurator;
 
-  private configuratorType: ConfiguratorType = ConfiguratorType.D3;
+  private configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
   constructor(private userRoleService: UserRoleService){
 

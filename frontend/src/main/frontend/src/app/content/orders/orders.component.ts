@@ -72,7 +72,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   createModel() {
-    let iid = this.roleService.getUserId(); //todo: RE
+    let iid = this.roleService.getUserId(); //todo: model Config field
     let createModelobjT: any = {
       "approved": "NEW",
       "bagTypeId": 1,

@@ -11,6 +11,7 @@ declare var b4w: any;
 })
 export class Configurator3DComponent implements OnInit, IConfigurator {
 
+
   private modelConfig: ModelConfig;
   private jsonString: any;
   private appName: string = "conf_app";
@@ -251,6 +252,9 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   changeImage(src:string){
 
+  }
+
+  selectMaterial(material: any) {
   }
 
 

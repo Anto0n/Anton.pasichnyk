@@ -22,9 +22,14 @@ export interface IConfigurator {
   imageUploaded(data: { src: string, pending: boolean, file: {type:string} });
 
   /**
-   *
+   * save model setting to user account
    * @param modelConfig
    */
   save(modelConfig: ModelConfig);
+
+  /**
+   * jeans cotton leather from DB
+   */
+  selectMaterial(material: any);
 
 }
