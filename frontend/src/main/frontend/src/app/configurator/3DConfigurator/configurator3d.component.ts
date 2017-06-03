@@ -248,9 +248,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   }
 
-  private checkFile(imgFile : {type:string} ) : boolean {
-    return true;
-  }
 
   changeImage(src:string){
 

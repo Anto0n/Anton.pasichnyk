@@ -153,9 +153,10 @@ public class UserController {
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
-  @PostMapping(value = "/upload", consumes = "multipart/form-data")
-  public void uploadImage(@RequestParam("image") MultipartFile multipartFile){
-
+  @PostMapping(value = "/upload/{userID}", consumes = "multipart/form-data")
+  public void uploadImage(@PathVariable("userID") Long userId,
+          @RequestParam("image") MultipartFile multipartFile){
+    System.out.println(userId);
     final String UPLOADED_FOLDER = "C:\\Users\\Potaychuk Sviatoslav\\IdeaProjects\\cotton\\frontend\\src\\main\\frontend\\src\\assets\\img\\";
     try {
       byte[] bytes = multipartFile.getBytes();

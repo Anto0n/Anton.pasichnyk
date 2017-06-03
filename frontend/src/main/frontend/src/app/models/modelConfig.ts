@@ -1,5 +1,6 @@
 /**
  * Created by Potaychuk Sviatoslav on 26.05.2017.
+ *
  */
 export class ModelConfig{
   image: string;

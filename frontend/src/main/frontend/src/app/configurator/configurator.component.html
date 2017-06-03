@@ -1,9 +1,9 @@
 <button (click)="getBag()">Get bag</button>
 
 <div id="wrapper_container" class="col-lg-10" style="border: solid black 1px">
-  <configurator-3d #config *ngIf="is3D"></configurator-3d>
-  <configurator-2d #config *ngIf="!is3D"></configurator-2d>
-  <input type="checkbox" (click)="is3D = !is3D">
+  <configurator-3d #config *ngIf="configuratorType == 3"></configurator-3d>
+  <configurator-2d #config *ngIf="configuratorType == 2"></configurator-2d>
+  <input type="checkbox" (click)="changeType(configuratorType)">
   <button id="configure_new_bag_button" (click)="showCustomizer()">configure new bag</button>
   <div id="customizer">
 
@@ -30,7 +30,7 @@
       <div class="col-lg-1" style="background-color: rgb(199,21,133); height: 20px; width: 20px;"
            (click)="setColor(199,21,133)"></div>
     </div>
-    <image-upload  [url]="'/api/user/upload'" [preview]="false" (onFileUploadFinish)="configurator.imageUploaded($event)"></image-upload>
+    <image-upload  [url]="'/api/user/upload/' + userRoleService.getUserId()" [preview]="false" (onFileUploadFinish)="configurator.imageUploaded($event)"></image-upload>
     <!--(onFileUploadFinish)="imageUploaded($event)"-->
   </div>
 </div>
