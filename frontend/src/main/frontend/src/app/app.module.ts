@@ -44,6 +44,8 @@ import { CardMenuComponent } from './content/orders/card-menu.component';
 import {CardOrderService} from "./services/order/card-order.service";
 import { CardViewComponent } from './content/orders/card-view.component';
 import {ImageUploadModule} from "angular2-image-upload";
+import {Configurator3DComponent} from "app/configurator/3DConfigurator/configurator3d.component";
+import {Configurator2DComponent} from "./configurator/2DConfigurator/configurator2d.component";
 
 @NgModule({
   declarations: [
@@ -67,7 +69,9 @@ import {ImageUploadModule} from "angular2-image-upload";
     PageNotFoundComponent,
     CreateNewsComponent,
     CardMenuComponent,
-    CardViewComponent
+    CardViewComponent,
+    Configurator3DComponent,
+    Configurator2DComponent
 
   ],
   imports: [

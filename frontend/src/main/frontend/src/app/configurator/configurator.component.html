@@ -1,16 +1,18 @@
 <button (click)="getBag()">Get bag</button>
 
 <div id="wrapper_container" class="col-lg-10" style="border: solid black 1px">
-  <div id="canvas_cont" STYLE="width: 1000px"></div>
+  <configurator-3d #config *ngIf="is3D"></configurator-3d>
+  <configurator-2d #config *ngIf="!is3D"></configurator-2d>
+  <input type="checkbox" (click)="is3D = !is3D">
   <button id="configure_new_bag_button" (click)="showCustomizer()">configure new bag</button>
-  <div id="customizer" hidden>
-    <image-upload (onFileUploadFinish)="imageUploaded($event)"></image-upload>
-    <button (click)='ci(1)'>ci1</button>
-    <button (click)='ci(2)'>ci2</button>
-    <button (click)='resetImgColor()'>reset</button>
-    <button (click)='save(modelConfig)'>save</button>
-    <button (click)="changeColor()">Change color</button>
-    <button id="hide_palette_button" (click)="hidePalette()" hidden>hide</button>
+  <div id="customizer">
+
+    <button (click)='configurator.ci(1)'>ci1</button>
+    <button (click)='configurator.ci(2)'>ci2</button>
+    <button (click)='configurator.resetModel()'>reset</button>
+    <button (click)='configurator.save(modelConfig)'>save</button>
+    <button (click)="configurator.changeColor()">Change color</button>
+    <button id="hide_palette_button" (click)="configurator.hidePalette()" hidden>hide</button>
 
     <div id="palette" hidden>
       <div class="col-lg-1" style="background-color: rgb(160,82,45); height: 20px; width: 20px;"
@@ -28,6 +30,8 @@
       <div class="col-lg-1" style="background-color: rgb(199,21,133); height: 20px; width: 20px;"
            (click)="setColor(199,21,133)"></div>
     </div>
+    <image-upload  [url]="'/api/user/upload'" [preview]="false" (onFileUploadFinish)="configurator.imageUploaded($event)"></image-upload>
+    <!--(onFileUploadFinish)="imageUploaded($event)"-->
   </div>
 </div>
 

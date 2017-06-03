@@ -16,6 +16,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 
@@ -149,10 +153,17 @@ public class UserController {
     return new ResponseEntity<>(userDto, HttpStatus.OK);
   }
 
-  @PostMapping(value = "/upload", consumes = "image/png")
-  public void uploadImage(@RequestBody String multipartFile){
-    System.out.println("Hi"+multipartFile);
-    System.out.println("Hi");
+  @PostMapping(value = "/upload", consumes = "multipart/form-data")
+  public void uploadImage(@RequestParam("image") MultipartFile multipartFile){
+
+    final String UPLOADED_FOLDER = "C:\\Users\\Potaychuk Sviatoslav\\IdeaProjects\\cotton\\frontend\\src\\main\\frontend\\src\\assets\\img\\";
+    try {
+      byte[] bytes = multipartFile.getBytes();
+      Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
+      Files.write(path, bytes);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 
   @PostMapping(value = "/saveModel")
