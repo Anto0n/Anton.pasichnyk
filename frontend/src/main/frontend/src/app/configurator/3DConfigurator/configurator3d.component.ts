@@ -2,6 +2,7 @@ import {IConfigurator} from "../configurator.model";
 import {Component, OnInit} from "@angular/core";
 import {ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
+import {UserRoleService} from "../../services/user/user-role.service";
 
 declare var b4w: any;
 
@@ -19,12 +20,12 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   base64_image_3 = "./assets/testConf/temp/default_img.png";
   base64_image_4 = "./assets/testConf/temp/logo.png";
 
-  constructor(private restService: RestService) {
+  constructor(private restService: RestService, private userRoleService: UserRoleService) {
   }
 
 
   ngOnInit() {
-    this.modelConfig = new ModelConfig('', '');
+    this.modelConfig = new ModelConfig('', []);
     b4w.register(this.appName, function (exports, require) {
       var testImg = new Image();
       var m_app = b4w.require("app");
@@ -100,68 +101,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
         }
       }
 
-      exports.drawImageNew = function() {
-
-        var cube = m_scenes.get_object_by_name("pakr_body_001");
-        console.log('!!!!!!!!!!!');
-        console.log(m_tex.get_texture_names(cube));
-
-        var ctx_image = m_tex.get_canvas_ctx(cube, "Texture.003");
-        var img = new Image();
-        // img.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAPCAYAAAA71pVKAAACIklEQVQokS2SWW/aYBBFr2NjSEJRoqo/pFUSwuYNm0CUNP3/Uit1SdWgsAgMNjb+Th/M82iO7pw7iho5gSASzM73RPach2aJJwhdCAXTizdiwcQtiQSBsyZyDQoFgSCxS/o64KtgIIhduBXMXOjpSCToCQIL+trS1xuKzyBxd3jWLyYtCO2CkZURujmRA3FzTmjtSJqG0DYMtOL5ogYo1IFpAzzBUAWBA+POH4Y6ElrgC8ZuPU/OMwJnw0ArAos6duIYfDuD1EAG7GB6tWAk8NuvsARyA5saENqGnkBTwcyBewFlhdkAmWGgOYngRjnkwHYOuakTNA2RQLFgbB3w2j8hP0IJbGDW2dAXBNcLWFEDlvUJobWjpwpN9M6DXZvst3d8bqzxO1u6yni5NNyeADfK8duv+KolzlxQYGf4Snm5qrhT3Wty6n0ieNCRJ8Gj4NGq405tQ9yYo6QBsQNftOfbpxLPeSe+XDNuFdxriddI8ZtLvMaGob0maWfcqeBWFeqfio8/rDB/gS2wS2vrORjAVJBtALaUa/Cvc7ouyLcK/MaKgap6sQQooIKsXJBXsCtXVBVAikmh23rHOwcFqhhozvNHOPwrwKQUxQ+yfA385li+1cAMqL7DFkZWxkhHFJ2tmDjQFSSdBV2lDJswdKHnQnAGQ+2ZtOBG8NSGUAe+uqDgZPfRgYlTEFkVkQVD1S8ZyRAqJdKeQCXTFnja4CvlPzEgSFZRaHh+AAAAAElFTkSuQmCC";
-        img.src = _base64_image_4;
-
-
-        img.onload = function() {
-          ctx_image.drawImage(img, 0, 0, ctx_image.canvas.width, ctx_image.canvas.height);
-          m_tex.update_canvas_ctx(cube, "Texture.003");
-        }
-      }
-
-
-
-      exports.drawImageNew1 = function() {
-
-        var cube = m_scenes.get_object_by_name("pakr_body_001");
-        console.log('!!!!!!!!!!!');
-        console.log(m_tex.get_texture_names(cube));
-
-        var ctx_image = m_tex.get_canvas_ctx(cube, "Texture.003");
-        var img = new Image();
-        img.src = "data:image/gif;base64,R0lGODlhPQBEAPeoAJosM//AwO/AwHVYZ/z595kzAP/s7P+goOXMv8+fhw/v739/f+8PD98fH/8mJl+fn/9ZWb8/PzWlwv///6wWGbImAPgTEMImIN9gUFCEm/gDALULDN8PAD6atYdCTX9gUNKlj8wZAKUsAOzZz+UMAOsJAP/Z2ccMDA8PD/95eX5NWvsJCOVNQPtfX/8zM8+QePLl38MGBr8JCP+zs9myn/8GBqwpAP/GxgwJCPny78lzYLgjAJ8vAP9fX/+MjMUcAN8zM/9wcM8ZGcATEL+QePdZWf/29uc/P9cmJu9MTDImIN+/r7+/vz8/P8VNQGNugV8AAF9fX8swMNgTAFlDOICAgPNSUnNWSMQ5MBAQEJE3QPIGAM9AQMqGcG9vb6MhJsEdGM8vLx8fH98AANIWAMuQeL8fABkTEPPQ0OM5OSYdGFl5jo+Pj/+pqcsTE78wMFNGQLYmID4dGPvd3UBAQJmTkP+8vH9QUK+vr8ZWSHpzcJMmILdwcLOGcHRQUHxwcK9PT9DQ0O/v70w5MLypoG8wKOuwsP/g4P/Q0IcwKEswKMl8aJ9fX2xjdOtGRs/Pz+Dg4GImIP8gIH0sKEAwKKmTiKZ8aB/f39Wsl+LFt8dgUE9PT5x5aHBwcP+AgP+WltdgYMyZfyywz78AAAAAAAD///8AAP9mZv///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAKgALAAAAAA9AEQAAAj/AFEJHEiwoMGDCBMqXMiwocAbBww4nEhxoYkUpzJGrMixogkfGUNqlNixJEIDB0SqHGmyJSojM1bKZOmyop0gM3Oe2liTISKMOoPy7GnwY9CjIYcSRYm0aVKSLmE6nfq05QycVLPuhDrxBlCtYJUqNAq2bNWEBj6ZXRuyxZyDRtqwnXvkhACDV+euTeJm1Ki7A73qNWtFiF+/gA95Gly2CJLDhwEHMOUAAuOpLYDEgBxZ4GRTlC1fDnpkM+fOqD6DDj1aZpITp0dtGCDhr+fVuCu3zlg49ijaokTZTo27uG7Gjn2P+hI8+PDPERoUB318bWbfAJ5sUNFcuGRTYUqV/3ogfXp1rWlMc6awJjiAAd2fm4ogXjz56aypOoIde4OE5u/F9x199dlXnnGiHZWEYbGpsAEA3QXYnHwEFliKAgswgJ8LPeiUXGwedCAKABACCN+EA1pYIIYaFlcDhytd51sGAJbo3onOpajiihlO92KHGaUXGwWjUBChjSPiWJuOO/LYIm4v1tXfE6J4gCSJEZ7YgRYUNrkji9P55sF/ogxw5ZkSqIDaZBV6aSGYq/lGZplndkckZ98xoICbTcIJGQAZcNmdmUc210hs35nCyJ58fgmIKX5RQGOZowxaZwYA+JaoKQwswGijBV4C6SiTUmpphMspJx9unX4KaimjDv9aaXOEBteBqmuuxgEHoLX6Kqx+yXqqBANsgCtit4FWQAEkrNbpq7HSOmtwag5w57GrmlJBASEU18ADjUYb3ADTinIttsgSB1oJFfA63bduimuqKB1keqwUhoCSK374wbujvOSu4QG6UvxBRydcpKsav++Ca6G8A6Pr1x2kVMyHwsVxUALDq/krnrhPSOzXG1lUTIoffqGR7Goi2MAxbv6O2kEG56I7CSlRsEFKFVyovDJoIRTg7sugNRDGqCJzJgcKE0ywc0ELm6KBCCJo8DIPFeCWNGcyqNFE06ToAfV0HBRgxsvLThHn1oddQMrXj5DyAQgjEHSAJMWZwS3HPxT/QMbabI/iBCliMLEJKX2EEkomBAUCxRi42VDADxyTYDVogV+wSChqmKxEKCDAYFDFj4OmwbY7bDGdBhtrnTQYOigeChUmc1K3QTnAUfEgGFgAWt88hKA6aCRIXhxnQ1yg3BCayK44EWdkUQcBByEQChFXfCB776aQsG0BIlQgQgE8qO26X1h8cEUep8ngRBnOy74E9QgRgEAC8SvOfQkh7FDBDmS43PmGoIiKUUEGkMEC/PJHgxw0xH74yx/3XnaYRJgMB8obxQW6kL9QYEJ0FIFgByfIL7/IQAlvQwEpnAC7DtLNJCKUoO/w45c44GwCXiAFB/OXAATQryUxdN4LfFiwgjCNYg+kYMIEFkCKDs6PKAIJouyGWMS1FSKJOMRB/BoIxYJIUXFUxNwoIkEKPAgCBZSQHQ1A2EWDfDEUVLyADj5AChSIQW6gu10bE/JG2VnCZGfo4R4d0sdQoBAHhPjhIB94v/wRoRKQWGRHgrhGSQJxCS+0pCZbEhAAOw==";
-        // img.src = _base64_image_1;
-
-        img.onload = function() {
-          ctx_image.drawImage(img, 0, 0, ctx_image.canvas.width, ctx_image.canvas.height);
-          m_tex.update_canvas_ctx(cube, "Texture.003");
-        }
-      }
-
-      exports.drawImage3 = function(){
-        let cube = m_scenes.get_object_by_name("pakr_body_001");
-        m_tex.change_image(cube, "Texture.003", _base64_image_3);
-      }
-
-      exports.drawImage4 = function () {
-        let cube = m_scenes.get_object_by_name("pakr_body_001");
-        m_tex.change_image(cube, "Texture.003", _base64_image_4);
-      }
-      exports.drawImage2 = function(){
-        load_data(_base64_image_2);
-      }
-
-      exports.drawImageOnBag = function () {
-        let cube = m_scenes.get_object_by_name("pakr_body_001");
-        m_tex.change_image(cube, "Texture.003", testImg);
-        // load_data(src);
-      };
-
-      exports.changeImgColor = function () {
-
-        let cube = m_scenes.get_object_by_name("pakr_body_001");
-        m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], 255, 0, 0,);
-      }
-
       exports.setImgColor = function (r: number, g: number, b: number) {
 
         let cube = m_scenes.get_object_by_name("pakr_body_001");
@@ -170,19 +109,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
       exports.resetImgColor = function () {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
-        m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], 0.5, 0.5, 0.5);
         m_tex.change_image(cube, "Texture.003", _img_default);
-      }
-
-      exports.hide_show_object = function () {
-        let Cube = m_scenes.get_object_by_name("pakr_body_001");
-        let object_is_hidden = m_scenes.is_hidden(Cube);
-
-        if (!object_is_hidden) {
-          m_scenes.hide_object(Cube);
-        } else {
-          m_scenes.show_object(Cube);
-        }
       }
 
       function init_cb(canvas_elem, success) {
@@ -194,77 +121,32 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
         m_data.load('./assets/testConf/demo_bag.json', load_cb,);
       }
 
-      exports.getAllTextures = function () {
-        let s = m_scenes.get_object_by_name("pakr_body_001");
-        return m_tex.get_texture_names(s);
-      }
-
-      exports.updImg = function (base64) {
-        // testImg.src=src;
-        let img2=new Image();
-        // img2.src=base64;
-        let cube = m_scenes.get_object_by_name("pakr_body_001");
-        m_tex.change_image(cube, "Texture.003", base64);
-        // load_data(src);
-      }
-
     })
 
 
     b4w.require(this.appName).init();
   }
 
-  getBag() {
-    this.restService.getData('./api/user/1')
-      .subscribe((data: any) => {
-        this.jsonString = data;
-        console.log(data);
-      });
-
-
-  }
-
-  do() {
-    b4w.require(this.appName).hide_show_object();
-  }
   resetModel(){
-    this.modelConfig.rgb=[0.5, 0.5, 0.5];
+    this.modelConfig.rgb=['0.5','0.5', '0.5'];
     b4w.require(this.appName).resetImgColor();
-  }
-
-  ci(a: number) {
-    if (a === 1) {
-      this.modelConfig.image = this.base64_image_3;
-      b4w.require(this.appName).drawImageNew();
-    } else {
-      this.modelConfig.image = this.base64_image_4;
-      b4w.require(this.appName).drawImageNew1();
-    }
-
   }
 
   save(modelConfig: ModelConfig) {
     let app = b4w.require(this.appName);
+
+    modelConfig.image="testImage";
+    modelConfig.rgb=['1', '2', '3'];
     console.log(modelConfig);
-    console.log(app.getAllTextures());
-    this.restService.postJson("./api/user/saveModel", modelConfig)
+    this.restService.postJson("./api/user/saveModel/"+this.userRoleService.getUserId(), JSON.stringify(modelConfig))
       .subscribe(data => console.log(data));
   }
 
-  setColor(r: number, g: number, b: number) {
+  setColor(r: string, g: string, b: string) {
     console.log(r, g, b);
     this.modelConfig.rgb = [r, g, b];
     b4w.require(this.appName).setImgColor(r, g, b);
 
-  }
-
-  changeColor() {
-    document.getElementById("palette").hidden = false;
-    document.getElementById("hide_palette_button").hidden = false;
-  }
-
-  showCustomizer() {
-    document.getElementById("customizer").hidden = false;
   }
 
   imageUploaded(data: {src:string, pending: boolean, file: any}){
@@ -273,7 +155,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
     //if(this.checkFile(data.file))
     let str = new String(data.src);
     b4w.require(this.appName).updImg(str);
-    //b4w.require(this.appName).drawImageOnBag(data.src);
 
   }
 
@@ -285,5 +166,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   selectMaterial(material: any) {
   }
 
-
+  getModelConfig(){
+    return this.modelConfig;
+  }
 }

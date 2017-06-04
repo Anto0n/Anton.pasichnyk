@@ -23,14 +23,26 @@ public class MaterialEntity {
     @Column(name = "deleted", columnDefinition = "bit(1)")
     private boolean deleted = false;
 
-    @OneToMany(mappedBy = "material", orphanRemoval = true, cascade = {PERSIST, REMOVE, REFRESH, DETACH})
+    @OneToMany(mappedBy = "material", targetEntity = MaterialPriceEntity.class, orphanRemoval = true, cascade = {PERSIST, REMOVE, REFRESH, DETACH})
     private List<MaterialPriceEntity> prices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "materialEntity", targetEntity = ModelEntity.class)
+    private List<ModelEntity> modelEntities;
 
     protected MaterialEntity() {}
 
     public MaterialEntity(String name, int price) {
         this.name = name;
         this.prices.add(new MaterialPriceEntity(this, price));
+    }
+
+
+    public List<ModelEntity> getModelEntities() {
+        return modelEntities;
+    }
+
+    public void setModelEntities(List<ModelEntity> modelEntities) {
+        this.modelEntities = modelEntities;
     }
 
     public long getId() {

@@ -127,9 +127,10 @@ DROP TABLE IF EXISTS `baglab`.`model` ;
 CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   `idModel` BIGINT NOT NULL AUTO_INCREMENT,
   `userId` BIGINT NOT NULL,
-  `bagTypeId` BIGINT NOT NULL,
-  `materialId` BIGINT NOT NULL,
-  `mname` VARCHAR(45) NOT NULL,
+  `bagTypeId` BIGINT,
+  `materialId` BIGINT,
+  `mname` VARCHAR(45),
+  `config` MEDIUMTEXT,
   `approved` INTEGER(4) NOT NULL DEFAULT 0,
   `deleted` BOOLEAN DEFAULT FALSE,
   `modelCreate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -140,6 +141,11 @@ CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   CONSTRAINT `fk_Model_User`
     FOREIGN KEY (`userId`)
     REFERENCES `baglab`.`user` (`idUser`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Model_material`
+  FOREIGN KEY (`materialId`)
+  REFERENCES `baglab`.`material` (`idmaterial`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_model_bag_type1`

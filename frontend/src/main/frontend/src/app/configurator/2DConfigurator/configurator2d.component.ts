@@ -10,6 +10,10 @@ import {Config2d, Configurator2dService} from "./configurator2d.service";
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit  {
+
+
+  getModelConfig() {
+  }
   private conf2d : Config2d;
 
  //public currentPositions = {'top' : this.topPos + 'px', 'left' : this.leftPos  + 'px' };
@@ -57,7 +61,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit  {
     console.log('Method not implemented.');
   }
 
-  setColor(r: number, g: number, b: number) {
+  setColor(r: string, g: string, b: string) {
     console.log('Method not implemented.');
   }
 

@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
-@RequestMapping("material")
+@RequestMapping("/api/material")
 public class MaterialController {
 
     private final MaterialService materialService;
