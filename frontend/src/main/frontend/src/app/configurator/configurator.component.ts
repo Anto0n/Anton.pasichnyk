@@ -16,8 +16,7 @@ export class ConfiguratorComponent{
 
   @ViewChild('config')
   configurator: IConfigurator;
-
-  private configuratorType: ConfiguratorType = ConfiguratorType.D3;
+  private configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
   constructor(private userRoleService: UserRoleService){
 
@@ -44,7 +43,7 @@ export class ConfiguratorComponent{
 
 }
 
-enum ConfiguratorType{
+export enum ConfiguratorType{
   D3 = 3,
   D2 = 2
 }

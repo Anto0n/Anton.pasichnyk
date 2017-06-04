@@ -1,0 +1,28 @@
+
+.div_block{
+  position: relative;
+  overflow: hidden;
+}
+
+.bag{
+  background-attachment: fixed;
+  position: relative;
+  width: inherit;
+  height:inherit;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.user-image{
+  position: absolute;
+
+  pointer-events: auto;
+
+  width: 500px;
+  height: 500px;
+  z-index: 10;
+  display: block;
+}
+/*
+background-attachment: fixed;
+*/

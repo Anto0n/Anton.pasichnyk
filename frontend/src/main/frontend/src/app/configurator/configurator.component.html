@@ -1,9 +1,11 @@
 <button (click)="getBag()">Get bag</button>
-
+<!--<input type="checkbox" (click)="changeType(configuratorType)">-->
+<button class="btn btn-sm btn-outline-primary" (click)="changeType(configuratorType)" >2-D / 3-D</button>
+<br>
 <div id="wrapper_container" class="col-lg-10" style="border: solid black 1px">
   <configurator-3d #config *ngIf="configuratorType == 3"></configurator-3d>
   <configurator-2d #config *ngIf="configuratorType == 2"></configurator-2d>
-  <input type="checkbox" (click)="changeType(configuratorType)">
+
   <button id="configure_new_bag_button" (click)="showCustomizer()">configure new bag</button>
   <div id="customizer">
 

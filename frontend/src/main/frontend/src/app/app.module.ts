@@ -46,6 +46,7 @@ import { CardViewComponent } from './content/orders/card-view.component';
 import {ImageUploadModule} from "angular2-image-upload";
 import {Configurator3DComponent} from "app/configurator/3DConfigurator/configurator3d.component";
 import {Configurator2DComponent} from "./configurator/2DConfigurator/configurator2d.component";
+import {Configurator2dService} from "./configurator/2DConfigurator/configurator2d.service";
 
 @NgModule({
   declarations: [
@@ -87,7 +88,7 @@ import {Configurator2DComponent} from "./configurator/2DConfigurator/configurato
     ReactiveFormsModule
   ],
   providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService,
-    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService, CardOrderService ],
+    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService, CardOrderService, Configurator2dService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
