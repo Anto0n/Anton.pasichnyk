@@ -109,8 +109,8 @@ public class OrderService {
         Long modelId = orderItemDto.getModelId();
 
         ModelEntity modelEntity = modelService.findOne(modelId);
-        BagTypeEntity bagTypeEntity = bagTypeService.findOne(modelEntity.getBagTypeId());
-        MaterialEntity materialEntity = materialService.findOne(modelEntity.getMaterialId());
+        BagTypeEntity bagTypeEntity = bagTypeService.findOne(modelEntity.getBagTypeEntity().getId());
+        MaterialEntity materialEntity = materialService.findOne(modelEntity.getMaterialEntity().getId());
         int modelPrice = bagTypeEntity.getLastPrice() + materialEntity.getLastPrice();
 
         int count = orderItemDto.getCount();

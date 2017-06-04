@@ -27,9 +27,9 @@ public class ModelDto {
 
     public ModelDto(ModelEntity modelEntity) {
         this.id = modelEntity.getIdModel();
-        this.userId = modelEntity.getUserId();
-        this.bagTypeId = modelEntity.getBagTypeId();
-        this.materialId = modelEntity.getMaterialId();
+        this.userId = modelEntity.getUserEntity().getIdUser();
+        this.bagTypeId = modelEntity.getBagTypeEntity().getId();
+        this.materialId = modelEntity.getMaterialEntity().getId();
         this.modelCreate =  modelEntity.getModelCreate();
         this.modelUpdate =  modelEntity.getModelCreate();
         this.approved = modelEntity.getApproved();

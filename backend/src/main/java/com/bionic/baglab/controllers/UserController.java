@@ -2,11 +2,14 @@ package com.bionic.baglab.controllers;
 
 
 import com.bionic.baglab.dao.UserDao;
+import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.dto.ImageDto;
 import com.bionic.baglab.dto.ModelProxyDto;
+import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import com.bionic.baglab.dto.user.UserDto;
 import com.bionic.baglab.dto.user.UserDtoRegistration;
+import com.bionic.baglab.services.ModelService;
 import com.bionic.baglab.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,6 +38,9 @@ public class UserController {
   private UserDao userDao;
   @Autowired
   private UserService userService;
+
+  @Autowired
+  private ModelService modelService;
 
   /**
    * /create  --> Create a new user and save it in the database.
@@ -167,10 +173,14 @@ public class UserController {
     }
   }
 
-  @PostMapping(value = "/saveModel")
-  public void uploadImage(@RequestBody ModelProxyDto dto){
-    System.out.println("Hi" + dto);
-    System.out.println("Hi");
+  @PostMapping(value = "/saveModel/{userId}")
+  public void uploadImage(@RequestBody String  config, @PathVariable("userId") long userId){
+    ModelEntity modelEntity = new ModelEntity();
+    modelEntity.setApproved(ModelStatusEnum.NEW);
+    modelEntity.setUserEntity(userDao.findOne(userId));
+    modelEntity.setConfig(config);
+    modelService.save(modelEntity);
+
   }
 //todo: rewrite with dto/services
 }

@@ -2,6 +2,7 @@ import {IConfigurator} from "../configurator.model";
 import {Component, OnInit} from "@angular/core";
 import {ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
+import {UserRoleService} from "../../services/user/user-role.service";
 
 declare var b4w: any;
 
@@ -19,12 +20,12 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   base64_image_3 = "./assets/testConf/temp/default_img.png";
   base64_image_4 = "./assets/testConf/temp/logo.png";
 
-  constructor(private restService: RestService) {
+  constructor(private restService: RestService, private userRoleService: UserRoleService) {
   }
 
 
   ngOnInit() {
-    this.modelConfig = new ModelConfig('', '');
+    this.modelConfig = new ModelConfig('', []);
     b4w.register(this.appName, function (exports, require) {
       var testImg = new Image();
       var m_app = b4w.require("app");
@@ -170,7 +171,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
       exports.resetImgColor = function () {
         let cube = m_scenes.get_object_by_name("pakr_body_001");
-        m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], 0.5, 0.5, 0.5);
         m_tex.change_image(cube, "Texture.003", _img_default);
       }
 
@@ -200,12 +200,9 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
       }
 
       exports.updImg = function (base64) {
-        // testImg.src=src;
         let img2=new Image();
-        // img2.src=base64;
         let cube = m_scenes.get_object_by_name("pakr_body_001");
         m_tex.change_image(cube, "Texture.003", base64);
-        // load_data(src);
       }
 
     })
@@ -214,57 +211,26 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
     b4w.require(this.appName).init();
   }
 
-  getBag() {
-    this.restService.getData('./api/user/1')
-      .subscribe((data: any) => {
-        this.jsonString = data;
-        console.log(data);
-      });
-
-
-  }
-
-  do() {
-    b4w.require(this.appName).hide_show_object();
-  }
   resetModel(){
-    this.modelConfig.rgb=[0.5, 0.5, 0.5];
+    this.modelConfig.rgb=['0.5','0.5', '0.5'];
     b4w.require(this.appName).resetImgColor();
-  }
-
-  ci(a: number) {
-    if (a === 1) {
-      this.modelConfig.image = this.base64_image_3;
-      b4w.require(this.appName).drawImageNew();
-    } else {
-      this.modelConfig.image = this.base64_image_4;
-      b4w.require(this.appName).drawImageNew1();
-    }
-
   }
 
   save(modelConfig: ModelConfig) {
     let app = b4w.require(this.appName);
+
+    modelConfig.image="testImage";
+    modelConfig.rgb=['1', '2', '3'];
     console.log(modelConfig);
-    console.log(app.getAllTextures());
-    this.restService.postJson("./api/user/saveModel", modelConfig)
+    this.restService.postJson("./api/user/saveModel/"+this.userRoleService.getUserId(), JSON.stringify(modelConfig))
       .subscribe(data => console.log(data));
   }
 
-  setColor(r: number, g: number, b: number) {
+  setColor(r: string, g: string, b: string) {
     console.log(r, g, b);
     this.modelConfig.rgb = [r, g, b];
     b4w.require(this.appName).setImgColor(r, g, b);
 
-  }
-
-  changeColor() {
-    document.getElementById("palette").hidden = false;
-    document.getElementById("hide_palette_button").hidden = false;
-  }
-
-  showCustomizer() {
-    document.getElementById("customizer").hidden = false;
   }
 
   imageUploaded(data: {src:string, pending: boolean, file: any}){
@@ -285,5 +251,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   selectMaterial(material: any) {
   }
 
-
+  getModelConfig(){
+    return this.modelConfig;
+  }
 }

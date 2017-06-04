@@ -12,7 +12,7 @@ export interface IConfigurator {
    */
   resetModel();
 
-  setColor(r: number, g: number, b: number);
+  setColor(r: string, g: string, b: string);
 
   /**
    * src - image base 64 (data.src)
@@ -31,5 +31,7 @@ export interface IConfigurator {
    * jeans cotton leather from DB
    */
   selectMaterial(material: any);
+
+  getModelConfig();
 
 }

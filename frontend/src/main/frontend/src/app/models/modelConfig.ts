@@ -4,8 +4,8 @@
  */
 export class ModelConfig{
   image: string;
-  rgb: any;
-  constructor(image: string, rgb: any) {
+  rgb: string[];
+  constructor(image: string, rgb: string[]) {
     this.image = image;
     this.rgb = rgb;
   }

@@ -31,6 +31,12 @@ z-index: 100;
   ]
 })
 export class Configurator2DComponent implements IConfigurator {
+  setColor(r: string, g: string, b: string) {
+  }
+  getModelConfig() {
+    throw new Error('Method not implemented.');
+  }
+
 
   selectMaterial(material: any) {
   }
@@ -43,11 +49,7 @@ export class Configurator2DComponent implements IConfigurator {
     console.log('Method not implemented.');
   }
 
-  setColor(r: number, g: number, b: number) {
-    console.log('Method not implemented.');
-  }
-
-  imageUploaded(data: { src: string; pending: boolean; file: any; }) {
+   imageUploaded(data: { src: string; pending: boolean; file: any; }) {
     console.log('Method not implemented.');
   }
 
