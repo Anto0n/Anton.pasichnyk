@@ -12,14 +12,18 @@ import {UserRoleService} from "../services/user/user-role.service";
   templateUrl: './configurator.component.html',
   styleUrls: ['./configurator.component.css'],
 })
-export class ConfiguratorComponent{
+export class ConfiguratorComponent implements OnInit{
+  ngOnInit(): void {
+    this.restService.getData("/api/material/list").subscribe(data=>this.materials=data);
+  }
+
 
   @ViewChild('config')
   configurator: IConfigurator;
-
+  materials: any;// = this.restService.getData("/api/material/list").subscribe(data => console.log(data));
   private configuratorType: ConfiguratorType = ConfiguratorType.D3;
 
-  constructor(private userRoleService: UserRoleService){
+  constructor(private userRoleService: UserRoleService, private restService: RestService){
 
   }
 
@@ -41,7 +45,6 @@ export class ConfiguratorComponent{
         break;
     }
   }
-
 }
 
 enum ConfiguratorType{
