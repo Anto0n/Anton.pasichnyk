@@ -19,15 +19,17 @@ public class ModelDtoCreate {
     @NotNull(message = "error.approved.notnull")
     private ModelStatusEnum approved;
 
-    public ModelDtoCreate() {
-    }
+    private String config;
+    private String config2d;
 
-    public ModelDtoCreate(long userId, long bagTypeId, long materialId, String mname, ModelStatusEnum approved) {
+    public ModelDtoCreate(long userId, long bagTypeId, long materialId, String mname, ModelStatusEnum approved, String config, String config2d) {
         this.userId = userId;
         this.bagTypeId = bagTypeId;
         this.materialId = materialId;
         this.mname = mname;
         this.approved = approved;
+        this.config = config;
+        this.config2d = config2d;
     }
 
     public long getUserId() {
@@ -68,5 +70,24 @@ public class ModelDtoCreate {
 
     public void setApproved(ModelStatusEnum approved) {
         this.approved = approved;
+    }
+
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
+    }
+
+    public String getConfig2d() {
+        return config2d;
+    }
+
+    public void setConfig2d(String config2d) {
+        this.config2d = config2d;
+    }
+
+    public ModelDtoCreate() {
     }
 }
