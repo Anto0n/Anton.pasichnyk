@@ -31,7 +31,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.mouseup.emit(event);
     //console.log(event);
   }
- /* @HostListener('click', ['$event'])
+
+/*  @HostListener('click', ['$event'])
   onClick(event) {
   console.log("Event Target" + event.target);
   this.changePos.emit(event);
@@ -59,7 +60,9 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   resetModel() {
-    console.log('Method not implemented.');
+    this.config2dService.clearLocalConfig();
+    this.conf2d = this.config2dService.getLocalConfig()
+
   }
 
   setColor(r: string, g: string, b: string) {
@@ -95,6 +98,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
      map;
      this.mousedrag = this.mousedown.map((event: MouseEvent) =>{
        event.preventDefault();
+       event.stopImmediatePropagation();
        return {
          left: event.clientX - this.elementRef.nativeElement.getBoundingClientRect().left,
          top: event.clientY - this.elementRef.nativeElement.getBoundingClientRect().top
@@ -107,11 +111,20 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
          .takeUntil(this.mouseup));
    }
 
-   centerF(){ //save coordinates
-    // this.setImgPosition(0, 0);
-     this.config2dService.saveLocalConfig(this.conf2d);
-     //console.log(this.topPos + "left" + this.leftPos);
+   centerF(){
+     this.conf2d.leftPos =0;
+     this.conf2d.topPos =0;
    }
+
+  plusWH(){
+    this.conf2d.width = this.conf2d.width + 50;
+    this.conf2d.height = this.conf2d.height + 50;
+  }
+
+  minusWH(){
+    this.conf2d.width = this.conf2d.width - 50;
+    this.conf2d.height = this.conf2d.height - 50;
+  }
 
   ngOnDestroy(): void {
     this.config2dService.saveLocalConfig(this.conf2d);

@@ -18,11 +18,12 @@
 
   pointer-events: auto;
 
-  width: 500px;
-  height: 500px;
+
   z-index: 10;
   display: block;
 }
 /*
 background-attachment: fixed;
+  width: 500px;
+  height: 500px;
 */
