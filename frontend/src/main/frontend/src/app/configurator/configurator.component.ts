@@ -27,8 +27,8 @@ export class ConfiguratorComponent implements OnInit{
 
   }
 
-  imageUploaded(data: {src:string, pending: boolean, file: any}){
-
+  imageUploaded(data: {src:string, pending: boolean, file: {name: string, size: number, type: string}}){
+    this.configurator.imageUploaded(data);
   }
 
   private checkFile(imgFile : {type:string} ) : boolean {

@@ -19,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,26 +29,25 @@ import java.util.List;
 
 /**
  * The class to interact with  MySQL database using e UserDto. *
-
  */
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
 
-  @Autowired
-  private UserDao userDao;
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private UserService userService;
 
-  @Autowired
-  private ModelService modelService;
+    @Autowired
+    private ModelService modelService;
 
-  /**
-   * /create  --> Create a new user and save it in the database.
-   * NO password encription
-   * @param userDtoRegistration
-   * @return A string describing if the user is succesitfully created or not.
-   */
+    /**
+     * /create  --> Create a new user and save it in the database.
+     * NO password encription
+     * @param userDtoRegistration
+     * @return A string describing if the user is succesitfully created or not.
+     */
 /*  @PostMapping(value = "/create")
   public  ResponseEntity<Void> createUser(@Validated @RequestBody UserDtoRegistration userDtoRegistration) { //,  UriComponentsBuilder ucBuilder)
     //String password = userDtoRegistration.getPassword();
@@ -65,123 +65,117 @@ public class UserController {
 
 
     /**
-   * /delete  --> Delete the user having the passed id.
-   * 
-   * @param id The id of the user to delete
-   * @return A string describing if the user is succesfully deleted or not.
-   */
-  @DeleteMapping("/delete{id}")
-  public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
-    try {
-      UserEntity user = new UserEntity(id);
-      userDao.delete(user);
+     * /delete  --> Delete the user having the passed id.
+     *
+     * @param id The id of the user to delete
+     * @return A string describing if the user is succesfully deleted or not.
+     */
+    @DeleteMapping("/delete{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable("id") long id) {
+        try {
+            UserEntity user = new UserEntity(id);
+            userDao.delete(user);
+        } catch (Exception ex) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);     //"Error deleting the user: " + ex.toString();
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-    catch (Exception ex) {
-      return new ResponseEntity<>(HttpStatus.CONFLICT);     //"Error deleting the user: " + ex.toString();
+
+
+    /**
+     * /get-by-email  --> Return the id for the user having the passed email.
+     *
+     * @param email The email to search in the database.
+     * @return The user id or a message error if the user is not found.
+     */
+    @GetMapping("/getbyemail{email}")
+    public ResponseEntity<UserDto> getByEmail(@PathVariable String email) {
+        UserDto userDto;
+        try {
+            userDto = userService.getUserByEmail(email);
+        } catch (NullPointerException en) {
+            return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
-    return new ResponseEntity<>(HttpStatus.OK);
-  }
 
 
+    /**
+     * /update  --> Update the email and the name for the user in the database
+     * having the passed id.
+     *
+     * @param id The id for the user to update.   *
+     * @return user and status
+     */
+    @PutMapping("/update{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") long id, @Validated @RequestBody UserDto userDto) {
 
-  /**
-   * /get-by-email  --> Return the id for the user having the passed email.
-   * 
-   * @param email The email to search in the database.
-   * @return The user id or a message error if the user is not found.
-   */
-  @GetMapping("/getbyemail{email}")
-  public ResponseEntity<UserDto> getByEmail(@PathVariable  String email) {
-  UserDto userDto;
-    try {
-      userDto = userService.getUserByEmail(email);
-    } catch (NullPointerException en){
-      return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
+        UserDto findUser = userService.findById(id);
+        if (findUser == null) {
+            return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND); //("User with id " + id + " not found");
+        }
+        try {
+            userService.updateUser(userDto, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
     }
-    catch (Exception e) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+
+    /**
+     * @return list of all users
+     */
+    @GetMapping("/list")
+    public ResponseEntity<List<UserDto>> getUsers() { //todo: logging
+        List<UserDto> userList = userService.getAllUsers();
+        if (userList.size() == 0)
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<List<UserDto>>(userList, HttpStatus.OK);
     }
-  return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
-  }
 
 
-
-  /**
-   * /update  --> Update the email and the name for the user in the database 
-   * having the passed id.
-   * 
-   * @param id The id for the user to update.   *
-   * @return user and status
-   */
-  @PutMapping("/update{id}")
-  public ResponseEntity<UserDto> updateUser(@PathVariable("id") long id,  @Validated @RequestBody UserDto userDto) {
-
-    UserDto findUser = userService.findById(id);
-    if (findUser==null) {
-      return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND); //("User with id " + id + " not found");
+    /**
+     * @param id - user ID
+     * @return single user by ID, 404 otherwise
+     */
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
+        UserDto userDto = userService.findById(id);
+        if (userDto == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
-    try {
-      userService.updateUser(userDto,  id);
-    } catch (Exception e) {
-      e.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+
+    @PostMapping(value = "/upload/{userID}", consumes = "multipart/form-data")
+    public void uploadImage(@PathVariable("userID") Long userId,
+                            @RequestParam("image") MultipartFile multipartFile) {
+        String separator = File.separator;
+        final String UPLOADED_FOLDER = "backend" + separator + "src" + separator + "main"
+                + separator + "resources" + separator + "static" + separator + userId + separator;
+        try {
+            byte[] bytes = multipartFile.getBytes();
+            Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
+            new File(UPLOADED_FOLDER).mkdir();
+            Files.write(path, bytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
-  }
 
+    @PostMapping(value = "/saveModel/{userId}")
+    public void uploadImage(@RequestBody String config, @PathVariable("userId") long userId) {
+        ModelEntity modelEntity = new ModelEntity();
+        modelEntity.setApproved(ModelStatusEnum.NEW);
+        modelEntity.setUserEntity(userDao.findOne(userId));
+        modelEntity.setConfig(config);
+        modelService.save(modelEntity);
 
-
-  /**
-   *
-   * @return list of all users
-   */
-  @GetMapping("/list")
-  public ResponseEntity<List<UserDto>> getUsers() { //todo: logging
-    List<UserDto> userList =  userService.getAllUsers();
-    if (userList.size() == 0)
-      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    return new ResponseEntity<List<UserDto>>(userList, HttpStatus.OK);
-  }
-
-
-
-  /**
-   *
-   * @param id - user ID
-   * @return single user by ID, 404 otherwise
-   */
-  @GetMapping(value = "/{id}",  produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<UserDto> getUser(@PathVariable("id") long id) {
-    UserDto userDto = userService.findById(id);
-    if (userDto == null) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(userDto, HttpStatus.OK);
-  }
-
-  @PostMapping(value = "/upload/{userID}", consumes = "multipart/form-data")
-  public void uploadImage(@PathVariable("userID") Long userId,
-          @RequestParam("image") MultipartFile multipartFile){
-    System.out.println(userId);
-    final String UPLOADED_FOLDER = "C:\\Users\\Potaychuk Sviatoslav\\IdeaProjects\\cotton\\frontend\\src\\main\\frontend\\src\\assets\\img\\";
-    try {
-      byte[] bytes = multipartFile.getBytes();
-      Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
-      Files.write(path, bytes);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  @PostMapping(value = "/saveModel/{userId}")
-  public void uploadImage(@RequestBody String  config, @PathVariable("userId") long userId){
-    ModelEntity modelEntity = new ModelEntity();
-    modelEntity.setApproved(ModelStatusEnum.NEW);
-    modelEntity.setUserEntity(userDao.findOne(userId));
-    modelEntity.setConfig(config);
-    modelService.save(modelEntity);
-
-  }
 //todo: rewrite with dto/services
 }
 

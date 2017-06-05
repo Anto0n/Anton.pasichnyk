@@ -149,12 +149,11 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   }
 
-  imageUploaded(data: {src:string, pending: boolean, file: any}){
+  imageUploaded(data: {src:string, pending: boolean, file: {name: string, size: number, type: string}}){
     console.log('data');
     console.log(data);
-    //if(this.checkFile(data.file))
-    let str = new String(data.src);
-    b4w.require(this.appName).updImg(str);
+    let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;
+    console.log(filePath);
 
   }
 
