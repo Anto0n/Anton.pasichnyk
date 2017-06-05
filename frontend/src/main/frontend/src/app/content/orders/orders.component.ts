@@ -1,15 +1,12 @@
-import {Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, OnDestroy} from '@angular/core';
+import {Component, OnInit,  ChangeDetectorRef, OnDestroy} from '@angular/core';
 import {RestService} from "../../services/rest.service";
-import {IModel, CreateModel} from "../../models/model";
-import {IUser} from "../../models/test.model";
+import {IModel, CreateModel, ModelStatus} from "../../models/model";
 import {UserRoleService} from "../../services/user/user-role.service";
-import {Response} from "@angular/http";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
 import {OrderResp} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
-//  changeDetection: ChangeDetectionStrategy.OnPush
 
 @Component({
   selector: 'app-orders',
@@ -72,20 +69,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   createModel() {
-    let iid = this.roleService.getUserId(); //todo: model Config field
-    let createModelobjT: any = {
-      "approved": "NEW",
-      "bagTypeId": 1,
-      "materialId": 1,
-      "mname": "new model name",
-      "userId": iid
-    };
-    this.restService.postJsonResp('./api/models/create', createModelobjT).subscribe(
+    let iid  = this.roleService.getUserId(); //todo: model Config field
+    let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +iid, "", "");
+    this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
       (data: IModel[]) => {
-        //this.uModels.push(createModelobjT);
         this.selectedModel = null;
         this.uModels = data;
-        //this.getModelsByUserId();
       }, () => console.log('err'));
   }
 
@@ -128,27 +117,6 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
 }
 
-/*this.restService.postJson('./api/user/create', this.model)
- .subscribe(
- UserCreate => {
- UserCreate => this.model = new UserCreate(password, email, firstName, lastName);
- this.alertService.success('Registration successful', true);
- this.router.navigate(['/login']);
- },
- error => {
- this.alertService.error(error);
- this.errorMessage = <any>error;
- this.loading = false;
- }
- );
-
- export class newsStatus{
- idnews: number;
- type: string;
- }
-
-
- */
 
 
 

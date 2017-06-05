@@ -172,16 +172,15 @@ public class UserController {
       e.printStackTrace();
     }
   }
-
-  @PostMapping(value = "/saveModel/{userId}")
+// Use Model Controller instead  -- createModelDto !!!
+/*  @PostMapping(value = "/saveModel/{userId}")
   public void uploadImage(@RequestBody String  config, @PathVariable("userId") long userId){
     ModelEntity modelEntity = new ModelEntity();
     modelEntity.setApproved(ModelStatusEnum.NEW);
     modelEntity.setUserEntity(userDao.findOne(userId));
     modelEntity.setConfig(config);
     modelService.save(modelEntity);
-
-  }
+  }*/
 //todo: rewrite with dto/services
 }
 

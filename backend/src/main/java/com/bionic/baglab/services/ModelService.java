@@ -85,6 +85,8 @@ public class ModelService {
         model.setMaterialEntity(materialDao.findOne(modelDtoCreate.getMaterialId()));
         model.setMname(modelDtoCreate.getMname());
         model.setApproved(modelDtoCreate.getApproved());
+        model.setConfig(modelDtoCreate.getConfig());
+        model.setConfig2d(modelDtoCreate.getConfig2d());
         try{
             modelDao.save(model);
         }catch(Exception ex){

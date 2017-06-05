@@ -20,6 +20,7 @@ public class ModelEntity {
     private ModelStatusEnum approved;
     private String mname;
     private String config;
+    private String config2d;
 
     public ModelEntity(long idModel) {
         this.idModel = idModel;
@@ -76,6 +77,16 @@ public class ModelEntity {
     public void setConfig(String config) {
         this.config = config;
     }
+
+    @Column(name = "[config2d]", columnDefinition="MEDIUMTEXT")
+    public String getConfig2d() {
+        return config2d;
+    }
+
+    public void setConfig2d(String config2d) {
+        this.config2d = config2d;
+    }
+
 
     @Basic
     @Column(name = "[modelCreate]")

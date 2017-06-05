@@ -1,4 +1,4 @@
-import {Component, OnInit, EventEmitter, HostListener, ElementRef, ViewChild, Renderer} from "@angular/core";
+import {Component, OnInit, EventEmitter, HostListener, ElementRef, ViewChild, Renderer, OnDestroy} from "@angular/core";
 import {IConfigurator} from "../configurator.model";
 import {ModelConfig} from "../../models/modelConfig";
 import {map} from "rxjs/operator/map";
@@ -9,7 +9,8 @@ import {Config2d, Configurator2dService} from "./configurator2d.service";
   styleUrls:['./configurator2d.component.css'],
 })
 
-export class Configurator2DComponent implements IConfigurator, OnInit  {
+export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
+
 
 
   getModelConfig() {
@@ -106,11 +107,15 @@ export class Configurator2DComponent implements IConfigurator, OnInit  {
          .takeUntil(this.mouseup));
    }
 
-   centerF(){ //didnt work
+   centerF(){ //save coordinates
     // this.setImgPosition(0, 0);
      this.config2dService.saveLocalConfig(this.conf2d);
      //console.log(this.topPos + "left" + this.leftPos);
    }
+
+  ngOnDestroy(): void {
+    this.config2dService.saveLocalConfig(this.conf2d);
+  }
 
  /*  private setImgPosition(top : number, left: number){
     this.topPos = top;
