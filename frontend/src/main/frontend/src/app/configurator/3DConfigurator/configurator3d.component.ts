@@ -160,7 +160,8 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   imageUploaded(data: {src:string, pending: boolean, file: {name: string, size: number, type: string}}){
     console.log('data');
     console.log(data);
-    let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;
+    /*let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;*/
+    let filePath = "./images/" +this.userRoleService.getUserId()+"/"+data.file.name;
     console.log(filePath);
 
   }

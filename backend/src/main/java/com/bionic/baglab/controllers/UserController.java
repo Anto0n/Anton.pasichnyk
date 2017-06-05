@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import java.io.File;
 import java.io.IOException;
@@ -152,19 +153,23 @@ public class UserController {
     }
 
     @PostMapping(value = "/upload/{userID}", consumes = "multipart/form-data")
-    public void uploadImage(@PathVariable("userID") Long userId,
+    public ResponseEntity<?> uploadImage(@PathVariable("userID") Long userId,       //todo: generate unic file name
                             @RequestParam("image") MultipartFile multipartFile) {
         String separator = File.separator;
-        final String UPLOADED_FOLDER = "backend" + separator + "src" + separator + "main"
-                + separator + "resources" + separator + "static" + separator + userId + separator;
+        /*final String UPLOADED_FOLDER = "backend" + separator + "src" + separator + "main"
+                + separator + "resources" + separator + "static" + separator + userId + separator;*/
+        final String UPLOADED_FOLDER =getClass().getClassLoader().getResource("static").getPath() + separator + "images"+ separator + userId + separator;
+        System.out.println(UPLOADED_FOLDER);
         try {
             byte[] bytes = multipartFile.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
             new File(UPLOADED_FOLDER).mkdir();
             Files.write(path, bytes);
-        } catch (IOException e) {
+        } catch (Exception e ) {
             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "/saveModel/{userId}")

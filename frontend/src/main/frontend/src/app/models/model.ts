@@ -8,7 +8,6 @@ export class IModel {
   "modelCreate": number;
   "modelUpdate": number;
   "config" : string;
-  "config2d" : string;
 }
 
 

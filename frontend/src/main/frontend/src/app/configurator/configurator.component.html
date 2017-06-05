@@ -15,7 +15,7 @@
     <!--<div>-->
     <!--<li *ngFor="let item of restService.getData('/api/material/list')">{{item}}</li>-->
     <!--</div>-->
-    <image-upload [url]="'/api/user/upload/' + this.userRoleService.getUserId()" [preview]="false"
+    <image-upload [url]="'./api/user/upload/' + this.userRoleService.getUserId()" [preview]="false"
                   (onFileUploadFinish)="configurator.imageUploaded($event)"></image-upload>
     <!--(onFileUploadFinish)="imageUploaded($event)"-->
   </div>

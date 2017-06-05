@@ -14,7 +14,7 @@ import {UserRoleService} from "../services/user/user-role.service";
 })
 export class ConfiguratorComponent implements OnInit{
   ngOnInit(): void {
-    this.restService.getData("/api/material/list").subscribe(data=>this.materials=data);
+    this.restService.getData("./api/material/list").subscribe(data=>this.materials=data);
   }
 
 

@@ -131,7 +131,6 @@ CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   `materialId` BIGINT NOT NULL,
   `mname` VARCHAR(45) NOT NULL,
   `config` MEDIUMTEXT,
-  `config2d` MEDIUMTEXT,
   `approved` INTEGER(4) NOT NULL DEFAULT 0,
   `deleted` BOOLEAN DEFAULT FALSE,
   `modelCreate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
