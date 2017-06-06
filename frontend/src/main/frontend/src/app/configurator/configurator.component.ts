@@ -14,6 +14,7 @@ import {BagMaterial, BagType} from "../models/model";
   styleUrls: ['./configurator.component.css'],
 })
 export class ConfiguratorComponent implements OnInit{
+  modelName : string;
   ngOnInit(): void {
     this.restService.getData("./api/material/list").subscribe(data=>this.materials=data);
     this.restService.getData("./api/bag_type/list").subscribe(data=>this.begtypes=data);
@@ -22,10 +23,11 @@ export class ConfiguratorComponent implements OnInit{
 
   @ViewChild('config')
   configurator: IConfigurator;
-  materials: BagMaterial;
-  begtypes: BagType;
 
-  private configuratorType: ConfiguratorType = ConfiguratorType.D3;
+  private materials: BagMaterial;
+  private begtypes: BagType;
+
+  private configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
   constructor(public userRoleService: UserRoleService, private restService: RestService){
 
