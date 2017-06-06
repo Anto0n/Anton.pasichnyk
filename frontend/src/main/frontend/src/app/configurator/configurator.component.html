@@ -1,18 +1,13 @@
-<button (click)="getBag()">Get bag</button>
 <button class="btn btn-sm btn-outline-primary" (click)="changeType(configuratorType)">2-D / 3-D</button>
 
 <div id="wrapper_container" class="col-lg-10" style="border: solid black 1px">
   <configurator-3d #config *ngIf="configuratorType == 3"></configurator-3d>
   <configurator-2d #config *ngIf="configuratorType == 2"></configurator-2d>
-<!--
-  <input type="checkbox" (click)="changeType(configuratorType)">
--->
+
   <div id="customizer">
 
     <button class="btn btn-danger btn-outline-danger " (click)='configurator.resetModel()'>reset</button>
-    <button class="btn btn-success btn-outline-success " (click)='configurator.save(configurator.getModelConfig())'>
-      save
-    </button>
+    <button class="btn btn-success btn-outline-success " (click)='configurator.save(configurator.getModelConfig())'>save</button>
 <div id="inputModelData" class="row">
   <div ngbDropdown #myDrop3="ngbDropdown">
     <button class="btn btn-outline-info" id="dropdownMenu3" ngbDropdownToggle>bag type:</button>

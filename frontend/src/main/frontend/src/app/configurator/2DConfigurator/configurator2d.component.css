@@ -1,7 +1,8 @@
 
-.div_block{
+.containerb{
   position: relative;
   overflow: hidden;
+
 }
 
 .bag{
@@ -18,7 +19,7 @@
 
   pointer-events: auto;
 
-
+  cursor: move;
   z-index: 10;
   display: block;
 }

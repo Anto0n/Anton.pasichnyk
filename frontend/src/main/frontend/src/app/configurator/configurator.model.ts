@@ -1,7 +1,6 @@
 import {ModelConfig} from "../models/modelConfig";
 import {BagMaterial, BagType} from "../models/model";
 export interface IConfigurator {
-
   /**
    *
    * @param src
