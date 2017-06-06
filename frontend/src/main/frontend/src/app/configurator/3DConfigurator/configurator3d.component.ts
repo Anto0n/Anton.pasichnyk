@@ -3,7 +3,7 @@ import {Component, OnInit} from "@angular/core";
 import {ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
-import {CreateModel, IModel, ModelStatus} from "../../models/model";
+import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../models/model";
 
 declare var b4w: any;
 
@@ -168,7 +168,12 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   }
 
-  selectMaterial(material: any) {
+  selectMaterial(material: BagMaterial) {
+    console.log("method not implemented. material name - " + material.name)
+  }
+
+  selectBagType(bagtype : BagType){
+    console.log("method not implemented. bagtype name - " + bagtype.name)
   }
 
   getModelConfig(){

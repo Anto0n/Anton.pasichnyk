@@ -44,20 +44,20 @@ public class MaterialService {
         material.getPriceEntities().add(materialPrice);
         savePrice(materialPrice);
 
-        return new MaterialDto(material.getName(), material.getLastPrice());
+        return new MaterialDto(material.getId(), material.getName(), material.getLastPrice());
     }
 
 
     public List<MaterialDto> findExistentAsDto() {
         List<MaterialDto> existentDto = new ArrayList<>();
         for (MaterialEntity materialEntity : findExistent()) {
-            existentDto.add(new MaterialDto(materialEntity.getName(), materialEntity.getLastPrice()));
+            existentDto.add(new MaterialDto(materialEntity.getId(), materialEntity.getName(), materialEntity.getLastPrice()));
         }
         return existentDto;
     }
 
     public MaterialDto getDtoMaterial(MaterialEntity material) {
-        return new MaterialDto(material.getName(), material.getLastPrice());
+        return new MaterialDto(material.getId(),material.getName(), material.getLastPrice());
     }
 
     public void deleteMaterial(long id) {

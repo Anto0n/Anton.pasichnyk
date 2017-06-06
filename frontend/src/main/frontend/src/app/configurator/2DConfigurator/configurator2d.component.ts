@@ -3,6 +3,7 @@ import {IConfigurator} from "../configurator.model";
 import {ModelConfig} from "../../models/modelConfig";
 import {map} from "rxjs/operator/map";
 import {Config2d, Configurator2dService} from "./configurator2d.service";
+import {BagMaterial, BagType} from "../../models/model";
 @Component({
   selector: 'configurator-2d',
   templateUrl: './configurator2d.component.html',
@@ -10,11 +11,7 @@ import {Config2d, Configurator2dService} from "./configurator2d.service";
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
-
-
-
-  getModelConfig() {
-  }
+  private modelName : string = '';
   private conf2d : Config2d;
 
  //public currentPositions = {'top' : this.topPos + 'px', 'left' : this.leftPos  + 'px' };
@@ -52,11 +49,23 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
      //console.log(event);
    }
 
-  selectMaterial(material: any) {
+
+  ngOnInit(): void {
+    this.mousedrag.subscribe({
+      next: pos => {
+        this.el.nativeElement.style.top = pos.top + 'px';
+        this.el.nativeElement.style.left = pos.left + 'px';
+        this.conf2d.topPos = pos.top;
+        this.conf2d.leftPos = pos.left;
+      }
+    });
   }
 
   changeImage(src: string) {
     console.log('Method not implemented.');
+  }
+
+  getModelConfig() {
   }
 
   resetModel() {
@@ -74,20 +83,18 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   save(modelConfig: ModelConfig) {
+    //check material, bagtype, name
     console.log('Method not implemented.');
   }
 
-   ngOnInit(): void {
-     console.log('INIT');
-     this.mousedrag.subscribe({
-       next: pos => {
-         this.el.nativeElement.style.top = pos.top + 'px';
-         this.el.nativeElement.style.left = pos.left + 'px';
-         this.conf2d.topPos = pos.top;
-         this.conf2d.leftPos = pos.left;
-        }
-     });
-   }
+  selectMaterial(material: BagMaterial) {
+    console.log("method not implemented. material name - " + material.name)
+  }
+
+  selectBagType(bagtype : BagType){
+    console.log("method not implemented. bagtype name - " + bagtype.name)
+  }
+
 
    constructor(private elementRef: ElementRef, private renderer: Renderer, private config2dService: Configurator2dService) {
     // this.elementRef.nativeElement.style.position = 'relative';
@@ -125,6 +132,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.conf2d.width = this.conf2d.width - 50;
     this.conf2d.height = this.conf2d.height - 50;
   }
+
 
   ngOnDestroy(): void {
     this.config2dService.saveLocalConfig(this.conf2d);

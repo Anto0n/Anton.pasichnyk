@@ -39,6 +39,20 @@ export enum ModelStatus {
   NEW, APPROVED,  REJECTED
 }
 
+//GET ./api/bag_type/list
+export  class BagType{
+  "id": number;
+  "name": string;
+  "script": string;
+  "price": number;
+}
+
+export class BagMaterial{
+  "id": number;
+  "name": string;
+  "price": number;
+}
+
 
 /*
 { Enum in javascript

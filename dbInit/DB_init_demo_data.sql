@@ -320,16 +320,16 @@ insert into baglab.shipping_adress (contactName, countryId, street, apartment, s
 insert into baglab.shipping_adress (contactName, countryId, street, apartment, state, city, zipcode, mobile, userId) values ('John Doe',135,'Main Avenu','3','Alabama', 'Calera','AL 35040','+1 205-668-0402', 2);
 
 #-------------------------
-insert into baglab.material_price(materialId, date, price) values (1,NOW(), 1778);
-insert into baglab.material_price(materialId, date, price) values (3,NOW(), 2778);
-insert into baglab.material_price(materialId, date, price) values (1,NOW(), 3778);
-insert into baglab.material_price(materialId, date, price) values (2,NOW(), 4778);
+insert into baglab.material_price(materialId, date, price) values (1,NOW(), 178);
+insert into baglab.material_price(materialId, date, price) values (3,NOW(), 278);
+insert into baglab.material_price(materialId, date, price) values (1,NOW(), 378);
+insert into baglab.material_price(materialId, date, price) values (2,NOW(), 478);
 
 #-------------------------
-insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 778);
-insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 778);
-insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 778);
-insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 778);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 25);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 56);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (3,NOW(), 34);
+
 
 #-------------------------
 insert into baglab.pages_type (type) VALUES ('ACTIVE');
