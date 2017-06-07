@@ -25,7 +25,7 @@ public class BagTypeService {
 
     public BagTypeDto getDtoById(long id){
         BagTypeEntity bagTypeEntity = findOne(id);
-        return new BagTypeDto(bagTypeEntity.getName(), bagTypeEntity.getScript(), bagTypeEntity.getLastPrice());
+        return new BagTypeDto(bagTypeEntity.getId(),bagTypeEntity.getName(), bagTypeEntity.getScript(), bagTypeEntity.getLastPrice());
     }
 
     public List<BagTypeEntity> findExistent() {
@@ -52,7 +52,7 @@ public class BagTypeService {
         BagTypePriceEntity bagTypePrice = new BagTypePriceEntity(bagType, newPrice);
         bagType.getPriceEntities().add(bagTypePrice);
         bagTypePriceDao.save(bagTypePrice);
-        return new BagTypeDto(bagType.getName(),bagType.getScript(), bagTypePrice.getPrice());
+        return new BagTypeDto(bagType.getId(), bagType.getName(),bagType.getScript(), bagTypePrice.getPrice());
     }
 
     public BagTypeEntity addBagType(String name, String script, Integer price) {
@@ -61,13 +61,13 @@ public class BagTypeService {
     }
 
     public BagTypeDto getDtoFromBagType(BagTypeEntity bagTypeEntity){
-        return new BagTypeDto(bagTypeEntity.getName(), bagTypeEntity.getScript(), bagTypeEntity.getLastPrice());
+        return new BagTypeDto(bagTypeEntity.getId(), bagTypeEntity.getName(), bagTypeEntity.getScript(), bagTypeEntity.getLastPrice());
     }
 
     public List<BagTypeDto> getListDto(List<BagTypeEntity> bagTypeEntityList) {
         List<BagTypeDto> dtoList = new ArrayList<>();
         for (BagTypeEntity bagTypeEntity : bagTypeEntityList) {
-            dtoList.add(new BagTypeDto(bagTypeEntity.getName(), bagTypeEntity.getScript(), bagTypeEntity.getLastPrice()));
+            dtoList.add(new BagTypeDto(bagTypeEntity.getId(), bagTypeEntity.getName(), bagTypeEntity.getScript(), bagTypeEntity.getLastPrice()));
         }
         return dtoList;
     }

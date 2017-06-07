@@ -6,12 +6,13 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel
 public class MaterialDto {
-
+    private long id;
     private final String name;
     private final int price;
 
     @JsonCreator
-    public MaterialDto(@JsonProperty("name") String name, @JsonProperty("price") int price) {
+    public MaterialDto(@JsonProperty("id") long id, @JsonProperty("name") String name, @JsonProperty("price") int price) {
+        this.id = id;
         this.name = name;
         this.price = price;
     }
@@ -23,6 +24,8 @@ public class MaterialDto {
     public int getPrice() {
         return price;
     }
+
+    public long getId() {return id; }
 
     @Override
     public boolean equals(Object o) {
@@ -45,6 +48,7 @@ public class MaterialDto {
     @Override
     public String toString() {
         return "MaterialDto{" +
+                "id='" + id + '\'' +
                 "name='" + name + '\'' +
                 ", price=" + price +
                 '}';

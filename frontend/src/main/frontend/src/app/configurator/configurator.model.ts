@@ -1,6 +1,6 @@
 import {ModelConfig} from "../models/modelConfig";
+import {BagMaterial, BagType} from "../models/model";
 export interface IConfigurator {
-
   /**
    *
    * @param src
@@ -22,7 +22,7 @@ export interface IConfigurator {
   imageUploaded(data: { src: string, pending: boolean, file: {type:string} });
 
   /**
-   * save model setting to user account
+   * save model setting to user account (Create Model)
    * @param modelConfig
    */
   save(modelConfig: ModelConfig);
@@ -30,7 +30,13 @@ export interface IConfigurator {
   /**
    * jeans cotton leather from DB
    */
-  selectMaterial(material: any);
+  selectMaterial(material: BagMaterial);
+
+  /**
+   *  select predefined bagtype from database
+   * @param bagtype
+   */
+  selectBagType(bagtype : BagType);
 
   getModelConfig();
 

@@ -3,7 +3,7 @@ import {Component, OnInit} from "@angular/core";
 import {ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
-import {CreateModel, IModel, ModelStatus} from "../../models/model";
+import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../models/model";
 
 declare var b4w: any;
 
@@ -139,9 +139,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
     modelConfig.image="testImage";
     modelConfig.rgb=['1', '2', '3'];
     console.log(modelConfig);
-   /* this.restService.postJson("./api/user/saveModel/"+this.userRoleService.getUserId(), JSON.stringify(modelConfig))
-      .subscribe(data => console.log(data));*/
-   // let iid  = this.userRoleService.getUserId();
     let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +this.userRoleService.getUserId(), JSON.stringify(modelConfig), "");
     this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
       (data: IModel[]) => {
@@ -160,7 +157,8 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   imageUploaded(data: {src:string, pending: boolean, file: {name: string, size: number, type: string}}){
     console.log('data');
     console.log(data);
-    let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;
+    /*let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;*/
+    let filePath = "./images/" +this.userRoleService.getUserId()+"/"+data.file.name;
     console.log(filePath);
 
   }
@@ -170,7 +168,12 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   }
 
-  selectMaterial(material: any) {
+  selectMaterial(material: BagMaterial) {
+    console.log("method not implemented. material name - " + material.name)
+  }
+
+  selectBagType(bagtype : BagType){
+    console.log("method not implemented. bagtype name - " + bagtype.name)
   }
 
   getModelConfig(){

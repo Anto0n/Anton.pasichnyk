@@ -82,8 +82,7 @@ export class TestformComponent  {
       "approved": ModelStatus.NEW,
       "modelCreate": 1495664395000,
       "modelUpdate": 1495664395000,
-      "config" : "tm",
-      "config2d" : "tm",
+      "config" : "tm"
     };
 
 
@@ -96,8 +95,7 @@ export class TestformComponent  {
       "approved": ModelStatus.NEW,
       "modelCreate": 1495664395000,
       "modelUpdate": 1495664395000,
-      "config" : "tm",
-      "config2d" : "tm",
+      "config" : "tm"
     }
 
 

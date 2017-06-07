@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,31 +39,6 @@ public class UserController {
     private UserDao userDao;
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private ModelService modelService;
-
-    /**
-     * /create  --> Create a new user and save it in the database.
-     * NO password encription
-     * @param userDtoRegistration
-     * @return A string describing if the user is succesitfully created or not.
-     */
-/*  @PostMapping(value = "/create")
-  public  ResponseEntity<Void> createUser(@Validated @RequestBody UserDtoRegistration userDtoRegistration) { //,  UriComponentsBuilder ucBuilder)
-    //String password = userDtoRegistration.getPassword();
-    String email = userDtoRegistration.getEmail();
-    if (userService.isUserExistByEmail(email)) {
-      return new ResponseEntity<>(HttpStatus.CONFLICT); //"A User with name " + userDto.getIdUser() + " already exist"
-    }
-   Boolean created;
-   created = userService.createUser(userDtoRegistration);
-   if(!created)
-     return new ResponseEntity<>(HttpStatus.CONFLICT);
-   return new ResponseEntity<>(HttpStatus.CREATED);
-
-  }*/
-
 
     /**
      * /delete  --> Delete the user having the passed id.
@@ -98,7 +74,7 @@ public class UserController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+        return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
 
@@ -114,7 +90,7 @@ public class UserController {
 
         UserDto findUser = userService.findById(id);
         if (findUser == null) {
-            return new ResponseEntity<UserDto>(HttpStatus.NOT_FOUND); //("User with id " + id + " not found");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //("User with id " + id + " not found");
         }
         try {
             userService.updateUser(userDto, id);
@@ -152,31 +128,22 @@ public class UserController {
     }
 
     @PostMapping(value = "/upload/{userID}", consumes = "multipart/form-data")
-    public void uploadImage(@PathVariable("userID") Long userId,
+    public ResponseEntity<?> uploadImage(@PathVariable("userID") Long userId,       //todo: generate unic file name
                             @RequestParam("image") MultipartFile multipartFile) {
         String separator = File.separator;
-        final String UPLOADED_FOLDER = "backend" + separator + "src" + separator + "main"
-                + separator + "resources" + separator + "static" + separator + userId + separator;
+        final String UPLOADED_FOLDER =getClass().getClassLoader().getResource("static").getPath() + separator + "images"+ separator + userId + separator;
         try {
             byte[] bytes = multipartFile.getBytes();
             Path path = Paths.get(UPLOADED_FOLDER + multipartFile.getOriginalFilename());
             new File(UPLOADED_FOLDER).mkdir();
             Files.write(path, bytes);
-        } catch (IOException e) {
+        } catch (Exception e ) {
             e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "/saveModel/{userId}")
-    public void uploadImage(@RequestBody String config, @PathVariable("userId") long userId) {
-        ModelEntity modelEntity = new ModelEntity();
-        modelEntity.setApproved(ModelStatusEnum.NEW);
-        modelEntity.setUserEntity(userDao.findOne(userId));
-        modelEntity.setConfig(config);
-        modelService.save(modelEntity);
-
-    }
-//todo: rewrite with dto/services
 }
 
 

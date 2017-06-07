@@ -24,4 +24,6 @@ export class Configurator2dService {
 export class Config2d{
    topPos : number = 0;
    leftPos : number = -50;
+   width : number = 500;
+  height : number = 500;
 }

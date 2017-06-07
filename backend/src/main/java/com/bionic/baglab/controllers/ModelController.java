@@ -51,13 +51,6 @@ public class ModelController {
         return new ResponseEntity<>(new JResponse(), HttpStatus.OK);
     }
 
-   /* @PutMapping(value = "/aprtrue/{modelId}")
-    public ResponseEntity<Void> setModelApprovedTrue(@PathVariable("modelId") long modelId) {
-        boolean approved = true;
-        modelService.setModelApproved(modelId, approved);
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }*/
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<ModelDto>> findAllModels() {

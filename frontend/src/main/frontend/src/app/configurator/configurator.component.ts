@@ -6,6 +6,7 @@ import {RestService} from "../services/rest.service";
 import {ModelConfig} from "../models/modelConfig";
 import {IConfigurator} from "./configurator.model";
 import {UserRoleService} from "../services/user/user-role.service";
+import {BagMaterial, BagType} from "../models/model";
 
 @Component({
   selector: 'configurator',
@@ -13,15 +14,20 @@ import {UserRoleService} from "../services/user/user-role.service";
   styleUrls: ['./configurator.component.css'],
 })
 export class ConfiguratorComponent implements OnInit{
+  modelName : string;
   ngOnInit(): void {
-    this.restService.getData("/api/material/list").subscribe(data=>this.materials=data);
+    this.restService.getData("./api/material/list").subscribe(data=>this.materials=data);
+    this.restService.getData("./api/bag_type/list").subscribe(data=>this.begtypes=data);
   }
 
 
   @ViewChild('config')
   configurator: IConfigurator;
-  materials: any;// = this.restService.getData("/api/material/list").subscribe(data => console.log(data));
-  private configuratorType: ConfiguratorType = ConfiguratorType.D3;
+
+  private materials: BagMaterial;
+  private begtypes: BagType;
+
+  private configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
   constructor(public userRoleService: UserRoleService, private restService: RestService){
 
