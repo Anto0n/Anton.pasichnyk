@@ -140,7 +140,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
     modelConfig.image="testImage";
     modelConfig.rgb=['1', '2', '3'];
     console.log(modelConfig);
-    let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +this.userRoleService.getUserId(), JSON.stringify(modelConfig), "");
+    let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +this.userRoleService.getUserId(), JSON.stringify(modelConfig));
     this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
       (data: IModel[]) => {
         console.log(data);

@@ -70,7 +70,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   createModel() {
     let iid  = this.roleService.getUserId(); //todo: model Config field
-    let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +iid, "", "");
+    let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +iid, "");
     this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
       (data: IModel[]) => {
         this.selectedModel = null;

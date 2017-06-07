@@ -19,17 +19,14 @@ export class CreateModel{
   "mname": string;
   "userId": number;
   "config" : string;
-  "config2d" : string;
 
-
-  constructor(approved: ModelStatus, bagTypeId: number, materialId: number, mname: string, userId: number, config : string,  config2d : string) {
+  constructor(approved: ModelStatus, bagTypeId: number, materialId: number, mname: string, userId: number, config : string) {
     this.approved = approved;
     this.bagTypeId = bagTypeId;
     this.materialId = materialId;
     this.mname = mname;
     this.userId = userId;
     this.config = config;
-    this.config2d = config2d;
   }
 }
 

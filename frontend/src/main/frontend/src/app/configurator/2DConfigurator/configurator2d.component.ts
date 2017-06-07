@@ -128,12 +128,13 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     console.log('Method not implemented.');
   }
 
-  save(modelConfig: ModelConfig) { //create new Model
+  save(inModelConfig: ModelConfig) { //create new Model
     if(this.validateModelToStore(this.modelConfig.config2d)){
-      let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(modelConfig), "");
+      let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.modelConfig.config2d.bagtype.id,this.modelConfig.config2d.material.id, this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig));
+      console.log(this.modelConfig);
       this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
         (data: IModel[]) => {
-          console.log(data);
+          this.alertService.success("model " + this.inModelName + " created");
         }, () => console.log('err'));    } else{  }
     //check material, bagtype, name
     console.log('Method not implemented.');
@@ -167,9 +168,6 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
 
-  ngOnDestroy(): void {
-    this.config2dService.saveLocalConfig(this.modelConfig);
-  }
 
   private  validateModelToStore(localConf : Config2d) : boolean{
     if  (localConf.material == null ){
@@ -186,6 +184,10 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     }
     this.alertService.clearMeessage();
     return true;
+  }
+
+  ngOnDestroy(): void {
+    this.config2dService.saveLocalConfig(this.modelConfig);
   }
 
  /*  private setImgPosition(top : number, left: number){
