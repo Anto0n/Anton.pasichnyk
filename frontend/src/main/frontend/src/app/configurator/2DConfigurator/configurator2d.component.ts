@@ -1,12 +1,14 @@
 import {
-  Component, OnInit, EventEmitter, HostListener, ElementRef, ViewChild, Renderer, OnDestroy,
-  NgZone, Input
+  Component, OnInit, EventEmitter, HostListener, ElementRef, ViewChild, Renderer, OnDestroy, Input, Output,
 } from "@angular/core";
 import {IConfigurator} from "../configurator.model";
-import {ModelConfig} from "../../models/modelConfig";
+import {ModelConfig, Config2d} from "../../models/modelConfig";
 import {map} from "rxjs/operator/map";
-import {Config2d, Configurator2dService} from "./configurator2d.service";
-import {BagMaterial, BagType} from "../../models/model";
+import { Configurator2dService} from "../../services/configurator/configurator2d.service";
+import {BagMaterial, BagType, IModel, CreateModel, ModelStatus} from "../../models/model";
+import {AlertService} from "../../services/alert.service";
+import {UserRoleService} from "../../services/user/user-role.service";
+import {RestService} from "../../services/rest.service";
 const containerSize: number = 320;
 
 @Component({
@@ -16,14 +18,11 @@ const containerSize: number = 320;
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
+  @Input() inModelName : string;
+  private modelConfig : ModelConfig;
 
-  modelName : string;
-  private conf2d : Config2d;
+  @Output() onClearMname = new EventEmitter<string>();
 
-
-
-
- //public currentPositions = {'top' : this.topPos + 'px', 'left' : this.leftPos  + 'px' };
   mousedrag ;
   changePos  = new EventEmitter();
   mouseup  = new EventEmitter();
@@ -43,11 +42,11 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.mouseup.emit(event);
     //console.log(event);
   }
-
-  @HostListener('click', ['$event'])
-  onClick(event) {
-  this.changePos.emit(event);
-  }
+  //
+  // @HostListener('click', ['$event'])
+  // onClick(event) {
+  // this.changePos.emit(event);
+  // }
 
 
   @HostListener('mousedown', ['$event'])
@@ -65,12 +64,13 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
 
   ngOnInit(): void {
+    this.modelConfig = this.config2dService.getLocalConfig();
     this.mousedrag.subscribe({
       next: pos => {
         this.el.nativeElement.style.top = pos.top + 'px';
         this.el.nativeElement.style.left = pos.left + 'px';
-        this.conf2d.topPos = pos.top;
-        this.conf2d.leftPos = pos.left;
+        this.modelConfig.config2d.topPos = pos.top;
+        this.modelConfig.config2d.leftPos = pos.left;
       }
     });
   /*  const container = this.containerElement.nativeElement; // new
@@ -84,10 +84,11 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer, private config2dService: Configurator2dService) {
+  constructor(private elementRef: ElementRef, private renderer: Renderer, private config2dService: Configurator2dService,  private alertService : AlertService,
+              private userRoleService : UserRoleService, private restService : RestService  ) {
     // this.elementRef.nativeElement.style.position = 'relative';
     //this.setImgPosition(this.topPos, this.leftPos);
-     this.conf2d = this.config2dService.getLocalConfig();          // load from service
+     this.modelConfig = this.config2dService.getLocalConfig();          // load from service
     this.elementRef.nativeElement.style.cursor = 'pointer';
     map;
       this.mousedrag = this.mousedown.map((event: MouseEvent) => {
@@ -104,19 +105,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
           left: pos.clientX - imageOffset.left
         }))
           .takeUntil(this.mouseup));
-
-
   }
-
-
-
-/*
-  private isInsideBoundary(event: MouseEvent) {
-    return event.clientX > this.boundary.left &&
-      event.clientX < this.boundary.right &&
-      event.clientY > this.boundary.top &&
-      event.clientY < this.boundary.bottom;
-  }*/
 
   changeImage(src: string) {
     console.log('Method not implemented.');
@@ -127,8 +116,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
   resetModel() {
     this.config2dService.clearLocalConfig();
-    this.conf2d = this.config2dService.getLocalConfig()
-
+    this.modelConfig = this.config2dService.getLocalConfig();
+    this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
   setColor(r: string, g: string, b: string) {
@@ -139,38 +128,64 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     console.log('Method not implemented.');
   }
 
-  save(modelConfig: ModelConfig) {
+  save(modelConfig: ModelConfig) { //create new Model
+    if(this.validateModelToStore(this.modelConfig.config2d)){
+      let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(modelConfig), "");
+      this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
+        (data: IModel[]) => {
+          console.log(data);
+        }, () => console.log('err'));    } else{  }
     //check material, bagtype, name
     console.log('Method not implemented.');
   }
 
   selectMaterial(material: BagMaterial) {
-    console.log("method not implemented. material name - " + material.name)
+    console.log(" material name - " + material.name)
+    this.modelConfig.config2d.material = material;
+    this.alertService.clearMeessage();
   }
 
   selectBagType(bagtype : BagType){
-    console.log("method not implemented. bagtype name - " + bagtype.name)
+    console.log("bagtype name - " + bagtype.name)
+    this.modelConfig.config2d.bagtype = bagtype;
+    this.alertService.clearMeessage();
   }
 
    centerF(){
-     this.conf2d.leftPos =0;
-     this.conf2d.topPos =0;
-     console.log("modelname " + this.modelName);
+     this.modelConfig.config2d.leftPos =0;
+     this.modelConfig.config2d.topPos =0;
    }
 
   plusWH(){
-    this.conf2d.width = this.conf2d.width + 50;
-    this.conf2d.height = this.conf2d.height + 50;
+    this.modelConfig.config2d.width = this.modelConfig.config2d.width + 50;
+    this.modelConfig.config2d.height = this.modelConfig.config2d.height + 50;
   }
 
   minusWH(){
-    this.conf2d.width = this.conf2d.width - 50;
-    this.conf2d.height = this.conf2d.height - 50;
+    this.modelConfig.config2d.width = this.modelConfig.config2d.width - 50;
+    this.modelConfig.config2d.height = this.modelConfig.config2d.height - 50;
   }
 
 
   ngOnDestroy(): void {
-    this.config2dService.saveLocalConfig(this.conf2d);
+    this.config2dService.saveLocalConfig(this.modelConfig);
+  }
+
+  private  validateModelToStore(localConf : Config2d) : boolean{
+    if  (localConf.material == null ){
+      this.alertService.error("Select material!", false)
+      return false;
+    } else if
+    (localConf.bagtype == null ){
+      this.alertService.error("Select bagtype!", false)
+      return false;
+    }else if
+    (this.inModelName == null || this.inModelName ==="" ){
+      this.alertService.error("set model name", false)
+      return false;
+    }
+    this.alertService.clearMeessage();
+    return true;
   }
 
  /*  private setImgPosition(top : number, left: number){
@@ -178,6 +193,18 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.leftPos = left;
 
    }*/
+
+
+
+
+  /*
+   private isInsideBoundary(event: MouseEvent) {
+   return event.clientX > this.boundary.left &&
+   event.clientX < this.boundary.right &&
+   event.clientY > this.boundary.top &&
+   event.clientY < this.boundary.bottom;
+   }*/
+
 
 }
 
@@ -188,4 +215,4 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   -
   */
 //http://lishman.io/angular-2-event-binding
-// https://groups.google.com/forum/#!topic/angular/Ri_ZKuTPNfo input
+// https://groups.google.com/forum/#!topic/angular/Ri_ZKuTPNfo            input

@@ -42,6 +42,12 @@ div#canvas_elem{
 canvas{
   width: 1000px;
 }
+
+config2dcss {
+  background-color: #0275d8;
+  width: 1600px;
+  height: 1600px;
+}
 /*@media screen and (max-width: 1000px) {*/
 /*#canvas_cont {*/
 /*width: 100vw;*/

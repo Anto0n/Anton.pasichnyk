@@ -1,5 +1,5 @@
 import {IConfigurator} from "../configurator.model";
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
 import {ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
@@ -12,8 +12,8 @@ declare var b4w: any;
   template: `<div id="canvas_cont" STYLE="width: 1000px"></div>`
 })
 export class Configurator3DComponent implements OnInit, IConfigurator {
-
-
+  @Input() private inModelName : string;
+  @Output() onClearMname = new EventEmitter<string>();
   private modelConfig: ModelConfig;
   private jsonString: any;
   private appName: string = "conf_app";
@@ -131,6 +131,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   resetModel(){
     this.modelConfig.rgb=['0.5','0.5', '0.5'];
     b4w.require(this.appName).resetImgColor();
+    this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
   save(modelConfig: ModelConfig) {

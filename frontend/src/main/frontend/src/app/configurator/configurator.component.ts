@@ -14,7 +14,7 @@ import {BagMaterial, BagType} from "../models/model";
   styleUrls: ['./configurator.component.css'],
 })
 export class ConfiguratorComponent implements OnInit{
-  modelName : string;
+  private modelName : string;
   ngOnInit(): void {
     this.restService.getData("./api/material/list").subscribe(data=>this.materials=data);
     this.restService.getData("./api/bag_type/list").subscribe(data=>this.begtypes=data);
@@ -52,7 +52,12 @@ export class ConfiguratorComponent implements OnInit{
     }
   }
 
+  onClearMname(newModelName: string) { //clear model name for both components
+      this.modelName = newModelName;
+  }
+
 }
+
 
 enum ConfiguratorType{
   D3 = 3,

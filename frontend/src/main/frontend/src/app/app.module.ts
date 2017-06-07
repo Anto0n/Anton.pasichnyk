@@ -46,7 +46,7 @@ import { CardViewComponent } from './content/orders/card-view.component';
 import {ImageUploadModule} from "angular2-image-upload";
 import {Configurator3DComponent} from "app/configurator/3DConfigurator/configurator3d.component";
 import {Configurator2DComponent} from "./configurator/2DConfigurator/configurator2d.component";
-import {Configurator2dService} from "./configurator/2DConfigurator/configurator2d.service";
+import {Configurator2dService} from "./services/configurator/configurator2d.service";
 
 @NgModule({
   declarations: [

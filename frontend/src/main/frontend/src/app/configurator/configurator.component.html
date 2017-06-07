@@ -1,8 +1,8 @@
 <button class="btn btn-sm btn-outline-primary" (click)="changeType(configuratorType)">2-D / 3-D</button>
 
 <div id="wrapper_container" class="col-lg-10" style="border: solid black 1px">
-  <configurator-3d #config *ngIf="configuratorType == 3"></configurator-3d>
-  <configurator-2d #config *ngIf="configuratorType == 2"></configurator-2d>
+  <configurator-3d #config *ngIf="configuratorType == 3" inModelName="{{modelName}}" (onClearMname)="onClearMname($event)"></configurator-3d>
+  <configurator-2d #config *ngIf="configuratorType == 2" inModelName="{{modelName}}" (onClearMname)="onClearMname($event)"></configurator-2d>
 
   <div id="customizer">
 
@@ -22,6 +22,7 @@
       </div>
     </div>
     <br>
+  <input type="text"  [(ngModel)]="modelName"  placeholder="new model name"/>
 </div>
     <!--<div>-->
     <!--<li *ngFor="let item of restService.getData('/api/material/list')">{{item}}</li>-->
