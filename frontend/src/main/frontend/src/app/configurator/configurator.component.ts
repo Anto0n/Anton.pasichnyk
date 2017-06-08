@@ -7,6 +7,7 @@ import {ModelConfig} from "../models/modelConfig";
 import {IConfigurator} from "./configurator.model";
 import {UserRoleService} from "../services/user/user-role.service";
 import {BagMaterial, BagType} from "../models/model";
+import {AuthenticationService} from "../services/authentication.service";
 
 @Component({
   selector: 'configurator',
@@ -15,11 +16,6 @@ import {BagMaterial, BagType} from "../models/model";
 })
 export class ConfiguratorComponent implements OnInit{
   private modelName : string;
-  ngOnInit(): void {
-    this.restService.getData("./api/material/list").subscribe(data=>this.materials=data);
-    this.restService.getData("./api/bag_type/list").subscribe(data=>this.begtypes=data);
-  }
-
 
   @ViewChild('config')
   configurator: IConfigurator;
@@ -29,8 +25,13 @@ export class ConfiguratorComponent implements OnInit{
 
   private configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
-  constructor(public userRoleService: UserRoleService, private restService: RestService){
+  constructor(public userRoleService: UserRoleService, private restService: RestService, private authService : AuthenticationService){
 
+  }
+
+  ngOnInit(): void {
+    this.restService.getData("./api/material/list").subscribe(data=>this.materials=data);
+    this.restService.getData("./api/bag_type/list").subscribe(data=>this.begtypes=data);
   }
 
   imageUploaded(data: {src:string, pending: boolean, file: {name: string, size: number, type: string}}){

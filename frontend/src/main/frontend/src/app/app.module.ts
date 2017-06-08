@@ -47,6 +47,7 @@ import {ImageUploadModule} from "angular2-image-upload";
 import {Configurator3DComponent} from "app/configurator/3DConfigurator/configurator3d.component";
 import {Configurator2DComponent} from "./configurator/2DConfigurator/configurator2d.component";
 import {Configurator2dService} from "./services/configurator/configurator2d.service";
+import {DragDropComponent} from "./configurator/2DConfigurator/temp/dragdrop.component";
 
 @NgModule({
   declarations: [
@@ -72,8 +73,8 @@ import {Configurator2dService} from "./services/configurator/configurator2d.serv
     CardMenuComponent,
     CardViewComponent,
     Configurator3DComponent,
-    Configurator2DComponent
-
+    Configurator2DComponent,
+    DragDropComponent
   ],
   imports: [
     NgbModule.forRoot(),

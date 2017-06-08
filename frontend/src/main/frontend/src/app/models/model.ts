@@ -40,8 +40,8 @@ export enum ModelStatus {
 export  class BagType{
   "id": number;
   "name": string;
-  "script": string;
   "price": number;
+  "script": string;
 }
 
 export class BagMaterial{

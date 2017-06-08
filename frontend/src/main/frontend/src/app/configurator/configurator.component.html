@@ -7,7 +7,7 @@
   <div id="customizer">
 
     <button class="btn btn-danger btn-outline-danger " (click)='configurator.resetModel()'>reset</button>
-    <button class="btn btn-success btn-outline-success " (click)='configurator.save(configurator.getModelConfig())'>save</button>
+    <button class="btn btn-success btn-outline-success "  (click)='configurator.save(configurator.getModelConfig())'>save</button>
 <div id="inputModelData" class="row">
   <div ngbDropdown #myDrop3="ngbDropdown">
     <button class="btn btn-outline-info" id="dropdownMenu3" ngbDropdownToggle>bag type:</button>
@@ -27,7 +27,7 @@
     <!--<div>-->
     <!--<li *ngFor="let item of restService.getData('/api/material/list')">{{item}}</li>-->
     <!--</div>-->
-    <image-upload [url]="'./api/user/upload/' + this.userRoleService.getUserId()" [preview]="false"
+    <image-upload [url]="'./api/user/upload/' + userRoleService.getUserId()" [preview]="false"
                   (onFileUploadFinish)="configurator.imageUploaded($event)"></image-upload>
     <!--(onFileUploadFinish)="imageUploaded($event)"-->
   </div>

@@ -20,8 +20,9 @@ const containerSize: number = 320;
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
   @Input() inModelName : string;
   private modelConfig : ModelConfig;
-
   @Output() onClearMname = new EventEmitter<string>();
+  private bags : BagType[];
+  private currentBag : BagType;
 
   mousedrag ;
   changePos  = new EventEmitter();
@@ -64,6 +65,9 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
 
   ngOnInit(): void {
+
+    //console.log(this.bags);
+
     this.modelConfig = this.config2dService.getLocalConfig();
     this.mousedrag.subscribe({
       next: pos => {
@@ -88,12 +92,21 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
               private userRoleService : UserRoleService, private restService : RestService  ) {
     // this.elementRef.nativeElement.style.position = 'relative';
     //this.setImgPosition(this.topPos, this.leftPos);
+
+    this.restService.getData("./api/bag_type/list").subscribe( (data : BagType[]) =>
+      {this.bags = data
+        console.log(data);
+        this.currentBag = data[0];
+        console.log(data[0].script);
+      }
+    ); //get bags
+
      this.modelConfig = this.config2dService.getLocalConfig();          // load from service
     this.elementRef.nativeElement.style.cursor = 'pointer';
     map;
       this.mousedrag = this.mousedown.map((event: MouseEvent) => {
         event.preventDefault();
-        event.stopPropagation();
+        //event.stopPropagation();
         //if (this.isInsideBoundary(event))  // new boundaries
           return {
           left: event.clientX - this.elementRef.nativeElement.getBoundingClientRect().left,
@@ -103,7 +116,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
         .flatMap(imageOffset => this.mousemove.map((pos: any) => ({
           top: pos.clientY - imageOffset.top,
           left: pos.clientX - imageOffset.left
-        }))
+        }
+        ))
           .takeUntil(this.mouseup));
   }
 
@@ -125,6 +139,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   imageUploaded(data: { src: string; pending: boolean; file: any; }) {
+    let filePath : string = "./images/" +this.userRoleService.getUserId()+"/"+data.file.name;
+    this.modelConfig.image = filePath; // rewrite user pick
     console.log('Method not implemented.');
   }
 
@@ -147,6 +163,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   selectBagType(bagtype : BagType){
+    this.currentBag = bagtype;
     console.log("bagtype name - " + bagtype.name)
     this.modelConfig.config2d.bagtype = bagtype;
     this.alertService.clearMeessage();

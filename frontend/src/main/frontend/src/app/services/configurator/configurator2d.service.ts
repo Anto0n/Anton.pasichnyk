@@ -24,3 +24,4 @@ export class Configurator2dService {
 
 }
 
+// ./images/2dtest1.jpg
