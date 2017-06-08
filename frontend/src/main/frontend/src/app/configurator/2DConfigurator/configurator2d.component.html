@@ -1,5 +1,5 @@
 <div #container class="containerb" >
-<img class='bag' src="./images/2dbase/2dBase1.png" >
+<img class='bag' src="{{currentBag.script.imgsrc}}" >
   <img #elVarRef class='user-image' [ngStyle]="{'top' : modelConfig.config2d.topPos + 'px', 'left' : modelConfig.config2d.leftPos  + 'px' ,
   'width' : modelConfig.config2d.width + 'px', 'height' : modelConfig.config2d.height + 'px'}"
        src="{{modelConfig.image}}" />
@@ -16,5 +16,8 @@
 <!--http://www.iconskid.com/images/339/school-bag-icon-256x256-png-pictures-339971.png
 https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREnW2A_-FFLnC88TzBMdNiM0CjygRtuKyDS7H0aYrI7rLUaHzy
 ./images/2dtest1.jpg
+
+{{currentBag.script.imgsrc}}
+
 -->
 <!--<button class="btn btn-outline-warning " type="submit" (click)="{inModelName}='as'">-</button>-->

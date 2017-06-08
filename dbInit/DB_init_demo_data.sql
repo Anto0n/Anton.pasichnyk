@@ -27,9 +27,9 @@ insert into baglab.material (name) values ('cotton');
 insert into baglab.material (name) values ('jeans');
 insert into baglab.material (name) values ('leather');
 
-INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('<asd></asd>', 'Simle bag');
-INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('asd sd', 'Bag pojo');
-INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('script asd1s23', 'Extra bag');
+INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase1.png"}', 'Simle bag');
+INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('{"imgsrc" : "./images/2dbase/2dBase2.png"}', 'Bag pojo');
+INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase3.png"}', 'Extra bag');
 
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('admin@gmail','$2a$10$fUW27BBTeUySsBH3YS//gOtjGVKgKyXbh0RvdJ.hx4jF13l6azJGC','admin@gmail',  'Ivan', 'Onobrenko',1);
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('anna@gm','$2a$10$YYDV6kBqUN8LUYO6wuuDhus9cNjx.RhfTxc.hLgB6/t/H4klAYOYO', 'anna@gm',  'John', 'Doe', 2);

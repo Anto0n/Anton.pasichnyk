@@ -5,10 +5,11 @@ import {IConfigurator} from "../configurator.model";
 import {ModelConfig, Config2d} from "../../models/modelConfig";
 import {map} from "rxjs/operator/map";
 import { Configurator2dService} from "../../services/configurator/configurator2d.service";
-import {BagMaterial, BagType, IModel, CreateModel, ModelStatus} from "../../models/model";
+import {BagMaterial, BagType, IModel, CreateModel, ModelStatus, BagtypeConfig} from "../../models/model";
 import {AlertService} from "../../services/alert.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {RestService} from "../../services/rest.service";
+import {JsonConvert} from "json2typescript";
 const containerSize: number = 320;
 
 @Component({
@@ -21,8 +22,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   @Input() inModelName : string;
   private modelConfig : ModelConfig;
   @Output() onClearMname = new EventEmitter<string>();
-  private bags : BagType[];
-  private currentBag : BagType;
+  private bags : BagType[] = [];
+  private currentBag : BagType = new BagType();
 
   mousedrag ;
   changePos  = new EventEmitter();
@@ -60,14 +61,9 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
    @HostListener('mousemove', ['$event'])
    onMousemove(event: MouseEvent) {
      this.mousemove.emit(event);
-     //console.log(event);
    }
 
-
   ngOnInit(): void {
-
-    //console.log(this.bags);
-
     this.modelConfig = this.config2dService.getLocalConfig();
     this.mousedrag.subscribe({
       next: pos => {
@@ -77,6 +73,19 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
         this.modelConfig.config2d.leftPos = pos.left;
       }
     });
+    this.restService.getData("./api/bag_type/list").subscribe( (data : BagType[]) =>  //get bags
+      {this.bags = data
+        if(!this.config2dService.containData()){                               // set new currentBag for first entrense
+          let jStr : string  = JSON.parse(JSON.stringify( this.bags[0].script  ));
+          let obj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
+          this.currentBag = this.bags[0];
+          this.currentBag.script = obj;
+          console.log( this.currentBag.script.imgsrc);
+        } else{ //restore state
+          this.currentBag = this.modelConfig.config2d.bagtype;
+        }
+      }
+    );
   /*  const container = this.containerElement.nativeElement; // new
 
     this.boundary = { //new
@@ -92,14 +101,6 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
               private userRoleService : UserRoleService, private restService : RestService  ) {
     // this.elementRef.nativeElement.style.position = 'relative';
     //this.setImgPosition(this.topPos, this.leftPos);
-
-    this.restService.getData("./api/bag_type/list").subscribe( (data : BagType[]) =>
-      {this.bags = data
-        console.log(data);
-        this.currentBag = data[0];
-        console.log(data[0].script);
-      }
-    ); //get bags
 
      this.modelConfig = this.config2dService.getLocalConfig();          // load from service
     this.elementRef.nativeElement.style.cursor = 'pointer';
@@ -131,6 +132,11 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   resetModel() {
     this.config2dService.clearLocalConfig();
     this.modelConfig = this.config2dService.getLocalConfig();
+    //this.modelConfig = new ModelConfig("./images/2dtest1.jpg", []);
+    this.modelConfig.config2d.topPos = 0;
+    this.modelConfig.config2d.leftPos = -50;
+    this.modelConfig.config2d.width = 500;
+    this.modelConfig.config2d.height  = 500;
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
@@ -153,7 +159,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
           this.alertService.success("model " + this.inModelName + " created");
         }, () => console.log('err'));    } else{  }
     //check material, bagtype, name
-    console.log('Method not implemented.');
+   // console.log('Method not implemented.');
   }
 
   selectMaterial(material: BagMaterial) {
@@ -164,6 +170,10 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
   selectBagType(bagtype : BagType){
     this.currentBag = bagtype;
+    let jStr : string  = JSON.parse(JSON.stringify( this.currentBag.script  ));   // json to obj
+    let scriptObj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
+    this.currentBag.script = scriptObj;
+
     console.log("bagtype name - " + bagtype.name)
     this.modelConfig.config2d.bagtype = bagtype;
     this.alertService.clearMeessage();
@@ -204,6 +214,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
+    this.modelConfig.config2d.bagtype.script = this.currentBag.script;
     this.config2dService.saveLocalConfig(this.modelConfig);
   }
 

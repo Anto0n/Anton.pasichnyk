@@ -1,3 +1,5 @@
+import { JsonObject, JsonProperty } from "json2typescript";
+
 export class IModel {
   "id": number;
   "userId": number;
@@ -30,7 +32,6 @@ export class CreateModel{
   }
 }
 
-
 // 0 1 2
 export enum ModelStatus {
   NEW, APPROVED,  REJECTED
@@ -40,8 +41,19 @@ export enum ModelStatus {
 export  class BagType{
   "id": number;
   "name": string;
+  "script": BagtypeConfig;
   "price": number;
-  "script": string;
+  constructor(){
+    this.script = new BagtypeConfig();
+  }
+}
+
+@JsonObject
+export class BagtypeConfig{
+ // constructor(public imgsrc : string ){}
+  //@JsonProperty('first-line')
+  @JsonProperty("imgsrc" , String)
+  "imgsrc" : string = undefined;
 }
 
 export class BagMaterial{
