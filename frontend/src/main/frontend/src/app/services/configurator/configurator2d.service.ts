@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Config2d, ModelConfig} from "../../models/modelConfig";
+import {BagType} from "../../models/model";
 
 @Injectable()
 export class Configurator2dService {
@@ -8,6 +9,7 @@ export class Configurator2dService {
 
   constructor() {
     this.config.config2d = new Config2d();
+    this.config.config2d.bagtype = new BagType();
   }
 
   getLocalConfig(){
@@ -22,6 +24,7 @@ export class Configurator2dService {
     this.inData = false;
     this.config  = new ModelConfig("./images/2dtest1.jpg", []);
     this.config.config2d = new Config2d();
+    this.config.config2d.bagtype = new BagType();
   }
 
   containData():boolean{

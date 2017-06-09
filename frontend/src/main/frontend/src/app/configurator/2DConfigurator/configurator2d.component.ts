@@ -10,6 +10,7 @@ import {AlertService} from "../../services/alert.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {RestService} from "../../services/rest.service";
 import {JsonConvert} from "json2typescript";
+import {AuthenticationService} from "../../services/authentication.service";
 const containerSize: number = 320;
 
 @Component({
@@ -65,14 +66,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
   ngOnInit(): void {
     this.modelConfig = this.config2dService.getLocalConfig();
-    this.mousedrag.subscribe({
-      next: pos => {
-        this.el.nativeElement.style.top = pos.top + 'px';
-        this.el.nativeElement.style.left = pos.left + 'px';
-        this.modelConfig.config2d.topPos = pos.top;
-        this.modelConfig.config2d.leftPos = pos.left;
-      }
-    });
+
     this.reloadBags();
 
   /*  const container = this.containerElement.nativeElement; // new
@@ -87,7 +81,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
 
   constructor(private elementRef: ElementRef, private renderer: Renderer, private config2dService: Configurator2dService,  private alertService : AlertService,
-              private userRoleService : UserRoleService, private restService : RestService  ) {
+              private userRoleService : UserRoleService, private restService : RestService, private authService : AuthenticationService) {
     // this.elementRef.nativeElement.style.position = 'relative';
     //this.setImgPosition(this.topPos, this.leftPos);
 
@@ -99,8 +93,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
         //event.stopPropagation();
         //if (this.isInsideBoundary(event))  // new boundaries
           return {
-          left: event.clientX - this.elementRef.nativeElement.getBoundingClientRect().left,
-          top: event.clientY - this.elementRef.nativeElement.getBoundingClientRect().top
+          left: event.clientX - this.elementRef.nativeElement.getBoundingClientRect().left/500,
+          top: event.clientY - this.elementRef.nativeElement.getBoundingClientRect().top/500
         };
       })
         .flatMap(imageOffset => this.mousemove.map((pos: any) => ({
@@ -109,6 +103,15 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
         }
         ))
           .takeUntil(this.mouseup));
+
+    this.mousedrag.subscribe({
+      next: pos => {
+        //this.el.nativeElement.style.top = pos.top + 'px';
+        //this.el.nativeElement.style.left = pos.left + 'px';
+        this.modelConfig.config2d.topPos = pos.top;
+        this.modelConfig.config2d.leftPos = pos.left;
+      }
+    });
   }
 
 
@@ -120,6 +123,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
           let obj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
           this.currentBag = this.bags[0];
           this.currentBag.script = obj;
+          this.modelConfig.config2d.bagtype = this.bags[0]; // re ini to default bag
           console.log( this.currentBag.script.imgsrc);
         } else{ //restore state
           this.currentBag = this.modelConfig.config2d.bagtype;
@@ -158,8 +162,13 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   save(inModelConfig: ModelConfig) { //create new Model
+    if(!this.authService.isAuthenticated()){
+     this.alertService.error("Login to save models!");
+     return;
+    }
     if(this.validateModelToStore(this.modelConfig.config2d)){
-      let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.modelConfig.config2d.bagtype.id,this.modelConfig.config2d.material.id, this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig));
+      let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.modelConfig.config2d.bagtype.id, this.modelConfig.config2d.material.id,
+        this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig));
       console.log(this.modelConfig);
       this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
         (data: IModel[]) => {
@@ -212,7 +221,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
       this.alertService.error("Select bagtype!", false)
       return false;
     }else if
-    (this.inModelName == null || this.inModelName ==="" ){
+    (this.inModelName == null || this.inModelName ==="" || this.inModelName ===" " ){
       this.alertService.error("set model name", false)
       return false;
     }

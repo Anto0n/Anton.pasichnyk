@@ -1,4 +1,5 @@
 import { JsonObject, JsonProperty } from "json2typescript";
+import {ModelConfig} from "./modelConfig";
 
 export class IModel {
   "id": number;
@@ -9,7 +10,7 @@ export class IModel {
   "approved": ModelStatus;
   "modelCreate": number;
   "modelUpdate": number;
-  "config" : string;
+  "config" : ModelConfig;
 }
 
 
@@ -50,8 +51,6 @@ export  class BagType{
 
 @JsonObject
 export class BagtypeConfig{
- // constructor(public imgsrc : string ){}
-  //@JsonProperty('first-line')
   @JsonProperty("imgsrc" , String)
   "imgsrc" : string = undefined;
 }
