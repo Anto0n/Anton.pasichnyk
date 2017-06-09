@@ -9,7 +9,7 @@
 <button class="btn btn-outline-warning " type="submit" (click)="minusWH()">-</button>
 <button class="btn btn-outline-success " type="submit" (click)="centerF()">center</button>
 <p *ngIf="modelConfig.config2d.material" > material: {{ modelConfig.config2d.material.name}}</p>
-<p *ngIf="modelConfig.config2d.bagtype" > bagtype: {{ modelConfig.config2d.bagtype.name}}</p>
+<p *ngIf="currentBag.name" > bagtype: {{ currentBag.name}}</p>
 <p *ngIf="inModelName">  mname: {{inModelName}}</p>
 </div>
 <!-- [ngStyle]="{'top' : '-240px', 'left' : '0px' }"-->
@@ -21,3 +21,4 @@ https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcREnW2A_-FFLnC88TzBMdNiM0Cj
 
 -->
 <!--<button class="btn btn-outline-warning " type="submit" (click)="{inModelName}='as'">-</button>-->
+

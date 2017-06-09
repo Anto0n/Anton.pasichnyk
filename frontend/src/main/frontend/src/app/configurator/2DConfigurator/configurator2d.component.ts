@@ -73,19 +73,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
         this.modelConfig.config2d.leftPos = pos.left;
       }
     });
-    this.restService.getData("./api/bag_type/list").subscribe( (data : BagType[]) =>  //get bags
-      {this.bags = data
-        if(!this.config2dService.containData()){                               // set new currentBag for first entrense
-          let jStr : string  = JSON.parse(JSON.stringify( this.bags[0].script  ));
-          let obj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
-          this.currentBag = this.bags[0];
-          this.currentBag.script = obj;
-          console.log( this.currentBag.script.imgsrc);
-        } else{ //restore state
-          this.currentBag = this.modelConfig.config2d.bagtype;
-        }
-      }
-    );
+    this.reloadBags();
+
   /*  const container = this.containerElement.nativeElement; // new
 
     this.boundary = { //new
@@ -122,6 +111,23 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
           .takeUntil(this.mouseup));
   }
 
+
+  private reloadBags(){
+    this.restService.getData("./api/bag_type/list").subscribe( (data : BagType[]) =>  //get bags
+      {this.bags = data
+        if(!this.config2dService.containData()){                               // set new currentBag for first entrense
+          let jStr : string  = JSON.parse(JSON.stringify( this.bags[0].script  ));
+          let obj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
+          this.currentBag = this.bags[0];
+          this.currentBag.script = obj;
+          console.log( this.currentBag.script.imgsrc);
+        } else{ //restore state
+          this.currentBag = this.modelConfig.config2d.bagtype;
+          console.log("Reload bag - NOT");
+        }
+      }
+    );
+  }
   changeImage(src: string) {
     console.log('Method not implemented.');
   }
@@ -132,11 +138,12 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   resetModel() {
     this.config2dService.clearLocalConfig();
     this.modelConfig = this.config2dService.getLocalConfig();
+    this.reloadBags();
     //this.modelConfig = new ModelConfig("./images/2dtest1.jpg", []);
-    this.modelConfig.config2d.topPos = 0;
+  /*  this.modelConfig.config2d.topPos = 0;
     this.modelConfig.config2d.leftPos = -50;
     this.modelConfig.config2d.width = 500;
-    this.modelConfig.config2d.height  = 500;
+    this.modelConfig.config2d.height  = 500;*/
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 

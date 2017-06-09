@@ -21,6 +21,7 @@ export class Configurator2dService {
   clearLocalConfig(){
     this.inData = false;
     this.config  = new ModelConfig("./images/2dtest1.jpg", []);
+    this.config.config2d = new Config2d();
   }
 
   containData():boolean{
