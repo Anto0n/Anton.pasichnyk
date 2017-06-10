@@ -43,7 +43,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
       var _img_default = "./assets/testConf/a55bf6d483b813cc325dd7aeb1ce98fc.jpg";
 
       var _wait_for_image_loading = false;
-      var jeans_img = "./assets/img/jeans_2048.jpg";
+      var jeans_img = "./images/3d/jeans_2048.jpg";
 
       exports.init = function () {
         m_app.init({
