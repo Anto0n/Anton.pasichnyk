@@ -21,6 +21,7 @@ public class ModelDto {
     private ModelStatusEnum approved;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
+    private String config;
 
     public ModelDto() {
     }
@@ -36,6 +37,7 @@ public class ModelDto {
         this.modelUpdate =  modelEntity.getModelCreate();
         this.approved = modelEntity.getApproved();
         this.mname = modelEntity.getMname();
+        this.config = modelEntity.getConfig();
     }
 
     public long getId() {

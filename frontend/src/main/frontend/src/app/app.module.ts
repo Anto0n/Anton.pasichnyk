@@ -48,6 +48,9 @@ import {Configurator3DComponent} from "app/configurator/3DConfigurator/configura
 import {Configurator2DComponent} from "./configurator/2DConfigurator/configurator2d.component";
 import {Configurator2dService} from "./services/configurator/configurator2d.service";
 import {DragDropComponent} from "./configurator/2DConfigurator/temp/dragdrop.component";
+import {View2dComponent} from "./configurator/view/2dview.component";
+
+
 
 @NgModule({
   declarations: [
@@ -74,7 +77,8 @@ import {DragDropComponent} from "./configurator/2DConfigurator/temp/dragdrop.com
     CardViewComponent,
     Configurator3DComponent,
     Configurator2DComponent,
-    DragDropComponent
+    DragDropComponent,
+    View2dComponent
   ],
   imports: [
     NgbModule.forRoot(),

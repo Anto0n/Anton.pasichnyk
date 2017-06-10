@@ -1,56 +1,136 @@
-import {Component, OnDestroy} from '@angular/core';
+import {Component, OnDestroy,  OnInit} from '@angular/core';
 import {IUser} from "../../models/test.model";
 import {RestService} from "../../services/rest.service";
-import {IModel, ModelStatus} from "../../models/model";
+import {IModel, ModelStatus, BagType, BagtypeConfig} from "../../models/model";
 import {OrderResp, OrderCreate, mItems} from "../../models/order";
 import {CardOrderService} from "../../services/order/card-order.service";
-import { Subscription } from 'rxjs/Subscription';
-
+import {Config2d, ModelConfig} from "../../models/modelConfig";
+import {JsonConvert} from "json2typescript";
+import {Configurator2dService} from "../../services/configurator/configurator2d.service";
+import {ModelService} from "../../services/model.service";
 @Component({
   selector: 'app-testform',
   templateUrl: './testform.component.html'
 })
-export class TestformComponent  {
+export class TestformComponent implements OnInit{
 
   private users: IUser[] = [];
   private uModels: IModel[] = [];
   private moderModels: IModel[] = [];
-  private orderResp : OrderResp;
+  private orderResp: OrderResp;
 
-  constructor(private restService: RestService, private corServ:CardOrderService) {  }
+ // @ViewChild('view2dparrent')
+  /*view2d */
+  private bags: BagType[] = [];
+  private curbag : BagType = new BagType();
+  private iModel : IModel = new IModel();
+  private tstr: string;
+  private models : IModel[] = [];
 
-  getUser(){
+  constructor(private restService: RestService, private corServ: CardOrderService, private config2dService: Configurator2dService, private modelService : ModelService) {
+    // console.log( "tform constructor");
+    // console.log( this.bags);
+  }
+
+  ngOnInit(): void {
+    this.reloadBags().subscribe(_=>{
+      this.curbag.script = new BagtypeConfig();
+      this.curbag = this.bags[2];
+    });  //2d views
+   // this.modelService.getbagslocal().subscribe;
+  /*  console.log( "oninit");
+    console.log( this.bags);*/
+     // retrive default local config
+    this.tstr ="11111111";
+    //this.curbag = this.modelService.getBagByIdlocal(1);
+    this.iModel.config = this.config2dService.getLocalConfig();
+    this. reloadModels().subscribe(_=>{
+      this.iModel = this.models[1];  // model to show
+    });
+  }
+
+  private  reloadModels(){
+    return this.restService.getData("./api/models/list").map((data: IModel[]) =>{
+        this.models = data;
+      for (var i = 0; i < data.length; i++) {
+        let jStr: string = JSON.parse(JSON.stringify(data[i].config));
+      /*  let tmodel : ModelConfig = new ModelConfig("", []);
+        tmodel.config2d = new Config2d();*/
+        let obj: ModelConfig;
+         obj  = JsonConvert.deserializeString(jStr, ModelConfig );
+        this.models[i].config = new ModelConfig();
+        this.models[i].config.config2d = new Config2d();
+        this.models[i].config.config2d.bagtype = new BagType();
+        this.models[i].config.config2d.bagtype.script = new BagtypeConfig();
+        this.models[i].config = obj;
+      }
+      console.log("MODELS load");
+      console.log(this.models[0].config.config2d);
+      console.log(this.models[0].config.config2d.bagtype);
+
+      }
+
+
+    ).catch((error) => {
+      console.log('error ' + error);
+      throw error;
+    });
+
+  }
+
+  private reloadBags() {
+    return this.restService.getData("./api/bag_type/list").map((data: BagType[]) => {
+        this.bags = data;
+        console.log( this.bags);
+        for (var i = 0; i < this.bags.length; i++) {   //load script objects
+          let jStr: string = JSON.parse(JSON.stringify(this.bags[i].script));
+          let obj: BagtypeConfig = JsonConvert.deserializeString(jStr, BagtypeConfig);
+          this.bags[i].script = new BagtypeConfig();
+          this.bags[i].script = obj;
+        }
+      }
+    ).catch((error) => {
+      console.log('error ' + error);
+      throw error;
+    });
+  }
+
+
+
+  getUser() {
+    console.log( this.bags);
     this.restService.getData('./api/user/list')
       .subscribe((data: IUser[]) => {
-        this.users=data;
+        this.users = data;
         console.log(data);
-      }, ()=>console.log('err')); //todo: add Alert service
+      }, () => console.log('err')); //todo: add Alert service
+  console.log("curbag" + this.curbag);
   }
 
-  getModelsByUserId(){
+  getModelsByUserId() {
     this.restService.getData(`./api/models/${2}/list`)
       .subscribe((data: IModel[]) => {
-        this.uModels=data;
+        this.uModels = data;
         console.log(data);
-      }, ()=>console.log('err'));
+      }, () => console.log('err'));
   }
 
-  getModelsList(){
+  getModelsList() {
     this.restService.getData('./api/models/list')
       .subscribe((data: IModel[]) => {
-        this.moderModels=data;
+        this.moderModels = data;
         console.log(data);
-      }, ()=>console.log('err'));
+      }, () => console.log('err'));
   }
 
-  approveModel(id:number, approved:string ){
+  approveModel(id: number, approved: string) {
     this.restService.getData('./api/models/approve', `/${id}?approved=${approved}`)
       .subscribe(data => console.log(data));
-    console.log(''+id, ''+approved);
+    console.log('' + id, '' + approved);
   }
 
-  createOrder(){
-    let orderCreate : OrderCreate = {
+  createOrder() {
+    let orderCreate: OrderCreate = {
       "userId": 2,
       "items": [
         {
@@ -64,16 +144,16 @@ export class TestformComponent  {
       ]
     };
     this.restService.postJsonResp('./api/order/createOrder', orderCreate)
-      .subscribe((data: OrderResp)  => {
-        this.orderResp = data;
-        console.log(this.orderResp)
-      } ,
-      ()=>console.log('err')
-    )
+      .subscribe((data: OrderResp) => {
+          this.orderResp = data;
+          console.log(this.orderResp)
+        },
+        () => console.log('err')
+      )
   }
 
-  sendTestDataToObservable(){
-    let iMod : IModel = {
+  sendTestDataToObservable() {
+    let iMod: IModel = {
       "id": 1,
       "userId": 1,
       "bagTypeId": 1,
@@ -82,11 +162,11 @@ export class TestformComponent  {
       "approved": ModelStatus.NEW,
       "modelCreate": 1495664395000,
       "modelUpdate": 1495664395000,
-      "config" : "tm"
+      "config": new ModelConfig()
     };
 
 
-    let iMod2 : IModel =   {
+    let iMod2: IModel = {
       "id": 2,
       "userId": 2,
       "bagTypeId": 2,
@@ -95,12 +175,11 @@ export class TestformComponent  {
       "approved": ModelStatus.NEW,
       "modelCreate": 1495664395000,
       "modelUpdate": 1495664395000,
-      "config" : "tm"
+      "config": new ModelConfig()
     }
 
 
-
-    let tIt : mItems[] = [
+    let tIt: mItems[] = [
       {
         "idOrderItem": 3333,
         "count": 12,
@@ -115,7 +194,7 @@ export class TestformComponent  {
       }
     ]
 
-    let testD : OrderResp =  {
+    let testD: OrderResp = {
       "idOrder": 2,
       "moderatorId": 0,
       "userDto": {
@@ -135,7 +214,7 @@ export class TestformComponent  {
     this.corServ.sendOrderResp(testD);
   }
 
-  clearTestDataToObservable(){
+  clearTestDataToObservable() {
     this.corServ.clearMessage();
   }
 

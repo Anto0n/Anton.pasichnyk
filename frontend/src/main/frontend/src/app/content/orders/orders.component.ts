@@ -67,8 +67,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
     });
 
   }
-
-  createModel() {
+/*
+  private createModel() {   // do not use
     let iid  = this.roleService.getUserId(); //todo: model Config field
     let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +iid, "");
     this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
@@ -76,7 +76,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
         this.selectedModel = null;
         this.uModels = data;
       }, () => console.log('err'));
-  }
+  }*/
 
   addModelToBucket(quantity: number, model:IModel){
     let modelid:number = model.id;
