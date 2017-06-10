@@ -21,6 +21,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private subsOrderResp: Subscription;
   private currentOrder : OrderResp = new OrderResp();
 
+  private selectModelId: number;
+
   constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef,
               private authService : AuthenticationService, private cardOrderService : CardOrderService, private alertService : AlertService) {
     this.cardOrderService.sendEmitReloadBucket();

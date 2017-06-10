@@ -24,6 +24,10 @@
     <td>{{model.mname}}</td>
     <td>{{model.approved}}</td>
     <td>
+
+      <button (click)="selectModelId = model.id">Select</button>
+    </td>
+    <td>
       <button *ngIf="model.approved==='NEW' " class="btn btn-danger"
               (click)=" deleteModel(model); $event.stopPropagation()"> del
       </button>
@@ -38,6 +42,7 @@
       <button class="btn btn-success" (click)="addModelToBucket(newItem.value, model);  newItem.value=''">To bucket</button>
     <td>
   </tr>
+  <configurator [selectModelId]="selectModelId"></configurator>
   </tbody>
 </table>
 <hr>

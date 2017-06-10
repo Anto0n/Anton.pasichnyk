@@ -10,7 +10,7 @@ export class IModel {
   "approved": ModelStatus;
   "modelCreate": number;
   "modelUpdate": number;
-  "config" : ModelConfig;
+  "config"?: ModelConfig;
 }
 
 

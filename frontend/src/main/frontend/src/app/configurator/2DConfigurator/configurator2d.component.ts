@@ -20,11 +20,15 @@ const containerSize: number = 320;
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
-  @Input() inModelName : string;
-  private modelConfig : ModelConfig;
-  @Output() onClearMname = new EventEmitter<string>();
+  @Input()
+  inModelName : string;
+  @Input()
+  modelConfig : ModelConfig;
+  @Output()
+  onClearMname = new EventEmitter<string>();
   private bags : BagType[] = [];
   private currentBag : BagType = new BagType();
+
 
   mousedrag ;
   changePos  = new EventEmitter();
