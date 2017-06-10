@@ -16,7 +16,6 @@ public class ModelDto {
     private long materialId;
     @NotNull(message = "error.bagmname.notnull")
     private String mname;
-    private String config;
     @NotNull(message = "error.modelStatus.notnull")
     private ModelStatusEnum approved;
     private Timestamp modelCreate;

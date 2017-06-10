@@ -1,22 +1,6 @@
 import {BagMaterial, BagType} from "./model";
 import { JsonObject, JsonProperty } from "json2typescript";
 
-@JsonObject
-export class ModelConfig{
-  @JsonProperty("image" , String)
-  image: string = undefined;
-
-  @JsonProperty("rgb" , [String])
-  rgb: string[] = undefined;
-
-  @JsonProperty("config2d", Config2d)
-  config2d : Config2d = undefined;
-
-/*  constructor(image: string, rgb: string[]) { //constructors not allowd in jsno2obj
-    this.image = image;
-    this.rgb = rgb;
-  }*/
-}
 
 @JsonObject
 export class Config2d{
@@ -39,6 +23,23 @@ export class Config2d{
   bagtype: BagType;
 }
 
+
+@JsonObject
+export class ModelConfig{
+  @JsonProperty("image" , String)
+  image: string = undefined;
+
+  @JsonProperty("rgb" , [String])
+  rgb: string[] = undefined;
+
+  @JsonProperty("config2d", Config2d)
+  config2d : Config2d = undefined;
+
+  /*  constructor(image: string, rgb: string[]) { //constructors not allowd in jsno2obj
+   this.image = image;
+   this.rgb = rgb;
+   }*/
+}
 
 
 
