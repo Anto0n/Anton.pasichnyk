@@ -8,22 +8,22 @@ import {ModelConfig} from "../../models/modelConfig";
   styleUrls: ['./2dview.component.css']
 })
 export class View2dComponent implements OnInit {
-  @Input()  inBag : BagType;
-  @Input()  inModel : IModel = new IModel();
+  @Input()  inbag : BagType;
+  @Input()  inmodel : IModel = new IModel();
   @Input() instr : string;
   private modelConfig : ModelConfig ;
 
   constructor() {
-    this.inBag = new BagType();
-    this.inBag.script = new BagtypeConfig();
-    console.log("2dview INPUT");
-    console.log(this.inBag);
-    console.log(this.inModel);
-    console.log(this.instr);
+    this.inbag = new BagType();
+    this.inbag.script = new BagtypeConfig();
+
   }
 
   ngOnInit() {
-
+    console.log("2dview INPUT");
+    console.log(this.inbag);
+    console.log(this.inmodel);
+    console.log(this.instr);
   }
 
 }

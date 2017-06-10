@@ -1,6 +1,6 @@
 import {IConfigurator} from "../configurator.model";
 import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
-import {ModelConfig} from "../../models/modelConfig";
+import {Config2d, ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../models/model";
@@ -26,7 +26,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
 
   ngOnInit() {
-    this.modelConfig = new ModelConfig('', []);
+    this.modelConfig = new ModelConfig();
     b4w.register(this.appName, function (exports, require) {
       var testImg = new Image();
       var m_app = b4w.require("app");
@@ -136,9 +136,9 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   save(modelConfig: ModelConfig) {
     let app = b4w.require(this.appName);
-
-    modelConfig.image="testImage";
+    modelConfig.image="./images/2dtest1.jpg";
     modelConfig.rgb=['1', '2', '3'];
+    modelConfig.config2d = new Config2d();
     console.log(modelConfig);
     let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +this.userRoleService.getUserId(), JSON.stringify(modelConfig));
     this.restService.postJsonResp('./api/models/create', createModelT).subscribe(

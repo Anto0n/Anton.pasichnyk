@@ -3,6 +3,8 @@
   position: relative;
   overflow: hidden;
   width: auto;
+  width: 500px;
+  height: 500px;
 }
 
 .bag{
@@ -12,14 +14,17 @@
   height: 500px;
   z-index: 100;
   pointer-events: none;
+  overflow: hidden;
 }
 
 .user-image{
+  background-attachment: fixed;
   position: absolute;
-  pointer-events: auto;
   cursor: move;
   z-index: 10;
   display: block;
+  pointer-events: none;
+  overflow: hidden;
 }
 /*
 background-attachment: fixed;
