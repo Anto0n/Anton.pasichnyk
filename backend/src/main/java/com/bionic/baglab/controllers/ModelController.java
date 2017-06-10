@@ -19,12 +19,18 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/models")
 public class ModelController {
+
     @Autowired
     private ModelDao modelDao;
     @Autowired
     private ModelService modelService;
     @Autowired
     private OrderService orderService;
+
+    @GetMapping(value = "/{modelId}")
+    public ModelDto getOne(@PathVariable("modelId") long modelId){
+        return modelService.findOneDto(modelId);
+    }
 
     @RequestMapping(value = "/{modelId}/delete", method = RequestMethod.GET) //TODO change to POST method
     public ResponseEntity<?> delete(@PathVariable("modelId") long modelId) {

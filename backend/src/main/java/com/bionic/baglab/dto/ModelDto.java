@@ -16,6 +16,7 @@ public class ModelDto {
     private long materialId;
     @NotNull(message = "error.bagmname.notnull")
     private String mname;
+    private String config;
     @NotNull(message = "error.modelStatus.notnull")
     private ModelStatusEnum approved;
     private Timestamp modelCreate;
@@ -26,6 +27,7 @@ public class ModelDto {
 
 
     public ModelDto(ModelEntity modelEntity) {
+        this.config=modelEntity.getConfig();
         this.id = modelEntity.getIdModel();
         this.userId = modelEntity.getUserEntity().getIdUser();
         this.bagTypeId = modelEntity.getBagTypeEntity().getId();
@@ -98,5 +100,13 @@ public class ModelDto {
 
     public void setMaterialId(long materialId) {
         this.materialId = materialId;
+    }
+
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
     }
 }
