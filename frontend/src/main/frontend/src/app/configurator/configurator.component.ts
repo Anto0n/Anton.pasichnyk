@@ -1,13 +1,14 @@
 /**
  * Created by Anton on 18-Apr-17.
  */
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, Input} from '@angular/core';
 import {RestService} from "../services/rest.service";
 import {ModelConfig} from "../models/modelConfig";
 import {IConfigurator} from "./configurator.model";
 import {UserRoleService} from "../services/user/user-role.service";
 import {BagMaterial, BagType} from "../models/model";
 import {AuthenticationService} from "../services/authentication.service";
+import {Http, Response} from "@angular/http";
 
 @Component({
   selector: 'configurator',
@@ -25,7 +26,30 @@ export class ConfiguratorComponent implements OnInit{
 
   private configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
-  constructor(public userRoleService: UserRoleService, private restService: RestService, private authService : AuthenticationService){
+  @Input() set selectModelId(modelId: number){
+    debugger;
+    this.modelId = modelId
+    console.log(modelId);
+    this.http.get('./images/data.json').subscribe((data: Response) => {
+      //ModelConfig
+      console.log(data);
+      //this.modelConfig = data;
+      //console.log(data);
+      //console.log(JSON.parse(data));
+      //this.modelConfig = JSON.parse(data._body);
+      //console.log(this.modelConfig);
+    });
+    //todo method reload data on configurator
+    //this.configurator.
+  }
+
+  private modelId: number = 0;
+  private modelConfig: ModelConfig = null;
+
+  constructor(public userRoleService: UserRoleService,
+              private http: Http,
+              private restService: RestService,
+              private authService : AuthenticationService){
 
   }
 
