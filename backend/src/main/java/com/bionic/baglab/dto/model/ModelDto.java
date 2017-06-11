@@ -1,4 +1,4 @@
-package com.bionic.baglab.dto;
+package com.bionic.baglab.dto.model;
 
 import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.enums.ModelStatusEnum;
@@ -20,14 +20,13 @@ public class ModelDto {
     private ModelStatusEnum approved;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
-    private String config;
+    //private String config;
 
     public ModelDto() {
     }
 
 
     public ModelDto(ModelEntity modelEntity) {
-        this.config=modelEntity.getConfig();
         this.id = modelEntity.getIdModel();
         this.userId = modelEntity.getUserEntity().getIdUser();
         this.bagTypeId = modelEntity.getBagTypeEntity().getId();
@@ -36,7 +35,7 @@ public class ModelDto {
         this.modelUpdate =  modelEntity.getModelCreate();
         this.approved = modelEntity.getApproved();
         this.mname = modelEntity.getMname();
-        this.config = modelEntity.getConfig();
+        //this.config = modelEntity.getConfig();
     }
 
     public long getId() {
@@ -103,11 +102,11 @@ public class ModelDto {
         this.materialId = materialId;
     }
 
-    public String getConfig() {
+   /* public String getConfig() {
         return config;
     }
 
     public void setConfig(String config) {
         this.config = config;
-    }
+    }*/
 }

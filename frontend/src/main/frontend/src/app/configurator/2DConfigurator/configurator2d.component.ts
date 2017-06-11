@@ -26,6 +26,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   modelConfig : ModelConfig;
   @Output()
   onClearMname = new EventEmitter<string>();
+
   private bags : BagType[] = [];
   private currentBag : BagType = new BagType();
 

@@ -2,14 +2,8 @@ package com.bionic.baglab.controllers;
 
 
 import com.bionic.baglab.dao.UserDao;
-import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.domains.UserEntity;
-import com.bionic.baglab.dto.ImageDto;
-import com.bionic.baglab.dto.ModelProxyDto;
-import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import com.bionic.baglab.dto.user.UserDto;
-import com.bionic.baglab.dto.user.UserDtoRegistration;
-import com.bionic.baglab.services.ModelService;
 import com.bionic.baglab.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;

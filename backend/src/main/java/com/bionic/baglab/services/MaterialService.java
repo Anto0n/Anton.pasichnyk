@@ -5,13 +5,11 @@ import com.bionic.baglab.dao.MaterialPriceDao;
 import com.bionic.baglab.domains.MaterialEntity;
 import com.bionic.baglab.domains.MaterialPriceEntity;
 import com.bionic.baglab.dto.MaterialDto;
-import com.bionic.baglab.dto.ModelDtoLight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MaterialService {

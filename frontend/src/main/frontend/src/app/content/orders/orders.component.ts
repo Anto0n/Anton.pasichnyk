@@ -13,7 +13,7 @@ import {AlertService} from "../../services/alert.service";
   templateUrl: './orders.component.html'
 })
 export class OrdersComponent implements OnInit, OnDestroy {
-  private uId: string
+  private uId: string;
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
   private selectedModel:IModel;
@@ -21,7 +21,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private subsOrderResp: Subscription;
   private currentOrder : OrderResp = new OrderResp();
 
-  private selectModelId: number;
+  selectModelId: number;
 
   constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef,
               private authService : AuthenticationService, private cardOrderService : CardOrderService, private alertService : AlertService) {
@@ -51,10 +51,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
   private getModelsByUserId() {
     this.uId = this.roleService.getUserId();
-
     this.restService.getData(`./api/models/${this.uId}/list`)
       .subscribe((data: IModel[]) => {
         this.uModels = data;
+        if(data[0]) this.selectModelId = data[0].id;
       }, () => console.log('err'));
   }
 

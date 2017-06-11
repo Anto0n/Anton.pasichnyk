@@ -49,9 +49,7 @@ export  class BagType{
   }
 }
 
-@JsonObject
 export class BagtypeConfig{
-  @JsonProperty("imgsrc" , String)
   "imgsrc" : string = undefined;
 }
 

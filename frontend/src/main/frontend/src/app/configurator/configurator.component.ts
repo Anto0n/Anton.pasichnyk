@@ -8,7 +8,7 @@ import {IConfigurator} from "./configurator.model";
 import {UserRoleService} from "../services/user/user-role.service";
 import {BagMaterial, BagType} from "../models/model";
 import {AuthenticationService} from "../services/authentication.service";
-import {Http, Response} from "@angular/http";
+import {Configurator2dService} from "../services/configurator/configurator2d.service";
 
 @Component({
   selector: 'configurator',
@@ -27,28 +27,22 @@ export class ConfiguratorComponent implements OnInit{
   private configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
   @Input() set selectModelId(modelId: number){
-    debugger;
-    this.modelId = modelId
-    console.log(modelId);
-    this.http.get('./images/data.json').subscribe((data: Response) => {
-      //ModelConfig
+    this.modelId = modelId;
+    this.restService.getData(`./api/models/config/${modelId}`).subscribe((data: ModelConfig) => {
       console.log(data);
-      //this.modelConfig = data;
-      //console.log(data);
-      //console.log(JSON.parse(data));
-      //this.modelConfig = JSON.parse(data._body);
-      //console.log(this.modelConfig);
+      this.modelConfig = data;
     });
     //todo method reload data on configurator
     //this.configurator.
   }
 
+
   private modelId: number = 0;
   private modelConfig: ModelConfig = null;
 
   constructor(public userRoleService: UserRoleService,
-              private http: Http,
               private restService: RestService,
+              private config2dService : Configurator2dService,
               private authService : AuthenticationService){
 
   }

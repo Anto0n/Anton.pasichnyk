@@ -5,8 +5,8 @@ import com.bionic.baglab.dao.MaterialDao;
 import com.bionic.baglab.dao.ModelDao;
 import com.bionic.baglab.dao.UserDao;
 import com.bionic.baglab.domains.ModelEntity;
-import com.bionic.baglab.dto.ModelDto;
-import com.bionic.baglab.dto.ModelDtoCreate;
+import com.bionic.baglab.dto.model.ModelDto;
+import com.bionic.baglab.dto.model.ModelDtoCreate;
 import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +41,11 @@ public class ModelService {
 
     public ModelDto findOneDto(long id) {
         return new ModelDto(modelDao.findOne(id));
+    }
+
+    public String findOneConfig(long id) {
+       ModelEntity model=modelDao.findOne(id);
+        return model.getConfig();
     }
 
     public List<ModelDto> findAllModelsbyUserId(long id) {

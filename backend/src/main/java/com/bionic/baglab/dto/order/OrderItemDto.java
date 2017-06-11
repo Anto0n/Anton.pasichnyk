@@ -1,7 +1,7 @@
 package com.bionic.baglab.dto.order;
 
 import com.bionic.baglab.domains.OrderItemEntity;
-import com.bionic.baglab.dto.ModelDto;
+import com.bionic.baglab.dto.model.ModelDto;
 import io.swagger.annotations.ApiModel;
 import org.hibernate.validator.constraints.NotEmpty;
 

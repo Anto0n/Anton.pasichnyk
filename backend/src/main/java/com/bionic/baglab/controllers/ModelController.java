@@ -3,8 +3,8 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.dao.ModelDao;
 import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.JResponse;
-import com.bionic.baglab.dto.ModelDto;
-import com.bionic.baglab.dto.ModelDtoCreate;
+import com.bionic.baglab.dto.model.ModelDto;
+import com.bionic.baglab.dto.model.ModelDtoCreate;
 import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import com.bionic.baglab.services.ModelService;
 import com.bionic.baglab.services.OrderService;
@@ -30,6 +30,11 @@ public class ModelController {
     @GetMapping(value = "/{modelId}")
     public ModelDto getOne(@PathVariable("modelId") long modelId){
         return modelService.findOneDto(modelId);
+    }
+
+    @GetMapping(value = "/config/{modelId}")
+    public String getOneConfig(@PathVariable("modelId") long modelId){
+        return modelService.findOneConfig(modelId);
     }
 
     @RequestMapping(value = "/{modelId}/delete", method = RequestMethod.GET) //TODO change to POST method
