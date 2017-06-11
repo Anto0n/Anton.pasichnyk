@@ -16,10 +16,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private uId: string;
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
-  private selectedModel:IModel;
- // private subscription: Subscription;
+   selectedModel:IModel;
   private subsOrderResp: Subscription;
   private currentOrder : OrderResp = new OrderResp();
+
 
   selectModelId: number;
 

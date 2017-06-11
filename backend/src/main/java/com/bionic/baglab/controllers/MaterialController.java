@@ -56,7 +56,7 @@ public class MaterialController {
         return materialService.getDtoMaterial(material);
     }
 
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public MaterialDto findById(@PathVariable("id") long id) {
         MaterialEntity material = materialService.findOne(id);
         return materialService.getDtoMaterial(material);

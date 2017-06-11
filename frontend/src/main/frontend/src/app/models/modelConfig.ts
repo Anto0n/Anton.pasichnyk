@@ -9,9 +9,9 @@ export class Config2d{
 
   height : number = 500;
 
-  material: BagMaterial;
+ // material: BagMaterial;
 
-  bagtype: BagType;
+ // bagtype: BagType;
 }
 
 
@@ -20,13 +20,6 @@ export class Config3d{
   material: BagMaterial;
 
 }
-
-
-/**
- * Created by Potaychuk Sviatoslav on 26.05.2017.
- * image - img url
- */
-
 
 export class ModelConfig{
   image: string = undefined;

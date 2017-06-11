@@ -1,14 +1,14 @@
-<div #container class="containerb" >
+<div #container class="containerb" [ngStyle]="{'background-image' : 'url('+ matUrl  + ')', ' z-index' : 100}">
 <img class='bag' src="{{currentBag.script.imgsrc}}" >
   <img #elVarRef class='user-image' [ngStyle]="{'top' : modelConfig.config2d.topPos + 'px', 'left' : modelConfig.config2d.leftPos  + 'px' ,
   'width' : modelConfig.config2d.width + 'px', 'height' : modelConfig.config2d.height + 'px'}"
-       src="{{modelConfig.image}}" />
+       src="{{modelConfig.image}}"  />
 </div>
-<div class="row">
+<div class="row" *ngIf="!viewMode">
 <button class="btn btn-outline-warning " type="submit" (click)="plusWH()">+</button>
 <button class="btn btn-outline-warning " type="submit" (click)="minusWH()">-</button>
 <button class="btn btn-outline-success " type="submit" (click)="centerF()">center</button>
-<p *ngIf="modelConfig.config2d.material" > material: {{ modelConfig.config2d.material.name}}</p>
+<p *ngIf="currentMaterial.name" > material: {{ currentMaterial.name}}</p>
 <p *ngIf="currentBag.name" > bagtype: {{ currentBag.name}}</p>
 <p *ngIf="inModelName">  mname: {{inModelName}}</p>
 </div>

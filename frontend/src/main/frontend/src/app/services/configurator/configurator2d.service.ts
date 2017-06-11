@@ -12,7 +12,7 @@ export class Configurator2dService {
   constructor() {
     this.config.image = "./images/2dtest1.jpg";
     this.config.config2d = new Config2d();
-    this.config.config2d.bagtype = new BagType();
+    //this.config.config2d.bagtype = new BagType();
   }
 
   getLocalConfig(){
@@ -28,7 +28,7 @@ export class Configurator2dService {
     this.config  = new ModelConfig();
     this.config.image = "./images/2dtest1.jpg";
     this.config.config2d = new Config2d();
-    this.config.config2d.bagtype = new BagType();
+    //this.config.config2d.bagtype = new BagType();
   }
 
   containData():boolean{

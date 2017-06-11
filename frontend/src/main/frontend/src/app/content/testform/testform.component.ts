@@ -60,15 +60,13 @@ export class TestformComponent implements OnInit{
          obj  = JsonConvert.deserializeString(jStr, ModelConfig );
         this.models[i].config = new ModelConfig();
         this.models[i].config.config2d = new Config2d();
-        this.models[i].config.config2d.bagtype = new BagType();
-        this.models[i].config.config2d.bagtype.script = new BagtypeConfig();
+        //this.models[i].config.config2d.bagtype = new BagType(); //BAGTYPE
+        //this.models[i].config.config2d.bagtype.script = new BagtypeConfig();
         this.models[i].config = obj;
       }
       console.log("MODELS load");
       console.log(this.models[0].config.config2d);
-      console.log(this.models[0].config.config2d.bagtype);
-
-      }
+    }
 
 
     ).catch((error) => {

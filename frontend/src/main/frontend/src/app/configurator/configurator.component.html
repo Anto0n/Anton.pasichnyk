@@ -2,9 +2,11 @@
 
 <div id="wrapper_container" class="col-lg-10" style="border: solid black 1px">
   <configurator-3d #config *ngIf="configuratorType == 3" [inModelName]="modelName" (onClearMname)="onClearMname($event)"></configurator-3d>
-  <configurator-2d #config *ngIf="configuratorType == 2" [inModelName]="modelName" [modelConfig]="modelConfig" (onClearMname)="onClearMname($event)"></configurator-2d>
+  <configurator-2d #config *ngIf="configuratorType == 2" [inModelName]="modelName" [modelConfig]="modelConfig" [viewMode] ="viewMode"
+                   [setMaterial] = "outMaterial" [currentBag]="outBag"
+                   (onClearMname)="onClearMname($event)" ></configurator-2d>
 
-  <div id="customizer">
+  <div id="customizer" *ngIf="!viewMode">
 
     <button class="btn btn-danger btn-outline-danger " (click)='configurator.resetModel()'>reset</button>
     <button class="btn btn-success btn-outline-success "  (click)='configurator.save(configurator.getModelConfig())'>save</button>

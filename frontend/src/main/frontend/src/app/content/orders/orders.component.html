@@ -16,7 +16,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let model of uModels"
-      [class.selected]="model === selectedModel" (click)="selectModelId = model.id">
+      [class.selected]="model === selectedModel" (click)="selectedModel = model">
     <!--<th scope="row">1</th>--> <!--(click)="onSelect(model)"-->
     <td>{{model.id}}</td>
     <td>{{model.userId}}</td>
@@ -25,7 +25,7 @@
     <td>{{model.approved}}</td>
     <td>
 
-      <button (click)="selectModelId = model.id">Select</button>
+      <button (click)="selectedModel = model">Select</button>
     </td>
     <td>
       <button *ngIf="model.approved==='NEW' " class="btn btn-danger"
@@ -46,7 +46,7 @@
   </tbody>
 </table>
 <hr>
-<configurator [selectModelId]="selectModelId"></configurator>
+<configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
 
 <div *ngFor="let model of moderModels">
   {{model.id}}, {{model.mname}}, {{model.approved}}, {{model.modelCreate}}
