@@ -25,7 +25,7 @@ const appRoutes: Routes = [
   {path: 'orders', component: OrdersComponent, canActivate: [AuthGuard]},
   {path: 'faqs', component: FAQsComponent},
   {path: 'contact', component: ContactComponent},
-  {path: 'test', component: TestComponent},
+  {path: 'configurator', component: TestComponent},
   {path: 'login', component: LoginComponent },
   {path: 'register', component: UserCreateComponent },
   {path: 'testform', component: TestformComponent},

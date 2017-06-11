@@ -6,18 +6,23 @@ import io.swagger.annotations.ApiModel;
 
 @ApiModel
 public class BagTypeDto {
+    private long id;
     private String name;
     private String script;
     private Integer price;
 
     @JsonCreator
-    public BagTypeDto(@JsonProperty("name") String name,
+    public BagTypeDto(@JsonProperty("id") long id,
+                      @JsonProperty("name") String name,
                       @JsonProperty("script") String script,
                       @JsonProperty("price") int price) {
+        this.id = id;
         this.name = name;
         this.script = script;
         this.price = price;
     }
+
+    public long getId() {  return id;  }
 
     public String getScript() {
         return script;
@@ -54,6 +59,7 @@ public class BagTypeDto {
     @Override
     public String toString() {
         return "BagTypeDto{" +
+                "id='" + id + '\'' +
                 "name='" + name + '\'' +
                 ", script='" + script + '\'' +
                 ", price=" + price +

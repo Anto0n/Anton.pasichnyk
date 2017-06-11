@@ -16,13 +16,17 @@
   </thead>
   <tbody>
   <tr *ngFor="let model of uModels"
-      [class.selected]="model === selectedModel">
+      [class.selected]="model === selectedModel" (click)="selectModelId = model.id">
     <!--<th scope="row">1</th>--> <!--(click)="onSelect(model)"-->
     <td>{{model.id}}</td>
     <td>{{model.userId}}</td>
     <td>{{model.bagTypeId}}</td>
     <td>{{model.mname}}</td>
     <td>{{model.approved}}</td>
+    <td>
+
+      <button (click)="selectModelId = model.id">Select</button>
+    </td>
     <td>
       <button *ngIf="model.approved==='NEW' " class="btn btn-danger"
               (click)=" deleteModel(model); $event.stopPropagation()"> del
@@ -38,15 +42,16 @@
       <button class="btn btn-success" (click)="addModelToBucket(newItem.value, model);  newItem.value=''">To bucket</button>
     <td>
   </tr>
+
   </tbody>
 </table>
 <hr>
-
+<configurator [selectModelId]="selectModelId"></configurator>
 
 <div *ngFor="let model of moderModels">
   {{model.id}}, {{model.mname}}, {{model.approved}}, {{model.modelCreate}}
 </div>
 
 
-<button class="btn btn-success" (click)=" createModel()"> create test model</button>
+<!--<button class="btn btn-success" (click)=" createModel()"> create test model</button>-->
 <!--<button (click)=" getModelsList()"> getModelsList - moderator</button>-->

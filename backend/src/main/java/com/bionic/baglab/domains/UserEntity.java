@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by username on 11.03.2017.
@@ -42,7 +43,7 @@ public class UserEntity {
     private Timestamp userUpdate;
 //    private byte deleted;
     private Collection<OrderEntity> orders;
-    //private Collection<ModelEntity> models;
+    private List<ModelEntity> models;
     public UserEntity() {
     }
 
@@ -81,6 +82,7 @@ public class UserEntity {
     public void setIdUser(long idUser) {
         this.idUser = idUser;
     }
+
 
     @Basic
     @Column(name = "[login]")
@@ -147,15 +149,15 @@ public class UserEntity {
         this.orders = orders;
     }
 
- /*   @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "userEntity")
     public Collection<ModelEntity> getModels() {
         return models;
     }
 
-    public void setModels(Collection<ModelEntity> models) {
+    public void setModels(List<ModelEntity> models) {
         this.models = models;
     }
-*/
+
     public void setRole(UserRole role) {
         this.role = role;
     }

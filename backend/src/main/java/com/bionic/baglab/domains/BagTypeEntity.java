@@ -2,7 +2,6 @@ package com.bionic.baglab.domains;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.sun.deploy.uitoolkit.impl.awt.AWTPluginUIToolkit;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,8 +28,11 @@ public class BagTypeEntity {
     @Column(name = "[deleted]", columnDefinition = "bit(1)")
     private boolean deleted = false;
 
-    @OneToMany(mappedBy = "bagType", orphanRemoval = true, cascade = {PERSIST, REMOVE, REFRESH, DETACH})
+    @OneToMany(mappedBy = "bagType", targetEntity = BagTypePriceEntity.class, orphanRemoval = true, cascade = {PERSIST, REMOVE, REFRESH, DETACH})
     private List<BagTypePriceEntity> prices =new ArrayList<>();
+
+    @OneToMany(mappedBy = "bagTypeEntity", targetEntity = ModelEntity.class )
+    private List<ModelEntity> modelEntities;
 
     protected BagTypeEntity() {}
 
@@ -38,6 +40,14 @@ public class BagTypeEntity {
         this.name = name;
         this.script = script;
         this.prices.add(new BagTypePriceEntity(this, price));
+    }
+
+    public List<ModelEntity> getModelEntities() {
+        return modelEntities;
+    }
+
+    public void setModelEntities(List<ModelEntity> modelEntities) {
+        this.modelEntities = modelEntities;
     }
 
     public long getId() {

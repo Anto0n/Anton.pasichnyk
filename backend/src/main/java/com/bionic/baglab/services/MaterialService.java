@@ -20,6 +20,13 @@ public class MaterialService {
     @Autowired
     private MaterialPriceDao materialPriceDao;
 
+    public List<MaterialEntity> findAllLight(){
+        List<MaterialEntity> list = materialDao.findExistent();
+        for (MaterialEntity materialEntity: list) {
+            materialEntity.setImage("");
+        }
+        return list;
+    }
 
     public List<MaterialEntity> findExistent() {
         return materialDao.findExistent();
@@ -44,20 +51,20 @@ public class MaterialService {
         material.getPriceEntities().add(materialPrice);
         savePrice(materialPrice);
 
-        return new MaterialDto(material.getName(), material.getLastPrice());
+        return new MaterialDto(material);
     }
 
 
     public List<MaterialDto> findExistentAsDto() {
         List<MaterialDto> existentDto = new ArrayList<>();
         for (MaterialEntity materialEntity : findExistent()) {
-            existentDto.add(new MaterialDto(materialEntity.getName(), materialEntity.getLastPrice()));
+            existentDto.add(new MaterialDto(materialEntity));
         }
         return existentDto;
     }
 
     public MaterialDto getDtoMaterial(MaterialEntity material) {
-        return new MaterialDto(material.getName(), material.getLastPrice());
+        return new MaterialDto(material);
     }
 
     public void deleteMaterial(long id) {

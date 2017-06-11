@@ -3,8 +3,8 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.dao.ModelDao;
 import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.JResponse;
-import com.bionic.baglab.dto.ModelDto;
-import com.bionic.baglab.dto.ModelDtoCreate;
+import com.bionic.baglab.dto.model.ModelDto;
+import com.bionic.baglab.dto.model.ModelDtoCreate;
 import com.bionic.baglab.dto.enums.ModelStatusEnum;
 import com.bionic.baglab.services.ModelService;
 import com.bionic.baglab.services.OrderService;
@@ -19,12 +19,23 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/models")
 public class ModelController {
+
     @Autowired
     private ModelDao modelDao;
     @Autowired
     private ModelService modelService;
     @Autowired
     private OrderService orderService;
+
+    @GetMapping(value = "/{modelId}")
+    public ModelDto getOne(@PathVariable("modelId") long modelId){
+        return modelService.findOneDto(modelId);
+    }
+
+    @GetMapping(value = "/config/{modelId}")
+    public String getOneConfig(@PathVariable("modelId") long modelId){
+        return modelService.findOneConfig(modelId);
+    }
 
     @RequestMapping(value = "/{modelId}/delete", method = RequestMethod.GET) //TODO change to POST method
     public ResponseEntity<?> delete(@PathVariable("modelId") long modelId) {
@@ -51,13 +62,6 @@ public class ModelController {
         return new ResponseEntity<>(new JResponse(), HttpStatus.OK);
     }
 
-   /* @PutMapping(value = "/aprtrue/{modelId}")
-    public ResponseEntity<Void> setModelApprovedTrue(@PathVariable("modelId") long modelId) {
-        boolean approved = true;
-        modelService.setModelApproved(modelId, approved);
-        return new ResponseEntity<>(HttpStatus.OK);
-
-    }*/
 
     @GetMapping(value = "/list")
     public ResponseEntity<List<ModelDto>> findAllModels() {

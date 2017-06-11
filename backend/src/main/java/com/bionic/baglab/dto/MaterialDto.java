@@ -1,19 +1,30 @@
 package com.bionic.baglab.dto;
 
+import com.bionic.baglab.domains.MaterialEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 
 @ApiModel
 public class MaterialDto {
-
+    private long id;
     private final String name;
     private final int price;
+    private String image;
 
     @JsonCreator
-    public MaterialDto(@JsonProperty("name") String name, @JsonProperty("price") int price) {
+    public MaterialDto(@JsonProperty("id") long id, @JsonProperty("name") String name, @JsonProperty("price") int price, @JsonProperty("image") String image) {
+        this.id = id;
         this.name = name;
         this.price = price;
+        this.image = image;
+    }
+
+    public MaterialDto(MaterialEntity materialEntity){
+        this.id=materialEntity.getId();
+        this.name=materialEntity.getName();
+        this.price=materialEntity.getLastPrice();
+        this.image=materialEntity.getImage();
     }
 
     public String getName() {
@@ -22,6 +33,12 @@ public class MaterialDto {
 
     public int getPrice() {
         return price;
+    }
+
+    public long getId() {return id; }
+
+    public String getImage() {
+        return image;
     }
 
     @Override
@@ -45,6 +62,7 @@ public class MaterialDto {
     @Override
     public String toString() {
         return "MaterialDto{" +
+                "id='" + id + '\'' +
                 "name='" + name + '\'' +
                 ", price=" + price +
                 '}';

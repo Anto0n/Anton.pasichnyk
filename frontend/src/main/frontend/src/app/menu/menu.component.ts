@@ -5,7 +5,7 @@ import {UserRoleService} from "../services/user/user-role.service";
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  // styleUrls: ['./menu.component.css']
 })
 
 export class MenuComponent implements OnInit, OnDestroy {
@@ -41,7 +41,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           new Route("home", "HOME"),
           new Route("products", "PRODUCTS"),
           new Route("orders", "ORDERS"),
-          new Route("test", "THEBAGLAB"),
+          new Route("configurator", "THEBAGLAB"),
           new Route("testform", "TEST FORM"),
           new Route("faqs", "FAQ's"),
           new Route("contact", "CONTACT")
@@ -74,7 +74,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           new Route("orders", "ORDERS"),
           new Route("moderator", "MODERATOR"),
           new Route("factory", "FACTORY"),
-          new Route("test", "THEBAGLAB"),
+          new Route("configurator", "THEBAGLAB"),
           new Route("testform", "TEST FORM"),
           new Route("faqs", "FAQ's"),
           new Route("contact", "CONTACT")
@@ -85,8 +85,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.urls = [
           new Route("home", "HOME"),
           new Route("products", "PRODUCTS"),
-          new Route("test", "THEBAGLAB"),
-          new Route("testform", "T FORM"),
+          new Route("configurator", "THEBAGLAB"),
           new Route("faqs", "FAQ's"),
           new Route("contact", "CONTACT")
         ];
@@ -97,8 +96,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           new Route("home", "HOME"),
           new Route("products", "PRODUCTS"),
           new Route("orders", "ORDERS"),
-          new Route("test", "THEBAGLAB"),
-          new Route("testform", "TEST FORM"),
+          new Route("configurator", "THEBAGLAB"),
           new Route("faqs", "FAQ's"),
           new Route("contact", "CONTACT")
         ];

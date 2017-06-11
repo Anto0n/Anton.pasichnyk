@@ -23,13 +23,17 @@ insert into baglab.order_status (code, description) values ('PROCESSING', 'order
 insert into baglab.order_status (code, description) values ('DENIED', 'order is denied by moderator');
 insert into baglab.order_status (code, description) values ('SEND', 'order is shipped from factory');
 
-insert into baglab.material (name) values ('cotton');
-insert into baglab.material (name) values ('jeans');
-insert into baglab.material (name) values ('leather');
+insert into baglab.material (name, image) values ('cotton-blue', 'cotton_2048_blue.jpg');
+insert into baglab.material (name, image) values ('cotton-green', 'cotton_2048_green.jpg');
+insert into baglab.material (name, image) values ('cotton-yellow', 'cotton_2048_yellow.jpg');
+insert into baglab.material (name, image) values ('jeans-blue', 'jeans_2048_blue.jpg');
+insert into baglab.material (name, image) values ('jeans-green', 'jeans_2048_green.jpg');
+insert into baglab.material (name, image) values ('jeans-yellow', 'jeans_2048_yellow.jpg');
+insert into baglab.material (name, image) values ('leather', 'leather_2048.jpg');
 
-INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('<asd></asd>', 'Simle bag');
-INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('asd sd', 'Bag pojo');
-INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('script asd1s23', 'Extra bag');
+INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase1.png"}', 'Simle bag');
+INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('{"imgsrc" : "./images/2dbase/2dBase2.png"}', 'Bag pojo');
+INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase3.png"}', 'Extra bag');
 
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('admin@gmail','$2a$10$fUW27BBTeUySsBH3YS//gOtjGVKgKyXbh0RvdJ.hx4jF13l6azJGC','admin@gmail',  'Ivan', 'Onobrenko',1);
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('anna@gm','$2a$10$YYDV6kBqUN8LUYO6wuuDhus9cNjx.RhfTxc.hLgB6/t/H4klAYOYO', 'anna@gm',  'John', 'Doe', 2);
@@ -51,10 +55,10 @@ insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,2);
 insert into baglab.order (userId, orderStatusId) VALUES (3,3);
 
-insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (1, 1, 1, 'model_1');
-insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (1, 2, 1, 'model_2');
-insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (2, 3, 2, 'model_3');
-insert into baglab.model (userId, bagTypeId, materialId, mname) VALUES (2, 2, 2, 'model_4');
+insert into baglab.model (userId, bagTypeId, materialId, mname, config) VALUES (1, 1, 1, 'model_1', '{"image":"./images/2dtest1.jpg","rgb":[],"config2d":{"topPos":262.43602270507813,"leftPos":153.13653408813474,"width":200,"height":200,"bagtype":{"id":2,"name":"Bag pojo","script":{"imgsrc":"./images/2dbase/2dBase2.png"},"price":56},"material":{"id":2,"name":"jeans","price":478}}}');
+insert into baglab.model (userId, bagTypeId, materialId, mname, config) VALUES (1, 2, 1, 'model_2', '{"image":"./images/2dtest1.jpg","rgb":[],"config2d":{"topPos":262.43602270507813,"leftPos":153.13653408813474,"width":200,"height":200,"bagtype":{"id":2,"name":"Bag pojo","script":{"imgsrc":"./images/2dbase/2dBase2.png"},"price":56},"material":{"id":2,"name":"jeans","price":478}}}');
+insert into baglab.model (userId, bagTypeId, materialId, mname, config) VALUES (2, 3, 2, 'model_3', '{"image":"./images/2dtest1.jpg","rgb":[],"config2d":{"topPos":262.43602270507813,"leftPos":153.13653408813474,"width":200,"height":200,"bagtype":{"id":2,"name":"Bag pojo","script":{"imgsrc":"./images/2dbase/2dBase2.png"},"price":56},"material":{"id":2,"name":"jeans","price":478}}}');
+insert into baglab.model (userId, bagTypeId, materialId, mname, config) VALUES (2, 2, 2, 'model_4','{"image":"./images/2dtest1.jpg","rgb":[],"config2d":{"topPos":262.43602270507813,"leftPos":153.13653408813474,"width":200,"height":200,"bagtype":{"id":2,"name":"Bag pojo","script":{"imgsrc":"./images/2dbase/2dBase2.png"},"price":56},"material":{"id":2,"name":"jeans","price":478}}}');
 
 INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '1', '21', '243');
 INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '2', '123', '235');
@@ -320,16 +324,16 @@ insert into baglab.shipping_adress (contactName, countryId, street, apartment, s
 insert into baglab.shipping_adress (contactName, countryId, street, apartment, state, city, zipcode, mobile, userId) values ('John Doe',135,'Main Avenu','3','Alabama', 'Calera','AL 35040','+1 205-668-0402', 2);
 
 #-------------------------
-insert into baglab.material_price(materialId, date, price) values (1,NOW(), 1778);
-insert into baglab.material_price(materialId, date, price) values (3,NOW(), 2778);
-insert into baglab.material_price(materialId, date, price) values (1,NOW(), 3778);
-insert into baglab.material_price(materialId, date, price) values (2,NOW(), 4778);
+insert into baglab.material_price(materialId, date, price) values (1,NOW(), 178);
+insert into baglab.material_price(materialId, date, price) values (3,NOW(), 278);
+insert into baglab.material_price(materialId, date, price) values (1,NOW(), 378);
+insert into baglab.material_price(materialId, date, price) values (2,NOW(), 478);
 
 #-------------------------
-insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 778);
-insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 778);
-insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 778);
-insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 778);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 25);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (2,NOW(), 56);
+insert into baglab.bag_type_price(bag_type_id, date, price) values (3,NOW(), 34);
+
 
 #-------------------------
 insert into baglab.pages_type (type) VALUES ('ACTIVE');

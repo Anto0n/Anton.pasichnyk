@@ -44,6 +44,13 @@ import { CardMenuComponent } from './content/orders/card-menu.component';
 import {CardOrderService} from "./services/order/card-order.service";
 import { CardViewComponent } from './content/orders/card-view.component';
 import {ImageUploadModule} from "angular2-image-upload";
+import {Configurator3DComponent} from "app/configurator/3DConfigurator/configurator3d.component";
+import {Configurator2DComponent} from "./configurator/2DConfigurator/configurator2d.component";
+import {Configurator2dService} from "./services/configurator/configurator2d.service";
+import {DragDropComponent} from "./configurator/2DConfigurator/temp/dragdrop.component";
+import {View2dComponent} from "./configurator/view/2dview.component";
+
+
 
 @NgModule({
   declarations: [
@@ -67,8 +74,11 @@ import {ImageUploadModule} from "angular2-image-upload";
     PageNotFoundComponent,
     CreateNewsComponent,
     CardMenuComponent,
-    CardViewComponent
-
+    CardViewComponent,
+    Configurator3DComponent,
+    Configurator2DComponent,
+    DragDropComponent,
+    View2dComponent
   ],
   imports: [
     NgbModule.forRoot(),
@@ -83,7 +93,7 @@ import {ImageUploadModule} from "angular2-image-upload";
     ReactiveFormsModule
   ],
   providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService,
-    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService, CardOrderService ],
+    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService, CardOrderService, Configurator2dService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

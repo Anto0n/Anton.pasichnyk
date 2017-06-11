@@ -11,14 +11,16 @@ import java.sql.Timestamp;
 @Table(name = "[model]", schema = "baglab")
 public class ModelEntity {
     private long idModel;
-    private long userId;
-    private long bagTypeId;
-    private long materialId;
+    private UserEntity userEntity;
+    private BagTypeEntity bagTypeEntity;
+    private MaterialEntity materialEntity;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
     private boolean deleted;
     private ModelStatusEnum approved;
     private String mname;
+    private String config;
+
 
     public ModelEntity(long idModel) {
         this.idModel = idModel;
@@ -33,40 +35,49 @@ public class ModelEntity {
         return idModel;
     }
 
-
     public void setIdModel(long idModel) {
         this.idModel = idModel;
     }
 
-    @Basic
-    @Column(name = "[userId]")
-    public long getUserId() {
-        return userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "[userId]")
+    public UserEntity getUserEntity() {
+        return userEntity;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
     }
 
-    @Basic
-    @Column(name = "[bagTypeId]")
-    public long getBagTypeId() {
-        return bagTypeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="[bagTypeId]")
+    public BagTypeEntity getBagTypeEntity() {
+        return bagTypeEntity;
     }
 
-    public void setBagTypeId(long bagTypeId) {
-        this.bagTypeId = bagTypeId;
+    public void setBagTypeEntity(BagTypeEntity bagTypeEntity) {
+        this.bagTypeEntity = bagTypeEntity;
     }
 
-    @Basic
-    @Column(name = "[materialId]")
-    public long getMaterialId() {
-        return materialId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="[materialId]")
+    public MaterialEntity getMaterialEntity() {
+        return materialEntity;
     }
 
-    public void setMaterialId(long materialId) {
-        this.materialId = materialId;
+    public void setMaterialEntity(MaterialEntity materialEntity) {
+        this.materialEntity = materialEntity;
     }
+
+    @Column(name = "[config]", columnDefinition="MEDIUMTEXT")
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
+    }
+
 
     @Basic
     @Column(name = "[modelCreate]")

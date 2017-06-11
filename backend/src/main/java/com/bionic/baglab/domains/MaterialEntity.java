@@ -17,20 +17,35 @@ public class MaterialEntity {
     @Column(name = "idmaterial")
     private long id;
 
+    @Column(name = "[image]", columnDefinition="MEDIUMTEXT")
+    private String image;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "deleted", columnDefinition = "bit(1)")
     private boolean deleted = false;
 
-    @OneToMany(mappedBy = "material", orphanRemoval = true, cascade = {PERSIST, REMOVE, REFRESH, DETACH})
+    @OneToMany(mappedBy = "material", targetEntity = MaterialPriceEntity.class, orphanRemoval = true, cascade = {PERSIST, REMOVE, REFRESH, DETACH})
     private List<MaterialPriceEntity> prices = new ArrayList<>();
+
+    @OneToMany(mappedBy = "materialEntity", targetEntity = ModelEntity.class)
+    private List<ModelEntity> modelEntities;
 
     protected MaterialEntity() {}
 
     public MaterialEntity(String name, int price) {
         this.name = name;
         this.prices.add(new MaterialPriceEntity(this, price));
+    }
+
+
+    public List<ModelEntity> getModelEntities() {
+        return modelEntities;
+    }
+
+    public void setModelEntities(List<ModelEntity> modelEntities) {
+        this.modelEntities = modelEntities;
     }
 
     public long getId() {
@@ -47,6 +62,34 @@ public class MaterialEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public List<MaterialPriceEntity> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<MaterialPriceEntity> prices) {
+        this.prices = prices;
     }
 
     @JsonIgnore

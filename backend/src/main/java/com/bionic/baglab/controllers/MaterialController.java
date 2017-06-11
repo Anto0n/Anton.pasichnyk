@@ -11,10 +11,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Base64;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("material")
+@RequestMapping("/api/material")
 public class MaterialController {
 
     private final MaterialService materialService;
@@ -64,5 +71,23 @@ public class MaterialController {
     @GetMapping(value = "/palette")
     public List<PaletteEntity> getPalette() {
         return paletteService.findAll();
+    }
+
+    @GetMapping(value = "/list/light")
+    public List<MaterialDto> getLightList() {
+        return materialService.findAllLight().stream().map(MaterialDto::new).collect(Collectors.toList());
+    }
+    @GetMapping(value = "/base64/{name}")
+    public String getPathToMaterials(@PathVariable(value = "name") String name) {
+        String separator = "/";
+        final String META_DATA_JPG = "data:image/jpg;base64,";
+        String filePath = getClass().getClassLoader().getResource("static").getPath() + separator + "materials"+ separator+name+".jpg";
+        try {
+            byte[] byteArray = Files.readAllBytes(new File(filePath.substring(1).replace("%20"," ")).toPath());
+            return META_DATA_JPG + Base64.getEncoder().encodeToString(byteArray);
+        }catch (IOException e){
+            e.printStackTrace();
+            return "404";
+        }
     }
 }
