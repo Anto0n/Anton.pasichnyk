@@ -31,7 +31,7 @@ export class ConfiguratorComponent implements OnInit {
   @Input()
   viewMode: boolean = false;
 
-  @Input() set selectModelToConfig(model: IModel) { // for view mode only
+  @Input() set selectModelToConfig(model: IModel) { // for view mode only SELECT bagType, Material, and model config by click
     if (this.viewMode && model && model.id ) {
       console.log(model.id);
       this.modelId = model.id;
