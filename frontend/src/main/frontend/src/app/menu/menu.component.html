@@ -21,9 +21,9 @@
     <button class="navbar-toggler navbar-toggler-right" type="button" (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">
       &#9776;
     </button>
-    <div [ngbCollapse]="isNavbarCollapsed" class="collapse" id="navbarToggleExternalContent">
+    <div [ngbCollapse]="isNavbarCollapsed" class="collapse" id="navbarToggleExternalContent" style="text-align: center; margin: auto; font-size:1.1rem; padding-top: 10px; padding-bottom: 10px;">
       <ul class="nav navbar-nav">
-          <li class="nav-item" *ngFor="let url of urls"><a class="nav-link" [routerLink]="[url.url]">{{url.value}}</a></li>
+          <li class="nav-item" *ngFor="let url of urls" style="margin-right: 10px; margin-left: 10px;"><a class="nav-link" [routerLink]="[url.url]">{{url.value}}</a></li>
       </ul>
     </div>
   </nav>

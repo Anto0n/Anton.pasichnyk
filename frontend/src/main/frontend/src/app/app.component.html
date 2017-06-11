@@ -5,8 +5,7 @@
    </div>-->
   <div class="topBar">
     <img src="./assets/logo_bl.bmp">
-    <br>
-    <div  class="container-fluid" style="float:right;">
+    <div  class="container-fluid" style="float:right; margin: 10px;">
       <button *ngIf="!isAuth()" class="btn btn-outline-success" ><a class="nav-link active"  [routerLink]="['register']">Sign Up</a></button>
       <button *ngIf="!isAuth()" class="btn btn-outline-success" ><a class="nav-link active"  [routerLink]="['login']">LogIn</a></button>
     </div>

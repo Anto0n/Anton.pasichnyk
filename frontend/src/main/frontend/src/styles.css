@@ -286,9 +286,9 @@ html {
   box-sizing: inherit
 }
 
-@-ms-viewport {
-  width: device-width
-}
+/*@-ms-viewport {*/
+  /*width: device-width*/
+/*}*/
 
 html {
   -ms-overflow-style: scrollbar;
@@ -3858,7 +3858,7 @@ tbody.collapse.show {
 
 .nav-link {
   display: block;
-  padding: .5em 1em
+
 }
 
 .nav-link:focus, .nav-link:hover {
@@ -4452,7 +4452,8 @@ tbody.collapse.show {
   flex-direction: column;
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, .125);
-  border-radius: .25rem
+  border-radius: .25rem;
+  margin-top: 1.8rem;
 }
 
 .card-block {
@@ -5845,7 +5846,10 @@ button.close {
 }
 
 .carousel {
-  position: relative
+  position: inherit;
+  text-align: left;
+  margin: auto;
+  padding-left: 1rem;
 }
 
 .carousel-inner {
@@ -6084,7 +6088,7 @@ button.close {
 }
 
 .bg-faded {
-  background-color: #f7f7f7
+  background-color: #ffffff
 }
 
 .bg-primary {
