@@ -19,6 +19,11 @@ export class RestService {
       .map(res => res.json())
       .catch(this.handleError);
   }
+  getDataAny(restPath: string, param?: string): Observable<any> {
+    return this.http.get(restPath + (param ? param : ''),   {headers: this.headers})
+      .map(res => res.text())
+      .catch(this.handleError);
+  }
 
   postJson(url: string, data: any): Observable<Response> {
     return this.http.post(

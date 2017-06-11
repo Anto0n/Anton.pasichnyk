@@ -20,7 +20,7 @@ export class ConfiguratorComponent implements OnInit{
   @ViewChild('config')
   configurator: IConfigurator;
 
-  private materials: BagMaterial;
+  private materials: BagMaterial [] = [];
   private begtypes: BagType;
 
   private configuratorType: ConfiguratorType = ConfiguratorType.D2;

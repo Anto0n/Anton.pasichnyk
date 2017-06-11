@@ -2,23 +2,6 @@ import {BagMaterial, BagType} from "./model";
 import { JsonObject, JsonProperty } from "json2typescript";
 
 @JsonObject
-export class ModelConfig{
-  @JsonProperty("image" , String)
-  image: string = undefined;
-
-  @JsonProperty("rgb" , [String])
-  rgb: string[] = undefined;
-
-  @JsonProperty("config2d", Config2d)
-  config2d : Config2d = undefined;
-
-/*  constructor(image: string, rgb: string[]) { //constructors not allowd in jsno2obj
-    this.image = image;
-    this.rgb = rgb;
-  }*/
-}
-
-@JsonObject
 export class Config2d{
   @JsonProperty("topPos",Number)
   topPos : number = 0;
@@ -40,10 +23,34 @@ export class Config2d{
 }
 
 
+@JsonObject
+export class Config3d{
 
+  @JsonProperty("material",BagMaterial) //only for local -temp usage
+  material: BagMaterial;
+
+}
 
 
 /**
  * Created by Potaychuk Sviatoslav on 26.05.2017.
  * image - img url
  */
+
+
+@JsonObject
+export class ModelConfig{
+  @JsonProperty("image" , String)
+  image: string = undefined;
+
+  @JsonProperty("config2d", Config2d)
+  config2d : Config2d = undefined;
+
+  @JsonProperty("config3d", Config3d)
+  config3d : Config3d = undefined;
+/*  constructor(image: string, rgb: string[]) { //constructors not allowd in jsno2obj
+    this.image = image;
+    this.rgb = rgb;
+  }*/
+}
+

@@ -11,7 +11,6 @@ export class Configurator2dService {
 
   constructor() {
     this.config.image = "./images/2dtest1.jpg";
-    this.config.rgb = [];
     this.config.config2d = new Config2d();
     this.config.config2d.bagtype = new BagType();
   }

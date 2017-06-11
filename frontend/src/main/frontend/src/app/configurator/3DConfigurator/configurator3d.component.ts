@@ -15,6 +15,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   @Input() private inModelName : string;
   @Output() onClearMname = new EventEmitter<string>();
   private modelConfig: ModelConfig;
+  private pathToMaterials: string;
   private jsonString: any;
   private appName: string = "conf_app";
   private sceneName: string = './assets/testConf/Bag_conf.json';
@@ -181,6 +182,24 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
         }
       }
 
+      exports.chooseMatrial = function (material:string){
+        let object = m_scenes.get_object_by_name("bag_front");
+        let object_body = m_scenes.get_object_by_name("bag_body");
+        let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
+        let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
+        let img = new Image();
+        console.log('drawing');
+        img.src = material;
+
+        img.onload = function() {
+
+          rendering_ctx.drawImage(img, 0, 0, rendering_ctx.canvas.width, rendering_ctx.canvas.height);
+          m_tex.update_canvas_ctx(object, "bag_front_text_img");
+          ctx_image_body.drawImage(img, 0, 0, ctx_image_body.canvas.width, ctx_image_body.canvas.height);
+          m_tex.update_canvas_ctx(object_body, "bag_body_text_img");
+        }
+      }
+
       exports.setImgColor = function (r: number, g: number, b: number) {
 
         let cube = m_scenes.get_object_by_name("pakr_body_001");
@@ -209,7 +228,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   }
 
   resetModel(){
-    this.modelConfig.rgb=['0.5','0.5', '0.5'];
     b4w.require(this.appName).resetImgColor();
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
@@ -217,7 +235,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   save(modelConfig: ModelConfig) {
     let app = b4w.require(this.appName);
     modelConfig.image="./images/2dtest1.jpg";
-    modelConfig.rgb=['1', '2', '3'];
     modelConfig.config2d = new Config2d();
     console.log(modelConfig);
     let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +this.userRoleService.getUserId(), JSON.stringify(modelConfig));
@@ -230,7 +247,6 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   setColor(r: string, g: string, b: string) {
     console.log(r, g, b);
-    this.modelConfig.rgb = [r, g, b];
     b4w.require(this.appName).setImgColor(r, g, b);
 
   }
@@ -250,7 +266,17 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   }
 
   selectMaterial(material: BagMaterial) {
-    console.log("method not implemented. material name - " + material.name)
+    console.log("method not implemented. material name - " + material.name+"  "+ material.image);
+    this.restService.getDataAny('/api/material/base64/'+material.image).subscribe(
+      (data: any) => {
+        console.log("-------------");
+        console.log("data");
+        console.log("-------------");
+        this.pathToMaterials=data;
+        console.log( "this.pathToMaterials");
+        b4w.require(this.appName).chooseMatrial(this.pathToMaterials);
+      }, () => console.log('err'));
+
   }
 
   selectBagType(bagtype : BagType){

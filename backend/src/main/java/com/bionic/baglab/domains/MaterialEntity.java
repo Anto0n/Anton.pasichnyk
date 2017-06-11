@@ -17,6 +17,9 @@ public class MaterialEntity {
     @Column(name = "idmaterial")
     private long id;
 
+    @Column(name = "[image]", columnDefinition="MEDIUMTEXT")
+    private String image;
+
     @Column(name = "name")
     private String name;
 
@@ -59,6 +62,34 @@ public class MaterialEntity {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public List<MaterialPriceEntity> getPrices() {
+        return prices;
+    }
+
+    public void setPrices(List<MaterialPriceEntity> prices) {
+        this.prices = prices;
     }
 
     @JsonIgnore

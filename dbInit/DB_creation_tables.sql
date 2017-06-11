@@ -48,6 +48,7 @@ DROP TABLE IF EXISTS `baglab`.`material` ;
 CREATE TABLE IF NOT EXISTS `baglab`.`material` (
   `idmaterial` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `image` MEDIUMTEXT,
   `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
   PRIMARY KEY (`idmaterial`))
   ENGINE = InnoDB
