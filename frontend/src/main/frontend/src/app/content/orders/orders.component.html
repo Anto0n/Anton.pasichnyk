@@ -16,7 +16,7 @@
   </thead>
   <tbody>
   <tr *ngFor="let model of uModels"
-      [class.selected]="model === selectedModel">
+      [class.selected]="model === selectedModel" (click)="selectModelId = model.id">
     <!--<th scope="row">1</th>--> <!--(click)="onSelect(model)"-->
     <td>{{model.id}}</td>
     <td>{{model.userId}}</td>
@@ -42,11 +42,11 @@
       <button class="btn btn-success" (click)="addModelToBucket(newItem.value, model);  newItem.value=''">To bucket</button>
     <td>
   </tr>
-  <configurator [selectModelId]="selectModelId"></configurator>
+
   </tbody>
 </table>
 <hr>
-
+<configurator [selectModelId]="selectModelId"></configurator>
 
 <div *ngFor="let model of moderModels">
   {{model.id}}, {{model.mname}}, {{model.approved}}, {{model.modelCreate}}

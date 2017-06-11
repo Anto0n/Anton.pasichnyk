@@ -1,4 +1,4 @@
-package com.bionic.baglab.dto;
+package com.bionic.baglab.dto.model;
 
 import com.bionic.baglab.domains.ModelEntity;
 
