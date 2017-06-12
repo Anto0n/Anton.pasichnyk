@@ -5,7 +5,7 @@ import {UserRoleService} from "../../services/user/user-role.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
-import {OrderResp} from "../../models/order";
+import {mItems, OrderResp} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
 
 @Component({
@@ -17,8 +17,11 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
    selectedModel:IModel;
+  private myOrders : OrderResp[];
   private subsOrderResp: Subscription;
   private currentOrder : OrderResp = new OrderResp();
+  ShowView = ShowView; // allow to use enum in template
+  private showWhat : ShowView = ShowView.MODELS; //models first
 
 
   selectModelId: number;
@@ -47,7 +50,42 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
       this.currentOrder = orderResp;
     });
+    this.reloadMyOrdersList();
   }
+
+  showModels(){
+    this.showWhat = ShowView.MODELS;
+    this.getModelsByUserId();
+  }
+
+  showOrders(){
+    this.showWhat = ShowView.ORDERS;
+    this.reloadMyOrdersList();
+    //refresh orders ent
+  }
+
+  showModelsInOrder(ord : OrderResp){
+    this.showWhat = ShowView.MODELS_IN_ORDER;
+    this.uModels = [];  //clean arr
+    for (let it  of ord.items){
+      this.uModels.push(it.model);
+    }
+  }
+
+  reloadMyOrdersList(){
+    let id = this.roleService.getUserId();
+    this.restService.getData('./api/order/findall' + `/${id}`).subscribe(
+      (data: OrderResp[]) => {
+        this.myOrders = data;
+        this.myOrders =  this.myOrders.sort((a, b): number => {   //sor array by
+          if (a.status.code < b.status.code) return 1;
+          if (a.status.code > b.status.code) return -1;
+          return 0;
+        })
+      }, () => console.log('err')
+    );
+  }
+
 
   private getModelsByUserId() {
     this.uId = this.roleService.getUserId();
@@ -119,6 +157,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
 }
 
-
+export enum ShowView{
+  MODELS, ORDERS, MODELS_IN_ORDER
+}
 
 

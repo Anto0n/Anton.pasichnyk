@@ -1,57 +1,103 @@
-<h1>Orders</h1>
+<button class="btn btn-primary" (click)="showOrders()">My orders</button>
+<button class="btn btn-primary" (click)="showModels()">My models</button>
 
-<table class="table table-sm table-striped
+
+<div class="row">
+  <div class="col-md-12" *ngIf="showWhat === ShowView.ORDERS ">
+    <div class="table-responsive">
+      <h1>My orders</h1>
+      <table class="table table-sm table-striped
+ table-bordered table-cart">
+        <tbody>
+        <tr>
+          <td class="font-weight-bold">ID</td>
+          <td class="font-weight-bold">Status</td>
+          <td class="font-weight-bold">Count</td>
+          <td class="font-weight-bold">total price</td>
+        </tr>
+        <tr *ngFor="let order of myOrders">
+          <td>{{order.idOrder}}</td>
+          <td>{{order.status.code}}</td>
+          <td>{{order.items?.length}}</td>
+          <!--  <td>
+               <input type="number"
+                      name="{{item.product.id}}" min="1"
+                      [ngModel]="item.count"
+                      (ngModelChange)="item.count = update($event, item)">
+             </td>-->
+          <td>{{order.sumPrice |
+            currency:'USD':true:'1.2-2'}}
+          </td>
+          <td> <button class="btn-outline-info" (click)="showModelsInOrder(order)" > view </button></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="col-md-12" *ngIf="showWhat == ShowView.MODELS || showWhat === ShowView.MODELS_IN_ORDER">
+    <h1 *ngIf="showWhat == ShowView.MODELS ">My models</h1>
+    <div class="table-responsive">
+      <table class="table table-sm table-striped
        table-bordered ">
-  <thead>
-  <tr>
-    <th >id</th>
-    <th>user id</th>
-    <th>Bag type id</th>
-    <th>model name</th>
-    <th>status</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let model of uModels"
-      [class.selected]="model === selectedModel" (click)="selectedModel = model">
-    <!--<th scope="row">1</th>--> <!--(click)="onSelect(model)"-->
-    <td>{{model.id}}</td>
-    <td>{{model.userId}}</td>
-    <td>{{model.bagTypeId}}</td>
-    <td>{{model.mname}}</td>
-    <td>{{model.approved}}</td>
-    <td>
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>user id</th>
+          <th>Bag type id</th>
+          <th>model name</th>
+          <th>status</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let model of uModels"
+            [class.selected]="model === selectedModel" (click)="selectedModel = model">
+          <!--<th scope="row">1</th>--> <!--(click)="onSelect(model)"-->
+          <td class="col-md-auto">{{model.id}}</td>
+          <td class="col-md-auto">{{model.userId}}</td>
+          <td class="col-md-auto">{{model.bagTypeId}}</td>
+          <td class="col-md-auto">{{model.mname}}</td>
+          <td class="col-md-auto">{{model.approved}}</td>
+          <td class="col-md-auto">
 
-      <button (click)="selectedModel = model">Select</button>
-    </td>
-    <td>
-      <button *ngIf="model.approved==='NEW' " class="btn btn-danger"
-              (click)=" deleteModel(model); $event.stopPropagation()"> del
-      </button>
-    </td>
-    <!--quantity-->
-    <td style="width:5%">
-      <input #newItem (keyup.enter)="addModelToBucket(newItem.value, model);  newItem.value=''"
-             type="number" min="1"/>
-    </td>
+            <button (click)="selectedModel = model">Select</button>
+          </td>
+          <td class="col-md-auto">
+            <button *ngIf="model.approved==='NEW' " class="btn btn-danger"
+                    (click)=" deleteModel(model); $event.stopPropagation()"> del
+            </button>
+          </td>
+          <!--quantity-->
+          <td class="col-md-auto">
+            <input class="cell" #newItem (keyup.enter)="addModelToBucket(newItem.value, model);  newItem.value=''"
+                   type="number" min="1"/>
+          </td>
+          <td class="col-md-auto">
+            <button class="btn btn-success" (click)="addModelToBucket(newItem.value, model);  newItem.value=''">To
+              bucket
+            </button>
+          <td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-    <td>
-      <button class="btn btn-success" (click)="addModelToBucket(newItem.value, model);  newItem.value=''">To bucket</button>
-    <td>
-  </tr>
+  <div>
+    <hr>
+    <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+  </div>
 
-  </tbody>
-</table>
-<hr>
-<configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
-
-<div *ngFor="let model of moderModels">
-  {{model.id}}, {{model.mname}}, {{model.approved}}, {{model.modelCreate}}
 </div>
+
 
 
 <!--<button class="btn btn-success" (click)=" createModel()"> create test model</button>-->
 <!--<button (click)=" getModelsList()"> getModelsList - moderator</button>-->
+<!--
+  <div *ngFor="let model of moderModels">
+    {{model.id}}, {{model.mname}}, {{model.approved}}, {{model.modelCreate}}
+  </div>-->

@@ -4,7 +4,8 @@
 
   <div class="row">
     <div class="col-md-9" *ngIf="!showEditOrder">
-      <h3> MODELS </h3>
+      <br>
+      <h3> Models </h3>
 
       <button class="btn btn-outline-info" (click)="getModelsByApproved('0')"> NEW</button>
       <button class="btn btn-outline-success" (click)="getModelsByApproved('1')"> APPROVED</button>
@@ -13,23 +14,23 @@
       <table class="table table-striped">
         <thead>
         <tr>
-          <th>id</th>
-          <th>user id</th>
-          <th>Bag type id</th>
-          <th>model name</th>
-          <th>status</th>
-          <th></th>
+          <td>id</td>
+          <td>user id</td>
+          <td>Bag type id</td>
+          <td>model name</td>
+          <td>status</td>
+          <td></td>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let model of uModels" (click)="onSelect(model)"
             [class.selected]="model === selectedModel">
           <!--<th scope="row">1</th>-->
-          <td>{{model.id}}</td>
-          <td>{{model.userId}}</td>
-          <td>{{model.bagTypeId}}</td>
-          <td>{{model.mname}}</td>
-          <td>{{model.approved}}</td>
+          <td class="font-weight-bold">{{model.id}}</td>
+          <td class="font-weight-bold">{{model.userId}}</td>
+          <td class="font-weight-bold">{{model.bagTypeId}}</td>
+          <td class="font-weight-bold">{{model.mname}}</td>
+          <td class="font-weight-bold">{{model.approved}}</td>
           <td>
             <button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-success"
                     (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE
@@ -58,31 +59,31 @@
  table-bordered table-cart">
           <tbody>
           <tr>
-            <td class="font-weight-bold">ID</td>
-            <td class="font-weight-bold">Count</td>
-            <td class="font-weight-bold">total price</td>
-            <td class="font-weight-bold">Status</td>
+            <td >ID</td>
+            <td >Count</td>
+            <td >total price</td>
+            <td >Status</td>
           </tr>
           <tr *ngFor="let order of myOrders">
-            <td>{{order.idOrder}}</td>
-            <td>{{order.items?.length}}</td>
+            <td class="font-weight-bold">{{order.idOrder}}</td>
+            <td class="font-weight-bold">{{order.items?.length}}</td>
             <!--  <td>
                  <input type="number"
                         name="{{item.product.id}}" min="1"
                         [ngModel]="item.count"
                         (ngModelChange)="item.count = update($event, item)">
                </td>-->
-            <td>{{order.sumPrice |
+            <td class="font-weight-bold">{{order.sumPrice |
               currency:'USD':true:'1.2-2'}}
             </td>
-            <td>{{order.status.code}}</td>
+            <td class="font-weight-bold">{{order.status.code}}</td>
             <td> <button class="btn-outline-info" > view </button></td>
-            <td>
+            <td class="font-weight-bold">
               <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
                       (click)=" approveOrder(order,'2'); $event.stopPropagation()"> APPROVE
               </button>
             </td>
-            <td>
+            <td class="font-weight-bold">
               <button *ngIf="order.status.code==='NEW' " class="btn btn-warning"
                       (click)=" approveOrder(order,'4'); $event.stopPropagation()"> REJECTE
               </button>
