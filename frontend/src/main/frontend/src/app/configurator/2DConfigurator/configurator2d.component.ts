@@ -27,19 +27,19 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   @Output()
   onClearMname = new EventEmitter<string>();
 
+  private matUrl : string='';//= './materials/' + this.currentMaterial.image ;
+
   //private bags : BagType[] = [];
   @Input()
   currentBag : BagType ;
   @Input() set setMaterial(material : BagMaterial){
-    if(material){
+    if(material.image){
       console.log(material);
-      this.matUrl =  './materials/' + material.image ;
+      this.matUrl =   './materials/' + material.image ;
       this.currentMaterial = material;
     }
   }
-  private currentMaterial : BagMaterial = new BagMaterial() ;
-
-  private matUrl : string='';//= './materials/' + this.currentMaterial.image ;
+  private currentMaterial : BagMaterial ;
 
   @Input()
   viewMode : boolean = false;
@@ -83,7 +83,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
    }
 
   ngOnInit(): void {
-    if(!this.viewMode) {  // IF view mode active
+    if(!this.viewMode) {  // creation mode
       map;
       this.mousedrag = this.mousedown.map((event: MouseEvent) => {
         event.preventDefault();
@@ -109,8 +109,16 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
           this.modelConfig.config2d.leftPos = pos.left;
         }
       });
+      this.modelConfig = this.config2dService.getLocalConfig();
+      this.currentMaterial =  this.config2dService.getCurrentMaterial();
+      this.currentBag =  this.config2dService.getCurrentBag();
+      this.matUrl = this.config2dService.getMatUrl();
+    } else { //view mode
+      this.modelConfig = new ModelConfig();
+      this.modelConfig.image = "./images/2dtest1.jpg";
+      this.modelConfig.config2d = new Config2d();
     }
-    this.modelConfig = this.config2dService.getLocalConfig();
+
    // this.reloadBags(); // Retrive bag  // Retrive material
   }
 
@@ -153,12 +161,9 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   resetModel() {
     this.config2dService.clearLocalConfig();
     this.modelConfig = this.config2dService.getLocalConfig();
-    //this.reloadBags();
-    //this.modelConfig = new ModelConfig("./images/2dtest1.jpg", []);
-  /*  this.modelConfig.config2d.topPos = 0;
-    this.modelConfig.config2d.leftPos = -50;
-    this.modelConfig.config2d.width = 500;
-    this.modelConfig.config2d.height  = 500;*/
+    this.currentBag = new BagType();
+    this.currentMaterial = new BagMaterial();
+    this.matUrl = "";
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
@@ -240,9 +245,13 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   ngOnDestroy(): void {
-  // Save bagtype
-    // Save material
-    this.config2dService.saveLocalConfig(this.modelConfig);
+    if(!this.viewMode) {  // creation mode
+      this.config2dService.saveLocalConfig(this.modelConfig);
+      this.config2dService.setCurrentBag(this.currentBag);
+      this.config2dService.setCurrentMaterial(this.currentMaterial);
+      this.config2dService.setMatUrl(this.matUrl);
+    } else { // VIEW mode
+    }
   }
 
  /*  private setImgPosition(top : number, left: number){
@@ -250,26 +259,14 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.leftPos = left;
 
    }*/
-
-
-
-
-  /*
+/*
    private isInsideBoundary(event: MouseEvent) {
    return event.clientX > this.boundary.left &&
    event.clientX < this.boundary.right &&
    event.clientY > this.boundary.top &&
    event.clientY < this.boundary.bottom;
    }*/
-
-
 }
 
-/*
-  - move user model
-  - fix bagground movment model
-  - read x y position, save position to config
-  -
-  */
 //http://lishman.io/angular-2-event-binding
 // https://groups.google.com/forum/#!topic/angular/Ri_ZKuTPNfo            input
