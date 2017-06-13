@@ -30,6 +30,13 @@
 
   <div class="row">
     <div class="col-md-9" *ngIf="!showEditOrder">
+
+      <div>
+        <hr>
+        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+      </div>
+
+
       <h3> Factory models </h3>
 
       <table class="table table-striped">
@@ -44,7 +51,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let model of uModels" (click)="onSelect(model)"
+        <!--(click)="onSelect(model)"-->
+        <tr *ngFor="let model of uModels"
             [class.selected]="model === selectedModel">
           <!--<th scope="row">1</th>-->
           <td>{{model.id}}</td>
@@ -52,7 +60,13 @@
           <td>{{model.bagTypeId}}</td>
           <td>{{model.mname}}</td>
           <td>{{model.approved}}</td>
-          <td> <button  class="btn-outline-info" > download </button></td>
+          <td>
+            <button (click)="selectedModel = model" class="btn-outline-info">view model</button>
+          </td>
+
+          <td>
+            <button class="btn-outline-success"> download model</button>
+          </td>
 
           <!-- <td>
              <button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-success"
@@ -100,17 +114,24 @@
               currency:'USD':true:'1.2-2'}}
             </td>
             <td>{{order.status.code}}</td>
-           <!-- <td>
-              <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
-                      (click)=" sendOrder(order,'2'); $event.stopPropagation()"> APPROVE
-              </button>
-            </td>-->
+            <!-- <td>
+               <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
+                       (click)=" sendOrder(order,'2'); $event.stopPropagation()"> APPROVE
+               </button>
+             </td>-->
             <td>
               <button *ngIf="order.status.code==='ACCEPTED' " class="btn btn-warning"
                       (click)=" approveOrder(order,'5'); $event.stopPropagation()"> Send order
               </button>
             </td>
-            <td> <button class="btn-outline-info" > view </button></td>
+            <td>
+              <button class="btn-outline-info" (click)="showModelsInOrder(order)"> view</button>
+            </td>
+
+            <td>
+              <button class="btn-outline-success"> download order</button>
+            </td>
+
 
           </tr>
           </tbody>
@@ -118,5 +139,6 @@
       </div>
     </div>
   </div>
-
+  <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>
+  <button class="btn btn-primary" (click)="showModels()">MODELS</button>
 </div>

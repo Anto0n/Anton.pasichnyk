@@ -46,6 +46,15 @@ export class FactoryComponent implements OnInit {
     //refresh orders ent
   }
 
+  showModelsInOrder(ord : OrderResp){
+    //this.showWhat = ShowView.MODELS_IN_ORDER;
+    this.showEditOrder = false; // show models view
+    this.uModels = [];  //clean arr
+    for (let it  of ord.items){
+      this.uModels.push(it.model);
+    }
+  }
+
  /* getOrders(){ //All
     //"./api/order/listOrders"
     this.restService.getData('./api/order/listOrders').subscribe(

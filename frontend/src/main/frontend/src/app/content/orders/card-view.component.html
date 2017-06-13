@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-md-9">
-      <div *ngIf="orderRespListener.items?.length > 0">
+      <div *ngIf="orderRespListener.items?.length > 0" class="models">
         <form #form="ngForm">
           <div class="table-responsive">
             <table class="table table-sm table-striped
@@ -28,17 +28,23 @@ table-bordered table-cart">
                 <td>{{item.price |
                   currency:'USD':true:'1.2-2'}}
                 </td>
+                <td>
+                  <button class="btn-outline-info" (click)="selectedModel = item.model"> view</button>
+                </td>
               </tr>
               </tbody>
             </table>
           </div>
         </form>
+        <div *ngIf="selectedModel">
+          <hr>
+          <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+        </div>
       </div>
-      <div class="emty-cart" *ngIf="orderRespListener.items?.length < 1">The cart is empty!</div>
 
-      <br>
-      <br>
-      <hr>
+
+      <div class="emty-cart" *ngIf="orderRespListener.items?.length < 1">The cart is empty!</div>
+      <br>  <br>     <hr>
       <h3> My orders list</h3>
       <div class="table-responsive">
         <table class="table table-sm table-striped

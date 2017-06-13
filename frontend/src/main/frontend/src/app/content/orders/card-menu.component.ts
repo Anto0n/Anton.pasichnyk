@@ -5,6 +5,7 @@ import {CardOrderService} from "../../services/order/card-order.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {RestService} from "../../services/rest.service";
+import {IModel} from "../../models/model";
 
 
 @Component({
@@ -16,6 +17,7 @@ export class CardMenuComponent implements OnInit, OnDestroy {
   private orderRespListener: OrderResp = new OrderResp();
   private subscription: Subscription;
   private subscrReloadBucket: Subscription;
+  private selectedModel: IModel ;
   //private emtyCard: boolean;
 
   constructor(private cardServ: CardOrderService, private authService: AuthenticationService,

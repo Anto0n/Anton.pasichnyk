@@ -13,6 +13,7 @@ export class ModeratorComponent implements OnInit {
   private selectedModel:IModel;
   private approved : string;
   private  showEditOrder : boolean = true;
+  private showModelsFilter : boolean = true;
   private myOrders : OrderResp[] = [];
 
   constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef, private zone: NgZone) {
@@ -34,6 +35,15 @@ export class ModeratorComponent implements OnInit {
       }, () => console.log('err'));
   }
 
+  showModelsInOrder(ord : OrderResp){
+    //this.showWhat = ShowView.MODELS_IN_ORDER;
+    this.showEditOrder = false; // show models view
+    this.uModels = [];  //clean arr
+    for (let it  of ord.items){
+      this.uModels.push(it.model);
+    }
+  }
+
   approveModel(model: IModel, mStatus : ModelStatus ){
     let id:number = model.id;
      let approved :string = ModelStatus[mStatus];
@@ -42,10 +52,29 @@ export class ModeratorComponent implements OnInit {
         () => {
           this.uModels = this.uModels.filter(m => m !== model);
           if (this.selectedModel === model) {
-            this.selectedModel = null;
+            this.selectedModel = new IModel();
           }
         }
       );
+  }
+
+  // change order status
+  approveOrder(ord : OrderResp, newStatus : OrderStatusNameEnum ){
+    let mstat : string = OrderStatusNameEnum[newStatus];
+    let model  = {
+      "orderId": ord.idOrder,
+      "orderStatusNameEnum": mstat
+    };
+    this.restService.putData("./api/order/changeStatus", model).subscribe(
+      (data: OrderResp) => {
+        let newOr : OrderResp = data;
+        let foundIndex : number = this.myOrders.findIndex(x => x == newOr);  // find in array
+
+        this.myOrders[foundIndex] = newOr;                                    // replace in arr
+        this.getOrdersByApproved(1); //reload arr NEW     Rewrite to change detection
+      }
+    ),  () => console.log('err')
+
   }
 
   showModels(){
@@ -74,24 +103,6 @@ export class ModeratorComponent implements OnInit {
     );
   }
 
- // change order status
-  approveOrder(ord : OrderResp, newStatus : OrderStatusNameEnum ){
-    let mstat : string = OrderStatusNameEnum[newStatus];
-    let model  = {
-      "orderId": ord.idOrder,
-      "orderStatusNameEnum": mstat
-    };
-    this.restService.putData("./api/order/changeStatus", model).subscribe(
-      (data: OrderResp) => {
-        let newOr : OrderResp = data;
-        let foundIndex : number = this.myOrders.findIndex(x => x == newOr);  // find in array
-
-        this.myOrders[foundIndex] = newOr;                                    // replace in arr
-        this.getOrdersByApproved(1); //reload arr NEW     Rewrite to change detection
-      }
-    ),  () => console.log('err')
-
-  }
 
   getOrdersByApproved(status : OrderStatusNameEnum){
     let mstat : string = OrderStatusNameEnum[status];

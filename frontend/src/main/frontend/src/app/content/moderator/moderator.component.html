@@ -6,10 +6,41 @@
     <div class="col-md-9" *ngIf="!showEditOrder">
       <br>
       <h3> Models </h3>
-
-      <button class="btn btn-outline-info" (click)="getModelsByApproved('0')"> NEW</button>
-      <button class="btn btn-outline-success" (click)="getModelsByApproved('1')"> APPROVED</button>
-      <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')"> REJECTED</button>
+      <div *ngIf="showModelsFilter">
+        <button class="btn btn-outline-info"    (click)="getModelsByApproved('0')" > NEW</button>
+        <button class="btn btn-outline-success" (click)="getModelsByApproved('1')" > APPROVED</button>
+        <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')" > REJECTED</button>
+      </div>
+      <div *ngIf="selectedModel">
+        <hr>
+        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+      </div>
+      <br>
+      Select model to Aprove or Reject
+      <hr>
+      <table class="table table-striped">
+        <tr class="col-md-auto">
+          <td class="font-weight-bold">{{selectedModel?.id}}</td>
+          <td class="font-weight-bold">{{selectedModel?.userId}}</td>
+          <td class="font-weight-bold">{{selectedModel?.bagTypeId}}</td>
+          <td class="font-weight-bold">{{selectedModel?.mname}}</td>
+          <td class="font-weight-bold">{{selectedModel?.approved}}</td>
+          <td></td>
+          <td>
+            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='REJECTED'"
+                    class="btn btn-success"
+                    (click)=" approveModel(selectedModel,'1'); $event.stopPropagation()"> APPROVE
+            </button>
+          </td>
+          <td>
+            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED'"
+                    class="btn btn-warning"
+                    (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECTE
+            </button>
+          </td>
+        </tr>
+      </table>
+      <hr>
 
       <table class="table table-striped">
         <thead>
@@ -23,7 +54,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let model of uModels" (click)="onSelect(model)"
+        <!--(click)="onSelect(model)"-->
+        <tr *ngFor="let model of uModels"
             [class.selected]="model === selectedModel">
           <!--<th scope="row">1</th>-->
           <td class="font-weight-bold">{{model.id}}</td>
@@ -31,16 +63,10 @@
           <td class="font-weight-bold">{{model.bagTypeId}}</td>
           <td class="font-weight-bold">{{model.mname}}</td>
           <td class="font-weight-bold">{{model.approved}}</td>
-          <td>
-            <button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-success"
-                    (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE
-            </button>
+          <td class="col-md-auto">
+            <button (click)="selectedModel = model" class="btn-outline-info">Select</button>
           </td>
-          <td>
-            <button *ngIf="model.approved==='NEW' || model.approved==='APPROVED'" class="btn btn-warning"
-                    (click)=" approveModel(model,'2'); $event.stopPropagation()"> REJECTE
-            </button>
-          </td>
+
         </tr>
         </tbody>
       </table>
@@ -59,10 +85,10 @@
  table-bordered table-cart">
           <tbody>
           <tr>
-            <td >ID</td>
-            <td >Count</td>
-            <td >total price</td>
-            <td >Status</td>
+            <td>ID</td>
+            <td>Count</td>
+            <td>total price</td>
+            <td>Status</td>
           </tr>
           <tr *ngFor="let order of myOrders">
             <td class="font-weight-bold">{{order.idOrder}}</td>
@@ -77,7 +103,9 @@
               currency:'USD':true:'1.2-2'}}
             </td>
             <td class="font-weight-bold">{{order.status.code}}</td>
-            <td> <button class="btn-outline-info" > view </button></td>
+            <td>
+              <button class="btn-outline-info" (click)="showModelsInOrder(order)"> list models</button>
+            </td>
             <td class="font-weight-bold">
               <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
                       (click)=" approveOrder(order,'2'); $event.stopPropagation()"> APPROVE
@@ -94,6 +122,12 @@
         </table>
       </div>
     </div>
+
+
   </div>
+  <br><br>
+  <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>
+  <button class="btn btn-primary" (click)="showModels()">MODELS</button>
+
 
 </div>

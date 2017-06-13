@@ -188,6 +188,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
       console.log(this.modelConfig);
       this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
         (data: IModel[]) => {
+          this.resetModel();
           this.alertService.success("model " + this.inModelName + " created");
         }, () => console.log('err'));    } else{  }
     //check material, bagtype, name
