@@ -31,7 +31,7 @@ public class OrderController {
     }
 
     @GetMapping("/listOrders")
-    public Set<OrderDto> listOrders() {
+    public List<OrderDto> listOrders() {
         return orderService.findAll();
     }
 
@@ -84,7 +84,7 @@ public class OrderController {
      */
     @GetMapping("/findbucket/{userid}")
     public ResponseEntity getBucketByUserId(@PathVariable("userid") long userId){
-        Set<OrderDto> set = null;
+        List<OrderDto> set = null;
         OrderDto dto = null;
         try{
            set = orderService.getOrderByUserIdAndStatus(userId, OrderStatusNameEnum.BUCKET);
@@ -103,7 +103,7 @@ public class OrderController {
 
     @GetMapping("/findall/{userid}/{status}")
     public ResponseEntity getOrdersByUserIdAndStatus(@PathVariable("userid") long userId, @PathVariable("status") OrderStatusNameEnum statusCode ){
-        Set<OrderDto> set = null;
+        List<OrderDto> set = null;
         try{
             set = orderService.getOrderByUserIdAndStatus(userId, statusCode);
         } catch (Exception ex){
@@ -124,13 +124,13 @@ public class OrderController {
     }
 
     @GetMapping("/findall/{userid}")
-    public ResponseEntity<Set<OrderDto>> getOrdersByUserId(@PathVariable("userid") long userId){
-        Set<OrderDto> set = null;
+    public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable("userid") long userId){
+        List<OrderDto> list = null;
         try{
-            set = orderService.getAllOrdersByUserId(userId);
+            list = orderService.getAllOrdersByUserId(userId);
         } catch(Exception ex){
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(set, HttpStatus.OK);
+        return new ResponseEntity(list, HttpStatus.OK);
     }
 }

@@ -31,7 +31,7 @@
   <div class="row">
     <div class="col-md-9" *ngIf="!showEditOrder">
 
-      <div>
+      <div *ngIf="selectedModel">
         <hr>
         <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
       </div>

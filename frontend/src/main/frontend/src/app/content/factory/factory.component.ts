@@ -41,6 +41,7 @@ export class FactoryComponent implements OnInit {
   }
 
   showOrders(){
+    this.selectedModel = null; //clean view
     this.getOrdersByStatus(2); //Accepted
     this.showEditOrder = true;
     //refresh orders ent

@@ -3,6 +3,7 @@ import {IModel, ModelStatus} from "../../models/model";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {OrderResp, OrderStatusNameEnum} from "../../models/order";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-moderator',
@@ -16,7 +17,9 @@ export class ModeratorComponent implements OnInit {
   private showModelsFilter : boolean = true;
   private myOrders : OrderResp[] = [];
 
-  constructor(private restService: RestService, private roleService: UserRoleService, private cd: ChangeDetectorRef, private zone: NgZone) {
+  constructor(private restService: RestService, private roleService: UserRoleService,
+              private alertService : AlertService,
+              private cd: ChangeDetectorRef, private zone: NgZone) {
   }
 
 
@@ -60,20 +63,30 @@ export class ModeratorComponent implements OnInit {
 
   // change order status
   approveOrder(ord : OrderResp, newStatus : OrderStatusNameEnum ){
+    if (newStatus ==2 ){
+      for (let it  of ord.items){
+        if (it.model.approved.toString() !== ModelStatus[1]) { // status not APPROVED
+          console.log(it.model.approved );
+          console.log(ModelStatus.APPROVED);
+          this.alertService.error("Confirm all models in order № " + ord.idOrder + " first!", false);
+          return;
+        }
+      }
+    }
     let mstat : string = OrderStatusNameEnum[newStatus];
     let model  = {
       "orderId": ord.idOrder,
       "orderStatusNameEnum": mstat
     };
-    this.restService.putData("./api/order/changeStatus", model).subscribe(
-      (data: OrderResp) => {
-        let newOr : OrderResp = data;
-        let foundIndex : number = this.myOrders.findIndex(x => x == newOr);  // find in array
-
-        this.myOrders[foundIndex] = newOr;                                    // replace in arr
-        this.getOrdersByApproved(1); //reload arr NEW     Rewrite to change detection
-      }
-    ),  () => console.log('err')
+     this.restService.putData("./api/order/changeStatus", model).subscribe(
+       (data: OrderResp) => {
+         let newOr : OrderResp = data;
+         let foundIndex : number = this.myOrders.findIndex(x => x == newOr);  // find in array
+         this.alertService.success("order " + ord.idOrder + " "+ mstat, false);
+         this.myOrders[foundIndex] = newOr;                                    // replace in arr
+         this.getOrdersByApproved(1); //reload arr NEW     Rewrite to change detection
+       }
+     ),  () => console.log('err')
 
   }
 

@@ -9,6 +9,7 @@ import com.bionic.baglab.services.OrderStatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,7 +24,7 @@ public class ModeratorController {
 
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public Set<OrderDto> getOrders() {
+    public List<OrderDto> getOrders() {
         return orderService.findAll();
     }
 

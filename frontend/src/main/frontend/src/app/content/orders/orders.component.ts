@@ -5,7 +5,7 @@ import {UserRoleService} from "../../services/user/user-role.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
-import {mItems, OrderResp} from "../../models/order";
+import {mItems, OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
 
 @Component({
@@ -77,9 +77,10 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.restService.getData('./api/order/findall' + `/${id}`).subscribe(
       (data: OrderResp[]) => {
         this.myOrders = data;
+        this.myOrders = this.myOrders.filter(o => o.status.code != OrderStatusNameEnum[OrderStatusNameEnum.BUCKET]); //Filter Bucket
         this.myOrders =  this.myOrders.sort((a, b): number => {   //sor array by
-          if (a.status.code < b.status.code) return 1;
-          if (a.status.code > b.status.code) return -1;
+          if (a.status.code < b.status.code) return -1;
+          if (a.status.code > b.status.code) return 1;
           return 0;
         })
       }, () => console.log('err')
