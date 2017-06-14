@@ -32,6 +32,13 @@ export class AuthenticationService implements OnDestroy {
     return localStorage.getItem('currentUserRole') === "Administrator"
   }
 
+  isModerator(): boolean{
+    return localStorage.getItem('currentUserRole') === "Moderator"
+  }
+
+  isFactoy(): boolean{
+    return localStorage.getItem('currentUserRole') === "Factory"
+  }
 
   login(username: string, password: string) {
     return this.restService.postJson('./api/login', ({login: username, password: password}))

@@ -7,7 +7,13 @@ import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-moderator',
-  templateUrl: './moderator.component.html'
+  templateUrl: './moderator.component.html',
+  styles:[`
+      .modoverflow {
+        height:500px;
+        overflow-y: scroll;
+      }
+`]
 })
 export class ModeratorComponent implements OnInit {
   private uModels: IModel[] = [];

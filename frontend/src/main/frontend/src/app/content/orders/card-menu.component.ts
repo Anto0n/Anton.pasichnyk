@@ -10,7 +10,13 @@ import {IModel} from "../../models/model";
 
 @Component({
   selector: 'app-card-menu',
-  templateUrl: './card-menu.component.html'
+  templateUrl: './card-menu.component.html',
+  styles:[`
+      .modoverflow {
+        height:300px;
+        overflow-y: scroll;
+      }
+`]
 })
 export class CardMenuComponent implements OnInit, OnDestroy {
   //ordModels : OrderResp[] =[]

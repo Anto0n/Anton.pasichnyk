@@ -28,7 +28,7 @@ const appRoutes: Routes = [
   {path: 'configurator', component: TestComponent},
   {path: 'login', component: LoginComponent },
   {path: 'register', component: UserCreateComponent },
-  {path: 'testform', component: TestformComponent},
+  {path: 'testform', component: TestformComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
   {path: 'admin', pathMatch: 'full',component: AdminComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
   {path: 'moderator',pathMatch: 'full', component: ModeratorComponent},
   {path: 'factory',pathMatch: 'full', component: FactoryComponent},

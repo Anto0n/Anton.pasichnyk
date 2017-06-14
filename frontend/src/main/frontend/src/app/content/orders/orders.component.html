@@ -4,7 +4,7 @@
 
 <div class="row">
   <div class="col-md-12" *ngIf="showWhat === ShowView.ORDERS ">
-    <div class="table-responsive">
+    <div class="table-responsive, modoverflow">
       <h1>Orders</h1>
       <table class="table table-sm table-striped
  table-bordered table-cart">
@@ -35,11 +35,11 @@
     </div>
   </div>
 
-  <div class="col-md-12" *ngIf="showWhat == ShowView.MODELS || showWhat === ShowView.MODELS_IN_ORDER">
+  <div class="col-md-12 " *ngIf="showWhat == ShowView.MODELS || showWhat === ShowView.MODELS_IN_ORDER">
     <h1 *ngIf="showWhat == ShowView.MODELS ">My models</h1>
-    <div class="table-responsive">
+    <div class="table-responsive, modoverflow">
       <table class="table table-sm table-striped
-       table-bordered ">
+       table-bordered">
         <thead>
         <tr>
           <th>id</th>

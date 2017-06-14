@@ -7,7 +7,12 @@ import {OrderResp, OrderStatusNameEnum} from "../../models/order";
 @Component({
   selector: 'app-manager',
   templateUrl: './factory.component.html',
-  styles: []
+  styles:[`
+      .modoverflow {
+        height:500px;
+        overflow-y: scroll;
+      }
+`]
 })
 export class FactoryComponent implements OnInit {
   private uModels: IModel[] = [];

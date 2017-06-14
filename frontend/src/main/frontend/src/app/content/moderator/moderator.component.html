@@ -7,9 +7,9 @@
       <br>
       <h3> Models </h3>
       <div *ngIf="showModelsFilter">
-        <button class="btn btn-outline-info"    (click)="getModelsByApproved('0')" > NEW</button>
-        <button class="btn btn-outline-success" (click)="getModelsByApproved('1')" > APPROVED</button>
-        <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')" > REJECTED</button>
+        <button class="btn btn-outline-info" (click)="getModelsByApproved('0')"> NEW</button>
+        <button class="btn btn-outline-success" (click)="getModelsByApproved('1')"> APPROVED</button>
+        <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')"> REJECTED</button>
       </div>
       <div *ngIf="selectedModel">
         <hr>
@@ -42,34 +42,36 @@
       </table>
       <hr>
 
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <td>id</td>
-          <td>user id</td>
-          <td>Bag type id</td>
-          <td>model name</td>
-          <td>status</td>
-          <td></td>
-        </tr>
-        </thead>
-        <tbody>
-        <!--(click)="onSelect(model)"-->
-        <tr *ngFor="let model of uModels"
-            [class.selected]="model === selectedModel">
-          <!--<th scope="row">1</th>-->
-          <td class="font-weight-bold">{{model.id}}</td>
-          <td class="font-weight-bold">{{model.userId}}</td>
-          <td class="font-weight-bold">{{model.bagTypeId}}</td>
-          <td class="font-weight-bold">{{model.mname}}</td>
-          <td class="font-weight-bold">{{model.approved}}</td>
-          <td class="col-md-auto">
-            <button (click)="selectedModel = model" class="btn-outline-info">Select</button>
-          </td>
+      <div class="modoverflow"> <!--list of models-->
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <td>id</td>
+            <td>user id</td>
+            <td>Bag type id</td>
+            <td>model name</td>
+            <td>status</td>
+            <td></td>
+          </tr>
+          </thead>
+          <tbody>
+          <!--(click)="onSelect(model)"-->
+          <tr *ngFor="let model of uModels"
+              [class.selected]="model === selectedModel">
+            <!--<th scope="row">1</th>-->
+            <td class="font-weight-bold">{{model.id}}</td>
+            <td class="font-weight-bold">{{model.userId}}</td>
+            <td class="font-weight-bold">{{model.bagTypeId}}</td>
+            <td class="font-weight-bold">{{model.mname}}</td>
+            <td class="font-weight-bold">{{model.approved}}</td>
+            <td class="col-md-auto">
+              <button (click)="selectedModel = model" class="btn-outline-info">Select</button>
+            </td>
 
-        </tr>
-        </tbody>
-      </table>
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!--orders-->
@@ -80,7 +82,7 @@
       <button class="btn btn-outline-success" (click)="getOrdersByApproved('2')"> APPROVED</button>
       <button class="btn btn-outline-warning" (click)="getOrdersByApproved('4')"> REJECTED</button>
 
-      <div class="table-responsive">
+      <div class="table-responsive,  modoverflow">
         <table class="table table-sm table-striped
  table-bordered table-cart">
           <tbody>

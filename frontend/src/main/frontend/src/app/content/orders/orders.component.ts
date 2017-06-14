@@ -10,7 +10,13 @@ import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-orders',
-  templateUrl: './orders.component.html'
+  templateUrl: './orders.component.html',
+  styles:[`
+      .modoverflow {
+        height:500px;
+        overflow-y: scroll;
+      }
+`]
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   private uId: string;

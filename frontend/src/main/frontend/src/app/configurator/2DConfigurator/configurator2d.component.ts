@@ -205,7 +205,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   selectBagType(bagtype : BagType){
     this.currentBag = bagtype;
     let jStr : string  = JSON.parse(JSON.stringify( this.currentBag.script  ));   // json to obj
-    let scriptObj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
+    let scriptObj : BagtypeConfig =  JSON.parse(jStr);
     this.currentBag.script = scriptObj;
     console.log("bagtype name - " + bagtype.script.imgsrc);
     this.alertService.clearMeessage();
