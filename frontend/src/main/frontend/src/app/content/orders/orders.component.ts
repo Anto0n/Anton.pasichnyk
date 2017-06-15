@@ -13,7 +13,7 @@ import {AlertService} from "../../services/alert.service";
   templateUrl: './orders.component.html',
   styles:[`
       .modoverflow {
-        height:500px;
+        height:350px;
         overflow-y: scroll;
       }
 `]
