@@ -1,4 +1,4 @@
-import {Component, OnInit,  ChangeDetectorRef, OnDestroy} from '@angular/core';
+import {Component, OnInit,  ChangeDetectorRef, OnDestroy, ViewChild} from '@angular/core';
 import {RestService} from "../../services/rest.service";
 import {IModel, CreateModel, ModelStatus} from "../../models/model";
 import {UserRoleService} from "../../services/user/user-role.service";
@@ -7,6 +7,9 @@ import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
 import {mItems, OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
+import {ModelConfig} from "../../models/modelConfig";
+import {IConfigurator} from "app/configurator/configurator.model";
+import {ConfiguratorComponent} from "../../configurator/configurator.component";
 
 @Component({
   selector: 'app-orders',
@@ -29,6 +32,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
   ShowView = ShowView; // allow to use enum in template
   private showWhat : ShowView = ShowView.MODELS; //models first
 
+  @ViewChild('config')
+  private configurator: ConfiguratorComponent;
 
   selectModelId: number;
 
@@ -155,6 +160,14 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
   }
 
+  selectModel(model: IModel) {
+    console.log("selectModel IModel:");
+    console.log(model);
+    this.restService.getData("/api/models/"+model.id).subscribe(
+      (data)=> this.configurator.configurator.loadModel(model),
+      ()=>console.log("err"));
+    // this.configurator.configurator.loadModel(model);
+  }
    ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
      //this.subsOrderResp.unsubscribe();

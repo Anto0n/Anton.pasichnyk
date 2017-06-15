@@ -19,11 +19,24 @@
     </div>
   </div>
     <div ngbDropdown #myDrop2="ngbDropdown">
-      <button class="btn btn-outline-info" id="dropdownMenu2" ngbDropdownToggle>materials:</button>
+      <button class="btn btn-outline-info" id="dropdownMenu2" ngbDropdownToggle>whole bag materials:</button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
         <button class="btn btn-info btn-outline-info " *ngFor="let material of materials" (click)="configurator.selectMaterial(material)"> {{material.name}} </button>
       </div>
     </div>
+  <div ngbDropdown #myDrop4="ngbDropdown">
+    <button class="btn btn-outline-info" id="dropdownMenu4" ngbDropdownToggle>bag body materials:</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
+      <button class="btn btn-info btn-outline-info " *ngFor="let material of materials" (click)="configurator.selectMaterial(material, 'bag_body')"> {{material.name}} </button>
+    </div>
+  </div>
+  <div ngbDropdown #myDrop5="ngbDropdown">
+    <button class="btn btn-outline-info" id="dropdownMenu5" ngbDropdownToggle>bag packet materials:</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+      <button class="btn btn-info btn-outline-info " *ngFor="let material of materials" (click)="configurator.selectMaterial(material, 'bag_front')"> {{material.name}} </button>
+    </div>
+  </div>
+
   <button class="btn btn-info btn-outline-info " (click)="configurator.go()">draw jeans</button>
   <button class="btn btn-info btn-outline-info " (click)="configurator.clearRectangle()">reset</button>
 

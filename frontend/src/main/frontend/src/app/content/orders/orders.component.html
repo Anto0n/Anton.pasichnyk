@@ -63,7 +63,7 @@
           <td class="col-md-auto">{{model.approved}}</td>
           <td class="col-md-auto">
 
-            <button (click)="selectedModel = model" class="btn-outline-info" >Select</button>
+            <button (click)="selectModel(model)" class="btn-outline-info" >Select</button>
           </td>
           <td class="col-md-auto">
             <button *ngIf="model.approved==='NEW' " class="btn btn-danger"
@@ -88,7 +88,7 @@
 
   <div>
     <hr>
-    <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+    <configurator #config [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
   </div>
 
 </div>

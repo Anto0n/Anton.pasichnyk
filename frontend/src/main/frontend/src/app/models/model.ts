@@ -1,5 +1,6 @@
 import { JsonObject, JsonProperty } from "json2typescript";
 import {ModelConfig} from "./modelConfig";
+import {Panel} from "../configurator/3DConfigurator/panel.model";
 
 export class IModel {
   "id": number;
@@ -50,7 +51,8 @@ export  class BagType{
 }
 
 export class BagtypeConfig{
-  "imgsrc" : string = undefined;
+  // "imgsrc" : string = undefined;
+  panels: Panel[];
 }
 
 export class BagMaterial{

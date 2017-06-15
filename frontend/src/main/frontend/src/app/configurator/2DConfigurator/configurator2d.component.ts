@@ -20,6 +20,7 @@ import {debug} from "util";
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
+
   @Input()
   inModelName : string;
   @Input()
@@ -207,7 +208,6 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     let jStr : string  = JSON.parse(JSON.stringify( this.currentBag.script  ));   // json to obj
     let scriptObj : BagtypeConfig =  JSON.parse(jStr);
     this.currentBag.script = scriptObj;
-    console.log("bagtype name - " + bagtype.script.imgsrc);
     this.alertService.clearMeessage();
   }
 
@@ -244,6 +244,11 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.alertService.clearMeessage();
     return true;
   }
+
+  loadModel(model: IModel): void {
+    throw new Error('Method not implemented.');
+  }
+
 
   ngOnDestroy(): void {
     if(!this.viewMode) {  // creation mode
