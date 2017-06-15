@@ -16,7 +16,7 @@ import {ConfiguratorComponent} from "../../configurator/configurator.component";
   templateUrl: './orders.component.html',
   styles:[`
       .modoverflow {
-        height:500px;
+        height:400px;
         overflow-y: scroll;
       }
 `]

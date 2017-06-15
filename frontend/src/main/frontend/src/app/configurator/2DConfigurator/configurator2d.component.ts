@@ -20,7 +20,6 @@ import {debug} from "util";
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
-
   @Input()
   inModelName : string;
   @Input()
@@ -205,9 +204,12 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
   selectBagType(bagtype : BagType){
     this.currentBag = bagtype;
-    let jStr : string  = JSON.parse(JSON.stringify( this.currentBag.script  ));   // json to obj
-    let scriptObj : BagtypeConfig =  JSON.parse(jStr);
-    this.currentBag.script = scriptObj;
+    if (typeof bagtype.script=== "string" ){ // parse at first entranse
+      let jStr : string  = JSON.parse(JSON.stringify( bagtype.script  ));   // json to obj
+      this.currentBag.script  =  JSON.parse(jStr);
+    } else{       // if it is already object
+      this.currentBag.script = bagtype.script;
+    }
     this.alertService.clearMeessage();
   }
 
