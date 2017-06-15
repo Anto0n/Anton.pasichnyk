@@ -267,7 +267,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   selectMaterial(material: BagMaterial) {
     console.log("method not implemented. material name - " + material.name+"  "+ material.image);
-    this.restService.getDataAny('/api/material/base64/'+material.image).subscribe(
+    this.restService.getDataAny('./api/material/base64/'+material.image).subscribe(
       (data: any) => {
         console.log("-------------");
         console.log("data");
