@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    this.alertService.error(error);
+                    this.alertService.error("Wrong login or password");
+                    console.log(error);
                     this.loading = false;
                 });
       //this.carServ.reloadBucket();

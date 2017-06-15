@@ -17,6 +17,8 @@ import {FactoryComponent} from "../content/factory/factory.component";
 import {CreateNewsComponent} from "../content/admin/editnews/edit-news.component";
 import {AdminGuard} from "../shared/guards/admin.guard";
 import {CardViewComponent} from "../content/orders/card-view.component";
+import {FactoryGuard} from "../shared/guards/factory.guard";
+import {ModeratorGuard} from "../shared/guards/moderator.guard";
 
 
 const appRoutes: Routes = [
@@ -30,14 +32,16 @@ const appRoutes: Routes = [
   {path: 'register', component: UserCreateComponent },
   {path: 'testform', component: TestformComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
   {path: 'admin', pathMatch: 'full',component: AdminComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
-  {path: 'moderator',pathMatch: 'full', component: ModeratorComponent},
-  {path: 'factory',pathMatch: 'full', component: FactoryComponent},
+  {path: 'moderator',pathMatch: 'full', component: ModeratorComponent, canActivate: [ModeratorGuard], canLoad: [ModeratorGuard]},
+  {path: 'factory',pathMatch: 'full', component: FactoryComponent, canActivate: [FactoryGuard], canLoad: [FactoryGuard]},
   {path: 'editnews', component: CreateNewsComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
   {path: 'cardview', component: CardViewComponent, canActivate: [AuthGuard]},
   {path: '',   redirectTo: '/home', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponent }
   //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
 ];
+
+
 @NgModule({
   imports: [
     RouterModule.forRoot(
