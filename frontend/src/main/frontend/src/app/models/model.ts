@@ -51,8 +51,7 @@ export  class BagType{
 }
 
 export class BagtypeConfig{
-  // "imgsrc" : string = undefined;
-  panels: Panel[];
+  "imgsrc" : string = undefined;
 }
 
 export class BagMaterial{
