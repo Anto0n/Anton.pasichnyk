@@ -11,7 +11,7 @@ import {UserRoleService} from "../../services/user/user-role.service";
 import {RestService} from "../../services/rest.service";
 import {JsonConvert} from "json2typescript";
 import {AuthenticationService} from "../../services/authentication.service";
-const containerSize: number = 320;
+import {debug} from "util";
 
 @Component({
   selector: 'configurator-2d',
@@ -27,9 +27,22 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   @Output()
   onClearMname = new EventEmitter<string>();
 
-  private bags : BagType[] = [];
-  private currentBag : BagType = new BagType();
+  private matUrl : string='';//= './materials/' + this.currentMaterial.image ;
 
+  //private bags : BagType[] = [];
+  @Input()
+  currentBag : BagType ;
+  @Input() set setMaterial(material : BagMaterial){
+    if(material.image){
+      console.log(material);
+      this.matUrl =   './materials/' + material.image ;
+      this.currentMaterial = material;
+    }
+  }
+  private currentMaterial : BagMaterial ;
+
+  @Input()
+  viewMode : boolean = false;
 
   mousedrag ;
   changePos  = new EventEmitter();
@@ -70,18 +83,43 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
    }
 
   ngOnInit(): void {
-    this.modelConfig = this.config2dService.getLocalConfig();
+    if(!this.viewMode) {  // creation mode
+      map;
+      this.mousedrag = this.mousedown.map((event: MouseEvent) => {
+        event.preventDefault();
+        //event.stopPropagation();
+        //if (this.isInsideBoundary(event))  // new boundaries
+        return {
+          left: event.clientX - this.elementRef.nativeElement.getBoundingClientRect().left / 500,
+          top: event.clientY - this.elementRef.nativeElement.getBoundingClientRect().top / 500
+        };
+      })
+        .flatMap(imageOffset => this.mousemove.map((pos: any) => ({
+            top: pos.clientY - imageOffset.top,
+            left: pos.clientX - imageOffset.left
+          }
+        ))
+          .takeUntil(this.mouseup));
 
-    this.reloadBags();
+      this.mousedrag.subscribe({
+        next: pos => {
+          //this.el.nativeElement.style.top = pos.top + 'px';
+          //this.el.nativeElement.style.left = pos.left + 'px';
+          this.modelConfig.config2d.topPos = pos.top;
+          this.modelConfig.config2d.leftPos = pos.left;
+        }
+      });
+      this.modelConfig = this.config2dService.getLocalConfig();
+      this.currentMaterial =  this.config2dService.getCurrentMaterial();
+      this.currentBag =  this.config2dService.getCurrentBag();
+      this.matUrl = this.config2dService.getMatUrl();
+    } else { //view mode
+      this.modelConfig = new ModelConfig();
+      this.modelConfig.image = "./images/2dtest1.jpg";
+      this.modelConfig.config2d = new Config2d();
+    }
 
-  /*  const container = this.containerElement.nativeElement; // new
-
-    this.boundary = { //new
-      left : container.offsetLeft + (this.conf2d.width / 2),
-      right : container.clientWidth + container.offsetLeft - (this.conf2d.width / 2),
-      top : container.offsetTop + (this.conf2d.height / 2),
-      bottom : container.clientWidth + container.offsetTop - (this.conf2d.height / 2),
-    }*/
+   // this.reloadBags(); // Retrive bag  // Retrive material
   }
 
 
@@ -89,54 +127,30 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
               private userRoleService : UserRoleService, private restService : RestService, private authService : AuthenticationService) {
     // this.elementRef.nativeElement.style.position = 'relative';
     //this.setImgPosition(this.topPos, this.leftPos);
-
      this.modelConfig = this.config2dService.getLocalConfig();          // load from service
     this.elementRef.nativeElement.style.cursor = 'pointer';
-    map;
-      this.mousedrag = this.mousedown.map((event: MouseEvent) => {
-        event.preventDefault();
-        //event.stopPropagation();
-        //if (this.isInsideBoundary(event))  // new boundaries
-          return {
-          left: event.clientX - this.elementRef.nativeElement.getBoundingClientRect().left/500,
-          top: event.clientY - this.elementRef.nativeElement.getBoundingClientRect().top/500
-        };
-      })
-        .flatMap(imageOffset => this.mousemove.map((pos: any) => ({
-          top: pos.clientY - imageOffset.top,
-          left: pos.clientX - imageOffset.left
-        }
-        ))
-          .takeUntil(this.mouseup));
-
-    this.mousedrag.subscribe({
-      next: pos => {
-        //this.el.nativeElement.style.top = pos.top + 'px';
-        //this.el.nativeElement.style.left = pos.left + 'px';
-        this.modelConfig.config2d.topPos = pos.top;
-        this.modelConfig.config2d.leftPos = pos.left;
-      }
-    });
   }
 
+  // private reloadBags(){
+  //   this.restService.getData("./api/bag_type/list").subscribe( (data : BagType[]) =>  //get bags
+  //     {this.bags = data
+  //       if(!this.config2dService.containData()){                               // set new currentBag for first entrense
+  //         let jStr : string  = JSON.parse(JSON.stringify( this.bags[0].script  ));
+  //         //let obj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
+  //         let obj : BagtypeConfig = JSON.parse(jStr);
+  //         this.currentBag = this.bags[0];
+  //         this.currentBag.script = obj;
+  //         //this.modelConfig.config2d.bagtype = this.bags[0]; // re ini to default bag
+  //         console.log( this.currentBag.script.imgsrc);
+  //       } else{ //restore state
+  //         //this.currentBag = this.modelConfig.config2d.bagtype;
+  //         console.log("Reload bag - NOT");
+  //       }
+  //     }
+  //   );
+  // }
 
-  private reloadBags(){
-    this.restService.getData("./api/bag_type/list").subscribe( (data : BagType[]) =>  //get bags
-      {this.bags = data
-        if(!this.config2dService.containData()){                               // set new currentBag for first entrense
-          let jStr : string  = JSON.parse(JSON.stringify( this.bags[0].script  ));
-          let obj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
-          this.currentBag = this.bags[0];
-          this.currentBag.script = obj;
-          this.modelConfig.config2d.bagtype = this.bags[0]; // re ini to default bag
-          console.log( this.currentBag.script.imgsrc);
-        } else{ //restore state
-          this.currentBag = this.modelConfig.config2d.bagtype;
-          console.log("Reload bag - NOT");
-        }
-      }
-    );
-  }
+
   changeImage(src: string) {
     console.log('Method not implemented.');
   }
@@ -147,12 +161,9 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   resetModel() {
     this.config2dService.clearLocalConfig();
     this.modelConfig = this.config2dService.getLocalConfig();
-    this.reloadBags();
-    //this.modelConfig = new ModelConfig("./images/2dtest1.jpg", []);
-  /*  this.modelConfig.config2d.topPos = 0;
-    this.modelConfig.config2d.leftPos = -50;
-    this.modelConfig.config2d.width = 500;
-    this.modelConfig.config2d.height  = 500;*/
+    this.currentBag = new BagType();
+    this.currentMaterial = new BagMaterial();
+    this.matUrl = "";
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
@@ -172,11 +183,12 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
      return;
     }
     if(this.validateModelToStore(this.modelConfig.config2d)){
-      let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.modelConfig.config2d.bagtype.id, this.modelConfig.config2d.material.id,
+      let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.currentBag.id, this.currentMaterial.id,
         this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig));
       console.log(this.modelConfig);
       this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
         (data: IModel[]) => {
+          this.resetModel();
           this.alertService.success("model " + this.inModelName + " created");
         }, () => console.log('err'));    } else{  }
     //check material, bagtype, name
@@ -184,19 +196,20 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   selectMaterial(material: BagMaterial) {
-    console.log(" material name - " + material.name)
-    this.modelConfig.config2d.material = material;
+    this.currentMaterial = material;
+    this.matUrl =  './materials/' + material.image ;
+    console.log(" material name - " +  this.matUrl);
     this.alertService.clearMeessage();
   }
 
   selectBagType(bagtype : BagType){
     this.currentBag = bagtype;
-    let jStr : string  = JSON.parse(JSON.stringify( this.currentBag.script  ));   // json to obj
-    let scriptObj : BagtypeConfig =  JsonConvert.deserializeString(jStr, BagtypeConfig);
-    this.currentBag.script = scriptObj;
-
-    console.log("bagtype name - " + bagtype.name)
-    this.modelConfig.config2d.bagtype = bagtype;
+    if (typeof bagtype.script=== "string" ){ // parse at first entranse
+      let jStr : string  = JSON.parse(JSON.stringify( bagtype.script  ));   // json to obj
+      this.currentBag.script  =  JSON.parse(jStr);
+    } else{       // if it is already object
+      this.currentBag.script = bagtype.script;
+    }
     this.alertService.clearMeessage();
   }
 
@@ -218,11 +231,11 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
 
 
   private  validateModelToStore(localConf : Config2d) : boolean{
-    if  (localConf.material == null ){
+    if  (this.currentMaterial.id == null ){
       this.alertService.error("Select material!", false)
       return false;
     } else if
-    (localConf.bagtype == null ){
+    (this.currentBag.id == null ){
       this.alertService.error("Select bagtype!", false)
       return false;
     }else if
@@ -234,9 +247,19 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     return true;
   }
 
+  loadModel(model: IModel): void {
+    throw new Error('Method not implemented.');
+  }
+
+
   ngOnDestroy(): void {
-    this.modelConfig.config2d.bagtype.script = this.currentBag.script;
-    this.config2dService.saveLocalConfig(this.modelConfig);
+    if(!this.viewMode) {  // creation mode
+      this.config2dService.saveLocalConfig(this.modelConfig);
+      this.config2dService.setCurrentBag(this.currentBag);
+      this.config2dService.setCurrentMaterial(this.currentMaterial);
+      this.config2dService.setMatUrl(this.matUrl);
+    } else { // VIEW mode
+    }
   }
 
  /*  private setImgPosition(top : number, left: number){
@@ -244,26 +267,14 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.leftPos = left;
 
    }*/
-
-
-
-
-  /*
+/*
    private isInsideBoundary(event: MouseEvent) {
    return event.clientX > this.boundary.left &&
    event.clientX < this.boundary.right &&
    event.clientY > this.boundary.top &&
    event.clientY < this.boundary.bottom;
    }*/
-
-
 }
 
-/*
-  - move user model
-  - fix bagground movment model
-  - read x y position, save position to config
-  -
-  */
 //http://lishman.io/angular-2-event-binding
 // https://groups.google.com/forum/#!topic/angular/Ri_ZKuTPNfo            input

@@ -36,13 +36,11 @@ export class UserRoleService {
     return true;
   }
   isModerator() : boolean{
-    if(this.getUserRole() === 'Administrator')
+    if(this.getUserRole() === 'Moderator')
       return true;
   }
   isFactory() : boolean{
-    if(this.getUserRole() === 'Administrator')
+    if(this.getUserRole() === 'Factory')
       return true;
   }
-
-
 }

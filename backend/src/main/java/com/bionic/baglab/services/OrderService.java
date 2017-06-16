@@ -46,9 +46,9 @@ public class OrderService {
     @Autowired
     private OrderItemDao orderItemDao;
 
-    public Set<OrderDto> findAll() {
+    public List<OrderDto> findAll() {
         List<OrderEntity> temp = orderDao.findAll();
-        return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
+        return temp.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     public OrderEntity findOne(Long id) {
@@ -73,14 +73,14 @@ public class OrderService {
         return ordersEntities.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
-    public Set<OrderDto> getAllOrdersByUserId(long userId) {
+    public List<OrderDto> getAllOrdersByUserId(long userId) {
         List<OrderEntity> temp = orderDao.findAllByUserIdUser(userId);
-        return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
+        return temp.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
-    public Set<OrderDto> getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
+    public List<OrderDto> getOrderByUserIdAndStatus(long userId, OrderStatusNameEnum statusCode) {
         List<OrderEntity> temp = orderDao.findAllOrderByUserIdUserAndOrderStatusCode(userId, statusCode);
-        return temp.stream().map(OrderDto::new).collect(Collectors.toSet());
+        return temp.stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     /**

@@ -7,7 +7,12 @@ import {OrderResp, OrderStatusNameEnum} from "../../models/order";
 @Component({
   selector: 'app-manager',
   templateUrl: './factory.component.html',
-  styles: []
+  styles:[`
+      .modoverflow {
+        height:500px;
+        overflow-y: scroll;
+      }
+`]
 })
 export class FactoryComponent implements OnInit {
   private uModels: IModel[] = [];
@@ -41,9 +46,19 @@ export class FactoryComponent implements OnInit {
   }
 
   showOrders(){
+    this.selectedModel = null; //clean view
     this.getOrdersByStatus(2); //Accepted
     this.showEditOrder = true;
     //refresh orders ent
+  }
+
+  showModelsInOrder(ord : OrderResp){
+    //this.showWhat = ShowView.MODELS_IN_ORDER;
+    this.showEditOrder = false; // show models view
+    this.uModels = [];  //clean arr
+    for (let it  of ord.items){
+      this.uModels.push(it.model);
+    }
   }
 
  /* getOrders(){ //All

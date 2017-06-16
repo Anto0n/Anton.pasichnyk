@@ -1,5 +1,6 @@
 import { JsonObject, JsonProperty } from "json2typescript";
 import {ModelConfig} from "./modelConfig";
+import {Panel} from "../configurator/3DConfigurator/panel.model";
 
 export class IModel {
   "id": number;

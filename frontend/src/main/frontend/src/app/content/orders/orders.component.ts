@@ -1,25 +1,39 @@
-import {Component, OnInit,  ChangeDetectorRef, OnDestroy} from '@angular/core';
+import {Component, OnInit,  ChangeDetectorRef, OnDestroy, ViewChild} from '@angular/core';
 import {RestService} from "../../services/rest.service";
 import {IModel, CreateModel, ModelStatus} from "../../models/model";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {Subscription} from "rxjs";
 import {CardOrderService} from "../../services/order/card-order.service";
-import {OrderResp} from "../../models/order";
+import {mItems, OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
+import {ModelConfig} from "../../models/modelConfig";
+import {IConfigurator} from "app/configurator/configurator.model";
+import {ConfiguratorComponent} from "../../configurator/configurator.component";
 
 @Component({
   selector: 'app-orders',
-  templateUrl: './orders.component.html'
+  templateUrl: './orders.component.html',
+  styles:[`
+      .modoverflow {
+        height:400px;
+        overflow-y: scroll;
+      }
+`]
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   private uId: string;
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
-  private selectedModel:IModel;
- // private subscription: Subscription;
+   selectedModel:IModel;
+  private myOrders : OrderResp[];
   private subsOrderResp: Subscription;
   private currentOrder : OrderResp = new OrderResp();
+  ShowView = ShowView; // allow to use enum in template
+  private showWhat : ShowView = ShowView.MODELS; //models first
+
+  @ViewChild('config')
+  private configurator: ConfiguratorComponent;
 
   selectModelId: number;
 
@@ -47,7 +61,43 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
       this.currentOrder = orderResp;
     });
+    this.reloadMyOrdersList();
   }
+
+  showModels(){
+    this.showWhat = ShowView.MODELS;
+    this.getModelsByUserId();
+  }
+
+  showOrders(){
+    this.showWhat = ShowView.ORDERS;
+    this.reloadMyOrdersList();
+    //refresh orders ent
+  }
+
+  showModelsInOrder(ord : OrderResp){
+    this.showWhat = ShowView.MODELS_IN_ORDER;
+    this.uModels = [];  //clean arr
+    for (let it  of ord.items){
+      this.uModels.push(it.model);
+    }
+  }
+
+  reloadMyOrdersList(){
+    let id = this.roleService.getUserId();
+    this.restService.getData('./api/order/findall' + `/${id}`).subscribe(
+      (data: OrderResp[]) => {
+        this.myOrders = data;
+        this.myOrders = this.myOrders.filter(o => o.status.code != OrderStatusNameEnum[OrderStatusNameEnum.BUCKET]); //Filter Bucket
+        this.myOrders =  this.myOrders.sort((a, b): number => {   //sor array by
+          if (a.status.code < b.status.code) return -1;
+          if (a.status.code > b.status.code) return 1;
+          return 0;
+        })
+      }, () => console.log('err')
+    );
+  }
+
 
   private getModelsByUserId() {
     this.uId = this.roleService.getUserId();
@@ -110,6 +160,14 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
   }
 
+  selectModel(model: IModel) {
+    console.log("selectModel IModel:");
+    console.log(model);
+    this.restService.getData("/api/models/"+model.id).subscribe(
+      (data)=> this.configurator.configurator.loadModel(model),
+      ()=>console.log("err"));
+    // this.configurator.configurator.loadModel(model);
+  }
    ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
      //this.subsOrderResp.unsubscribe();
@@ -119,6 +177,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
 }
 
-
+export enum ShowView{
+  MODELS, ORDERS, MODELS_IN_ORDER
+}
 
 

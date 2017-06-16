@@ -30,43 +30,58 @@
 
   <div class="row">
     <div class="col-md-9" *ngIf="!showEditOrder">
+
+      <div *ngIf="selectedModel">
+        <hr>
+        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+      </div>
+
+
       <h3> Factory models </h3>
+      <div class="modoverflow">
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <th>id</th>
+            <th>user id</th>
+            <th>Bag type id</th>
+            <th>model name</th>
+            <th>status</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <!--(click)="onSelect(model)"-->
+          <tr *ngFor="let model of uModels"
+              [class.selected]="model === selectedModel">
+            <!--<th scope="row">1</th>-->
+            <td>{{model.id}}</td>
+            <td>{{model.userId}}</td>
+            <td>{{model.bagTypeId}}</td>
+            <td>{{model.mname}}</td>
+            <td>{{model.approved}}</td>
+            <td>
+              <button (click)="selectedModel = model" class="btn-outline-info">view model</button>
+            </td>
 
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>id</th>
-          <th>user id</th>
-          <th>Bag type id</th>
-          <th>model name</th>
-          <th>status</th>
-          <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let model of uModels" (click)="onSelect(model)"
-            [class.selected]="model === selectedModel">
-          <!--<th scope="row">1</th>-->
-          <td>{{model.id}}</td>
-          <td>{{model.userId}}</td>
-          <td>{{model.bagTypeId}}</td>
-          <td>{{model.mname}}</td>
-          <td>{{model.approved}}</td>
-          <td> <button  class="btn-outline-info" > download </button></td>
+            <td>
+              <button class="btn-outline-success"> download model</button>
+            </td>
 
-          <!-- <td>
-             <button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-success"
-                     (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE
-             </button>
-           </td>
-           <td>
-             <button *ngIf="model.approved==='NEW' || model.approved==='APPROVED'" class="btn btn-warning"
-                     (click)=" approveModel(model,'2'); $event.stopPropagation()"> REJECTE
-             </button>
-           </td>-->
-        </tr>
-        </tbody>
-      </table>
+            <!-- <td>
+               <button *ngIf="model.approved==='NEW' || model.approved==='REJECTED'" class="btn btn-success"
+                       (click)=" approveModel(model,'1'); $event.stopPropagation()"> APPROVE
+               </button>
+             </td>
+             <td>
+               <button *ngIf="model.approved==='NEW' || model.approved==='APPROVED'" class="btn btn-warning"
+                       (click)=" approveModel(model,'2'); $event.stopPropagation()"> REJECTE
+               </button>
+             </td>-->
+          </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!--orders-->
@@ -77,7 +92,7 @@
       <button class="btn btn-outline-success" (click)="getOrdersByStatus('2')"> INCOME</button>
       <button class="btn btn-outline-warning" (click)="getOrdersByStatus('5')"> SHIPPED</button>
 
-      <div class="table-responsive">
+      <div class="table-responsive, modoverflow">
         <table class="table table-sm table-striped
  table-bordered table-cart">
           <tbody>
@@ -100,17 +115,24 @@
               currency:'USD':true:'1.2-2'}}
             </td>
             <td>{{order.status.code}}</td>
-           <!-- <td>
-              <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
-                      (click)=" sendOrder(order,'2'); $event.stopPropagation()"> APPROVE
-              </button>
-            </td>-->
+            <!-- <td>
+               <button *ngIf="order.status.code==='NEW' " class="btn btn-success"
+                       (click)=" sendOrder(order,'2'); $event.stopPropagation()"> APPROVE
+               </button>
+             </td>-->
             <td>
               <button *ngIf="order.status.code==='ACCEPTED' " class="btn btn-warning"
                       (click)=" approveOrder(order,'5'); $event.stopPropagation()"> Send order
               </button>
             </td>
-            <td> <button class="btn-outline-info" > view </button></td>
+            <td>
+              <button class="btn-outline-info" (click)="showModelsInOrder(order)"> view</button>
+            </td>
+
+            <td>
+              <button class="btn-outline-success"> download order</button>
+            </td>
+
 
           </tr>
           </tbody>
@@ -118,5 +140,6 @@
       </div>
     </div>
   </div>
-
+  <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>
+  <button class="btn btn-primary" (click)="showModels()">MODELS</button>
 </div>

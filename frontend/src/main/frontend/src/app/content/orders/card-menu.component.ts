@@ -5,17 +5,25 @@ import {CardOrderService} from "../../services/order/card-order.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {RestService} from "../../services/rest.service";
+import {IModel} from "../../models/model";
 
 
 @Component({
   selector: 'app-card-menu',
-  templateUrl: './card-menu.component.html'
+  templateUrl: './card-menu.component.html',
+  styles:[`
+      .modoverflow {
+        height:300px;
+        overflow-y: scroll;
+      }
+`]
 })
 export class CardMenuComponent implements OnInit, OnDestroy {
   //ordModels : OrderResp[] =[]
   private orderRespListener: OrderResp = new OrderResp();
   private subscription: Subscription;
   private subscrReloadBucket: Subscription;
+  private selectedModel: IModel ;
   //private emtyCard: boolean;
 
   constructor(private cardServ: CardOrderService, private authService: AuthenticationService,

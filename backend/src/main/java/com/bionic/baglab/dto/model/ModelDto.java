@@ -20,7 +20,7 @@ public class ModelDto {
     private ModelStatusEnum approved;
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
-    //private String config;
+    private String config;
 
     public ModelDto() {
     }
@@ -31,11 +31,11 @@ public class ModelDto {
         this.userId = modelEntity.getUserEntity().getIdUser();
         this.bagTypeId = modelEntity.getBagTypeEntity().getId();
         this.materialId = modelEntity.getMaterialEntity().getId();
-        this.modelCreate =  modelEntity.getModelCreate();
-        this.modelUpdate =  modelEntity.getModelCreate();
+        this.modelCreate = modelEntity.getModelCreate();
+        this.modelUpdate = modelEntity.getModelCreate();
         this.approved = modelEntity.getApproved();
         this.mname = modelEntity.getMname();
-        //this.config = modelEntity.getConfig();
+        this.config = modelEntity.getConfig();
     }
 
     public long getId() {
@@ -102,11 +102,11 @@ public class ModelDto {
         this.materialId = materialId;
     }
 
-   /* public String getConfig() {
+    public String getConfig() {
         return config;
     }
 
     public void setConfig(String config) {
         this.config = config;
-    }*/
+    }
 }

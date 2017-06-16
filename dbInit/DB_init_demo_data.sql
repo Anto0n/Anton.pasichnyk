@@ -16,6 +16,9 @@ insert into baglab.palette (rgb) value ('205,92,92');
 insert into baglab.palette (rgb) value ('255,69,0');
 insert into baglab.palette (rgb) value ('255,140,0');
 
+insert into baglab.panel (name, texture) value ('bag_front', 'bag_front_text_img');
+insert into baglab.panel (name, texture) value ('bag_body', 'bag_body_text_img');
+
 insert into baglab.order_status (code, description) values ('BUCKET', 'items in bucket, order is not created yet');
 insert into baglab.order_status (code, description) values ('NEW', 'new created order');
 insert into baglab.order_status (code, description) values ('ACCEPTED', 'order is accepted and send to factory');
@@ -67,7 +70,9 @@ INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUE
 INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '1', '34', '23');
 INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '2', '54', '23');
 
-
+INSERT INTO baglab.model (userId, bagTypeId, materialId, mname, config, approved, deleted, modelCreate, modelUpdate) VALUES (3, 1, 6, 'sviatDemo1', '{"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":6,"name":"jeans-yellow","price":-1,"image":"jeans_2048_yellow.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":4,"name":"jeans-blue","price":-1,"image":"jeans_2048_blue.jpg"}}]}}', 0, 0, '2017-06-15 23:25:25', '2017-06-15 23:25:25');
+INSERT INTO baglab.model (userId, bagTypeId, materialId, mname, config, approved, deleted, modelCreate, modelUpdate) VALUES (3, 1, 7, 'sviatDemo2', '{"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":7,"name":"leather","price":-1,"image":"leather_2048.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":6,"name":"jeans-yellow","price":-1,"image":"jeans_2048_yellow.jpg"}}],"material":{}}}', 0, 0, '2017-06-16 01:30:33', '2017-06-16 01:30:33');
+INSERT INTO baglab.model (userId, bagTypeId, materialId, mname, config, approved, deleted, modelCreate, modelUpdate) VALUES (3, 1, 5, 'sviatDemo3', '{"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":5,"name":"jeans-green","price":-1,"image":"jeans_2048_green.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":5,"name":"jeans-green","price":-1,"image":"jeans_2048_green.jpg"}}],"material":{}}}', 0, 0, '2017-06-16 01:38:58', '2017-06-16 01:38:58');
 #------------------------------------------------------
 insert into baglab.country (name) values ('Andorra');
 insert into baglab.country (name) values ('United Arab Emirates');

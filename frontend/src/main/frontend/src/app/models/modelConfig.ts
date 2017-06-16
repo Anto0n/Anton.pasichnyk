@@ -1,4 +1,5 @@
 import {BagMaterial, BagType} from "./model";
+import {Panel} from "../configurator/3DConfigurator/panel.model";
 
 export class Config2d{
   topPos : number = 0;
@@ -9,24 +10,21 @@ export class Config2d{
 
   height : number = 500;
 
-  material: BagMaterial;
+ // material: BagMaterial;
 
-  bagtype: BagType;
+ // bagtype: BagType;
 }
 
 
 export class Config3d{
-
-  material: BagMaterial;
+  panels : Panel [];
+  material : BagMaterial;
+  constructor(){
+    this.panels=[];
+    this.material= new BagMaterial();
+  }
 
 }
-
-
-/**
- * Created by Potaychuk Sviatoslav on 26.05.2017.
- * image - img url
- */
-
 
 export class ModelConfig{
   image: string = undefined;

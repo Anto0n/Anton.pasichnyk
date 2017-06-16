@@ -49,6 +49,8 @@ import {Configurator2DComponent} from "./configurator/2DConfigurator/configurato
 import {Configurator2dService} from "./services/configurator/configurator2d.service";
 import {DragDropComponent} from "./configurator/2DConfigurator/temp/dragdrop.component";
 import {View2dComponent} from "./configurator/view/2dview.component";
+import {ModeratorGuard} from "./shared/guards/moderator.guard";
+import {FactoryGuard} from "./shared/guards/factory.guard";
 
 
 
@@ -93,7 +95,7 @@ import {View2dComponent} from "./configurator/view/2dview.component";
     ReactiveFormsModule
   ],
   providers: [RestService,AlertService, AuthenticationService,UserCRUDService,ModelService,
-    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, OrderService, CardOrderService, Configurator2dService ],
+    UserService, UserRoleService, SafePipe, AuthGuard, AdminGuard, ModeratorGuard, FactoryGuard, OrderService, CardOrderService, Configurator2dService ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

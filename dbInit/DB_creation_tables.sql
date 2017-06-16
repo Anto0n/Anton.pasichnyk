@@ -236,23 +236,9 @@ DROP TABLE IF EXISTS `baglab`.`panel` ;
 
 CREATE TABLE IF NOT EXISTS `baglab`.`panel` (
   `idPanel` BIGINT  NOT NULL AUTO_INCREMENT,
-  `pictureURL` VARCHAR(255) NULL,
-  `colourRGB` INT(11) NOT NULL,
-  `bagTypeId` BIGINT NOT NULL,
-  `materialId` BIGINT NOT NULL,
-  PRIMARY KEY (`idPanel`, `bagTypeId`),
-  INDEX `fk_panel_bag_type1_idx` (`bagTypeId` ASC),
-  INDEX `fk_panel_material1_idx` (`materialId` ASC),
-  CONSTRAINT `fk_panel_bag_type1`
-    FOREIGN KEY (`bagTypeId`)
-    REFERENCES `baglab`.`bag_type` (`idBagType`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_panel_material1`
-    FOREIGN KEY (`materialId`)
-    REFERENCES `baglab`.`material` (`idmaterial`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `name` VARCHAR(45) NOT NULL,
+  `texture` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idPanel`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 

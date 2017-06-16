@@ -10,7 +10,8 @@ import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-card-view',
-  templateUrl: './card-view.component.html'
+  templateUrl: './card-view.component.html',
+  styleUrls:['./card-view.component.css'],
 })
 export class CardViewComponent implements OnInit, OnDestroy {
   private orderRespListener: OrderResp = new OrderResp();

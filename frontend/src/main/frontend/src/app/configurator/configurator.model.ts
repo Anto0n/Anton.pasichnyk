@@ -1,5 +1,5 @@
 import {ModelConfig} from "../models/modelConfig";
-import {BagMaterial, BagType} from "../models/model";
+import {BagMaterial, BagType, IModel} from "../models/model";
 export interface IConfigurator {
   /**
    *
@@ -30,7 +30,7 @@ export interface IConfigurator {
   /**
    * jeans cotton leather from DB
    */
-  selectMaterial(material: BagMaterial);
+  selectMaterial(material: BagMaterial, panel?:string);
 
   /**
    *  select predefined bagtype from database
@@ -39,5 +39,7 @@ export interface IConfigurator {
   selectBagType(bagtype : BagType);
 
   getModelConfig();
+
+  loadModel(model: IModel): void;
 
 }

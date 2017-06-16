@@ -55,7 +55,7 @@ public class BagTypeController {
      * @param id of the bag type that we are looking for
      * @return bagTypeDto object
      */
-    @PostMapping(value = "/{id}")
+    @GetMapping(value = "/{id}")
     public BagTypeDto findById(@PathVariable("id") long id) {
         BagTypeDto bagType = bagTypeService.getDtoById(id);
         return bagType;
