@@ -4,6 +4,8 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.dao.UserDao;
 import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.dto.user.UserDto;
+import com.bionic.baglab.mail.MailSender;
+import com.bionic.baglab.mail.template.TemplateEngine;
 import com.bionic.baglab.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -31,6 +34,10 @@ public class UserController {
     private UserDao userDao;
     @Autowired
     private UserService userService;
+    @Autowired
+    private MailSender mailSender;
+    @Autowired
+    private TemplateEngine templateEngine;
 
     /**
      * /delete  --> Delete the user having the passed id.
@@ -136,6 +143,24 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @RequestMapping("/sendMailFromUser")
+    public void sendMailFromUser(@PathVariable String name,
+        @PathVariable String lastname,
+        @PathVariable String email,
+        @PathVariable String phone,
+        @PathVariable String message){
+        String subject = "Feedback from Baglab.com";
+        String template = "feedback.html";
+        String body = templateEngine.build(template, new HashMap<String,String>() {{
+            put("name", name);
+            put("lastname", lastname);
+            put("email", email);
+            put("phone", phone);
+            put("message", message);
+        }});
+        boolean success = mailSender.sendMail("baglab.eu.bionic@gmail.com", subject, body);
+        System.out.println("Mail success: " + success);
+    }
 }
 
 
