@@ -1,9 +1,10 @@
 package com.bionic.baglab.controllers;
 
-import com.bionic.baglab.domains.OrderEntity;
 import com.bionic.baglab.dto.JResponse;
 import com.bionic.baglab.dto.enums.OrderStatusNameEnum;
 import com.bionic.baglab.dto.order.*;
+import com.bionic.baglab.mail.MailSender;
+import com.bionic.baglab.mail.template.TemplateEngine;
 import com.bionic.baglab.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,12 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.xml.ws.Response;
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/order")
@@ -24,6 +22,12 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private MailSender mailSender;
+
+    @Autowired
+    private TemplateEngine templateEngine;
 
     @PostMapping("/createOrder")
     public OrderDto createOrder(@Valid @RequestBody OrderDtoCreate orderDto) {
@@ -35,12 +39,39 @@ public class OrderController {
         return orderService.findAll();
     }
 
-    //TODO security check, get user id from principal and save it as moderator id!!
+
     @PutMapping("/changeStatus")
     public OrderDto changeOrderStatus(@Valid @RequestBody OrderStatusChangeDTO orderStatusChangeDTO) {
+        OrderDto dto = orderService.changeStatus(orderStatusChangeDTO.getOrderId(),
+            orderStatusChangeDTO.getOrderStatusNameEnum());
+        String userName = orderService.findOne(orderStatusChangeDTO.getOrderId()).getUser().getFirstname();
+        String orderId = String.valueOf(orderStatusChangeDTO.getOrderId());
+        String email =  orderService.findOne(orderStatusChangeDTO.getOrderId()).getUser().getEmail();
+        if (orderStatusChangeDTO.getOrderStatusNameEnum().equals(OrderStatusNameEnum.ACCEPTED) && dto != null) {
+            String subject = "Your order on Baglab.com is approved";
+            String template = "approve_order.html";
+            sendMail(userName, orderId, email, subject, template);
+        }
+        if (orderStatusChangeDTO.getOrderStatusNameEnum().equals(OrderStatusNameEnum.DENIED) && dto != null) {
+            String subject = "Your order on Baglab.com is denied";
+            String template = "deny_order.html";
+            sendMail(userName, orderId, email, subject, template);
+        }
+        if (orderStatusChangeDTO.getOrderStatusNameEnum().equals(OrderStatusNameEnum.SEND) && dto != null) {
+            String subject = "Your order on Baglab.com is sent";
+            String template = "sent_order.html";
+            sendMail(userName, orderId, email, subject, template);
+        }
+        return dto;
+    }
 
-        return orderService.changeStatus(orderStatusChangeDTO.getOrderId(),
-                orderStatusChangeDTO.getOrderStatusNameEnum());
+    private void sendMail(String userName, String orderId, String email, String subject, String template) {
+        String body = templateEngine.build(template, new HashMap<String,String>() {{
+            put("name", userName);
+            put("id", orderId);
+        }});
+        boolean success = mailSender.sendMail(email, subject, body);
+        System.out.println("Mail success: " + success);
     }
 
     //TODO add security check
