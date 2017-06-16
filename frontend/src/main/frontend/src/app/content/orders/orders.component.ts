@@ -163,7 +163,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   selectModel(model: IModel) {
     console.log("selectModel IModel:");
     console.log(model);
-    this.restService.getData("/api/models/"+model.id).subscribe(
+    this.restService.getData("./api/models/"+model.id).subscribe(
       (data)=> this.configurator.configurator.loadModel(model),
       ()=>console.log("err"));
     // this.configurator.configurator.loadModel(model);

@@ -41,16 +41,13 @@ export class ConfiguratorComponent implements OnInit {
         this.restService.getData(`./api/bag_type/${model.bagTypeId}`).subscribe((data: BagType) => {
           this.outBag = data;
           let jStr : string  = JSON.parse(JSON.stringify( data.script  ));
-          let obj : BagtypeConfig = JSON.parse(jStr);
-          this.outBag.script = obj;
+          this.outBag.script = JSON.parse(jStr);
         });
          this.restService.getData(`./api/material/${model.materialId}`).subscribe((data: BagMaterial) => {
          console.log(data);
          this.outMaterial = data;
          });
-
     }
-
     //todo method reload data on configurator
     //this.configurator.
   }

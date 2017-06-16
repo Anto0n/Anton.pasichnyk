@@ -7,7 +7,7 @@ import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../mode
 import {AuthenticationService} from "../../services/authentication.service";
 import {AlertService} from "../../services/alert.service";
 import {Panel} from "./panel.model";
-import {noUndefined} from "@angular/compiler/src/util";
+//import {noUndefined} from "@angular/compiler/src/util";
 import {isUndefined} from "util";
 
 declare var b4w: any;
