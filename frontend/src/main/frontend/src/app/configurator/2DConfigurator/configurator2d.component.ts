@@ -248,7 +248,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   }
 
   loadModel(model: IModel): void {
-    throw new Error('Method not implemented.');
+    console.log(' loadModel - Method not implemented.');
   }
 
 

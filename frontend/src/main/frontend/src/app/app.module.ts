@@ -51,6 +51,7 @@ import {DragDropComponent} from "./configurator/2DConfigurator/temp/dragdrop.com
 import {View2dComponent} from "./configurator/view/2dview.component";
 import {ModeratorGuard} from "./shared/guards/moderator.guard";
 import {FactoryGuard} from "./shared/guards/factory.guard";
+import { EditUsersComponent } from './content/admin/edituser/editusers/editusers.component';
 
 
 
@@ -80,7 +81,8 @@ import {FactoryGuard} from "./shared/guards/factory.guard";
     Configurator3DComponent,
     Configurator2DComponent,
     DragDropComponent,
-    View2dComponent
+    View2dComponent,
+    EditUsersComponent
   ],
   imports: [
     NgbModule.forRoot(),

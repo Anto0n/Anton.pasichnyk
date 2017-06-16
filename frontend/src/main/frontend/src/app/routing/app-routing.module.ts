@@ -19,6 +19,7 @@ import {AdminGuard} from "../shared/guards/admin.guard";
 import {CardViewComponent} from "../content/orders/card-view.component";
 import {FactoryGuard} from "../shared/guards/factory.guard";
 import {ModeratorGuard} from "../shared/guards/moderator.guard";
+import {EditUsersComponent} from "../content/admin/edituser/editusers/editusers.component";
 
 
 const appRoutes: Routes = [
@@ -35,6 +36,7 @@ const appRoutes: Routes = [
   {path: 'moderator',pathMatch: 'full', component: ModeratorComponent, canActivate: [ModeratorGuard], canLoad: [ModeratorGuard]},
   {path: 'factory',pathMatch: 'full', component: FactoryComponent, canActivate: [FactoryGuard], canLoad: [FactoryGuard]},
   {path: 'editnews', component: CreateNewsComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
+  {path: 'editusers/:id', component: EditUsersComponent, canActivate: [AdminGuard], canLoad: [AdminGuard]},
   {path: 'cardview', component: CardViewComponent, canActivate: [AuthGuard]},
   {path: '',   redirectTo: '/home', pathMatch: 'full' },
   {path: '**', component: PageNotFoundComponent }
