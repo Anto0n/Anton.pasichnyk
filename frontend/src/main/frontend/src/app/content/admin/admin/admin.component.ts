@@ -14,6 +14,9 @@ export class AdminComponent implements OnInit, OnDestroy {
   subscriptionAdmin: Subscription;
   private roleAdmin:boolean = false;
 
+  showListUsers : boolean = false;
+  private
+
   constructor(private restService: RestService, private roleService: UserRoleService, private authService : AuthenticationService, private router: Router) {
     this.subscriptionAdmin = this.authService.getAdminStatus().subscribe(
       roleAdmin => {this.roleAdmin = roleAdmin});
@@ -30,6 +33,16 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.router.navigate(['./editnews']);
   }
 
+  listUsers(){
+  this.restService.getData("./api/user/list").subscribe(
+    data =>{
+      this.showListUsers = true;
+    }, error =>{
+
+    }
+  )
+
+  }
   ngOnDestroy(): void {
     this.subscriptionAdmin.unsubscribe();
   }

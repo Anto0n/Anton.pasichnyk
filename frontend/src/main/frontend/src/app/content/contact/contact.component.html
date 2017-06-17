@@ -1,14 +1,6 @@
-<h1>Help</h1>
-<p>Lorem ipsum dolor sit amet, consectetur
-  adipisicing elit. At ea facere libero,
-  mollitia natus nesciunt, odio perspiciatis
-  placeat reiciendis sapiente veritatis
-  voluptatibus? Accusantium dignissimos
-  enim mollitia nesciunt non, quasi repudiandae.
-</p>
-<form id="contact-form" method="post" action="/sendMailFromUser" role="form">
+<h1>Contact Us</h1>
 
-  <div class="messages"></div>
+<form [formGroup]="createContactForm"  *ngIf="active" (ngSubmit)="onSubmit()" id="contact-form">
 
   <div class="controls">
 
@@ -16,15 +8,19 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="form_name">Firstname *</label>
-          <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required.">
-          <div class="help-block with-errors"></div>
+          <input id="form_name" type="text" name="name" class="form-control" placeholder="Enter your firstname *" formControlName="name"  required>
+          <div *ngIf="formErrors.name" class="alert alert-danger">
+            {{ formErrors.name }}
+          </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label for="form_lastname">Lastname *</label>
-          <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required.">
-          <div class="help-block with-errors"></div>
+          <input id="form_lastname" type="text" name="lastname" class="form-control" placeholder="Enter your lastname *" formControlName="lastname"  required>
+          <div *ngIf="formErrors.lastname" class="alert alert-danger">
+            {{ formErrors.lastname }}
+          </div>
         </div>
       </div>
     </div>
@@ -32,15 +28,19 @@
       <div class="col-md-6">
         <div class="form-group">
           <label for="form_email">Email *</label>
-          <input id="form_email" type="email" name="email" class="form-control" placeholder="Please enter your email *" required="required" data-error="Valid email is required.">
-          <div class="help-block with-errors"></div>
+          <input id="form_email" type="email" name="email" class="form-control" placeholder="Enter your email *" formControlName="email"  required>
+          <div *ngIf="formErrors.email" class="alert alert-danger">
+            {{ formErrors.email }}
+          </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group">
           <label for="form_phone">Phone</label>
-          <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Please enter your phone">
-          <div class="help-block with-errors"></div>
+          <input id="form_phone" type="tel" name="phone" class="form-control" placeholder="Enter your phone" formControlName="phone" >
+          <div *ngIf="formErrors.phone" class="alert alert-danger">
+            {{ formErrors.phone }}
+          </div>
         </div>
       </div>
     </div>
@@ -48,12 +48,15 @@
       <div class="col-md-12">
         <div class="form-group">
           <label for="form_message">Message *</label>
-          <textarea id="form_message" name="message" class="form-control" placeholder="Message *" rows="4" required="required" data-error="Please,leave us a message."></textarea>
-          <div class="help-block with-errors"></div>
+          <textarea id="form_message" name="message" class="form-control" placeholder="Message *" rows="4" formControlName="message"  required></textarea>
+          <div *ngIf="formErrors.message" class="alert alert-danger">
+            {{ formErrors.message }}
+          </div>
         </div>
       </div>
       <div class="col-md-12">
-        <input type="submit" class="btn btn-success btn-send" value="Send message">
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+        <button [disabled]="!createContactForm.valid"  type="submit" class="btn btn-success btn-send"> Send message</button>
       </div>
     </div>
     <div class="row">

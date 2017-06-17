@@ -1,5 +1,5 @@
 import {Component, OnDestroy,  OnInit} from '@angular/core';
-import {IUser} from "../../models/test.model";
+import {IUser} from "../../models/iuser.model";
 import {RestService} from "../../services/rest.service";
 import {IModel, ModelStatus, BagType, BagtypeConfig} from "../../models/model";
 import {OrderResp, OrderCreate, mItems} from "../../models/order";

@@ -60,7 +60,8 @@ export class UserCreateComponent implements OnInit {
             this.router.navigate(['/login']);
           },
           error => {
-            this.alertService.error(error);
+            this.alertService.error("some error");
+            console.log(error);
             this.errorMessage = <any>error;
             this.loading = false;
           }
@@ -73,7 +74,7 @@ export class UserCreateComponent implements OnInit {
 
   }
 
-  onValueChanged(data?: any) {
+ private  onValueChanged(data?: any) {
     if (!this.createUserForm) { return; }
     const form = this.createUserForm;
 
@@ -118,7 +119,7 @@ export class UserCreateComponent implements OnInit {
   };
 
   //not finished yet
-  passwordCompareValidator(control: FormControl):{[s: string]: boolean}{
+ /* passwordCompareValidator(control: FormControl):{[s: string]: boolean}{
     if(control.value ==='111'){
       return{example: true};
     }
@@ -137,7 +138,8 @@ export class UserCreateComponent implements OnInit {
       const no = nameRe.test(name);
       return no ? {'forbiddenName': {name}} : null;
     };
-  }
+
+  }*/
 
 
 }
