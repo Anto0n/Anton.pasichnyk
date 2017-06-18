@@ -29,4 +29,7 @@ public class UserRoleService {
     }
 
 
+    public UserRole findOne(long roleId) {
+        return userRoleDao.findOne(roleId);
+    }
 }

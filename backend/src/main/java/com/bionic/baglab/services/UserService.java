@@ -193,4 +193,12 @@ public class UserService {
     public UserEntity findByLogin(String login){
         return userDao.findByLogin(login);
     }
+
+    public UserEntity findOne(long id) {
+        return userDao.findOne(id);
+    }
+
+    public void save(UserEntity user) {
+        userDao.save(user);
+    }
 }
