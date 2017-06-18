@@ -3,6 +3,7 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.dao.UserDao;
 import com.bionic.baglab.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +14,8 @@ public class AdminController {
     private UserDao userDao;
     @Autowired
     private UserService userService;
+
+   // @PutMapping("/newuserrole")
 
 
 

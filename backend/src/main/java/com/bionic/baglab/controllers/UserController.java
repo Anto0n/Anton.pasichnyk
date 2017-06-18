@@ -5,8 +5,10 @@ import com.bionic.baglab.dao.UserDao;
 import com.bionic.baglab.domains.UserEntity;
 import com.bionic.baglab.dto.user.SendMailFromUserDto;
 import com.bionic.baglab.dto.user.UserDto;
+import com.bionic.baglab.dto.user.UserRoleDto;
 import com.bionic.baglab.mail.MailSender;
 import com.bionic.baglab.mail.template.TemplateEngine;
+import com.bionic.baglab.services.UserRoleService;
 import com.bionic.baglab.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,6 +38,9 @@ public class UserController {
     private UserDao userDao;
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserRoleService roleService;
+
     @Autowired
     private MailSender mailSender;
     @Autowired
@@ -86,20 +91,21 @@ public class UserController {
      * @param id The id for the user to update.   *
      * @return user and status
      */
-    @PutMapping("/update{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable("id") long id, @Validated @RequestBody UserDto userDto) {
 
         UserDto findUser = userService.findById(id);
+        UserDto respDto;
         if (findUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND); //("User with id " + id + " not found");
         }
         try {
-            userService.updateUser(userDto, id);
+            respDto = userService.updateUser(userDto, id);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+        return new ResponseEntity<>(respDto, HttpStatus.OK);
     }
 
 
@@ -159,6 +165,11 @@ public class UserController {
         boolean success = mailSender.sendMail("baglab.eu.bionic@gmail.com", subject, body);
         System.out.println("Mail success: " + success);
     }
+
+    @GetMapping("/uroles")
+        public ResponseEntity<List<UserRoleDto>> getUserRoles(){
+            return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
+        }
 }
 
 

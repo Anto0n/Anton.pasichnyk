@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -26,8 +28,7 @@ public class UserService {
     @Autowired
     private UserRoleDao userRoleDao;
 
-
-    /**
+     /**
      *
      * @return   List<UserDto> - all users. DTO didn't contain passwords
      */
@@ -89,11 +90,12 @@ public class UserService {
 
     //update
     @Transactional
-    public void updateUser(UserDto userDto, long id) throws Exception {
-        UserEntity user;                // 2 - renew field 3 -save
+    public UserDto updateUser(UserDto userDto, long id) throws Exception {
         UserEntity userEntity = userDao.findOne(id);
-        userDto.renewUserEntityFromUserDto(userEntity);
+        userEntity = userDto.renewUserEntityFromUserDto(userEntity);
         userDao.save(userEntity);
+        UserEntity resp = userDao.findOne(userEntity.getIdUser());
+        return new UserDto(resp);                                   // todo: role in response - role additional fields not refresh, only id
     }
 
 

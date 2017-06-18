@@ -135,7 +135,7 @@ public class UserEntity {
     }
 
     @OneToOne
-    @JoinColumn(name = "[roleId]", columnDefinition = "INT(11)")
+    @JoinColumn(name = "[roleId]", columnDefinition = "INT(11)" )
     public UserRole getRole() {
         return role;
     }
@@ -173,7 +173,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "[userCreate]")
+    @Column(name = "[userCreate]", insertable=false, updatable=false)
     public Timestamp getUserCreate() {
         return userCreate;
     }
@@ -183,7 +183,7 @@ public class UserEntity {
     }
 
     @Basic
-    @Column(name = "[userUpdate]")
+    @Column(name = "[userUpdate]", insertable=false, updatable=false)
     public Timestamp getUserUpdate() {
         return userUpdate;
     }
