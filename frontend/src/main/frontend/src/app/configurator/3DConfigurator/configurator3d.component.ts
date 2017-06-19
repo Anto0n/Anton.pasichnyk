@@ -1,6 +1,6 @@
 import {IConfigurator} from "../configurator.model";
 import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
-import {Config3d, ModelConfig} from "../../models/modelConfig";
+import {Config2d, Config3d, ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../models/model";
@@ -14,24 +14,25 @@ declare var b4w: any;
 
 @Component({
   selector: 'configurator-3d',
-  template: `
-    <div id="canvas_cont" STYLE="width: 1000px"></div>`
+  templateUrl: './configurator3d.component.html'
 })
 export class Configurator3DComponent implements OnInit, IConfigurator {
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
+  @Input()
+  viewMode : boolean = false;
 
   @Output() onClearMname = new EventEmitter<string>();
   private modelConfig: ModelConfig;
   private pathToMaterials: string;
   private material: BagMaterial;
+  private materials: BagMaterial [] = [];
   private bagType: BagType;
   private jsonString: any;
   private appName: string = "conf_app";
   private sceneName: string = './assets/testConf/Bag_conf.json';
   base64_image_3 = "./assets/testConf/temp/default_img.png";
   base64_image_4 = "./assets/testConf/temp/logo.png";
-
 
   constructor(private restService: RestService,
               private userRoleService: UserRoleService,
@@ -41,6 +42,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
 
   ngOnInit() {
+    this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
     b4w.register(this.appName, function (exports, require) {
         var testImg = new Image();
         var m_app = b4w.require("app");
@@ -273,7 +275,8 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
   }
 
   resetModel() {
-    b4w.require(this.appName).resetImgColor();
+    this.clearRectangle();
+   // b4w.require(this.appName).resetImgColor();
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
@@ -282,8 +285,21 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
       this.alertService.error("Login to save models!");
       return;
     }
-    console.log(this.bagType.id);
-    console.log(this.bagType);
+    if  (this.material == null ){
+      this.alertService.error("Select material!", false)
+      return;
+    } else if
+    (this.bagType == null ){
+      this.alertService.error("Select bagtype!", false)
+      return;
+    }else if
+    (this.inModelName == null || this.inModelName ==="" || this.inModelName ===" " ){
+      this.alertService.error("set model name", false)
+      return;
+    }
+    this.alertService.clearMeessage();
+
+    this.modelConfig.config2d = new Config2d();
     let createModelT: CreateModel = new CreateModel(ModelStatus.NEW,
       this.bagType.id,
       this.material.id,
@@ -296,7 +312,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
       (data: IModel[]) => {
         this.resetModel();
         this.alertService.success("model " + this.inModelName + " created");
-      }, () => console.log('err'));
+      }, error => console.log(error));
   }
 
 
@@ -332,7 +348,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
         i.material=material;
       }
   }
-    this.restService.getDataAny('/api/material/base64/' + material.image).subscribe(
+    this.restService.getDataAny('./api/material/base64/' + material.image).subscribe(
       (data: any) => {
         this.pathToMaterials = data;
         console.log("this.pathToMaterials");

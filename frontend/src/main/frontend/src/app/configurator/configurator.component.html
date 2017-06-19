@@ -1,7 +1,8 @@
 <button class="btn btn-sm btn-outline-primary" (click)="changeType(configuratorType)">2-D / 3-D</button>
 
-<div id="wrapper_container" class="col-lg-10" style="border: solid black 1px">
-  <configurator-3d #config *ngIf="configuratorType == 3" [inModelName]="modelName" (onClearMname)="onClearMname($event)"></configurator-3d>
+<div id="wrapper_container" class="col-md-12" style="border: solid black 1px">
+  <configurator-3d #config *ngIf="configuratorType == 3" [inModelName]="modelName" (onClearMname)="onClearMname($event)"
+                   [viewMode] ="viewMode"></configurator-3d>
   <configurator-2d #config *ngIf="configuratorType == 2" [modelConfig]="modelConfig" [viewMode] ="viewMode"
                    [setMaterial] = "outMaterial" [currentBag]="outBag"
                    [inModelName]="modelName" (onClearMname)="onClearMname($event)">
@@ -9,8 +10,7 @@
 
   <div id="customizer" *ngIf="!viewMode">
 
-    <button class="btn btn-danger btn-outline-danger " (click)='configurator.resetModel()'>reset</button>
-    <button class="btn btn-success btn-outline-success "  (click)='configurator.save(configurator.getModelConfig())'>save</button>
+
 <div id="inputModelData" class="row">
   <div ngbDropdown #myDrop3="ngbDropdown">
     <button class="btn btn-outline-info" id="dropdownMenu3" ngbDropdownToggle>bag type:</button>
@@ -24,25 +24,18 @@
         <button class="btn btn-info btn-outline-info " *ngFor="let material of materials" (click)="configurator.selectMaterial(material)"> {{material.name}} </button>
       </div>
     </div>
-  <div ngbDropdown #myDrop4="ngbDropdown">
-    <button class="btn btn-outline-info" id="dropdownMenu4" ngbDropdownToggle>bag body materials:</button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
-      <button class="btn btn-info btn-outline-info " *ngFor="let material of materials" (click)="configurator.selectMaterial(material, 'bag_body')"> {{material.name}} </button>
-    </div>
-  </div>
-  <div ngbDropdown #myDrop5="ngbDropdown">
-    <button class="btn btn-outline-info" id="dropdownMenu5" ngbDropdownToggle>bag packet materials:</button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
-      <button class="btn btn-info btn-outline-info " *ngFor="let material of materials" (click)="configurator.selectMaterial(material, 'bag_front')"> {{material.name}} </button>
-    </div>
-  </div>
-
+<!--
   <button class="btn btn-info btn-outline-info " (click)="configurator.go()">draw jeans</button>
-  <button class="btn btn-info btn-outline-info " (click)="configurator.clearRectangle()">reset</button>
-
+-->
+<!--
+  <button class="btn btn-info btn-outline-info " (click)="configurator.clearRectangle()">reset1</button>
+-->
   <br>
   <input type="text"  [(ngModel)]="modelName"  placeholder="new model name"/>
 </div>
+    <button class="btn btn-danger btn-outline-danger " (click)='configurator.resetModel()'>reset</button>
+    <button class="btn btn-success btn-outline-success "  (click)='configurator.save(configurator.getModelConfig())'>save</button>
+
     <!--<div>-->
     <!--<li *ngFor="let item of restService.getData('/api/material/list')">{{item}}</li>-->
     <!--</div>-->

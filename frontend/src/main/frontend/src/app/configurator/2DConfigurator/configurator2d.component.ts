@@ -2,7 +2,7 @@ import {
   Component, OnInit, EventEmitter, HostListener, ElementRef, ViewChild, Renderer, OnDestroy, Input, Output,
 } from "@angular/core";
 import {IConfigurator} from "../configurator.model";
-import {ModelConfig, Config2d} from "../../models/modelConfig";
+import {ModelConfig, Config2d, Config3d} from "../../models/modelConfig";
 import {map} from "rxjs/operator/map";
 import { Configurator2dService} from "../../services/configurator/configurator2d.service";
 import {BagMaterial, BagType, IModel, CreateModel, ModelStatus, BagtypeConfig} from "../../models/model";
@@ -27,7 +27,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   @Output()
   onClearMname = new EventEmitter<string>();
 
-  private matUrl : string = "./materials/defMatTone.png";//= './materials/' + this.currentMaterial.image ;
+   matUrl : string = "./materials/defMatTone.png";//= './materials/' + this.currentMaterial.image ;
 
   //private bags : BagType[] = [];
   @Input()
@@ -183,6 +183,8 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
      return;
     }
     if(this.validateModelToStore(this.modelConfig.config2d)){
+      this.modelConfig.config3d = new Config3d(); // store for 3D
+      this.modelConfig.config3d.material = this.currentMaterial;
       let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.currentBag.id, this.currentMaterial.id,
         this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig));
       console.log(this.modelConfig);
@@ -190,7 +192,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
         (data: IModel[]) => {
           this.resetModel();
           this.alertService.success("model " + this.inModelName + " created");
-        }, () => console.log('err'));    } else{  }
+        }, error => console.log(error));    } else{  }
     //check material, bagtype, name
    // console.log('Method not implemented.');
   }

@@ -3,7 +3,7 @@
 <img class='bag' src="{{currentBag.script.imgsrc}}" >
   <img #elVarRef class='user-image' [ngStyle]="{'top' : modelConfig.config2d.topPos + 'px', 'left' : modelConfig.config2d.leftPos  + 'px' ,
   'width' : modelConfig.config2d.width + 'px', 'height' : modelConfig.config2d.height + 'px'}"
-       src="{{modelConfig.image}}"  />
+       src="{{modelConfig.image}}"/>
 </div>
 <div class="row" *ngIf="!viewMode">
 <button class="btn btn-outline-warning " type="submit" (click)="plusWH()">+</button>
@@ -11,7 +11,7 @@
 <button class="btn btn-outline-success " type="submit" (click)="centerF()">center</button>
 <p *ngIf="currentMaterial.name" >&nbsp; material: {{ currentMaterial.name}} &nbsp;</p>
 <p *ngIf="currentBag.name" >&nbsp; bagtype: {{ currentBag.name}}&nbsp; </p>
-<p *ngIf="inModelName"> &nbsp; mname: {{inModelName}}&nbsp; </p>
+<!--<p *ngIf="inModelName"> &nbsp; mname: {{inModelName}}&nbsp; </p>-->
 </div>
 <!-- [ngStyle]="{'top' : '-240px', 'left' : '0px' }"-->
 <!--http://www.iconskid.com/images/339/school-bag-icon-256x256-png-pictures-339971.png

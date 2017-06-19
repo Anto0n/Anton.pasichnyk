@@ -1,0 +1,19 @@
+<div id="canvas_cont" STYLE="width: 1000px"></div>
+<div *ngIf="!viewMode" id="inputModelData" class="row">
+  <div ngbDropdown #myDrop4="ngbDropdown">
+    <button class="btn btn-outline-info" id="dropdownMenu4" ngbDropdownToggle>bag body materials:</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
+      <button class="btn btn-info btn-outline-info " *ngFor="let material of materials"
+              (click)="selectMaterial(material, 'bag_body')"> {{material.name}}
+      </button>
+    </div>
+  </div>
+  <div ngbDropdown #myDrop5="ngbDropdown">
+    <button class="btn btn-outline-info" id="dropdownMenu5" ngbDropdownToggle>bag packet materials:</button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+      <button class="btn btn-info btn-outline-info " *ngFor="let material of materials"
+              (click)="selectMaterial(material, 'bag_front')"> {{material.name}}
+      </button>
+    </div>
+  </div>
+</div>
