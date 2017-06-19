@@ -2,7 +2,10 @@ package com.bionic.baglab.dto.user;
 
 import com.bionic.baglab.domains.UserRole;
 
+import javax.validation.constraints.NotNull;
+
 public class UserRoleDto {
+    @NotNull(message = "error.idRole.notnull")
     private long idRole;
     private String name;
     private String description;

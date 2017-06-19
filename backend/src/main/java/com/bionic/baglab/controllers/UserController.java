@@ -166,7 +166,7 @@ public class UserController {
         System.out.println("Mail success: " + success);
     }
 
-    @GetMapping("/uroles")
+    @GetMapping("/roles")
         public ResponseEntity<List<UserRoleDto>> getUserRoles(){
             return new ResponseEntity<>(roleService.getAllRoles(), HttpStatus.OK);
         }

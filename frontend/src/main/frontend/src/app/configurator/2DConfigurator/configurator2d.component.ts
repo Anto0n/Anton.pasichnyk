@@ -27,7 +27,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   @Output()
   onClearMname = new EventEmitter<string>();
 
-  private matUrl : string='';//= './materials/' + this.currentMaterial.image ;
+  private matUrl : string = "./materials/defMatTone.png";//= './materials/' + this.currentMaterial.image ;
 
   //private bags : BagType[] = [];
   @Input()
@@ -127,7 +127,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
               private userRoleService : UserRoleService, private restService : RestService, private authService : AuthenticationService) {
     // this.elementRef.nativeElement.style.position = 'relative';
     //this.setImgPosition(this.topPos, this.leftPos);
-     this.modelConfig = this.config2dService.getLocalConfig();          // load from service
+    this.modelConfig = this.config2dService.getLocalConfig();          // load from service
     this.elementRef.nativeElement.style.cursor = 'pointer';
   }
 

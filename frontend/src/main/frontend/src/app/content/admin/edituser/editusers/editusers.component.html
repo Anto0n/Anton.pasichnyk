@@ -1,5 +1,38 @@
 <button type="button" class="btn btn-outline-warning" [routerLink]="['/admin']"> back</button>
 
-<p>
-  editusers works! {{uid}}
-</p>
+<div *ngIf="user">
+  <div class="table-responsive, user-list">
+    <h1>Users</h1>
+    <table class="table table-sm table-striped
+ table-bordered table-cart">
+      <tbody>
+      <tr>
+        <td class="font-weight-bold">ID</td>
+        <td class="font-weight-bold">First name</td>
+        <td class="font-weight-bold">Last name</td>
+        <td class="font-weight-bold">email</td>
+        <td class="font-weight-bold">role</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>{{user.idUser}}</td>
+        <td>{{user.firstname}}</td>
+        <td>{{user.lastname}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.role.name}}</td>
+        <!--<td> <button type="button" class="btn btn-danger" > Edit User</button></td>-->
+        <td>
+          <div ngbDropdown #myDrop3="ngbDropdown">
+            <button class="btn btn-outline-info" id="dropdownMenu3" ngbDropdownToggle>role: {{user.role.name}}</button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+              <button class="btn btn-info btn-outline-info " *ngFor="let role of roles" (click)="changeRole(role)">
+                {{role.name}}
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

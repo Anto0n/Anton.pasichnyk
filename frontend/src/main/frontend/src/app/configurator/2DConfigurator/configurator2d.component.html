@@ -1,4 +1,5 @@
-<div #container class="containerb" [ngStyle]="{'background-image' : 'url('+ matUrl  + ')', ' z-index' : 100}">
+<div  #container class="containerb" [ngStyle]="{'background-image' : 'url('+ matUrl  + ')', ' z-index' : 100,
+'opacity' : 1}" >
 <img class='bag' src="{{currentBag.script.imgsrc}}" >
   <img #elVarRef class='user-image' [ngStyle]="{'top' : modelConfig.config2d.topPos + 'px', 'left' : modelConfig.config2d.leftPos  + 'px' ,
   'width' : modelConfig.config2d.width + 'px', 'height' : modelConfig.config2d.height + 'px'}"

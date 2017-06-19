@@ -102,7 +102,7 @@ import { EditUsersComponent } from './content/admin/edituser/editusers/editusers
 })
 export class AppModule {
   constructor(router: Router, private authService: AuthenticationService) { // Diagnostic only: inspect router configuration
-    console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+    //console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
     /* authService.init();
      console.log('Auth service init');*/
   } }
