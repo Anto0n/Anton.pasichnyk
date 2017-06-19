@@ -43,12 +43,13 @@ export class EditUsersComponent implements OnInit, OnDestroy {
     this.restService.putData(`./api/admin/edituser`+`/${this.uid}`, r).subscribe(
       () => {
         this.alertService.success("new role: " + r.name);
+        this.reloadUser();  //reload esyr entity
       }, error => {
         console.log(error)
         this.alertService.error("role change error");
       }
     )
-    this.reloadUser(); //reload esyr entity
+
   }
 
 
