@@ -299,7 +299,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
     }
     this.alertService.clearMeessage();
 
-    this.modelConfig.config2d = new Config2d();
+    this.modelConfig.config2d = new Config2d(); // for 2D
     let createModelT: CreateModel = new CreateModel(ModelStatus.NEW,
       this.bagType.id,
       this.material.id,
@@ -326,7 +326,8 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
     console.log('data');
     console.log(data);
     /*let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;*/
-    let filePath = "./images/" + this.userRoleService.getUserId() + "/" + data.file.name;
+    let filePath : string = "./images/" +this.userRoleService.getUserId()+"/"+data.file.name;
+    this.modelConfig.image = filePath; // store User pic for 2d/3d? configurator
     console.log(filePath);
 
   }
@@ -338,6 +339,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
 
   selectMaterial(material: BagMaterial, panel?: string) {
     this.material = material;
+    console.log(material.image);
     console.log('this.bagType.script.panels.find((e)=>e.name==panel)');
     let selectedPanel = null;
     if (panel != null) {

@@ -28,14 +28,16 @@
   <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>
   <button class="btn btn-primary" (click)="showModels()">MODELS</button>
 
-  <div class="row">
-    <div class="col-md-9" *ngIf="!showEditOrder">
 
-      <div *ngIf="selectedModel">
+
+
+  <div class="row">
+    <div class="col-md-12"  *ngIf="!showEditOrder">
+
+      <div *ngIf="selectedModel" class="col-md-6">
         <hr>
         <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
       </div>
-
 
       <h3> Factory models </h3>
       <div class="modoverflow">

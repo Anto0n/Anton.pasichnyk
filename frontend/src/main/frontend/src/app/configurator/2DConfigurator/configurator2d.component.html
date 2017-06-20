@@ -1,5 +1,5 @@
 <div  #container class="containerb" [ngStyle]="{'background-image' : 'url('+ matUrl  + ')', ' z-index' : 100,
-'opacity' : 1}" >
+'opacity' : 1, 'width' : 500+ 'px'}" >
 <img class='bag' src="{{currentBag.script.imgsrc}}" >
   <img #elVarRef class='user-image' [ngStyle]="{'top' : modelConfig.config2d.topPos + 'px', 'left' : modelConfig.config2d.leftPos  + 'px' ,
   'width' : modelConfig.config2d.width + 'px', 'height' : modelConfig.config2d.height + 'px'}"
@@ -9,7 +9,8 @@
 <button class="btn btn-outline-warning " type="submit" (click)="plusWH()">+</button>
 <button class="btn btn-outline-warning " type="submit" (click)="minusWH()">-</button>
 <button class="btn btn-outline-success " type="submit" (click)="centerF()">center</button>
-<p *ngIf="currentMaterial.name" >&nbsp; material: {{ currentMaterial.name}} &nbsp;</p>
+  <button class="btn btn-outline-warning " type="submit" (click)="modelConfig.image = '' ">del img</button>
+<p *ngIf="currentMaterial.name" >&nbsp; mater: {{ currentMaterial.name}} &nbsp;</p>
 <p *ngIf="currentBag.name" >&nbsp; bagtype: {{ currentBag.name}}&nbsp; </p>
 <!--<p *ngIf="inModelName"> &nbsp; mname: {{inModelName}}&nbsp; </p>-->
 </div>

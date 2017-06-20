@@ -3,7 +3,7 @@
   <button class="btn btn-primary" (click)="showModels()">MODELS</button>
 
   <div class="row">
-    <div class="col-md-9" *ngIf="!showEditOrder">
+    <div class="col-md-12" *ngIf="!showEditOrder">
       <br>
       <h3> Models </h3>
       <div *ngIf="showModelsFilter">
@@ -11,7 +11,7 @@
         <button class="btn btn-outline-success" (click)="getModelsByApproved('1')"> APPROVED</button>
         <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')"> REJECTED</button>
       </div>
-      <div *ngIf="selectedModel">
+      <div *ngIf="selectedModel" class="col-md-6">
         <hr>
         <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
       </div>

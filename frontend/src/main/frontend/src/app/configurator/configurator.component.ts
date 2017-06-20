@@ -36,6 +36,7 @@ export class ConfiguratorComponent implements OnInit {
       console.log(model.id);
       this.modelId = model.id;
       this.restService.getData(`./api/models/config/${model.id}`).subscribe((data: ModelConfig) => {
+        this.configurator.loadModel(model);
         this.modelConfig = data;
       });
         this.restService.getData(`./api/bag_type/${model.bagTypeId}`).subscribe((data: BagType) => {

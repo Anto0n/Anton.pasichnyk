@@ -6,8 +6,8 @@
   <div class="topBar">
     <img src="./assets/logo_bl.bmp">
     <div  class="container-fluid" style="float:right; margin: 10px;">
-      <button *ngIf="!isAuth()" class="btn btn-outline-success" ><a class="nav-link active"  [routerLink]="['register']">Sign Up</a></button>
-      <button *ngIf="!isAuth()" class="btn btn-outline-success" ><a class="nav-link active"  [routerLink]="['login']">Log In</a></button>
+      <button *ngIf="!isAuth()" class="btn btn-outline-success" [routerLink]="['/register']" >Sign Up</button>
+      <button *ngIf="!isAuth()" class="btn btn-outline-success" [routerLink]="['/login']" >Log In</button>
     </div>
   </div>
   <!--items bucket-->
@@ -18,7 +18,7 @@
 
     </ul>
     <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-      <button class="btn btn-outline-danger" ><a (click)="onLogout()" style="cursor: pointer;">Logout</a></button>
+      <button class="btn btn-outline-danger" (click)="onLogout()" style="cursor: pointer;">Logout</button>
     </ul>
   </div>
   <app-menu>loading...</app-menu>

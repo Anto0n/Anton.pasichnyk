@@ -32,8 +32,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
   ShowView = ShowView; // allow to use enum in template
   private showWhat : ShowView = ShowView.MODELS; //models first
 
-  @ViewChild('config')
-  private configurator: ConfiguratorComponent;
+  /*@ViewChild('config') //old for 3d
+  private configurator: ConfiguratorComponent;*/
 
   selectModelId: number;
 
@@ -160,12 +160,12 @@ export class OrdersComponent implements OnInit, OnDestroy {
     }
   }
 
-  selectModel(model: IModel) {
-    console.log("selectModel IModel:");
+  selectModel(model: IModel) {   //old for 3d
+   /* console.log("selectModel IModel:");
     console.log(model);
     this.restService.getData("./api/models/"+model.id).subscribe(
       (data)=> this.configurator.configurator.loadModel(model),
-      ()=>console.log("err"));
+      ()=>console.log("err"));*/
     // this.configurator.configurator.loadModel(model);
   }
    ngOnDestroy() {

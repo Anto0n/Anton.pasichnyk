@@ -174,7 +174,6 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
   imageUploaded(data: { src: string; pending: boolean; file: any; }) {
     let filePath : string = "./images/" +this.userRoleService.getUserId()+"/"+data.file.name;
     this.modelConfig.image = filePath; // rewrite user pick
-    console.log('Method not implemented.');
   }
 
   save(inModelConfig: ModelConfig) { //create new Model
@@ -184,7 +183,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     }
     if(this.validateModelToStore(this.modelConfig.config2d)){
       this.modelConfig.config3d = new Config3d(); // store for 3D
-      this.modelConfig.config3d.material = this.currentMaterial;
+      //this.modelConfig.config3d.material = this.currentMaterial;
       let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.currentBag.id, this.currentMaterial.id,
         this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig));
       console.log(this.modelConfig);
@@ -215,7 +214,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
     this.alertService.clearMeessage();
   }
 
-   centerF(){
+    centerF(){
      this.modelConfig.config2d.leftPos =0;
      this.modelConfig.config2d.topPos =0;
    }
