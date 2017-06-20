@@ -11,37 +11,7 @@
         <button class="btn btn-outline-success" (click)="getModelsByApproved('1')"> APPROVED</button>
         <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')"> REJECTED</button>
       </div>
-      <div *ngIf="selectedModel" class="col-md-6">
-        <hr>
-        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
-      </div>
-      <br>
-      Select model to Aprove or Reject
       <hr>
-      <table class="table table-striped">
-        <tr class="col-md-auto">
-          <td class="font-weight-bold">{{selectedModel?.id}}</td>
-          <td class="font-weight-bold">{{selectedModel?.userId}}</td>
-          <td class="font-weight-bold">{{selectedModel?.bagTypeId}}</td>
-          <td class="font-weight-bold">{{selectedModel?.mname}}</td>
-          <td class="font-weight-bold">{{selectedModel?.approved}}</td>
-          <td></td>
-          <td>
-            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='REJECTED'"
-                    class="btn btn-success"
-                    (click)=" approveModel(selectedModel,'1'); $event.stopPropagation()"> APPROVE
-            </button>
-          </td>
-          <td>
-            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED'"
-                    class="btn btn-warning"
-                    (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECTE
-            </button>
-          </td>
-        </tr>
-      </table>
-      <hr>
-
       <div class="modoverflow"> <!--list of models-->
         <table class="table table-striped">
           <thead>
@@ -72,6 +42,41 @@
           </tbody>
         </table>
       </div>
+      <br>
+      Select model to Aprove or Reject
+      <hr>
+
+      <div *ngIf="selectedModel" class="col-md-8">
+        <hr>
+        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+      </div>
+
+      <hr>
+      <table class="table table-striped">
+        <tr class="col-md-auto">
+          <td class="font-weight-bold">{{selectedModel?.id}}</td>
+          <td class="font-weight-bold">{{selectedModel?.userId}}</td>
+          <td class="font-weight-bold">{{selectedModel?.bagTypeId}}</td>
+          <td class="font-weight-bold">{{selectedModel?.mname}}</td>
+          <td class="font-weight-bold">{{selectedModel?.approved}}</td>
+          <td></td>
+          <td>
+            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='REJECTED'"
+                    class="btn btn-success"
+                    (click)=" approveModel(selectedModel,'1'); $event.stopPropagation()"> APPROVE
+            </button>
+          </td>
+          <td>
+            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED'"
+                    class="btn btn-warning"
+                    (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECTE
+            </button>
+          </td>
+        </tr>
+      </table>
+
+
+
     </div>
 
     <!--orders-->
