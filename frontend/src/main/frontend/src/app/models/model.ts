@@ -59,6 +59,8 @@ export class BagMaterial{
   "name": string;
   "price": number;
   "image": string;
+  constructor(){
+  }
 }
 
 

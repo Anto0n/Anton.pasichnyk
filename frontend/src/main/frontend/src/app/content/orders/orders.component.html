@@ -90,12 +90,10 @@
   </div>
 
 </div>
-<hr>
- * for 3D view, press Select 3D, wait untill configurator load, press  Select3D on model again, wait
-<hr>
-<div *ngIf="selectedModel" class="col-md-7" >
+
+<div  class="col-md-7" >
   <hr>
-  <configurator [selectModelToConfig]="selectedModel" [viewMode]="true" ></configurator>  <!-- [configuratorType] = "configView " #config -->
+  <configurator [selectModelToConfig]="selectedModel" [viewMode]="true" ></configurator>
 </div>
 <!--
 configuratorType: ConfiguratorType = ConfiguratorType.D2;

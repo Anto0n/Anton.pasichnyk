@@ -26,6 +26,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   @Output() onClearMname = new EventEmitter<string>();
   private modelConfig: ModelConfig;
+  private defaultModel: IModel;
   private pathToMaterials: string;
   private material: BagMaterial;
   private materials: BagMaterial [] = [];
@@ -300,6 +301,37 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       for (let i of this.modelConfig.config3d.panels) {
         this.selectMaterial(i.material, i.name);
       }
+    }else {
+      setTimeout(()=>{
+        console.log("this.currentModel==null");
+        this.restService.getData('./api/models/1').subscribe((data: any) => {
+
+            console.log("Asdasdasd");
+            console.log(data);
+
+
+            let jStr: string = JSON.parse(JSON.stringify(data.config));
+            let obj: Config3d = new Config3d();
+            obj.panels = [];
+            console.log(JSON.parse(jStr));
+            let arr = [];
+            obj = JSON.parse(jStr, ((key, value) => {
+              if (key == "image") {
+                arr.push(value);
+              }
+            } ));
+            for (let a = 0; a < arr.length; a++) {
+              this.modelConfig.config3d.panels[a].material = new BagMaterial();
+              this.modelConfig.config3d.panels[a].material.image = arr[a];
+            }
+            for (let i of this.modelConfig.config3d.panels) {
+              this.selectMaterial(i.material, i.name);
+            }
+            console.log('cant receive default model');
+          },
+          () => console.log('cant receive default model'));
+      },3000);
+
     }
 
   }
