@@ -1,8 +1,8 @@
 @media screen and (min-width: 1000px) and (max-width: 1200px) {
   #canvas_cont {
     position: absolute;
-    width: 600px;
-    height: 400px;
+    width: 1000px !important;
+    height: 1000px;
     bottom: -350px;
     pointer-events: none;
   }
@@ -28,8 +28,8 @@ div#canvas_elem{
 
 @media screen and (max-width: 1000px) {
     #canvas_cont {
-        width: 100vw;
-        height: 100vw;
+        width: 1000px !important;
+        height: 1000px;
         bottom: 0;
     }
 }
