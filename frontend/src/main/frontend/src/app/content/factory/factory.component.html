@@ -34,10 +34,7 @@
   <div class="row">
     <div class="col-md-12"  *ngIf="!showEditOrder">
 
-      <div *ngIf="selectedModel" class="col-md-8">
-        <hr>
-        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
-      </div>
+
 
       <h3> Factory models </h3>
       <div class="modoverflow">
@@ -140,6 +137,10 @@
           </tbody>
         </table>
       </div>
+    </div>
+    <div *ngIf="selectedModel" class="col-md-8">
+      <hr>
+      <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
     </div>
   </div>
   <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>

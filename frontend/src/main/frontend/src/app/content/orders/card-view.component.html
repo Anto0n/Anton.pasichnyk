@@ -38,7 +38,7 @@ table-bordered table-cart">
         </form>
       </div>
 
-      <div *ngIf="selectedModel" class="col-md-8 ">
+      <div *ngIf="selectedModel" class="col-md-10 ">
         <hr>
         <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
       </div>
@@ -46,7 +46,7 @@ table-bordered table-cart">
 
       <div class="emty-cart" *ngIf="orderRespListener.items?.length < 1">The cart is empty!</div>
       <br>  <br>     <hr>
-      <h3> My orders list</h3>
+      <!--<h3> My orders list</h3>
 
       <div class="table-responsive, models" >
         <table class="table table-sm table-striped
@@ -62,19 +62,19 @@ table-bordered table-cart">
             <td>{{order.idOrder}}</td>
             <td>{{order.status.code}}</td>
             <td>{{order.items?.length}}</td>
-            <!--  <td>
+            &lt;!&ndash;  <td>
                  <input type="number"
                         name="{{item.product.id}}" min="1"
                         [ngModel]="item.count"
                         (ngModelChange)="item.count = update($event, item)">
-               </td>-->
+               </td>&ndash;&gt;
             <td>{{order.sumPrice |
               currency:'USD':true:'1.2-2'}}
             </td>
           </tr>
           </tbody>
         </table>
-      </div>
+      </div>-->
 
     </div>
     <!--TEMP-->

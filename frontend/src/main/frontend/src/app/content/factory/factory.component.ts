@@ -40,6 +40,7 @@ export class FactoryComponent implements OnInit {
 
   /*EDIT/refactor  this code>>*/
   showModels(){
+    this.selectedModel = null;
     this.getModelsByApproved(ModelStatus.APPROVED);
     this.showEditOrder = false;
     // refresh models ent
