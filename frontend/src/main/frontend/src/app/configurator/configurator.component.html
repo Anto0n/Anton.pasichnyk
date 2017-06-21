@@ -1,6 +1,7 @@
+<div style="width: 1000px !important;">
 <button class="btn btn-sm btn-outline-primary" (click)="changeType(configuratorType)">2-D / 3-D</button>
 
-<div id="wrapper_container" class="col-md-12" style="border: solid black 1px">
+<div id="wrapper_container" class="col-md-12">
   <configurator-3d #config *ngIf="configuratorType == 3" [inModelName]="modelName" (onClearMname)="onClearMname($event)"
                    [viewMode] ="viewMode" ></configurator-3d>
   <configurator-2d #config *ngIf="configuratorType == 2" [modelConfig]="modelConfig" [viewMode] ="viewMode"
@@ -45,4 +46,4 @@
   </div>
 </div>
 
-
+</div>

@@ -10,18 +10,19 @@ import {Panel} from "./panel.model";
 //import {noUndefined} from "@angular/compiler/src/util";
 import {isUndefined} from "util";
 
-declare var b4w: any;
+declare let b4w: any;
 
 @Component({
   selector: 'configurator-3d',
-  templateUrl: './configurator3d.component.html'
+  templateUrl: './configurator3d.component.html',
+  styleUrls: ['../configurator.component.css']
 })
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
-  viewMode : boolean = false;
+  viewMode: boolean = false;
 
   @Output() onClearMname = new EventEmitter<string>();
   private modelConfig: ModelConfig;
@@ -46,28 +47,38 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     //b4w.require(this.appName);
     //b4w.delete(this.appName);
   }
-  init(){}
+
+  init() {
+  }
 
   ngOnInit() {
+    console.log("Hi ngOninit 3D 1");
     this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
     b4w.register(this.appName, function (exports, require) {
-        var testImg = new Image();
-        var m_app = b4w.require("app");
-        var m_data = b4w.require("data");
-        var m_scenes = require("scenes");
-        var m_print = require("__print");
-        var m_main = require("main");
-        var m_tex = require("textures");
-        var m_mat = require("material");
-        var m_rgb = require("rgb");
+        let testImg = new Image();
+        let m_app = b4w.require("app");
+        let m_data = b4w.require("data");
+        let m_scenes = require("scenes");
+        let m_print = require("__print");
+        let m_main = require("main");
+        let m_tex = require("textures");
+        let m_mat = require("material");
+        let m_rgb = require("rgb");
+        let m_preloader = require("preloader");
 
-        var _base64_image_3 = "./assets/testConf/temp/default_img.png";
-        var _base64_image_4 = "./assets/testConf/temp/logo.png";
-        var _img_default = "./assets/testConf/a55bf6d483b813cc325dd7aeb1ce98fc.jpg";
+        let _base64_image_3 = "./assets/testConf/temp/default_img.png";
+        let _base64_image_4 = "./assets/testConf/temp/logo.png";
+        let _img_default = "./assets/testConf/a55bf6d483b813cc325dd7aeb1ce98fc.jpg";
 
-        var _wait_for_image_loading = false;
-        var jeans_img = "./images/3d/jeans_2048.jpg";
+        let _wait_for_image_loading = false;
+        let jeans_img = "./images/3d/jeans_2048.jpg";
 
+
+
+        exports. dispose = function () {
+          m_data.unload();
+
+        }
         exports.init = function () {
           m_app.init({
 
@@ -79,28 +90,28 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
         exports.drawImageNew = function () {
 
-          var cube = m_scenes.get_object_by_name("pakr_body_001");
+          let cube = m_scenes.get_object_by_name("pakr_body_001");
           console.log('!!!!!!!!!!!');
           console.log(m_tex.get_texture_names(cube));
 
-          var ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
-          var img = new Image();
+          let ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
+          let img = new Image();
           img.src = jeans_img;
 
 
           img.onload = function () {
-            var canvas = ctx_image.canvas;
+            let canvas = ctx_image.canvas;
             console.log(canvas.width);
             console.log(img.width);
-            var hRatio = canvas.width / img.width;
+            let hRatio = canvas.width / img.width;
             console.log(hRatio);
-            var vRatio = canvas.height / img.height;
+            let vRatio = canvas.height / img.height;
             console.log(vRatio);
-            var ratio = Math.max(hRatio, vRatio);
+            let ratio = Math.max(hRatio, vRatio);
             console.log("RATIO!!!");
             console.log(ratio);
-            var centerShift_x = ( canvas.width - img.width ) / 2;
-            var centerShift_y = ( canvas.height - img.height ) / 2;
+            let centerShift_x = ( canvas.width - img.width ) / 2;
+            let centerShift_y = ( canvas.height - img.height ) / 2;
             // ctx_image.clearRect(0,0,canvas.width, canvas.height);
             console.log("==========");
             console.log(img.width);
@@ -120,16 +131,16 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
         exports.drawImageNew1 = function () {
 
-          var cube = m_scenes.get_object_by_name("bag_front");
-          var cube_body = m_scenes.get_object_by_name("bag_body");
+          let cube = m_scenes.get_object_by_name("bag_front");
+          let cube_body = m_scenes.get_object_by_name("bag_body");
           console.log('!!!!!!!!!!!');
           console.log(m_tex.get_texture_names(cube));
 
-          var ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
-          var ctx_image_body = m_tex.get_canvas_ctx(cube_body, "bag_body_text_img");
+          let ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
+          let ctx_image_body = m_tex.get_canvas_ctx(cube_body, "bag_body_text_img");
           console.log('!!!!!!!!!!!');
           console.log(m_tex.get_canvas_ctx(cube, "bag_front_text_img"));
-          var img = new Image();
+          let img = new Image();
           img.src = jeans_img;
 
           img.onload = function () {
@@ -141,19 +152,19 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           }
         }
 
-        exports.clearRectangle = function (panels?:Panel[]) {
+        exports.clearRectangle = function (panels?: Panel[]) {
 
-            if (panels==null){
-              console.log("no panels to clear");
-            }else {
-              for (let i of panels){
-                let obj = m_scenes.get_object_by_name(i.name);
-                let ctx2D = m_tex.get_canvas_ctx(obj, i.texture);
-                ctx2D.clearRect(0, 0, ctx2D.canvas.width, ctx2D.canvas.height);
-                m_tex.update_canvas_ctx(obj, i.texture);
+          if (panels == null) {
+            console.log("no panels to clear");
+          } else {
+            for (let i of panels) {
+              let obj = m_scenes.get_object_by_name(i.name);
+              let ctx2D = m_tex.get_canvas_ctx(obj, i.texture);
+              ctx2D.clearRect(0, 0, ctx2D.canvas.width, ctx2D.canvas.height);
+              m_tex.update_canvas_ctx(obj, i.texture);
 
-              }
             }
+          }
 
         }
         exports.drawImage3 = function () {
@@ -170,7 +181,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
           m_app.enable_camera_controls();
 
-          var object_exists = m_scenes.check_object_by_name("pakr_body_001");
+          let object_exists = m_scenes.check_object_by_name("pakr_body_001");
           if (object_exists) {
             console.log("Object is found");
           } else {
@@ -178,13 +189,16 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           }
 
 
-          var Cube = m_scenes.get_object_by_name("pakr_body_001");
-          var name = m_scenes.get_object_name(Cube);
+          let Cube = m_scenes.get_object_by_name("pakr_body_001");
+          let name = m_scenes.get_object_name(Cube);
 
 
           console.log(name);
         }
 
+        function preloader_cb(percentage) {
+          m_preloader.update_preloader(percentage);
+        }
 
         function load_data(imageUrl: string) {
           let cube = m_scenes.get_object_by_name("pakr_body_001");
@@ -229,12 +243,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], r, g, b,);
         }
 
-        exports.resetImgColor = function (panels?:Panel[]) {
-          if (panels==null){
+        exports.resetImgColor = function (panels?: Panel[]) {
+          if (panels == null) {
             let cube = m_scenes.get_object_by_name("pakr_body_001");
             m_tex.change_image(cube, "Texture.003", _img_default);
-          }else {
-            for (let i of panels){
+          } else {
+            for (let i of panels) {
               let obj = m_scenes.get_object_by_name(i.name);
               m_tex.change_image(obj, "Texture.003", _img_default);
 
@@ -249,13 +263,22 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             return;
           }
 
-          m_data.load('./assets/testConf/demo_bag.json', load_cb,);
+          m_preloader.create_preloader({
+            container_color:"#000000", // background color of the container
+            bar_color:"#6cbeee", // background color of the bar
+            frame_color: "#ffffff", // color of the frame border
+            font_color: "#ffffff" // color of the font
+          });
+
+          m_data.load('./assets/testConf/demo_bag.json', load_cb, preloader_cb);
         }
 
       }
     )
+    console.log("Hi ngOninit 3D 2");
+    b4w.require(this.appName).dispose();
     b4w.require(this.appName).init();
-
+    console.log("Hi ngOninit 3D 3");
 
     //todo get bag type from DB
     if (this.bagType == null) {
@@ -283,7 +306,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   resetModel() {
     this.clearRectangle();
-   // b4w.require(this.appName).resetImgColor();
+    // b4w.require(this.appName).resetImgColor();
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
@@ -292,15 +315,15 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       this.alertService.error("Login to save models!");
       return;
     }
-    if  (this.material == null ){
+    if (this.material == null) {
       this.alertService.error("Select material!", false)
       return;
     } else if
-    (this.bagType == null ){
+    (this.bagType == null) {
       this.alertService.error("Select bagtype!", false)
       return;
-    }else if
-    (this.inModelName == null || this.inModelName ==="" || this.inModelName ===" " ){
+    } else if
+    (this.inModelName == null || this.inModelName === "" || this.inModelName === " ") {
       this.alertService.error("set model name", false)
       return;
     }
@@ -333,7 +356,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     console.log('data');
     console.log(data);
     /*let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;*/
-    let filePath : string = "./images/" +this.userRoleService.getUserId()+"/"+data.file.name;
+    let filePath: string = "./images/" + this.userRoleService.getUserId() + "/" + data.file.name;
     this.modelConfig.image = filePath; // store User pic for 2d/3d? configurator
     console.log(filePath);
 
@@ -352,11 +375,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     if (panel != null) {
       selectedPanel = this.modelConfig.config3d.panels.find((e) => e.name == panel);
       selectedPanel.material = material;
-    }else {
-      for (let i of this.modelConfig.config3d.panels){
-        i.material=material;
+    } else {
+      for (let i of this.modelConfig.config3d.panels) {
+        i.material = material;
       }
-  }
+    }
     this.restService.getDataAny('./api/material/base64/' + material.image).subscribe(
       (data: any) => {
         this.pathToMaterials = data;
@@ -382,22 +405,22 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     b4w.require(this.appName).clearRectangle(this.modelConfig.config3d.panels);
   }
 
-   loadModel(model: IModel) : void{
+  loadModel(model: IModel): void {
     console.log("Hello from 3d!");
 
-    let jStr : string  = JSON.parse(JSON.stringify(model.config));
-    let obj : Config3d = new Config3d();
-    obj.panels=[];
+    let jStr: string = JSON.parse(JSON.stringify(model.config));
+    let obj: Config3d = new Config3d();
+    obj.panels = [];
     console.log(JSON.parse(jStr));
     let arr = [];
     obj = JSON.parse(jStr, ((key, value) => {
-      if (key=="image"){
+      if (key == "image") {
         arr.push(value);
       }
     } ));
-    for(let a=0; a<arr.length; a++){
+    for (let a = 0; a < arr.length; a++) {
       this.modelConfig.config3d.panels[a].material = new BagMaterial();
-      this.modelConfig.config3d.panels[a].material.image=arr[a];
+      this.modelConfig.config3d.panels[a].material.image = arr[a];
     }
     for (let i of this.modelConfig.config3d.panels) {
       this.selectMaterial(i.material, i.name);

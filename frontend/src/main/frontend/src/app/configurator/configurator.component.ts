@@ -12,8 +12,7 @@ import {Configurator2dService} from "../services/configurator/configurator2d.ser
 
 @Component({
   selector: 'configurator',
-  templateUrl: './configurator.component.html',
-  styleUrls: ['./configurator.component.css'],
+  templateUrl: './configurator.component.html'
 })
 export class ConfiguratorComponent implements OnInit {
   private modelName: string;
@@ -27,7 +26,7 @@ export class ConfiguratorComponent implements OnInit {
   outMaterial : BagMaterial = new BagMaterial(); // for view mode only
 
   @Input()
-  configuratorType: ConfiguratorType = ConfiguratorType.D2;
+  configuratorType: ConfiguratorType = ConfiguratorType.D3;
 
   @Input()
   viewMode: boolean = false;
