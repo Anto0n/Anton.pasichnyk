@@ -237,7 +237,19 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             }
           }
         }
+      exports.drawPicture= function (src:string) {
+        let panel_object = m_scenes.get_object_by_name("bag_front");
+        let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, "bag_front_text_img");
+        let img = new Image();
+        img.src=src;
 
+        img.onload = function () {
+          ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width/3, ctx2Dpanel.canvas.width/3,
+            ctx2Dpanel.canvas.width/3, ctx2Dpanel.canvas.height/3);
+          m_tex.update_canvas_ctx(panel_object, "bag_front_text_img");
+        }
+
+      }
         exports.setImgColor = function (r: number, g: number, b: number) {
 
           let cube = m_scenes.get_object_by_name("pakr_body_001");
@@ -386,11 +398,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
     console.log('data');
-    console.log(data);
-    /*let filePath = "backend\\src\\main\\resources\\static\\" +this.userRoleService.getUserId()+"\\"+data.file.name;*/
-    let filePath: string = "./images/" + this.userRoleService.getUserId() + "/" + data.file.name;
-    this.modelConfig.image = filePath; // store User pic for 2d/3d? configurator
-    console.log(filePath);
+    console.log(data.src);
+    b4w.require(this.appName).drawPicture(data.src);
+
 
   }
 
