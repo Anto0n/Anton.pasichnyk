@@ -42,9 +42,9 @@
        table-bordered">
         <thead>
         <tr>
-          <th>id</th>
-          <th>user id</th>
-          <th>bagtype id</th>
+          <!--<th>id</th>
+          <th>user id</th>-->
+          <th>bagtype</th>
           <th>model name</th>
           <th>status</th>
           <th></th>
@@ -56,15 +56,17 @@
         <tr *ngFor="let model of uModels"
             [class.selected]="model === selectedModel" (click)="selectedModel = model">
           <!--<th scope="row">1</th>--> <!--(click)="onSelect(model)"-->
-          <td class="col-md-auto">{{model.id}}</td>
-          <td class="col-md-auto">{{model.userId}}</td>
+          <!--<td class="col-md-auto">{{model.id}}</td>
+          <td class="col-md-auto">{{model.userId}}</td>-->
           <td class="col-md-auto">{{model.bagTypeId}}</td>
           <td class="col-md-auto">{{model.mname}}</td>
           <td class="col-md-auto">{{model.approved}}</td>
           <td class="col-md-auto">
 
-            <button (click)="selectModel(model)" class="btn-outline-info" >Select (2d)</button>
+            <button (click)="selectModel(model)" class="btn-outline-info" >Select</button>
+<!--
             <button (click)="selectModel3d()" class="btn-outline-info" >Select 3D</button>
+-->
           </td>
           <td class="col-md-auto">
             <button *ngIf="model.approved==='NEW' " class="btn btn-danger"
@@ -93,7 +95,7 @@
 <hr>
 <div *ngIf="selectedModel" class="col-md-7" >
   <hr>
-  <configurator [selectModelToConfig]="selectedModel" [viewMode]="true" [configuratorType] = "configView "></configurator>  <!-- #config -->
+  <configurator [selectModelToConfig]="selectedModel" [viewMode]="true" ></configurator>  <!-- [configuratorType] = "configView " #config -->
 </div>
 <!--
 configuratorType: ConfiguratorType = ConfiguratorType.D2;
