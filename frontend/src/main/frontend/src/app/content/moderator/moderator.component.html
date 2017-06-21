@@ -42,12 +42,12 @@
           </tbody>
         </table>
       </div>
-      <br>
-      Select model to Aprove or Reject
       <hr>
+      Select model to Aprove or Reject<br>
+      * for 3D view, press 'select' on model, switch to 3d view(2d/3d) wait untill 3D configurator load, press  select on model again, wait
+      <hr>
+      <div *ngIf="selectedModel" class="col-md-6">
 
-      <div *ngIf="selectedModel" class="col-md-8">
-        <hr>
         <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
       </div>
 
@@ -87,7 +87,7 @@
       <button class="btn btn-outline-success" (click)="getOrdersByApproved('2')"> APPROVED</button>
       <button class="btn btn-outline-warning" (click)="getOrdersByApproved('4')"> REJECTED</button>
 
-      <div class="table-responsive,  modoverflow">
+      <div class="table-responsive,  ordverflow">
         <table class="table table-sm table-striped
  table-bordered table-cart">
           <tbody>

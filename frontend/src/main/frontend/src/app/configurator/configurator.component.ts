@@ -22,11 +22,12 @@ export class ConfiguratorComponent implements OnInit {
    materials: BagMaterial [] = [];
    begtypes: BagType[] = [];
   private modelId: number = 0;
-  private modelConfig: ModelConfig = null;
+   modelConfig: ModelConfig = null;
   outBag : BagType = new BagType(); // for view mode only
   outMaterial : BagMaterial = new BagMaterial(); // for view mode only
 
-  private configuratorType: ConfiguratorType = ConfiguratorType.D2;
+  @Input()
+  configuratorType: ConfiguratorType = ConfiguratorType.D2;
 
   @Input()
   viewMode: boolean = false;
@@ -94,7 +95,7 @@ export class ConfiguratorComponent implements OnInit {
 }
 
 
-enum ConfiguratorType{
+export enum ConfiguratorType{
   D3 = 3,
   D2 = 2
 }

@@ -1,5 +1,5 @@
 import {IConfigurator} from "../configurator.model";
-import {Component, OnInit, Input, Output, EventEmitter} from "@angular/core";
+import {Component, OnInit, Input, Output, EventEmitter, OnDestroy} from "@angular/core";
 import {Config2d, Config3d, ModelConfig} from "../../models/modelConfig";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
@@ -16,7 +16,8 @@ declare var b4w: any;
   selector: 'configurator-3d',
   templateUrl: './configurator3d.component.html'
 })
-export class Configurator3DComponent implements OnInit, IConfigurator {
+export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
+
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
@@ -40,6 +41,12 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
               private alertService: AlertService) {
   }
 
+  ngOnDestroy(): void {
+    console.log("Configurator 3d on destroy");
+    //b4w.require(this.appName);
+    //b4w.delete(this.appName);
+  }
+  init(){}
 
   ngOnInit() {
     this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
@@ -375,7 +382,7 @@ export class Configurator3DComponent implements OnInit, IConfigurator {
     b4w.require(this.appName).clearRectangle(this.modelConfig.config3d.panels);
   }
 
-  loadModel(model: IModel): void {
+   loadModel(model: IModel) : void{
     console.log("Hello from 3d!");
 
     let jStr : string  = JSON.parse(JSON.stringify(model.config));

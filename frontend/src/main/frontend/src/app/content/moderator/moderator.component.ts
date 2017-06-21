@@ -10,7 +10,11 @@ import {AlertService} from "../../services/alert.service";
   templateUrl: './moderator.component.html',
   styles:[`
       .modoverflow {
-        height:500px;
+        height:300px;
+        overflow-y: scroll;
+      }
+      .ordverflow{
+        height:550px;
         overflow-y: scroll;
       }
 `]
@@ -41,6 +45,7 @@ export class ModeratorComponent implements OnInit {
     this.restService.getData(`./api/models/list/${this.approved}`)
       .subscribe((data: IModel[]) => {
         this.uModels = data;
+        this.selectedModel = null;
       }, () => console.log('err'));
   }
 
@@ -103,7 +108,8 @@ export class ModeratorComponent implements OnInit {
   }
 
   showOrders(){
-    this.getOrders();
+    //this.getOrders(); // all
+    this.getOrdersByApproved(1); //NEW
     this.showEditOrder = true;
     //refresh orders ent
   }
@@ -132,10 +138,6 @@ export class ModeratorComponent implements OnInit {
         () => console.log('err')
       );
   }
-
-
-
-
 }
 
 /*

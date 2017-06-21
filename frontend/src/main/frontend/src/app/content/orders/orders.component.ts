@@ -9,14 +9,18 @@ import {mItems, OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
 import {ModelConfig} from "../../models/modelConfig";
 import {IConfigurator} from "app/configurator/configurator.model";
-import {ConfiguratorComponent} from "../../configurator/configurator.component";
+import {ConfiguratorComponent, ConfiguratorType} from "../../configurator/configurator.component";
 
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
   styles:[`
       .modoverflow {
-        height:400px;
+        height:350px;
+        overflow-y: scroll;
+      }
+      .ordverflow{
+        height:550px;
         overflow-y: scroll;
       }
 `]
@@ -31,7 +35,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private currentOrder : OrderResp = new OrderResp();
   ShowView = ShowView; // allow to use enum in template
   private showWhat : ShowView = ShowView.MODELS; //models first
-
+   configView = ConfiguratorType.D2;
   /*@ViewChild('config') //old for 3d
   private configurator: ConfiguratorComponent;*/
 
@@ -67,11 +71,15 @@ export class OrdersComponent implements OnInit, OnDestroy {
   showModels(){
     this.showWhat = ShowView.MODELS;
     this.getModelsByUserId();
+    this.selectedModel = null;
+    this.alertService.clearMeessage();
   }
 
   showOrders(){
     this.showWhat = ShowView.ORDERS;
     this.reloadMyOrdersList();
+    this.selectedModel = null;
+    this.alertService.clearMeessage();
     //refresh orders ent
   }
 
@@ -161,12 +169,16 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   selectModel(model: IModel) {   //old for 3d
+    this.configView = ConfiguratorType.D2;
    /* console.log("selectModel IModel:");
     console.log(model);
     this.restService.getData("./api/models/"+model.id).subscribe(
       (data)=> this.configurator.configurator.loadModel(model),
       ()=>console.log("err"));*/
     // this.configurator.configurator.loadModel(model);
+  }
+  selectModel3d(){
+   this.configView = ConfiguratorType.D3;
   }
    ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
