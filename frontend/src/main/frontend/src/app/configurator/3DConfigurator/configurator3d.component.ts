@@ -327,7 +327,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             for (let i of this.modelConfig.config3d.panels) {
               this.selectMaterial(i.material, i.name);
             }
-            console.log('cant receive default model');
+            this.material.id=1;
           },
           () => console.log('cant receive default model'));
       },3000);
