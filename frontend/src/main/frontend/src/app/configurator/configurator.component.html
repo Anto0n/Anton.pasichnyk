@@ -1,20 +1,20 @@
-<div class="col-lg-12" style="border: solid green 1px">
+<div class="col-lg-12" >
   <!--<button class="btn btn-sm btn-outline-primary" (click)="changeType(configuratorType)">2-D / 3-D</button>-->
 
-  <div id="wrapper_container" class="col-lg-12" style="border: solid black 1px">
-    <div style="border: solid 1px yellow;" class="container-fluid col-lg-12">
+  <div id="wrapper_container" class="col-lg-12" >
+    <div class="container-fluid col-lg-12">
 
       <div class="row flex-lg-row">
         <div id="configurator-manager" class="col-lg-2 d-inline-block" >
 
-          <div id="model-selector" style="border: solid 3px blue;">
+          <div id="model-selector">
             <div *ngFor="let model of defaultModels">
-              <button class="btn-block btn-info"> {{model.mname}}</button>
+              <button class="btn-block btn-info" (click)="loadModel(model)"> {{model.mname}}</button>
             </div>
             create new model:
-            <button class="btn-block btn-success">create new</button>
+            <button class="btn-block btn-success" (click)="switchCreateView()">create new</button>
           </div>
-          <div id="customizer" style="border: solid 3px red;">
+          <div hidden id="customizer" >
           Name:<br>
           <input type="text" [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
           <div ngbDropdown #myDrop4="ngbDropdown">
@@ -55,6 +55,7 @@
                   (click)='configurator.save(configurator.getModelConfig())'>
             save
           </button>
+            <button class="btn-block btn-success" (click)="switchCreateView()">back to models</button>
         </div>
 
 

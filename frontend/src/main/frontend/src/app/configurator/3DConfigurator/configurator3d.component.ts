@@ -133,26 +133,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           m_tex.change_image(cube, "Texture", _base64_image_3);
         }
 
-        function change_img_cb() {
-          _wait_for_image_loading = false;
-        }
-
 
         function load_cb() {
-
           m_app.enable_camera_controls();
-          // window.onresize = on_resize;
-          // on_resize();
-          // let canvas = m_container.get_canvas();
-          // let canvas_hud = m_container.get_canvas_hud();
-          // let container = m_container.get_container() ;
-          // console.log("canvas:"+canvas);
-          // console.log(canvas);
-          // console.log("canvas_hud:"+canvas_hud);
-          // console.log("container:"+container);
-          // console.log(container);
-          // canvas.width="350px";
-
         }
 
       function on_resize() {
@@ -179,7 +162,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             if (panel != null) {
               let panel_object = m_scenes.get_object_by_name(panel.name);
               let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-              ctx2Dpanel.drawImage(img, 0, 0, ctx2Dpanel.canvas.width, ctx2Dpanel.canvas.height);
+              console.log(ctx2Dpanel.canvas.width);
+              console.log(ctx2Dpanel.canvas.height);
+              ctx2Dpanel.drawImage(img, 0, 0, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
+              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width/2, 0, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
+              ctx2Dpanel.drawImage(img, 0, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
+              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
               m_tex.update_canvas_ctx(panel_object, panel.texture);
             } else {
               let object = m_scenes.get_object_by_name("bag_front");

@@ -6,16 +6,16 @@ import {RestService} from "../services/rest.service";
 import {ModelConfig} from "../models/modelConfig";
 import {IConfigurator} from "./configurator.model";
 import {UserRoleService} from "../services/user/user-role.service";
-import {BagMaterial, BagType, IModel, BagtypeConfig} from "../models/model";
+import {BagMaterial, BagType, IModel} from "../models/model";
 import {AuthenticationService} from "../services/authentication.service";
 import {Configurator2dService} from "../services/configurator/configurator2d.service";
-import {SelectDirective} from "./select-directive";
 
 @Component({
   selector: 'configurator',
   templateUrl: './configurator.component.html'
 })
 export class ConfiguratorComponent implements OnInit {
+  private isEditMode: boolean = false;
   private modelName: string;
   @ViewChild('config')
   configurator: IConfigurator;
@@ -100,6 +100,17 @@ export class ConfiguratorComponent implements OnInit {
   selectMaterial(material: BagMaterial, panel?: string) {
     this.configurator.selectMaterial(material, panel);
   }
+
+  switchCreateView(){
+    this.isEditMode=!this.isEditMode;
+    document.getElementById("customizer").hidden=!this.isEditMode;
+    document.getElementById("model-selector").hidden=this.isEditMode;
+
+  }
+
+  loadModel(model:IModel){
+    this.configurator.loadModel(model);
+  };
 }
 
 
