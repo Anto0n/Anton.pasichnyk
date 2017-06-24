@@ -7,15 +7,12 @@ import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../mode
 import {AuthenticationService} from "../../services/authentication.service";
 import {AlertService} from "../../services/alert.service";
 import {Panel} from "./panel.model";
-//import {noUndefined} from "@angular/compiler/src/util";
-import {isUndefined} from "util";
 
 declare let b4w: any;
 
 @Component({
   selector: 'configurator-3d',
-  templateUrl: './configurator3d.component.html',
-  styleUrls: ['../configurator.component.css']
+  templateUrl: './configurator3d.component.html'
 })
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
@@ -44,16 +41,15 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   ngOnDestroy(): void {
-    console.log("Configurator 3d on destroy");
-    //b4w.require(this.appName);
-    //b4w.delete(this.appName);
+  //todo implement b4w dispose
+
   }
 
   init() {
   }
 
   ngOnInit() {
-    console.log("Hi ngOninit 3D 1");
+
     this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
     b4w.register(this.appName, function (exports, require) {
         let testImg = new Image();
@@ -92,8 +88,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         exports.drawImageNew = function () {
 
           let cube = m_scenes.get_object_by_name("pakr_body_001");
-          console.log('!!!!!!!!!!!');
-          console.log(m_tex.get_texture_names(cube));
+
 
           let ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
           let img = new Image();
@@ -102,29 +97,20 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
           img.onload = function () {
             let canvas = ctx_image.canvas;
-            console.log(canvas.width);
-            console.log(img.width);
+
             let hRatio = canvas.width / img.width;
-            console.log(hRatio);
+
             let vRatio = canvas.height / img.height;
-            console.log(vRatio);
+
             let ratio = Math.max(hRatio, vRatio);
-            console.log("RATIO!!!");
-            console.log(ratio);
+
             let centerShift_x = ( canvas.width - img.width ) / 2;
             let centerShift_y = ( canvas.height - img.height ) / 2;
-            // ctx_image.clearRect(0,0,canvas.width, canvas.height);
-            console.log("==========");
-            console.log(img.width);
-            console.log(img.height);
-            console.log(centerShift_x);
-            console.log(centerShift_y);
-            console.log(img.width * ratio);
-            console.log(img.height * ratio);
+
             ctx_image.drawImage(img, 0, 0, img.width, img.height,
               centerShift_x + (img.width * ratio), centerShift_y + (img.width * ratio), img.width * ratio, img.height * ratio);
 
-            // ctx_image.drawImage(img, 50, 50, ctx_image.canvas.width, ctx_image.canvas.height);
+
             m_tex.update_canvas_ctx(cube, "bag_front_text_img");
           }
         }
@@ -134,13 +120,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
           let cube = m_scenes.get_object_by_name("bag_front");
           let cube_body = m_scenes.get_object_by_name("bag_body");
-          console.log('!!!!!!!!!!!');
-          console.log(m_tex.get_texture_names(cube));
+
 
           let ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
           let ctx_image_body = m_tex.get_canvas_ctx(cube_body, "bag_body_text_img");
-          console.log('!!!!!!!!!!!');
-          console.log(m_tex.get_canvas_ctx(cube, "bag_front_text_img"));
+
           let img = new Image();
           img.src = jeans_img;
 
@@ -156,7 +140,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         exports.clearRectangle = function (panels?: Panel[]) {
 
           if (panels == null) {
-            console.log("no panels to clear");
+
           } else {
             for (let i of panels) {
               let obj = m_scenes.get_object_by_name(i.name);
@@ -184,7 +168,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
           let object_exists = m_scenes.check_object_by_name("pakr_body_001");
           if (object_exists) {
-            console.log("Object is found");
+
           } else {
             m_print.error("Object is not found");
           }
@@ -194,7 +178,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           let name = m_scenes.get_object_name(Cube);
 
 
-          console.log(name);
+
         }
 
         function preloader_cb(percentage) {
@@ -219,7 +203,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
           let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
           let img = new Image();
-          console.log('drawing');
+
           img.src = material;
 
           img.onload = function () {
@@ -271,11 +255,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
         function init_cb(canvas_elem, success) {
           if (!success) {
-
-            console.log("b4w init failure");
             return;
           }
-
           m_preloader.create_preloader({
             container_color:"#000000", // background color of the container
             bar_color:"#6cbeee", // background color of the bar
@@ -288,10 +269,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
       }
     )
-    console.log("Hi ngOninit 3D 2");
+
     b4w.require(this.appName).dispose();
     b4w.require(this.appName).init();
-    console.log("Hi ngOninit 3D 3");
+
 
     //todo get bag type from DB
     if (this.bagType == null) {
@@ -304,28 +285,19 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     }
     this.restService.getData('./api/panel/list').subscribe((data: any) => {
         this.modelConfig.config3d.panels = data;
-        console.log('onInit data:');
-        console.log(data);
       },
       () => console.log('cant receive panels'));
     if (this.currentModel != null) {
-      console.log("this.currentModel!=null");
       for (let i of this.modelConfig.config3d.panels) {
         this.selectMaterial(i.material, i.name);
       }
     }else {
       setTimeout(()=>{
-        console.log("this.currentModel==null");
+
         this.restService.getData('./api/models/1').subscribe((data: any) => {
-
-            console.log("Asdasdasd");
-            console.log(data);
-
-
             let jStr: string = JSON.parse(JSON.stringify(data.config));
             let obj: Config3d = new Config3d();
             obj.panels = [];
-            console.log(JSON.parse(jStr));
             let arr = [];
             obj = JSON.parse(jStr, ((key, value) => {
               if (key == "image") {
@@ -380,8 +352,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       this.inModelName,
       +this.userRoleService.getUserId(),
       JSON.stringify(this.modelConfig));
-    console.log(this.modelConfig);
-    console.log(createModelT);
     this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
       (data: IModel[]) => {
         this.resetModel();
@@ -391,17 +361,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
 
   setColor(r: string, g: string, b: string) {
-    console.log(r, g, b);
     b4w.require(this.appName).setImgColor(r, g, b);
 
   }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
-    console.log('data');
-    console.log(data.src);
     b4w.require(this.appName).drawPicture(data.src);
-
-
   }
 
 
@@ -411,8 +376,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   selectMaterial(material: BagMaterial, panel?: string) {
     this.material = material;
-    console.log(material.image);
-    console.log('this.bagType.script.panels.find((e)=>e.name==panel)');
     let selectedPanel = null;
     if (panel != null) {
       selectedPanel = this.modelConfig.config3d.panels.find((e) => e.name == panel);
@@ -425,14 +388,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     this.restService.getDataAny('./api/material/base64/' + material.image).subscribe(
       (data: any) => {
         this.pathToMaterials = data;
-        console.log("this.pathToMaterials");
         b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel);
       }, () => console.log('err'));
 
   }
 
   selectBagType(bagtype: BagType) {
-    console.log("method not implemented. bagtype name - " + bagtype.name)
   }
 
   getModelConfig() {
@@ -448,12 +409,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   loadModel(model: IModel): void {
-    console.log("Hello from 3d!");
-
     let jStr: string = JSON.parse(JSON.stringify(model.config));
     let obj: Config3d = new Config3d();
     obj.panels = [];
-    console.log(JSON.parse(jStr));
     let arr = [];
     obj = JSON.parse(jStr, ((key, value) => {
       if (key == "image") {
