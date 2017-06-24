@@ -77,10 +77,9 @@ public class ModelService {
      * @return List<ModelDto>
      */
     private List<ModelDto> getDtosfromEntitys(List<ModelEntity> modelsEntities){
-        List<ModelDto> modelsDtos = modelsEntities.stream()        //make list of userDto from modelEntity list
-                .map(modelEntitie -> new ModelDto(modelEntitie))
+        return modelsEntities.stream()        //make list of userDto from modelEntity list
+                .map(ModelDto::new)
                 .collect(Collectors.toList());
-        return modelsDtos;
     }
 
     public boolean createModel(ModelDtoCreate modelDtoCreate) {
@@ -104,6 +103,9 @@ public class ModelService {
         return this.getDtosfromEntitys((List<ModelEntity>) modelDao.findAllModelsByApproved(approved));
     }
 
+    public List<ModelDto> findDefault() {
+        return modelDao.findAllModelsByApproved(ModelStatusEnum.DEFAULT).stream().map(ModelDto::new).collect(Collectors.toList());
+    }
 }
 
 

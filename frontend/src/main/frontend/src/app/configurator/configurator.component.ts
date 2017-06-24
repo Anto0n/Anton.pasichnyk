@@ -9,6 +9,7 @@ import {UserRoleService} from "../services/user/user-role.service";
 import {BagMaterial, BagType, IModel, BagtypeConfig} from "../models/model";
 import {AuthenticationService} from "../services/authentication.service";
 import {Configurator2dService} from "../services/configurator/configurator2d.service";
+import {SelectDirective} from "./select-directive";
 
 @Component({
   selector: 'configurator',
@@ -20,6 +21,7 @@ export class ConfiguratorComponent implements OnInit {
   configurator: IConfigurator;
    materials: BagMaterial [] = [];
    begtypes: BagType[] = [];
+   private defaultModels:IModel[];
   private modelId: number = 0;
    modelConfig: ModelConfig = null;
   outBag : BagType = new BagType(); // for view mode only
@@ -60,12 +62,16 @@ export class ConfiguratorComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {
-    if (!this.viewMode) {
-      console.log("view mode - false")
+  ngOnInit() {
+
+      console.log("view mode - false");
       this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
       this.restService.getData("./api/bag_type/list").subscribe(data => this.begtypes = data);
-    }
+      this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
+        this.defaultModels=data;
+
+    });
+
   }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
@@ -91,6 +97,9 @@ export class ConfiguratorComponent implements OnInit {
     this.modelName = newModelName;
   }
 
+  selectMaterial(material: BagMaterial, panel?: string) {
+    this.configurator.selectMaterial(material, panel);
+  }
 }
 
 

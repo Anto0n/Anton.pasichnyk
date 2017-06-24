@@ -68,6 +68,11 @@ public class ModelController {
         return new ResponseEntity<>(modelService.findAllModels(), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/default")
+    public ResponseEntity<List<ModelDto>> findDefault() {
+        return new ResponseEntity<>(modelService.findDefault(), HttpStatus.OK);
+    }
+
     @GetMapping(value = "/list/{approved}")
     public ResponseEntity<List<ModelDto>> findAllModelsParam(@PathVariable("approved") ModelStatusEnum approved) {
         return new ResponseEntity<>(modelService.findAllModelsParam(approved), HttpStatus.OK);

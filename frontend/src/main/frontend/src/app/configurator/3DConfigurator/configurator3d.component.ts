@@ -60,9 +60,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         let m_main = require("main");
         let m_tex = require("textures");
         let m_mat = require("material");
+        let m_container = require("container");
         let m_rgb = require("rgb");
         let m_preloader = require("preloader");
-
+        let m_version = require("version");
         let _base64_image_3 = "./assets/testConf/temp/default_img.png";
         let _base64_image_4 = "./assets/testConf/temp/logo.png";
         let _img_default = "./assets/testConf/a55bf6d483b813cc325dd7aeb1ce98fc.jpg";
@@ -71,6 +72,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         let jeans_img = "./images/3d/jeans_2048.jpg";
 
 
+      let DEBUG = (m_version.type() === "DEBUG");
 
         exports. dispose = function () {
           m_data.unload();
@@ -82,37 +84,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             canvas_container_id: "canvas_cont",
             callback: init_cb,
             alpha: true,
+            autoresize: true,
+            // assets_dds_available: !DEBUG,
+            assets_min50_available: !DEBUG,
+            console_verbose: true
           })
-        }
-
-        exports.drawImageNew = function () {
-
-          let cube = m_scenes.get_object_by_name("pakr_body_001");
-
-
-          let ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
-          let img = new Image();
-          img.src = jeans_img;
-
-
-          img.onload = function () {
-            let canvas = ctx_image.canvas;
-
-            let hRatio = canvas.width / img.width;
-
-            let vRatio = canvas.height / img.height;
-
-            let ratio = Math.max(hRatio, vRatio);
-
-            let centerShift_x = ( canvas.width - img.width ) / 2;
-            let centerShift_y = ( canvas.height - img.height ) / 2;
-
-            ctx_image.drawImage(img, 0, 0, img.width, img.height,
-              centerShift_x + (img.width * ratio), centerShift_y + (img.width * ratio), img.width * ratio, img.height * ratio);
-
-
-            m_tex.update_canvas_ctx(cube, "bag_front_text_img");
-          }
         }
 
 
@@ -165,37 +141,30 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         function load_cb() {
 
           m_app.enable_camera_controls();
-
-          let object_exists = m_scenes.check_object_by_name("pakr_body_001");
-          if (object_exists) {
-
-          } else {
-            m_print.error("Object is not found");
-          }
-
-
-          let Cube = m_scenes.get_object_by_name("pakr_body_001");
-          let name = m_scenes.get_object_name(Cube);
-
-
+          // window.onresize = on_resize;
+          // on_resize();
+          // let canvas = m_container.get_canvas();
+          // let canvas_hud = m_container.get_canvas_hud();
+          // let container = m_container.get_container() ;
+          // console.log("canvas:"+canvas);
+          // console.log(canvas);
+          // console.log("canvas_hud:"+canvas_hud);
+          // console.log("container:"+container);
+          // console.log(container);
+          // canvas.width="350px";
 
         }
 
+      function on_resize() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        m_container.resize(w, h);
+      }
         function preloader_cb(percentage) {
           m_preloader.update_preloader(percentage);
         }
 
-        function load_data(imageUrl: string) {
-          let cube = m_scenes.get_object_by_name("pakr_body_001");
-          let texture = m_tex.get_canvas_ctx(cube, "Texture.003");
-          let img = new Image();
-          img.src = imageUrl;
-          img.onload = function () {
-            let texture = m_tex.get_canvas_ctx(cube, "Texture.003");
-            texture.drawImage(img, 0, 0, texture.canvas.width, texture.canvas.height);
-            m_tex.update_canvas_ctx(cube, "Texture.003");
-          }
-        }
+
 
         exports.chooseMaterial = function (material: string, panel?: Panel) {
           let object = m_scenes.get_object_by_name("bag_front");
@@ -234,24 +203,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         }
 
       }
-        exports.setImgColor = function (r: number, g: number, b: number) {
 
-          let cube = m_scenes.get_object_by_name("pakr_body_001");
-          m_mat.set_nodemat_rgb(cube, ["Material", "RGB"], r, g, b,);
-        }
 
-        exports.resetImgColor = function (panels?: Panel[]) {
-          if (panels == null) {
-            let cube = m_scenes.get_object_by_name("pakr_body_001");
-            m_tex.change_image(cube, "Texture.003", _img_default);
-          } else {
-            for (let i of panels) {
-              let obj = m_scenes.get_object_by_name(i.name);
-              m_tex.change_image(obj, "Texture.003", _img_default);
 
-            }
-          }
-        }
 
         function init_cb(canvas_elem, success) {
           if (!success) {
@@ -267,12 +221,13 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           m_data.load('./assets/testConf/demo_bag.json', load_cb, preloader_cb);
         }
 
+
       }
     )
 
     b4w.require(this.appName).dispose();
     b4w.require(this.appName).init();
-
+    // document.getElementById("canvas_cont").style.width="1000px";
 
     //todo get bag type from DB
     if (this.bagType == null) {
@@ -322,7 +277,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   resetModel() {
     this.clearRectangle();
-    // b4w.require(this.appName).resetImgColor();
+
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
