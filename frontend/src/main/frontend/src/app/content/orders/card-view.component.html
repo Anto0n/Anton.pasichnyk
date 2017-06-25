@@ -1,6 +1,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-9">
+
+
+
+
+
+      <div class="container">
       <div *ngIf="orderRespListener.items?.length > 0" class="models">
         <form #form="ngForm">
           <div class="table-responsive">
@@ -29,7 +35,7 @@ table-bordered table-cart">
                   currency:'USD':true:'1.2-2'}}
                 </td>
                 <td>
-                  <button class="btn-outline-info" (click)="selectedModel = item.model"> view</button>
+                  <button class="btn-outline-info" (click)="selectModel(item.model)">View</button>
                 </td>
               </tr>
               </tbody>
@@ -37,10 +43,10 @@ table-bordered table-cart">
           </div>
         </form>
       </div>
+      <div class="col-md-12 ">
 
-      <div *ngIf="selectedModel" class="col-md-10 ">
-        <hr>
-        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+        <configurator-3d #config></configurator-3d>
+      </div>
       </div>
 
 

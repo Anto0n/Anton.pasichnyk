@@ -1,6 +1,8 @@
 
 import {UserDto} from "./user";
 import {IModel} from "./model";
+
+
 export class OrderResp{
   idOrder : number;
   moderatorId: number;

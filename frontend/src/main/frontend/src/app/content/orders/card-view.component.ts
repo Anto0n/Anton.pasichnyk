@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {CardOrderService} from "../../services/order/card-order.service";
 import {AuthenticationService} from "../../services/authentication.service";
 import {RestService} from "../../services/rest.service";
@@ -7,6 +7,8 @@ import {OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {Subscription} from "rxjs";
 import {subscribeOn} from "rxjs/operator/subscribeOn";
 import {AlertService} from "../../services/alert.service";
+import {IModel} from "../../models/model";
+import {Configurator3DComponent} from "../../configurator/3DConfigurator/configurator3d.component";
 
 @Component({
   selector: 'app-card-view',
@@ -17,6 +19,9 @@ export class CardViewComponent implements OnInit, OnDestroy {
   private orderRespListener: OrderResp = new OrderResp();
   private subscription: Subscription;
   private myOrders : OrderResp[];
+  private selectedModel : IModel;
+  @ViewChild("config")
+  private configurator : Configurator3DComponent;
   //private subscrReloadBucket: Subscription;
 
   constructor(private cardOrderService: CardOrderService, private authService: AuthenticationService,
@@ -38,6 +43,14 @@ export class CardViewComponent implements OnInit, OnDestroy {
     });
 
   }
+
+  selectModel(model: IModel) {   //old for 3d
+    console.log(model);
+    this.selectedModel=model;
+    this.configurator.loadModel(model);
+
+  }
+
 
   putOrder(){
     let nstatus = {

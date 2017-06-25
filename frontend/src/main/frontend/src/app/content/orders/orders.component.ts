@@ -9,6 +9,7 @@ import {mItems, OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
 import {ModelConfig} from "../../models/modelConfig";
 import {IConfigurator} from "app/configurator/configurator.model";
+import {Configurator3DComponent} from "app/configurator/3DConfigurator/configurator3d.component";
 import {ConfiguratorComponent, ConfiguratorType} from "../../configurator/configurator.component";
 
 @Component({
@@ -29,15 +30,15 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private uId: string;
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
-   selectedModel:IModel;
+  private selectedModel:IModel;
   private myOrders : OrderResp[];
   private subsOrderResp: Subscription;
   private currentOrder : OrderResp = new OrderResp();
   ShowView = ShowView; // allow to use enum in template
   private showWhat : ShowView = ShowView.MODELS; //models first
    configView = ConfiguratorType.D2;
-  /*@ViewChild('config') //old for 3d
-  private configurator: ConfiguratorComponent;*/
+  @ViewChild('config') //old for 3d
+  private configurator: Configurator3DComponent;
 
   selectModelId: number;
 
@@ -113,8 +114,19 @@ export class OrdersComponent implements OnInit, OnDestroy {
       .subscribe((data: IModel[]) => {
         this.uModels = data;
         if(data[0]) this.selectModelId = data[0].id;
+        // this.configurator.loadModel(this.uModels[0]);
       }, () => console.log('err'));
   }
+
+  private getOrdersByUserId() {
+    this.uId = this.roleService.getUserId();
+    this.restService.getData(`./api/findall/${this.uId}`)
+      .subscribe((data: IModel[]) => {
+        this.uModels = data;
+        if(data[0]) this.selectModelId = data[0].id;
+      }, () => console.log('err'));
+  }
+
 
   deleteModel(model: IModel) { //done
     this.restService.deleteData('./api/models/delete' + `/${model.id}`).subscribe(
@@ -169,17 +181,21 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   selectModel(model: IModel) {   //old for 3d
-    this.configView = ConfiguratorType.D2;
-   /* console.log("selectModel IModel:");
     console.log(model);
-    this.restService.getData("./api/models/"+model.id).subscribe(
-      (data)=> this.configurator.configurator.loadModel(model),
-      ()=>console.log("err"));*/
-    // this.configurator.configurator.loadModel(model);
+    this.selectedModel=model;
+    this.configurator.loadModel(model);
+
   }
   selectModel3d(){
    this.configView = ConfiguratorType.D3;
   }
+  // focusFunction(){
+  //   document.getElementById("model_manager").hidden =false;
+  // }
+  //
+  // focusOutFunction(){
+  //   document.getElementById("model_manager").hidden =true;
+  // }
    ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
      //this.subsOrderResp.unsubscribe();
