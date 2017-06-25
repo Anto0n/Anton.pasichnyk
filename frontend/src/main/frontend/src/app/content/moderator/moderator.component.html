@@ -12,71 +12,54 @@
         <button class="btn btn-outline-warning" (click)="getModelsByApproved('2')"> REJECTED</button>
       </div>
       <hr>
+      <div class="container">
       <div class="modoverflow"> <!--list of models-->
         <table class="table table-striped">
           <thead>
           <tr>
-            <td>id</td>
-            <td>user id</td>
-            <td>Bag type id</td>
+            <td>user email</td>
             <td>model name</td>
             <td>status</td>
             <td></td>
           </tr>
           </thead>
           <tbody>
-          <!--(click)="onSelect(model)"-->
           <tr *ngFor="let model of uModels"
               [class.selected]="model === selectedModel">
-            <!--<th scope="row">1</th>-->
-            <td class="font-weight-bold">{{model.id}}</td>
-            <td class="font-weight-bold">{{model.userId}}</td>
-            <td class="font-weight-bold">{{model.bagTypeId}}</td>
+            <td class="font-weight-bold">{{model.user.email}}</td>
             <td class="font-weight-bold">{{model.mname}}</td>
             <td class="font-weight-bold">{{model.approved}}</td>
             <td class="col-md-auto">
-              <button (click)="selectedModel = model" class="btn-outline-info">Select</button>
+              <button (click)="selectModel(model)" class="btn-outline-info">Select</button>
             </td>
 
           </tr>
           </tbody>
         </table>
       </div>
-      <hr>
-      Select model to Aprove or Reject<br>
-      * for 3D view, press 'select' on model, switch to 3d view(2d/3d) wait untill 3D configurator load, press  select on model again, wait
-      <hr>
-      <div *ngIf="selectedModel" class="col-md-8">
-
-        <configurator [selectModelToConfig]="selectedModel" [viewMode]="true"></configurator>
+        <table class="table table-striped"  *ngIf="selectedModel!=null">
+          <tr class="col-md-auto">
+            <td class="font-weight-bold">{{selectedModel?.mname}} by {{selectedModel?.user.email}}</td>
+            <td></td>
+            <td>
+              <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='REJECTED'"
+                      class="btn btn-success"
+                      (click)=" approveModel(selectedModel,'1'); $event.stopPropagation()"> APPROVE
+              </button>
+            </td>
+            <td>
+              <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED'"
+                      class="btn btn-warning"
+                      (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECTE
+              </button>
+            </td>
+          </tr>
+        </table>
+      <div class="col-md-12 " style="margin-top: 20px">
+        <configurator-3d #config></configurator-3d>
       </div>
-
+      </div>
       <hr>
-      <table class="table table-striped">
-        <tr class="col-md-auto">
-          <td class="font-weight-bold">{{selectedModel?.id}}</td>
-          <td class="font-weight-bold">{{selectedModel?.userId}}</td>
-          <td class="font-weight-bold">{{selectedModel?.bagTypeId}}</td>
-          <td class="font-weight-bold">{{selectedModel?.mname}}</td>
-          <td class="font-weight-bold">{{selectedModel?.approved}}</td>
-          <td></td>
-          <td>
-            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='REJECTED'"
-                    class="btn btn-success"
-                    (click)=" approveModel(selectedModel,'1'); $event.stopPropagation()"> APPROVE
-            </button>
-          </td>
-          <td>
-            <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED'"
-                    class="btn btn-warning"
-                    (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECTE
-            </button>
-          </td>
-        </tr>
-      </table>
-
-
-
     </div>
 
     <!--orders-->
@@ -92,20 +75,13 @@
  table-bordered table-cart">
           <tbody>
           <tr>
-            <td>ID</td>
-            <td>Count</td>
+            <td>user</td>
             <td>total price</td>
             <td>Status</td>
           </tr>
           <tr *ngFor="let order of myOrders">
-            <td class="font-weight-bold">{{order.idOrder}}</td>
-            <td class="font-weight-bold">{{order.items?.length}}</td>
-            <!--  <td>
-                 <input type="number"
-                        name="{{item.product.id}}" min="1"
-                        [ngModel]="item.count"
-                        (ngModelChange)="item.count = update($event, item)">
-               </td>-->
+            <td class="font-weight-bold">{{order.userDto.email}}</td>
+
             <td class="font-weight-bold">{{order.sumPrice |
               currency:'USD':true:'1.2-2'}}
             </td>
@@ -132,9 +108,6 @@
 
 
   </div>
-  <br><br>
-  <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>
-  <button class="btn btn-primary" (click)="showModels()">MODELS</button>
 
 
 </div>

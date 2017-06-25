@@ -1,10 +1,11 @@
 import { JsonObject, JsonProperty } from "json2typescript";
 import {ModelConfig} from "./modelConfig";
 import {Panel} from "../configurator/3DConfigurator/panel.model";
+import {UserDto} from "./user";
 
 export class IModel {
   "id": number;
-  "userId": number;
+  "user": UserDto;
   "bagTypeId": number;
   "materialId":number;
   "mname": string;

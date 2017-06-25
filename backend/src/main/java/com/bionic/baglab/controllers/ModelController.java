@@ -20,12 +20,15 @@ import java.util.*;
 @RequestMapping("/api/models")
 public class ModelController {
 
+//    private final ModelDao modelDao;
+    private final ModelService modelService;
+    private final OrderService orderService;
+
     @Autowired
-    private ModelDao modelDao;
-    @Autowired
-    private ModelService modelService;
-    @Autowired
-    private OrderService orderService;
+    public ModelController(ModelService modelService, OrderService orderService) {
+        this.modelService = modelService;
+        this.orderService = orderService;
+    }
 
     @GetMapping(value = "/{modelId}")
     public ModelDto getOne(@PathVariable("modelId") long modelId){
@@ -96,7 +99,7 @@ public class ModelController {
         }
         try {
             ModelEntity model = new ModelEntity(id);
-            modelDao.delete(model);
+            modelService.delete(model);
         }
         catch (Exception ex) {
             return new ResponseEntity<>(message, HttpStatus.CONFLICT);     //"Error deleting the user: " + ex.toString();

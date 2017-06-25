@@ -39,6 +39,9 @@ public class ModelService {
         return modelDao.findOne(id);
     }
 
+    public void delete(ModelEntity modelEntity) {
+        modelDao.delete(modelEntity);
+    }
     public ModelDto findOneDto(long id) {
         return new ModelDto(modelDao.findOne(id));
     }

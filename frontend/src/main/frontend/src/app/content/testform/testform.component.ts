@@ -8,6 +8,7 @@ import {Config2d, ModelConfig} from "../../models/modelConfig";
 import {JsonConvert} from "json2typescript";
 import {Configurator2dService} from "../../services/configurator/configurator2d.service";
 import {ModelService} from "../../services/model.service";
+import {UserDto} from "../../models/user";
 @Component({
   selector: 'app-testform',
   templateUrl: './testform.component.html'
@@ -151,9 +152,11 @@ export class TestformComponent implements OnInit{
   }
 
   sendTestDataToObservable() {
+    let user1 = new UserDto();
+    user1.idUser=1;
     let iMod: IModel = {
       "id": 1,
-      "userId": 1,
+      "user": user1,
       "bagTypeId": 1,
       "materialId": 1,
       "mname": "model_1",
@@ -163,10 +166,11 @@ export class TestformComponent implements OnInit{
       "config": new ModelConfig()
     };
 
-
+    let user2 = new UserDto();
+    user2.idUser=2;
     let iMod2: IModel = {
       "id": 2,
-      "userId": 2,
+      "user": user2,
       "bagTypeId": 2,
       "materialId": 2,
       "mname": "mod2",

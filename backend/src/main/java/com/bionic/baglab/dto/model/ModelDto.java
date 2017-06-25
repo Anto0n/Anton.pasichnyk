@@ -2,6 +2,7 @@ package com.bionic.baglab.dto.model;
 
 import com.bionic.baglab.domains.ModelEntity;
 import com.bionic.baglab.dto.enums.ModelStatusEnum;
+import com.bionic.baglab.dto.user.UserLightDto;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
@@ -9,7 +10,7 @@ import java.sql.Timestamp;
 public class ModelDto {
     private long id;
     @NotNull(message = "error.uid.notnull")
-    private long userId;
+    private UserLightDto user;
     @NotNull(message = "error.bagTypeId.notnull")
     private long bagTypeId;
     @NotNull(message = "error.bagTypeId.notnull")
@@ -28,7 +29,7 @@ public class ModelDto {
 
     public ModelDto(ModelEntity modelEntity) {
         this.id = modelEntity.getIdModel();
-        this.userId = modelEntity.getUserEntity().getIdUser();
+        this.user = new UserLightDto(modelEntity.getUserEntity());
         this.bagTypeId = modelEntity.getBagTypeEntity().getId();
         this.materialId = modelEntity.getMaterialEntity().getId();
         this.modelCreate = modelEntity.getModelCreate();
@@ -46,12 +47,12 @@ public class ModelDto {
         this.id = id;
     }
 
-    public long getUserId() {
-        return userId;
+    public UserLightDto getUser() {
+        return user;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUser(UserLightDto user) {
+        this.user = user;
     }
 
     public long getBagTypeId() {

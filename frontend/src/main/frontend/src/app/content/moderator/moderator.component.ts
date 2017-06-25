@@ -1,9 +1,10 @@
-import {Component, OnInit, ChangeDetectorRef, NgZone} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, NgZone, ViewChild} from '@angular/core';
 import {IModel, ModelStatus} from "../../models/model";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {OrderResp, OrderStatusNameEnum} from "../../models/order";
 import {AlertService} from "../../services/alert.service";
+import {Configurator3DComponent} from "../../configurator/3DConfigurator/configurator3d.component";
 
 @Component({
   selector: 'app-moderator',
@@ -23,6 +24,8 @@ export class ModeratorComponent implements OnInit {
   private uModels: IModel[] = [];
   private selectedModel:IModel;
   private approved : string;
+  @ViewChild("config")
+  private configurator: Configurator3DComponent;
   private  showEditOrder : boolean = true;
   private showModelsFilter : boolean = true;
   private myOrders : OrderResp[] = [];
@@ -45,6 +48,7 @@ export class ModeratorComponent implements OnInit {
     this.restService.getData(`./api/models/list/${this.approved}`)
       .subscribe((data: IModel[]) => {
         this.uModels = data;
+        console.log(data);
         this.selectedModel = null;
       }, () => console.log('err'));
   }
@@ -137,6 +141,12 @@ export class ModeratorComponent implements OnInit {
           this.myOrders = data},
         () => console.log('err')
       );
+  }
+
+  selectModel(model:IModel){
+    console.log(model);
+    this.selectedModel=model;
+    this.configurator.loadModel(model);
   }
 }
 
