@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {IModel, ModelStatus} from "../../models/model";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
 import {OrderResp, OrderStatusNameEnum} from "../../models/order";
+import {Configurator3DComponent} from "../../configurator/3DConfigurator/configurator3d.component";
+import {Config3d} from "../../models/modelConfig";
 
 @Component({
   selector: 'app-manager',
@@ -17,9 +19,11 @@ import {OrderResp, OrderStatusNameEnum} from "../../models/order";
 export class FactoryComponent implements OnInit {
   private uModels: IModel[] = [];
   private selectedModel:IModel;
+  // private selectedConfig: Config3d;
   private approved : string;
-
-  private  showEditOrder : boolean = true;
+  @ViewChild("config")
+  private configurator: Configurator3DComponent;
+  private showEditOrder : boolean = true;
   private myOrders : OrderResp[] = [];
 
   constructor(private restService: RestService, private roleService: UserRoleService,) { }
@@ -27,9 +31,20 @@ export class FactoryComponent implements OnInit {
   ngOnInit() {
     this.getModelsByApproved(ModelStatus.APPROVED);
     this.getOrdersByStatus(2); //accepted
+
+
+
+
   }
 
+  selectModel(model: IModel) {   //old for 3d
+    this.selectedModel=model;
+    this.configurator.loadModel(model);
+  }
 
+  parseMaterials(config:string){
+    let jStr: string = JSON.parse(JSON.stringify(config));
+  }
   getModelsByApproved(mStatus : ModelStatus) {
     this.approved = ModelStatus[mStatus];     // !!! Trick with enum
     this.restService.getData(`./api/models/list/${this.approved}`)

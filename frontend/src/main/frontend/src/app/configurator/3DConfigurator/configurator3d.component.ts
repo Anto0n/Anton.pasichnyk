@@ -22,7 +22,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   viewMode: boolean = false;
 
   @Output() onClearMname = new EventEmitter<string>();
-  private modelConfig: ModelConfig;
+  modelConfig: ModelConfig;
   private defaultModel: IModel;
   private pathToMaterials: string;
   private material: BagMaterial;
@@ -150,6 +150,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
 
         exports.chooseMaterial = function (material: string, panel?: Panel) {
+
+
           let object = m_scenes.get_object_by_name("bag_front");
           let object_body = m_scenes.get_object_by_name("bag_body");
           let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
@@ -320,9 +322,14 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   selectMaterial(material: BagMaterial, panel?: string) {
     this.material = material;
     let selectedPanel = null;
+
     if (panel != null) {
       selectedPanel = this.modelConfig.config3d.panels.find((e) => e.name == panel);
+
+      selectedPanel.material = new BagMaterial();
       selectedPanel.material = material;
+
+
     } else {
       for (let i of this.modelConfig.config3d.panels) {
         i.material = material;

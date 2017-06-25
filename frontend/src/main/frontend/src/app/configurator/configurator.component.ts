@@ -98,6 +98,7 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   selectMaterial(material: BagMaterial, panel?: string) {
+
     this.configurator.selectMaterial(material, panel);
   }
 
