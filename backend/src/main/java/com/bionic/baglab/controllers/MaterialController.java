@@ -84,7 +84,7 @@ public class MaterialController {
         String filePath = getClass().getClassLoader().getResource("static").getPath() + separator + "materials"+ separator+name+".jpg";
         try {
             //byte[] byteArray = Files.readAllBytes(new File(filePath.substring(1).replace("%20"," ")).toPath());
-            byte[] byteArray = Files.readAllBytes(new File(filePath).toPath());
+            byte[] byteArray = Files.readAllBytes(new File(filePath.replace("%20"," ")).toPath());
             return META_DATA_JPG + Base64.getEncoder().encodeToString(byteArray);
         }catch (IOException e){
             e.printStackTrace();

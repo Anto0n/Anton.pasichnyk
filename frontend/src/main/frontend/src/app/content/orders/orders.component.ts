@@ -80,6 +80,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.showWhat = ShowView.ORDERS;
     this.reloadMyOrdersList();
     this.selectedModel = null;
+    this.getModelsByUserId();
     this.alertService.clearMeessage();
     //refresh orders ent
   }
