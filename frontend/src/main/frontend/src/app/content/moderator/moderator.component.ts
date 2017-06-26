@@ -70,7 +70,7 @@ export class ModeratorComponent implements OnInit {
         () => {
           this.uModels = this.uModels.filter(m => m !== model);
           if (this.selectedModel === model) {
-            this.selectedModel = new IModel();
+            this.selectedModel = null;
           }
         }
       );
