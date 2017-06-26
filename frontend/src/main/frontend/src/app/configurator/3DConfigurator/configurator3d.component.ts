@@ -7,6 +7,7 @@ import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../mode
 import {AuthenticationService} from "../../services/authentication.service";
 import {AlertService} from "../../services/alert.service";
 import {Panel} from "./panel.model";
+import {Element} from "@angular/compiler";
 
 declare let b4w: any;
 
@@ -20,19 +21,14 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   @Input() private currentModel: ModelConfig;
   @Input()
   viewMode: boolean = false;
-
   @Output() onClearMname = new EventEmitter<string>();
   modelConfig: ModelConfig;
-  private defaultModel: IModel;
   private pathToMaterials: string;
   private material: BagMaterial;
   private materials: BagMaterial [] = [];
   private bagType: BagType;
-  private jsonString: any;
+  private canvas: HTMLElement = document.getElementById("canvas_cont");
   private appName: string = "conf_app";
-  private sceneName: string = './assets/testConf/Bag_conf.json';
-  base64_image_3 = "./assets/testConf/temp/default_img.png";
-  base64_image_4 = "./assets/testConf/temp/logo.png";
 
   constructor(private restService: RestService,
               private userRoleService: UserRoleService,
@@ -52,27 +48,16 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
     this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
     b4w.register(this.appName, function (exports, require) {
-        let testImg = new Image();
         let m_app = b4w.require("app");
         let m_data = b4w.require("data");
         let m_scenes = require("scenes");
-        let m_print = require("__print");
-        let m_main = require("main");
         let m_tex = require("textures");
         let m_mat = require("material");
         let m_container = require("container");
-        let m_rgb = require("rgb");
         let m_preloader = require("preloader");
         let m_version = require("version");
-        let _base64_image_3 = "./assets/testConf/temp/default_img.png";
-        let _base64_image_4 = "./assets/testConf/temp/logo.png";
-        let _img_default = "./assets/testConf/a55bf6d483b813cc325dd7aeb1ce98fc.jpg";
-
-        let _wait_for_image_loading = false;
         let jeans_img = "./images/3d/jeans_2048.jpg";
-
-
-      let DEBUG = (m_version.type() === "DEBUG");
+        let DEBUG = (m_version.type() === "DEBUG");
 
         exports. dispose = function () {
           m_data.unload();
@@ -91,28 +76,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           })
         }
 
-
-        exports.drawImageNew1 = function () {
-
-          let cube = m_scenes.get_object_by_name("bag_front");
-          let cube_body = m_scenes.get_object_by_name("bag_body");
-
-
-          let ctx_image = m_tex.get_canvas_ctx(cube, "bag_front_text_img");
-          let ctx_image_body = m_tex.get_canvas_ctx(cube_body, "bag_body_text_img");
-
-          let img = new Image();
-          img.src = jeans_img;
-
-          img.onload = function () {
-
-            ctx_image.drawImage(img, 0, 0, ctx_image.canvas.width, ctx_image.canvas.height);
-            m_tex.update_canvas_ctx(cube, "bag_front_text_img");
-            ctx_image_body.drawImage(img, 0, 0, ctx_image_body.canvas.width, ctx_image_body.canvas.height);
-            m_tex.update_canvas_ctx(cube_body, "bag_body_text_img");
-          }
-        }
-
         exports.clearRectangle = function (panels?: Panel[]) {
 
           if (panels == null) {
@@ -128,14 +91,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           }
 
         }
-        exports.drawImage3 = function () {
-          let cube = m_scenes.get_object_by_name("pakr_body_001");
-          m_tex.change_image(cube, "Texture", _base64_image_3);
-        }
+
 
 
         function load_cb() {
           m_app.enable_camera_controls();
+
         }
 
       function on_resize() {

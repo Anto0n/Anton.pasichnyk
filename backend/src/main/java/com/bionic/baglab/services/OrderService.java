@@ -54,6 +54,9 @@ public class OrderService {
     public OrderEntity findOne(Long id) {
         return orderDao.findOne(id);
     }
+    public OrderDto findOneDto(Long id) {
+        return new OrderDto(orderDao.findOne(id));
+    }
 
     public OrderStatusEntity findOrderStatusById(Long id) {
         return orderStatusDao.findOne(id);

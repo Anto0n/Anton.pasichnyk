@@ -39,6 +39,10 @@ public class OrderController {
         return orderService.findAll();
     }
 
+    @GetMapping("/{id}")
+    public OrderDto findOne(@PathVariable  long id){
+        return orderService.findOneDto(id);
+    }
 
     @PutMapping("/changeStatus")
     public OrderDto changeOrderStatus(@Valid @RequestBody OrderStatusChangeDTO orderStatusChangeDTO) {

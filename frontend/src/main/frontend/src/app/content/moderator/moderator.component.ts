@@ -23,6 +23,7 @@ import {Configurator3DComponent} from "../../configurator/3DConfigurator/configu
 export class ModeratorComponent implements OnInit {
   private uModels: IModel[] = [];
   private selectedModel:IModel;
+  private selectedOrder:OrderResp;
   private approved : string;
   @ViewChild("config")
   private configurator: Configurator3DComponent;
@@ -44,6 +45,7 @@ export class ModeratorComponent implements OnInit {
 
 
   getModelsByApproved(mStatus : ModelStatus) {
+    this.selectedOrder=null;
     this.approved = ModelStatus[mStatus];     // !!! Trick with enum
     this.restService.getData(`./api/models/list/${this.approved}`)
       .subscribe((data: IModel[]) => {
@@ -56,6 +58,8 @@ export class ModeratorComponent implements OnInit {
   showModelsInOrder(ord : OrderResp){
     //this.showWhat = ShowView.MODELS_IN_ORDER;
     this.showEditOrder = false; // show models view
+    this.selectedOrder=ord;
+    console.log(this.selectedOrder);
     this.uModels = [];  //clean arr
     for (let it  of ord.items){
       this.uModels.push(it.model);
@@ -68,8 +72,21 @@ export class ModeratorComponent implements OnInit {
     this.restService.getData('./api/models/approve', `/${id}?approved=${approved}`)
       .subscribe(
         () => {
-          this.uModels = this.uModels.filter(m => m !== model);
-          if (this.selectedModel === model) {
+          // this.uModels = this.uModels.filter(m => m !== model);
+          if (this.selectedOrder!=null){
+          this.restService.getData('./api/models', `/${id}`)
+            .subscribe((data:IModel)=>{
+              this.selectedModel=data;
+              this.uModels = this.uModels.filter(m => m !== model);
+              // this.uModels.filter(m=>m.id===data.id)=this.selectedModel;
+              this.uModels.push(this.selectedModel);
+            });
+          }else {
+            this.uModels = this.uModels.filter(m => m !== model);
+          }
+
+
+          if (this.selectedModel.id === model.id) {
             this.selectedModel = null;
           }
         }
@@ -106,6 +123,7 @@ export class ModeratorComponent implements OnInit {
   }
 
   showModels(){
+    this.selectedOrder=null;
     this.getModelsByApproved(ModelStatus.NEW);
     this.showEditOrder = false;
     // refresh models ent
