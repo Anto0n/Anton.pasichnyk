@@ -56,7 +56,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   listenerCallback1(e: MouseEvent) {
     console.log(e);
     b4w.require(this.appName).listenerCallback(e);
-    alert('111');
+    // alert('111');
   }
 
   ngOnInit() {
@@ -87,17 +87,17 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           console.log(m_scenes);
           var pickedObject = m_scenes.pick_object(event.offsetX, event.offsetY);
           console.log(pickedObject);
-          // if (pickedObject) {
+          if (pickedObject) {
           //   this.outlineOff();
             // var _object = configuratorObject3d.getByObjectName(pickedObject.name);
             // if (_object) {
             //   _object.pick();
             //   $rootScope.target = _object;
-            //   this.m_scenes.set_outline_color([0, 0.6, 1]);
-            //   this.m_scenes.apply_outline_anim(pickedObject, 1.2, 1.2, 1);
+              m_scenes.set_outline_color([0, 0.6, 1]);
+              m_scenes.apply_outline_anim(pickedObject,  1.2, 1.2, 0);
             //   $scope.$emit('editModeOn', _object);
             // }
-          // }
+          }
         };
 
 
