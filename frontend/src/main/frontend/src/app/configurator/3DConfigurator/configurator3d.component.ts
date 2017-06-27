@@ -37,11 +37,26 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   ngOnDestroy(): void {
-  //todo implement b4w dispose
+    //todo implement b4w dispose
 
   }
 
   init() {
+  }
+
+  a: number = 10;
+
+  do() {
+    console.log('!!!!!!!!!!!!!!');
+    console.log(b4w.require(this.appName).getCanvas());
+    let canvasElement: any = b4w.require(this.appName).getCanvas();
+    canvasElement.addEventListener('mousedown', this.listenerCallback1.bind(this), false);
+  }
+
+  listenerCallback1(e: MouseEvent) {
+    console.log(e);
+    b4w.require(this.appName).listenerCallback(e);
+    alert('111');
   }
 
   ngOnInit() {
@@ -49,6 +64,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
     b4w.register(this.appName, function (exports, require) {
         let m_app = b4w.require("app");
+        let m_mouse = b4w.require("mouse");
         let m_data = b4w.require("data");
         let m_scenes = require("scenes");
         let m_tex = require("textures");
@@ -59,7 +75,33 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         let jeans_img = "./images/3d/jeans_2048.jpg";
         let DEBUG = (m_version.type() === "DEBUG");
 
-        exports. dispose = function () {
+        exports.getCanvas = m_container.get_canvas;
+
+        exports.listenerCallback = function (event) {
+          // if (event.preventDefault) {
+          //   event.preventDefault();
+          // }
+          console.log(this);
+          var y = m_mouse.get_coords_y(event);
+          var x = m_mouse.get_coords_x(event);
+          console.log(m_scenes);
+          var pickedObject = m_scenes.pick_object(event.offsetX, event.offsetY);
+          console.log(pickedObject);
+          // if (pickedObject) {
+          //   this.outlineOff();
+            // var _object = configuratorObject3d.getByObjectName(pickedObject.name);
+            // if (_object) {
+            //   _object.pick();
+            //   $rootScope.target = _object;
+            //   this.m_scenes.set_outline_color([0, 0.6, 1]);
+            //   this.m_scenes.apply_outline_anim(pickedObject, 1.2, 1.2, 1);
+            //   $scope.$emit('editModeOn', _object);
+            // }
+          // }
+        };
+
+
+        exports.dispose = function () {
           m_data.unload();
 
         }
@@ -93,21 +135,20 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         }
 
 
-
         function load_cb() {
           m_app.enable_camera_controls();
 
         }
 
-      function on_resize() {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        m_container.resize(w, h);
-      }
+        function on_resize() {
+          var w = window.innerWidth;
+          var h = window.innerHeight;
+          m_container.resize(w, h);
+        }
+
         function preloader_cb(percentage) {
           m_preloader.update_preloader(percentage);
         }
-
 
 
         exports.chooseMaterial = function (material: string, panel?: Panel) {
@@ -127,10 +168,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
               let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
               console.log(ctx2Dpanel.canvas.width);
               console.log(ctx2Dpanel.canvas.height);
-              ctx2Dpanel.drawImage(img, 0, 0, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
-              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width/2, 0, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
-              ctx2Dpanel.drawImage(img, 0, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
-              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.width/2, ctx2Dpanel.canvas.height/2);
+              ctx2Dpanel.drawImage(img, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+              ctx2Dpanel.drawImage(img, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
               m_tex.update_canvas_ctx(panel_object, panel.texture);
             } else {
               let object = m_scenes.get_object_by_name("bag_front");
@@ -141,21 +182,19 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             }
           }
         }
-      exports.drawPicture= function (src:string) {
-        let panel_object = m_scenes.get_object_by_name("bag_front");
-        let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, "bag_front_text_img");
-        let img = new Image();
-        img.src=src;
+        exports.drawPicture = function (src: string) {
+          let panel_object = m_scenes.get_object_by_name("bag_front");
+          let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, "bag_front_text_img");
+          let img = new Image();
+          img.src = src;
 
-        img.onload = function () {
-          ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width/3, ctx2Dpanel.canvas.width/3,
-            ctx2Dpanel.canvas.width/3, ctx2Dpanel.canvas.height/3);
-          m_tex.update_canvas_ctx(panel_object, "bag_front_text_img");
+          img.onload = function () {
+            ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 3, ctx2Dpanel.canvas.width / 3,
+              ctx2Dpanel.canvas.width / 3, ctx2Dpanel.canvas.height / 3);
+            m_tex.update_canvas_ctx(panel_object, "bag_front_text_img");
+          }
+
         }
-
-      }
-
-
 
 
         function init_cb(canvas_elem, success) {
@@ -163,8 +202,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             return;
           }
           m_preloader.create_preloader({
-            container_color:"#000000", // background color of the container
-            bar_color:"#6cbeee", // background color of the bar
+            container_color: "#000000", // background color of the container
+            bar_color: "#6cbeee", // background color of the bar
             frame_color: "#ffffff", // color of the frame border
             font_color: "#ffffff" // color of the font
           });
@@ -197,8 +236,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       for (let i of this.modelConfig.config3d.panels) {
         this.selectMaterial(i.material, i.name);
       }
-    }else {
-      setTimeout(()=>{
+    } else {
+      setTimeout(() => {
 
         this.restService.getData('./api/models/1').subscribe((data: any) => {
             let jStr: string = JSON.parse(JSON.stringify(data.config));
@@ -217,10 +256,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             for (let i of this.modelConfig.config3d.panels) {
               this.selectMaterial(i.material, i.name);
             }
-            this.material.id=1;
+            this.material.id = 1;
           },
           () => console.log('cant receive default model'));
-      },3000);
+      }, 3000);
 
     }
 
