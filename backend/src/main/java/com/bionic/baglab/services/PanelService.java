@@ -23,4 +23,8 @@ public class PanelService {
     public Set<PanelEntity> getAll(){
         return panelDao.findAll();
     }
+
+    public PanelEntity getByName(String name) {
+        return panelDao.findByName(name);
+    }
 }

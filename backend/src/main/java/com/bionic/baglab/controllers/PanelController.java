@@ -4,6 +4,7 @@ import com.bionic.baglab.domains.PanelEntity;
 import com.bionic.baglab.services.PanelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,11 @@ public class PanelController {
     @GetMapping(value = "/list")
     public Set<PanelEntity> getAll(){
         return panelService.getAll();
+    }
+
+    @GetMapping(value = "/{name}")
+    public PanelEntity getByName(@PathVariable String name){
+        return panelService.getByName(name);
     }
 
 }

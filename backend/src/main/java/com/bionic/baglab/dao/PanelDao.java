@@ -13,4 +13,6 @@ import java.util.Set;
 public interface PanelDao  extends CrudRepository<PanelEntity, Long> {
 
     Set<PanelEntity> findAll();
+
+    PanelEntity findByName(String name);
 }
