@@ -1,31 +1,41 @@
-<div class="container col-lg-12">
-<button *ngIf ="roleAdmin" (click) = "editNewsRedir()" type="button" class="btn btn-primary" > Edit News</button>
-<button *ngIf ="roleAdmin" type="button" class="btn btn-primary" (click)="listUsers()"> List Users</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <hr>
+      <button *ngIf="roleAdmin" (click)="editNewsRedir()" type="button" class="btn btn-primary"> Edit News</button>
+      <button *ngIf="roleAdmin " type="button" class="btn btn-primary" (click)="listUsers()"> List Users</button>
 
-<div *ngIf="showListUsers" >
-    <div class="table-responsive, user-list">
-      <h1>Users</h1>
-      <table class="table table-sm table-striped
+      <div *ngIf="showListUsers">
+        <div class="table-responsive, user-list">
+          <h1>Users</h1>
+          <table class="table table-sm table-striped
  table-bordered table-cart">
-        <tbody>
-        <tr>
-          <td class="font-weight-bold">ID</td>
-          <td class="font-weight-bold">First name</td>
-          <td class="font-weight-bold">Last name</td>
-          <td class="font-weight-bold">email</td>
-          <td class="font-weight-bold">role</td>
-        </tr>
-        <tr *ngFor="let user of users">
-          <td>{{user.idUser}}</td>
-          <td>{{user.firstname}}</td>
-          <td>{{user.lastname}}</td>
-          <td>{{user.email}}</td>
-          <td>{{user.role.name}}</td>
-          <td> <button type="button" class="btn btn-danger" [routerLink]="['/editusers', user.idUser]"> Edit User</button></td>
-        </tr>
-        </tbody>
-      </table>
+            <tbody>
+            <tr>
+              <td class="font-weight-bold">ID</td>
+              <td class="font-weight-bold">First name</td>
+              <td class="font-weight-bold">Last name</td>
+              <td class="font-weight-bold">email</td>
+              <td class="font-weight-bold">role</td>
+            </tr>
+            <tr *ngFor="let user of users">
+              <td>{{user.idUser}}</td>
+              <td>{{user.firstname}}</td>
+              <td>{{user.lastname}}</td>
+              <td>{{user.email}}</td>
+              <td>{{user.role.name}}</td>
+              <td>
+                <button type="button" class="btn btn-danger" [routerLink]="['/editusers', user.idUser]"> Edit User
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+  </div>
+  <br><br><br><br><hr>
 </div>
 
-</div>
+
