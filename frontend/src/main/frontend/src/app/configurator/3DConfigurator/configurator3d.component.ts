@@ -54,7 +54,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   listenerCallback1(e: MouseEvent) {
 
     let pickedObject = b4w.require(this.appName).pickObject(e);
-    if(pickedObject){
+    if (pickedObject) {
+      if (this.selectedPanel != null) {
+        b4w.require(this.appName).stopAnimate(this.selectedPanel);
+      }
       this.selectedPanel = pickedObject;
       this.selectedPanelUpdated.emit(this.selectedPanel);
     }
@@ -78,24 +81,26 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
         exports.getCanvas = m_container.get_canvas;
 
+        exports.stopAnimate = function (obj) {
+          m_scenes.clear_outline_anim(obj);
+        };
         exports.pickObject = function (event) {
-          // if (event.preventDefault) {
-          //   event.preventDefault();
-          // }
+
           console.log(this);
-          var y = m_mouse.get_coords_y(event);
-          var x = m_mouse.get_coords_x(event);
+          // let y = m_mouse.get_coords_y(event);
+          // var x = m_mouse.get_coords_x(event);
           console.log(m_scenes);
-          var pickedObject = m_scenes.pick_object(event.offsetX, event.offsetY);
+          let pickedObject = m_scenes.pick_object(event.offsetX, event.offsetY);
           console.log(pickedObject);
           if (pickedObject) {
-          //   this.outlineOff();
+
+            //   this.outlineOff();
             // var _object = configuratorObject3d.getByObjectName(pickedObject.name);
             // if (_object) {
             //   _object.pick();
             //   $rootScope.target = _object;
-              m_scenes.set_outline_color([0, 0.6, 1]);
-              m_scenes.apply_outline_anim(pickedObject,  1.2, 1.2, 0);
+            m_scenes.set_outline_color([0, 0.6, 1]);
+            m_scenes.apply_outline_anim(pickedObject, 1.2, 1.2, 0);
             //   $scope.$emit('editModeOn', _object);
             // }
           }

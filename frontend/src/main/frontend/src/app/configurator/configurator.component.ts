@@ -132,10 +132,6 @@ export class ConfiguratorComponent implements OnInit {
       console.log("SELECTED PANLE NOT NULL");
       console.log(this.selectedPanel.name)
       this.configurator.selectMaterial(material, this.selectedPanel.name);
-
-    }else {
-      console.log("SELECTED PANLE IS NULL");
-      this.configurator.selectMaterial(material);
     }
 
   }
@@ -153,10 +149,6 @@ export class ConfiguratorComponent implements OnInit {
   switchCreateView() {
     this.isEditMode = !this.isEditMode;
     this.configurator.activateEditMode();
-    // this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
-    //   this.defaultModels = data;
-    // });
-    // document.getElementById("customizer").hidden = !this.isEditMode;
     document.getElementById("customizer2").hidden = !this.isEditMode;
     document.getElementById("model-selector").hidden = this.isEditMode;
 
