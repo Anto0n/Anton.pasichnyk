@@ -187,14 +187,21 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           }
         }
         exports.drawPicture = function (src: string, panel: Panel) {
+
+
+
+
+
           let panel_object = m_scenes.get_object_by_name(panel.name);
           let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
           let img = new Image();
           img.src = src;
 
           img.onload = function () {
-            ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 3, ctx2Dpanel.canvas.width / 3,
-              ctx2Dpanel.canvas.width / 3, ctx2Dpanel.canvas.height / 3);
+            let w = img.width;
+            let h = img.height;
+            ctx2Dpanel.drawImage(img, 0, 0, w, h, ctx2Dpanel.canvas.width *2/ 5, ctx2Dpanel.canvas.width *2/ 5,
+              ctx2Dpanel.canvas.width*1/5, ctx2Dpanel.canvas.height*1/5);
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
 
@@ -315,6 +322,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
+
     this.restService.getData('./api/panel/'+this.selectedPanel.name).subscribe(
       (panel:Panel)=>{
         console.log(panel);
