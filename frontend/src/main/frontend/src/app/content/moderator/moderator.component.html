@@ -42,13 +42,13 @@
             <td class="font-weight-bold">{{selectedModel?.mname}} by {{selectedModel?.user.email}}</td>
             <td></td>
             <td>
-              <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='REJECTED'"
+              <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='REJECTED' ||  selectedModel?.approved==='DEFAULT'"
                       class="btn btn-success"
                       (click)=" approveModel(selectedModel,'1'); $event.stopPropagation()"> APPROVE
               </button>
             </td>
             <td>
-              <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED'"
+              <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED' ||  selectedModel?.approved==='DEFAULT'"
                       class="btn btn-warning"
                       (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECTE
               </button>
