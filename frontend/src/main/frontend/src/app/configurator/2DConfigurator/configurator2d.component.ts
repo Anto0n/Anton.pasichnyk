@@ -20,6 +20,10 @@ import {debug} from "util";
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
+  activateViewDefaultMode() {
+    throw new Error("Method not implemented.");
+  }
+
   activateEditMode() {
   }
   @Input()

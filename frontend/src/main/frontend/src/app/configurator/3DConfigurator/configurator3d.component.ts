@@ -18,6 +18,7 @@ declare let b4w: any;
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
 
+
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
@@ -92,8 +93,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           m_scenes.clear_outline_anim(obj);
         };
         exports.animate = function (obj) {
-              console.log("IM IN ANIMATE");
-              console.log(obj);
             m_scenes.clear_outline_anim(obj);
             m_scenes.set_outline_color([0, 0.6, 1]);
             m_scenes.apply_outline_anim(obj, 1.2, 1.2, 0);
@@ -391,6 +390,16 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   activateEditMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();
     canvasElement.addEventListener('mousedown', this.listenerCallback1.bind(this), false);
+  }
+
+  activateViewDefaultMode() {
+    let canvasElement: any = b4w.require(this.appName).getCanvas();
+    canvasElement.removeEventListener();
+    console.log("REMOVED EL");
+    b4w.require(this.appName).stopAnimate(this.selectedPanel);
+    this.selectedPanel=null;
+    this.selectedPanelUpdated.emit(this.selectedPanel);
+
   }
 
 }
