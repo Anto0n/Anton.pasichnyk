@@ -109,6 +109,7 @@
           <configurator-3d #config *ngIf="configuratorType == 3" [inModelName]="modelName"
                            (onClearMname)="onClearMname($event)"
                            (selectedPanelUpdated)="handleSelectedPanelUpdated($event)"
+                           [editMode]="isEditMode"
                            [viewMode]="viewMode"></configurator-3d>
         </div>
       </div>
