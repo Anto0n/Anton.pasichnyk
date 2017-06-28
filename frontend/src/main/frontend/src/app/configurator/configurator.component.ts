@@ -125,8 +125,16 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   selectMaterial(material: BagMaterial, panel?: string) {
+    let panelLocal=panel;
+    if(this.selectedPanel!=null){
+      panelLocal=this.selectedPanel.name;
+      this.configurator.selectMaterial(material, panel);
+     console.log("SELECTED PANLE NOT NULL");
+    }else {
+      console.log("SELECTED PANLE IS NULL");
+      this.configurator.selectMaterial(material);
+    }
 
-    this.configurator.selectMaterial(material, panel);
   }
 
   // switchCreateView() {
@@ -140,8 +148,6 @@ export class ConfiguratorComponent implements OnInit {
   //
   // }
   switchCreateView() {
-    console.log("this.materialTypes=---");
-    console.log(this.materialTypes);
     this.isEditMode = !this.isEditMode;
     this.configurator.activateEditMode();
     // this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
@@ -153,6 +159,14 @@ export class ConfiguratorComponent implements OnInit {
 
   }
 
+  handleSelectedPanelUpdated(pickedObject:any){
+    console.log("PARENT COMPONENT GET: ")
+    console.log(pickedObject);
+    this.selectedPanel=pickedObject;
+    console.log(this.selectedPanel);
+
+
+  }
   loadModel(model: IModel) {
     this.configurator.loadModel(model);
   };

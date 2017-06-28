@@ -29,6 +29,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   modelConfig: ModelConfig;
   private pathToMaterials: string;
+  private selectedPanel: any;
   private material: BagMaterial;
   private materials: BagMaterial [] = [];
   private bagType: BagType;
@@ -52,8 +53,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   listenerCallback1(e: MouseEvent) {
 
-    b4w.require(this.appName).listenerCallback(e);
-
+    let pickedObject = b4w.require(this.appName).pickObject(e);
+    if(pickedObject){
+      this.selectedPanel = pickedObject;
+      this.selectedPanelUpdated.emit(this.selectedPanel);
+    }
   }
 
   ngOnInit() {
@@ -74,7 +78,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
         exports.getCanvas = m_container.get_canvas;
 
-        exports.listenerCallback = function (event) {
+        exports.pickObject = function (event) {
           // if (event.preventDefault) {
           //   event.preventDefault();
           // }
@@ -95,6 +99,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             //   $scope.$emit('editModeOn', _object);
             // }
           }
+          return pickedObject;
         };
 
 
@@ -151,6 +156,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         exports.chooseMaterial = function (material: string, panel?: Panel) {
 
 
+          console.log("I AM IN CHOOSE MATERIAL");
+          console.log(material);
+          console.log(panel);
           let object = m_scenes.get_object_by_name("bag_front");
           let object_body = m_scenes.get_object_by_name("bag_body");
           let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
