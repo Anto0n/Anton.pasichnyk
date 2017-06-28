@@ -148,14 +148,16 @@ export class ConfiguratorComponent implements OnInit {
   // }
   switchCreateView() {
     this.isEditMode = !this.isEditMode;
+    console.log( this.isEditMode);
+    document.getElementById("customizer2").hidden = !this.isEditMode;
+    document.getElementById("model-selector").hidden = this.isEditMode;
     if(this.isEditMode){
       this.configurator.activateEditMode();
     }else {
       this.configurator.activateViewDefaultMode();
     }
 
-    document.getElementById("customizer2").hidden = !this.isEditMode;
-    document.getElementById("model-selector").hidden = this.isEditMode;
+
 
   }
 

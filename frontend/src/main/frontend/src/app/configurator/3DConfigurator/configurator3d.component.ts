@@ -18,11 +18,13 @@ declare let b4w: any;
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
 
-
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
   viewMode: boolean = false;
+
+  @Input()
+  editMode: boolean = false;
   @Output() onClearMname = new EventEmitter<string>();
 
   @Output()
@@ -44,7 +46,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   ngOnDestroy(): void {
-    //todo implement b4w dispose
+    b4w.require(this.appName).dispose();
 
   }
 
@@ -54,20 +56,22 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   listenerCallback1(e: MouseEvent) {
 
-
-    let pickedObject = b4w.require(this.appName).pickObject(e);
-    console.log("im in CB");
-    console.log(pickedObject);
-    if (pickedObject) {
-      if (this.selectedPanel != null) {
-        b4w.require(this.appName).stopAnimate(this.selectedPanel);
+    console.log("3d LISTENER CALLBACK");
+    console.log(this.editMode);
+    if (this.editMode) {
+      let pickedObject = b4w.require(this.appName).pickObject(e);
+      console.log("im in CB");
+      console.log(pickedObject);
+      if (pickedObject) {
+        if (this.selectedPanel != null) {
+          b4w.require(this.appName).stopAnimate(this.selectedPanel);
+        }
+        this.selectedPanel = pickedObject;
+        b4w.require(this.appName).animate(this.selectedPanel);
+        this.selectedPanelUpdated.emit(this.selectedPanel);
       }
-      this.selectedPanel = pickedObject;
-      b4w.require(this.appName).animate(this.selectedPanel);
-      this.selectedPanelUpdated.emit(this.selectedPanel);
+
     }
-
-
 
   }
 
@@ -93,9 +97,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           m_scenes.clear_outline_anim(obj);
         };
         exports.animate = function (obj) {
-            m_scenes.clear_outline_anim(obj);
-            m_scenes.set_outline_color([0, 0.6, 1]);
-            m_scenes.apply_outline_anim(obj, 1.2, 1.2, 0);
+          m_scenes.clear_outline_anim(obj);
+          m_scenes.set_outline_color([0, 0.6, 1]);
+          m_scenes.apply_outline_anim(obj, 1.2, 1.2, 0);
 
         };
         exports.pickObject = function (event) {
@@ -394,10 +398,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   activateViewDefaultMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();
-    canvasElement.removeAllListeners();
+    canvasElement.removeEventListener();
     console.log("REMOVED EL");
     b4w.require(this.appName).stopAnimate(this.selectedPanel);
-    this.selectedPanel=null;
+    this.selectedPanel = null;
     this.selectedPanelUpdated.emit(this.selectedPanel);
 
   }
