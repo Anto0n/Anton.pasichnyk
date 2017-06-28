@@ -394,7 +394,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   activateViewDefaultMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();
-    canvasElement.removeEventListener();
+    canvasElement.removeAllListeners();
     console.log("REMOVED EL");
     b4w.require(this.appName).stopAnimate(this.selectedPanel);
     this.selectedPanel=null;
