@@ -126,10 +126,13 @@ export class ConfiguratorComponent implements OnInit {
 
   selectMaterial(material: BagMaterial, panel?: string) {
     let panelLocal=panel;
+    console.log("panelLocal");
+    console.log(panelLocal);
     if(this.selectedPanel!=null){
-      panelLocal=this.selectedPanel.name;
-      this.configurator.selectMaterial(material, panel);
-     console.log("SELECTED PANLE NOT NULL");
+      console.log("SELECTED PANLE NOT NULL");
+      console.log(this.selectedPanel.name)
+      this.configurator.selectMaterial(material, this.selectedPanel.name);
+
     }else {
       console.log("SELECTED PANLE IS NULL");
       this.configurator.selectMaterial(material);

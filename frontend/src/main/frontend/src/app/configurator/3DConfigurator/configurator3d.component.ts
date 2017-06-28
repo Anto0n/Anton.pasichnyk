@@ -157,7 +157,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
 
           console.log("I AM IN CHOOSE MATERIAL");
-          console.log(material);
+          console.log("panel");
           console.log(panel);
           let object = m_scenes.get_object_by_name("bag_front");
           let object_body = m_scenes.get_object_by_name("bag_body");
@@ -325,6 +325,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   selectMaterial(material: BagMaterial, panel?: string) {
+
+    console.log("panel");
+    console.log(panel);
     this.material = material;
     let selectedPanel = null;
 
