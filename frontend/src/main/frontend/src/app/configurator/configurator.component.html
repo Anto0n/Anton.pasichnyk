@@ -80,8 +80,8 @@
             <input type="text" [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
 
             <div *ngFor="let materialType of materialTypes">
-              <div>{{materialType.name}}</div>
-              <div *ngFor="let material of materialType.materials">
+              <div class="container-fluid">{{materialType.name}}</div>
+              <div class="d-inline-block px-2 py-2" *ngFor="let material of materialType.materials">
                 <!--<button class="btn btn-block"> -&#45;&#45;{{material.name}}</button>-->
                 <!--<div> -&#45;&#45;{{material.imageMin}}</div>-->
                 <img [src]="material.imageMin" (click)="selectMaterial(material)">
