@@ -32,13 +32,13 @@ insert into baglab.material_type (name) values ('jeans');
 insert into baglab.material_type (name) values ('leather');
 
 
-insert into baglab.material (name, image, materialTypeId) values ('cotton-blue', 'cotton_2048_blue.jpg',1);
-insert into baglab.material (name, image, materialTypeId) values ('cotton-green', 'cotton_2048_green.jpg',1);
-insert into baglab.material (name, image, materialTypeId) values ('cotton-yellow', 'cotton_2048_yellow.jpg',1);
-insert into baglab.material (name, image, materialTypeId) values ('jeans-blue', 'jeans_2048_blue.jpg',2);
-insert into baglab.material (name, image, materialTypeId) values ('jeans-green', 'jeans_2048_green.jpg',2);
-insert into baglab.material (name, image, materialTypeId) values ('jeans-yellow', 'jeans_2048_yellow.jpg',2);
-insert into baglab.material (name, image, materialTypeId) values ('leather', 'leather_2048.jpg',3);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('cotton-blue', 'cotton_2048_blue.jpg', 'cotton_2048_blue_preview',1);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('cotton-green', 'cotton_2048_green.jpg', 'cotton_2048_green_preview',1);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('cotton-yellow', 'cotton_2048_yellow.jpg', 'cotton_2048_yellow_preview',1);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('jeans-blue', 'jeans_2048_blue.jpg', 'jeans_2048_blue_preview',2);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('jeans-green', 'jeans_2048_green.jpg', 'jeans_2048_green_preview',2);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('jeans-yellow', 'jeans_2048_yellow.jpg', 'jeans_2048_yellow_preview',2);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('leather', 'leather_2048.jpg', 'leather_2048_preview',3);
 
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase1.png"}', 'Simle bag');
 INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('{"imgsrc" : "./images/2dbase/2dBase2.png"}', 'Bag pojo');
