@@ -11,6 +11,7 @@ public class MaterialDto {
     private final String name;
     private final int price;
     private String image;
+    private String imageMin;
 
     @JsonCreator
     public MaterialDto(@JsonProperty("id") long id, @JsonProperty("name") String name, @JsonProperty("price") int price, @JsonProperty("image") String image) {
@@ -25,6 +26,19 @@ public class MaterialDto {
         this.name=materialEntity.getName();
         this.price=materialEntity.getLastPrice();
         this.image=materialEntity.getImage();
+        this.imageMin=materialEntity.getImageMin();
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getImageMin() {
+        return imageMin;
+    }
+
+    public void setImageMin(String imageMin) {
+        this.imageMin = imageMin;
     }
 
     public String getName() {

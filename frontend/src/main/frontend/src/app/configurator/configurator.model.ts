@@ -42,4 +42,6 @@ export interface IConfigurator {
 
   loadModel(model: IModel): void;
 
+  activateEditMode();
+
 }

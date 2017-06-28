@@ -20,6 +20,9 @@ public class MaterialEntity {
     @Column(name = "[image]", columnDefinition="MEDIUMTEXT")
     private String image;
 
+    @Column(name = "[imageMin]", columnDefinition="MEDIUMTEXT")
+    private String imageMin;
+
     @Column(name = "name")
     private String name;
 
@@ -32,6 +35,12 @@ public class MaterialEntity {
     @OneToMany(mappedBy = "materialEntity", targetEntity = ModelEntity.class)
     private List<ModelEntity> modelEntities;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "[materialTypeId]")
+    private MaterialTypeEntity materialTypeEntity;
+
+
+
     protected MaterialEntity() {}
 
     public MaterialEntity(String name, int price) {
@@ -39,6 +48,22 @@ public class MaterialEntity {
         this.prices.add(new MaterialPriceEntity(this, price));
     }
 
+
+    public String getImageMin() {
+        return imageMin;
+    }
+
+    public void setImageMin(String imageMin) {
+        this.imageMin = imageMin;
+    }
+
+    public MaterialTypeEntity getMaterialTypeEntity() {
+        return materialTypeEntity;
+    }
+
+    public void setMaterialTypeEntity(MaterialTypeEntity materialTypeEntity) {
+        this.materialTypeEntity = materialTypeEntity;
+    }
 
     public List<ModelEntity> getModelEntities() {
         return modelEntities;

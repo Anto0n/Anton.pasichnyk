@@ -9,6 +9,8 @@ import {UserRoleService} from "../services/user/user-role.service";
 import {BagMaterial, BagType, IModel} from "../models/model";
 import {AuthenticationService} from "../services/authentication.service";
 import {Configurator2dService} from "../services/configurator/configurator2d.service";
+import {MaterialType} from "../models/material-type.model";
+import {Panel} from "./3DConfigurator/panel.model";
 
 @Component({
   selector: 'configurator',
@@ -17,15 +19,29 @@ import {Configurator2dService} from "../services/configurator/configurator2d.ser
 export class ConfiguratorComponent implements OnInit {
   private isEditMode: boolean = false;
   private modelName: string;
+  private selectedPanel: Panel;
+
+
   @ViewChild('config')
   configurator: IConfigurator;
-   materials: BagMaterial [] = [];
-   begtypes: BagType[] = [];
-   private defaultModels:IModel[];
+
+  private materialTypes: MaterialType[];
+  materials: BagMaterial [] = [];
+  begtypes: BagType[] = [];
+  private defaultModels: IModel[];
   private modelId: number = 0;
-   modelConfig: ModelConfig = null;
-  outBag : BagType = new BagType(); // for view mode only
-  outMaterial : BagMaterial = new BagMaterial(); // for view mode only
+  modelConfig: ModelConfig = null;
+  outBag: BagType = new BagType(); // for view mode only
+  outMaterial: BagMaterial = new BagMaterial(); // for view mode only
+
+
+  functioninTypeScript(image:any) {
+    console.log("image");
+    console.log(image);
+    console.log(this.imgForTest);
+    image.src=this.imgForTest;
+  }
+
 
   @Input()
   configuratorType: ConfiguratorType = ConfiguratorType.D3;
@@ -33,23 +49,25 @@ export class ConfiguratorComponent implements OnInit {
   @Input()
   viewMode: boolean = false;
 
+  private imgForTest: string;
+
   @Input() set selectModelToConfig(model: IModel) { // for view mode only SELECT bagType, Material, and model config by click
-    if (this.viewMode && model && model.id ) {
+    if (this.viewMode && model && model.id) {
       console.log(model.id);
       this.modelId = model.id;
       this.restService.getData(`./api/models/config/${model.id}`).subscribe((data: ModelConfig) => {
         this.configurator.loadModel(model);
         this.modelConfig = data;
       });
-        this.restService.getData(`./api/bag_type/${model.bagTypeId}`).subscribe((data: BagType) => {
-          this.outBag = data;
-          let jStr : string  = JSON.parse(JSON.stringify( data.script  ));
-          this.outBag.script = JSON.parse(jStr);
-        });
-         this.restService.getData(`./api/material/${model.materialId}`).subscribe((data: BagMaterial) => {
-         console.log(data);
-         this.outMaterial = data;
-         });
+      this.restService.getData(`./api/bag_type/${model.bagTypeId}`).subscribe((data: BagType) => {
+        this.outBag = data;
+        let jStr: string = JSON.parse(JSON.stringify(data.script));
+        this.outBag.script = JSON.parse(jStr);
+      });
+      this.restService.getData(`./api/material/${model.materialId}`).subscribe((data: BagMaterial) => {
+        console.log(data);
+        this.outMaterial = data;
+      });
     }
     //todo method reload data on configurator
     //this.configurator.
@@ -62,15 +80,24 @@ export class ConfiguratorComponent implements OnInit {
 
   }
 
+
   ngOnInit() {
 
-      console.log("view mode - false");
-      this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
-      this.restService.getData("./api/bag_type/list").subscribe(data => this.begtypes = data);
-      this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
-        this.defaultModels=data;
+    console.log("view mode - false");
+    this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
+    this.restService.getData("./api/bag_type/list").subscribe(data => this.begtypes = data);
+    this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
+      this.defaultModels=data;
 
     });
+    this.restService.getData("./api/material/types").subscribe((data: MaterialType[]) => this.materialTypes = data);
+
+    this.restService.getDataAny("/api/material/base64/cotton_2048_blue_preview").subscribe((data: string) => {
+      this.imgForTest = data;
+      console.log(data)
+    }, (data) => console.log("cant receive leather"));
+
+
 
   }
 
@@ -102,14 +129,31 @@ export class ConfiguratorComponent implements OnInit {
     this.configurator.selectMaterial(material, panel);
   }
 
-  switchCreateView(){
-    this.isEditMode=!this.isEditMode;
-    document.getElementById("customizer").hidden=!this.isEditMode;
-    document.getElementById("model-selector").hidden=this.isEditMode;
+  // switchCreateView() {
+  //   this.isEditMode = !this.isEditMode;
+  //   this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
+  //     this.defaultModels = data;
+  //   });
+  //   // document.getElementById("customizer").hidden = !this.isEditMode;
+  //   document.getElementById("customizer2").hidden = !this.isEditMode;
+  //   document.getElementById("model-selector").hidden = this.isEditMode;
+  //
+  // }
+  switchCreateView() {
+    console.log("this.materialTypes=---");
+    console.log(this.materialTypes);
+    this.isEditMode = !this.isEditMode;
+    this.configurator.activateEditMode();
+    // this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
+    //   this.defaultModels = data;
+    // });
+    // document.getElementById("customizer").hidden = !this.isEditMode;
+    document.getElementById("customizer2").hidden = !this.isEditMode;
+    document.getElementById("model-selector").hidden = this.isEditMode;
 
   }
 
-  loadModel(model:IModel){
+  loadModel(model: IModel) {
     this.configurator.loadModel(model);
   };
 }

@@ -27,13 +27,18 @@ insert into baglab.order_status (code, description) values ('PROCESSING', 'order
 insert into baglab.order_status (code, description) values ('DENIED', 'order is denied by moderator');
 insert into baglab.order_status (code, description) values ('SEND', 'order is shipped from factory');
 
-insert into baglab.material (name, image) values ('cotton-blue', 'cotton_2048_blue.jpg');
-insert into baglab.material (name, image) values ('cotton-green', 'cotton_2048_green.jpg');
-insert into baglab.material (name, image) values ('cotton-yellow', 'cotton_2048_yellow.jpg');
-insert into baglab.material (name, image) values ('jeans-blue', 'jeans_2048_blue.jpg');
-insert into baglab.material (name, image) values ('jeans-green', 'jeans_2048_green.jpg');
-insert into baglab.material (name, image) values ('jeans-yellow', 'jeans_2048_yellow.jpg');
-insert into baglab.material (name, image) values ('leather', 'leather_2048.jpg');
+insert into baglab.material_type (name) values ('cotton');
+insert into baglab.material_type (name) values ('jeans');
+insert into baglab.material_type (name) values ('leather');
+
+
+insert into baglab.material (name, image, materialTypeId) values ('cotton-blue', 'cotton_2048_blue.jpg',1);
+insert into baglab.material (name, image, materialTypeId) values ('cotton-green', 'cotton_2048_green.jpg',1);
+insert into baglab.material (name, image, materialTypeId) values ('cotton-yellow', 'cotton_2048_yellow.jpg',1);
+insert into baglab.material (name, image, materialTypeId) values ('jeans-blue', 'jeans_2048_blue.jpg',2);
+insert into baglab.material (name, image, materialTypeId) values ('jeans-green', 'jeans_2048_green.jpg',2);
+insert into baglab.material (name, image, materialTypeId) values ('jeans-yellow', 'jeans_2048_yellow.jpg',2);
+insert into baglab.material (name, image, materialTypeId) values ('leather', 'leather_2048.jpg',3);
 
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase1.png"}', 'Simle bag');
 INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('{"imgsrc" : "./images/2dbase/2dBase2.png"}', 'Bag pojo');

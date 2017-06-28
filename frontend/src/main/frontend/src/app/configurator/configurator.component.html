@@ -1,12 +1,13 @@
-<div class="col-lg-12" >
+<div class="col-lg-12">
   <!--<button class="btn btn-sm btn-outline-primary" (click)="changeType(configuratorType)">2-D / 3-D</button>-->
 
-  <div id="wrapper_container" class="col-lg-12" >
+  <div id="wrapper_container" class="col-lg-12">
     <div class="container-fluid col-lg-12">
 
       <div class="row flex-lg-row">
-        <div id="configurator-manager" class="col-lg-2 d-inline-block" >
-
+        <!--Configurator manager-->
+        <div id="configurator-manager" class="col-lg-2 d-inline-block">
+          <!--SELECTOR-->
           <div id="model-selector">
             <div *ngFor="let model of defaultModels">
               <button class="btn-block btn-info" (click)="loadModel(model)"> {{model.mname}}</button>
@@ -14,64 +15,89 @@
             create new model:
             <button class="btn-block btn-success" (click)="switchCreateView()">create new</button>
           </div>
-          <div hidden id="customizer" >
-          Name:<br>
-          <input type="text" [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
-          <div ngbDropdown #myDrop4="ngbDropdown">
 
-            <button class="btn btn-outline-info btn-block" id="dropdownMenu4" ngbDropdownToggle>body materials</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
-              <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
-                      (click)="selectMaterial(material, 'bag_body')"> {{material.name}}
-              </button>
-            </div>
+          <!--CUSTOMIZER-->
+          <div hidden id="customizer">
+            Name:<br>
+            <input type="text" [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
+            <div ngbDropdown #myDrop4="ngbDropdown">
 
-            <div ngbDropdown #myDrop5="ngbDropdown">
-              <button class="btn btn-outline-info btn-block" id="dropdownMenu5" ngbDropdownToggle>packet materials
+              <button class="btn btn-outline-info btn-block" id="dropdownMenu4" ngbDropdownToggle>body materials
               </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
                 <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
-                        (click)="selectMaterial(material, 'bag_front')"> {{material.name}}
+                        (click)="selectMaterial(material, 'bag_body')"> {{material.name}}
+                </button>
+              </div>
+
+              <div ngbDropdown #myDrop5="ngbDropdown">
+                <button class="btn btn-outline-info btn-block" id="dropdownMenu5" ngbDropdownToggle>packet materials
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
+                  <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
+                          (click)="selectMaterial(material, 'bag_front')"> {{material.name}}
+                  </button>
+                </div>
+              </div>
+              <div ngbDropdown #myDrop5="ngbDropdown">
+                <button class="btn btn-outline-info btn-block" id="dropdownMenu6" ngbDropdownToggle>bag top materials
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu6">
+                  <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
+                          (click)="selectMaterial(material, 'bag_body_top')"> {{material.name}}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div ngbDropdown #myDrop3="ngbDropdown">
+              <button class="btn btn-outline-info btn-block" id="dropdownMenu3" ngbDropdownToggle>bag type</button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                <button class="btn btn-info btn-outline-info btn-block " *ngFor="let bagtype of begtypes"
+                        (click)="configurator.selectBagType(bagtype)">{{bagtype.name}}
                 </button>
               </div>
             </div>
-            <div ngbDropdown #myDrop5="ngbDropdown">
-              <button class="btn btn-outline-info btn-block" id="dropdownMenu6" ngbDropdownToggle>bag top materials
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu6">
-                <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
-                        (click)="selectMaterial(material, 'bag_body_top')"> {{material.name}}
-                </button>
-              </div>
-            </div>
-          </div>
-          <div ngbDropdown #myDrop3="ngbDropdown">
-            <button class="btn btn-outline-info btn-block" id="dropdownMenu3" ngbDropdownToggle>bag type</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
-              <button class="btn btn-info btn-outline-info btn-block " *ngFor="let bagtype of begtypes"
-                      (click)="configurator.selectBagType(bagtype)">{{bagtype.name}}
-              </button>
-            </div>
-          </div>
 
-          <div>
-            <image-upload [preview]="false"
-                          (onFileUploadFinish)="configurator.imageUploaded($event)"
-                          [buttonCaption]="'Add image'"></image-upload>
-          </div>
-          <button class="btn btn-danger btn-outline-danger btn-block" (click)='configurator.resetModel()'>reset</button>
-          <button class="btn btn-success btn-outline-success btn-block"
-                  (click)='configurator.save(configurator.getModelConfig())'>
-            save
-          </button>
+            <div>
+              <image-upload [preview]="false"
+                            (onFileUploadFinish)="configurator.imageUploaded($event)"
+                            [buttonCaption]="'Add image'"></image-upload>
+            </div>
+            <button class="btn btn-danger btn-outline-danger btn-block" (click)='configurator.resetModel()'>reset
+            </button>
+            <button class="btn btn-success btn-outline-success btn-block"
+                    (click)='configurator.save(configurator.getModelConfig())'>
+              save
+            </button>
             <button class="btn-block btn-success" (click)="switchCreateView()">back to models</button>
+          </div>
+
+          <!--NEW DEMO CUSTOMIZER-->
+          <div id="customizer2" hidden>
+            Name:<br>
+            <img #image alt="alt text" [src]="imgForTest">
+            <button (click)="functioninTypeScript(image)">show img</button>
+            <input type="text" [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
+
+            <div *ngFor="let materialType of materialTypes">
+              <div>{{materialType.name}}</div>
+              <div *ngFor="let material of materialType.materials">
+                <button class="btn btn-block"> ---{{material.name}}</button>
+                <!--<div> -&#45;&#45;{{material.imageMin}}</div>-->
+                <img style="width: 32px" [src]="material.imageMin">
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
 
-
-        </div>
+        <!--Configurator view-->
         <div class="col-lg-10">
           <configurator-3d #config *ngIf="configuratorType == 3" [inModelName]="modelName"
                            (onClearMname)="onClearMname($event)"
+                           (selectedPanelUpdated)="handleSelectedPanelUpdated($event)"
                            [viewMode]="viewMode"></configurator-3d>
         </div>
       </div>

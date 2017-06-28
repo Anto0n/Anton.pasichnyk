@@ -40,17 +40,31 @@ CREATE TABLE IF NOT EXISTS `baglab`.`palette` (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
+
+DROP TABLE IF EXISTS `baglab`.`material_type`;
+CREATE TABLE `baglab`.`material_type` (
+  `idMaterialType` BIGINT    NOT NULL AUTO_INCREMENT,
+  `name`       VARCHAR(255)       NOT NULL,
+  PRIMARY KEY (`idMaterialType`))
+  ENGINE = InnoDB;
+
 -- -----------------------------------------------------
 -- Table `baglab`.`material`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `baglab`.`material` ;
-
 CREATE TABLE IF NOT EXISTS `baglab`.`material` (
   `idmaterial` BIGINT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `image` MEDIUMTEXT,
+  `imageMin` MEDIUMTEXT,
+  `materialTypeId` BIGINT NOT NULL,
   `deleted` BOOLEAN NOT NULL DEFAULT FALSE,
-  PRIMARY KEY (`idmaterial`))
+  PRIMARY KEY (`idmaterial`),
+  CONSTRAINT `fk_materialTypeId`
+  FOREIGN KEY (`materialTypeId`)
+  REFERENCES `baglab`.`material_type` (`idMaterialType`)
+
+)
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
@@ -392,6 +406,8 @@ CREATE TABLE `baglab`.`material_price` (
   FOREIGN KEY (`materialId`)
   REFERENCES `baglab`.`material` (`idmaterial`))
   ENGINE = InnoDB;
+
+
 
 /*
 create index model_price_modelId_date_index

@@ -17,11 +17,16 @@ declare let b4w: any;
 })
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
+
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
   viewMode: boolean = false;
   @Output() onClearMname = new EventEmitter<string>();
+
+  @Output()
+  selectedPanelUpdated = new EventEmitter<string>();
+
   modelConfig: ModelConfig;
   private pathToMaterials: string;
   private material: BagMaterial;
@@ -44,19 +49,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   init() {
   }
 
-  a: number = 10;
-
-  do() {
-    console.log('!!!!!!!!!!!!!!');
-    console.log(b4w.require(this.appName).getCanvas());
-    let canvasElement: any = b4w.require(this.appName).getCanvas();
-    canvasElement.addEventListener('mousedown', this.listenerCallback1.bind(this), false);
-  }
 
   listenerCallback1(e: MouseEvent) {
-    console.log(e);
+
     b4w.require(this.appName).listenerCallback(e);
-    // alert('111');
+
   }
 
   ngOnInit() {
@@ -375,6 +372,13 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     for (let i of this.modelConfig.config3d.panels) {
       this.selectMaterial(i.material, i.name);
     }
+  }
+
+  a: number = 10;
+
+  activateEditMode() {
+    let canvasElement: any = b4w.require(this.appName).getCanvas();
+    canvasElement.addEventListener('mousedown', this.listenerCallback1.bind(this), false);
   }
 
 }

@@ -3,7 +3,9 @@ package com.bionic.baglab.controllers;
 import com.bionic.baglab.domains.MaterialEntity;
 import com.bionic.baglab.domains.PaletteEntity;
 import com.bionic.baglab.dto.MaterialDto;
+import com.bionic.baglab.dto.MaterialTypeDto;
 import com.bionic.baglab.services.MaterialService;
+import com.bionic.baglab.services.MaterialTypeService;
 import com.bionic.baglab.services.PaletteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -28,10 +31,13 @@ public class MaterialController {
 
     private final PaletteService paletteService;
 
+    private final MaterialTypeService materialTypeService;
+
     @Autowired
-    public MaterialController(PaletteService paletteService, MaterialService materialService) {
+    public MaterialController(PaletteService paletteService, MaterialService materialService, MaterialTypeService materialTypeService) {
         this.paletteService = paletteService;
         this.materialService = materialService;
+        this.materialTypeService = materialTypeService;
     }
 
     /**
@@ -40,6 +46,18 @@ public class MaterialController {
     @GetMapping(value = "/list")
     public List<MaterialDto> listBagTypes() {
         return materialService.findExistentAsDto();
+    }
+
+
+    @GetMapping(value = "/types")
+    public Set<MaterialTypeDto> listMaterialTypes() {
+        Set<MaterialTypeDto>  set = materialTypeService.getAllTypes();
+        for (MaterialTypeDto item: set){
+            for(MaterialDto m: item.getMaterials()){
+                m.setImageMin(getPathToMaterials(m.getImageMin()));
+            }
+        }
+        return set;
     }
 
     @PostMapping(value = "/{id}/change_price")
