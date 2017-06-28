@@ -18,11 +18,13 @@ declare let b4w: any;
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
 
-
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
   viewMode: boolean = false;
+
+  @Input()
+  editMode: boolean = false;
   @Output() onClearMname = new EventEmitter<string>();
 
   @Output()
@@ -44,7 +46,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   ngOnDestroy(): void {
-    //todo implement b4w dispose
+    b4w.require(this.appName).dispose();
 
   }
 
@@ -55,19 +57,19 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   listenerCallback1(e: MouseEvent) {
 
 
-    let pickedObject = b4w.require(this.appName).pickObject(e);
-    console.log("im in CB");
-    console.log(pickedObject);
-    if (pickedObject) {
-      if (this.selectedPanel != null) {
-        b4w.require(this.appName).stopAnimate(this.selectedPanel);
+    if (this.editMode) {
+      let pickedObject = b4w.require(this.appName).pickObject(e);
+
+      if (pickedObject) {
+        if (this.selectedPanel != null) {
+          b4w.require(this.appName).stopAnimate(this.selectedPanel);
+        }
+        this.selectedPanel = pickedObject;
+        b4w.require(this.appName).animate(this.selectedPanel);
+        this.selectedPanelUpdated.emit(this.selectedPanel);
       }
-      this.selectedPanel = pickedObject;
-      b4w.require(this.appName).animate(this.selectedPanel);
-      this.selectedPanelUpdated.emit(this.selectedPanel);
+
     }
-
-
 
   }
 
@@ -93,9 +95,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           m_scenes.clear_outline_anim(obj);
         };
         exports.animate = function (obj) {
-            m_scenes.clear_outline_anim(obj);
-            m_scenes.set_outline_color([0, 0.6, 1]);
-            m_scenes.apply_outline_anim(obj, 1.2, 1.2, 0);
+          m_scenes.clear_outline_anim(obj);
+          m_scenes.set_outline_color([0, 0.6, 1]);
+          m_scenes.apply_outline_anim(obj, 1.2, 1.2, 0);
 
         };
         exports.pickObject = function (event) {
@@ -156,9 +158,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         exports.chooseMaterial = function (material: string, panel?: Panel) {
 
 
-          console.log("I AM IN CHOOSE MATERIAL");
-          console.log("panel");
-          console.log(panel);
+
           let object = m_scenes.get_object_by_name("bag_front");
           let object_body = m_scenes.get_object_by_name("bag_body");
           let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
@@ -171,8 +171,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             if (panel != null) {
               let panel_object = m_scenes.get_object_by_name(panel.name);
               let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-              console.log(ctx2Dpanel.canvas.width);
-              console.log(ctx2Dpanel.canvas.height);
+
               ctx2Dpanel.drawImage(img, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
               ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
               ctx2Dpanel.drawImage(img, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
@@ -187,16 +186,16 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             }
           }
         }
-        exports.drawPicture = function (src: string) {
-          let panel_object = m_scenes.get_object_by_name("bag_front");
-          let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, "bag_front_text_img");
+        exports.drawPicture = function (src: string, panel: Panel) {
+          let panel_object = m_scenes.get_object_by_name(panel.name);
+          let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
           let img = new Image();
           img.src = src;
 
           img.onload = function () {
             ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 3, ctx2Dpanel.canvas.width / 3,
               ctx2Dpanel.canvas.width / 3, ctx2Dpanel.canvas.height / 3);
-            m_tex.update_canvas_ctx(panel_object, "bag_front_text_img");
+            m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
 
         }
@@ -316,7 +315,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
-    b4w.require(this.appName).drawPicture(data.src);
+    this.restService.getData('./api/panel/'+this.selectedPanel.name).subscribe(
+      (panel:Panel)=>{
+        console.log(panel);
+        b4w.require(this.appName).drawPicture(data.src, panel);
+      }, (panel:any)=>console.log("cant get panel by name"));
+
   }
 
 
@@ -326,8 +330,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   selectMaterial(material: BagMaterial, panel?: string) {
 
-    console.log("panel");
-    console.log(panel);
+
     this.material = material;
     let selectedPanel = null;
 
@@ -394,10 +397,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   activateViewDefaultMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();
-    canvasElement.removeAllListeners();
-    console.log("REMOVED EL");
+    canvasElement.removeEventListener();
+
     b4w.require(this.appName).stopAnimate(this.selectedPanel);
-    this.selectedPanel=null;
+    this.selectedPanel = null;
     this.selectedPanelUpdated.emit(this.selectedPanel);
 
   }

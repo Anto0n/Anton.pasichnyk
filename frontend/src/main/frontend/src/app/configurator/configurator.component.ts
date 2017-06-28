@@ -102,6 +102,7 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
+
     this.configurator.imageUploaded(data);
   }
 
@@ -126,11 +127,7 @@ export class ConfiguratorComponent implements OnInit {
 
   selectMaterial(material: BagMaterial, panel?: string) {
     let panelLocal=panel;
-    console.log("panelLocal");
-    console.log(panelLocal);
     if(this.selectedPanel!=null){
-      console.log("SELECTED PANLE NOT NULL");
-      console.log(this.selectedPanel.name)
       this.configurator.selectMaterial(material, this.selectedPanel.name);
     }
 
@@ -148,18 +145,20 @@ export class ConfiguratorComponent implements OnInit {
   // }
   switchCreateView() {
     this.isEditMode = !this.isEditMode;
+    document.getElementById("customizer2").hidden = !this.isEditMode;
+    document.getElementById("model-selector").hidden = this.isEditMode;
     if(this.isEditMode){
       this.configurator.activateEditMode();
     }else {
       this.configurator.activateViewDefaultMode();
     }
 
-    document.getElementById("customizer2").hidden = !this.isEditMode;
-    document.getElementById("model-selector").hidden = this.isEditMode;
+
 
   }
 
   handleSelectedPanelUpdated(pickedObject:any){
+
     this.selectedPanel=pickedObject;
   }
   loadModel(model: IModel) {
