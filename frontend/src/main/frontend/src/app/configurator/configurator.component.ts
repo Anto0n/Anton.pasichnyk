@@ -148,19 +148,19 @@ export class ConfiguratorComponent implements OnInit {
   // }
   switchCreateView() {
     this.isEditMode = !this.isEditMode;
-    this.configurator.activateEditMode();
+    if(this.isEditMode){
+      this.configurator.activateEditMode();
+    }else {
+      this.configurator.activateViewDefaultMode();
+    }
+
     document.getElementById("customizer2").hidden = !this.isEditMode;
     document.getElementById("model-selector").hidden = this.isEditMode;
 
   }
 
   handleSelectedPanelUpdated(pickedObject:any){
-    console.log("PARENT COMPONENT GET: ")
-    console.log(pickedObject);
     this.selectedPanel=pickedObject;
-    console.log(this.selectedPanel);
-
-
   }
   loadModel(model: IModel) {
     this.configurator.loadModel(model);

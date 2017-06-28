@@ -18,7 +18,7 @@ insert into baglab.palette (rgb) value ('255,140,0');
 
 insert into baglab.panel (name, texture) value ('bag_front', 'bag_front_text_img');
 insert into baglab.panel (name, texture) value ('bag_body', 'bag_body_text_img');
-insert into baglab.panel (name, texture) value ('bag_body_top', 'bag_body_text_img');
+insert into baglab.panel (name, texture) value ('bag_body_top', 'bag_body_top_text_img');
 
 insert into baglab.order_status (code, description) values ('BUCKET', 'items in bucket, order is not created yet');
 insert into baglab.order_status (code, description) values ('NEW', 'new created order');

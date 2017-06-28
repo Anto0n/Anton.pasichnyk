@@ -86,8 +86,19 @@
                 <!--<div> -&#45;&#45;{{material.imageMin}}</div>-->
                 <img [src]="material.imageMin" (click)="selectMaterial(material)">
               </div>
-
+          </div>
+            <div>
+              <image-upload [preview]="false"
+                            (onFileUploadFinish)="configurator.imageUploaded($event)"
+                            [buttonCaption]="'Add image'"></image-upload>
             </div>
+            <button class="btn btn-danger btn-outline-danger btn-block" (click)='configurator.resetModel()'>reset
+            </button>
+            <button class="btn btn-success btn-outline-success btn-block"
+                    (click)='configurator.save(configurator.getModelConfig())'>
+              save
+            </button>
+            <button class="btn-block btn-success" (click)="switchCreateView()">back to models</button>
 
           </div>
 

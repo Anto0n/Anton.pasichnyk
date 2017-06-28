@@ -18,6 +18,7 @@ declare let b4w: any;
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
 
+
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
@@ -53,14 +54,21 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   listenerCallback1(e: MouseEvent) {
 
+
     let pickedObject = b4w.require(this.appName).pickObject(e);
+    console.log("im in CB");
+    console.log(pickedObject);
     if (pickedObject) {
       if (this.selectedPanel != null) {
         b4w.require(this.appName).stopAnimate(this.selectedPanel);
       }
       this.selectedPanel = pickedObject;
+      b4w.require(this.appName).animate(this.selectedPanel);
       this.selectedPanelUpdated.emit(this.selectedPanel);
     }
+
+
+
   }
 
   ngOnInit() {
@@ -84,27 +92,14 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         exports.stopAnimate = function (obj) {
           m_scenes.clear_outline_anim(obj);
         };
-        exports.pickObject = function (event) {
-
-          console.log(this);
-          // let y = m_mouse.get_coords_y(event);
-          // var x = m_mouse.get_coords_x(event);
-          console.log(m_scenes);
-          let pickedObject = m_scenes.pick_object(event.offsetX, event.offsetY);
-          console.log(pickedObject);
-          if (pickedObject) {
-
-            //   this.outlineOff();
-            // var _object = configuratorObject3d.getByObjectName(pickedObject.name);
-            // if (_object) {
-            //   _object.pick();
-            //   $rootScope.target = _object;
+        exports.animate = function (obj) {
+            m_scenes.clear_outline_anim(obj);
             m_scenes.set_outline_color([0, 0.6, 1]);
-            m_scenes.apply_outline_anim(pickedObject, 1.2, 1.2, 0);
-            //   $scope.$emit('editModeOn', _object);
-            // }
-          }
-          return pickedObject;
+            m_scenes.apply_outline_anim(obj, 1.2, 1.2, 0);
+
+        };
+        exports.pickObject = function (event) {
+          return m_scenes.pick_object(event.offsetX, event.offsetY);
         };
 
 
@@ -395,6 +390,16 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   activateEditMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();
     canvasElement.addEventListener('mousedown', this.listenerCallback1.bind(this), false);
+  }
+
+  activateViewDefaultMode() {
+    let canvasElement: any = b4w.require(this.appName).getCanvas();
+    canvasElement.removeAllListeners();
+    console.log("REMOVED EL");
+    b4w.require(this.appName).stopAnimate(this.selectedPanel);
+    this.selectedPanel=null;
+    this.selectedPanelUpdated.emit(this.selectedPanel);
+
   }
 
 }
