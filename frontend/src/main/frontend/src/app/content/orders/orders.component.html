@@ -9,13 +9,13 @@
       <table class="table table-sm table-striped table-bordered table-cart">
         <tbody>
         <tr>
-          <!--<td class="font-weight-bold">ID</td>-->
+          <td class="font-weight-bold">ID</td>
           <td class="font-weight-bold">Status</td>
           <td class="font-weight-bold">Count</td>
           <td class="font-weight-bold">total price</td>
         </tr>
         <tr *ngFor="let order of myOrders">
-          <!--<td>{{order.idOrder}}</td>-->
+          <td>{{order.idOrder}}</td>
           <td>{{order.status.code}}</td>
           <td>{{order.items?.length}}</td>
           <!--  <td>

@@ -75,11 +75,13 @@
  table-bordered table-cart">
           <tbody>
           <tr>
+            <td>id</td>
             <td>user</td>
             <td>total price</td>
             <td>Status</td>
           </tr>
           <tr *ngFor="let order of myOrders">
+            <td class="font-weight-bold">{{order.idOrder}}</td>
             <td class="font-weight-bold">{{order.userDto.email}}</td>
 
             <td class="font-weight-bold">{{order.sumPrice |

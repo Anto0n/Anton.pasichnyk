@@ -55,7 +55,7 @@ export class ModelService {
     });
   }
 
-  getbagslocal() {
+  getbagslocal() : any{
     if(!this.bagsloaded){
       return this.reloadBags();//.subscribe(_=> {return this.bags})
     } else
