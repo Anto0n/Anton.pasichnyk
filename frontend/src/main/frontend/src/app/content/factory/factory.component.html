@@ -5,7 +5,7 @@
   <div class="container col-lg-12, modoverflow">
     <div class="row">
       <div class="col-md-12" *ngIf="!showEditOrder">
-        <br>
+
         <h3 *ngIf="!selectedOrd"> Factory models </h3>
         <h3 *ngIf="selectedOrd"> Models in  order id # {{selectedOrd.idOrder}}  </h3>
         <div>
@@ -46,6 +46,32 @@
             </tbody>
 
           </table>
+
+        </div>
+        <div class="container-fluid col-lg-12">
+
+          <div class="col-lg-6 d-inline-block">
+            <configurator-3d #config></configurator-3d>
+          </div>
+          <!--*ngIf="selectedModel!=null"-->
+          <div class="col-lg-4 d-inline-block" *ngIf="selectedModel!=null">
+            <!--&& selectedOrd.idOrder!= 0 &&
+            selectedOrd.items?.length > 0-->
+            <table class="table table-striped">
+              <tr class="col-md-auto">
+                <td class="col-md-auto">Model name</td>
+                <td class="col-md-auto">{{selectedModel.mname}}</td>
+              </tr>
+              <tr class="col-md-auto" *ngIf="selectedItem?.count">
+                <td class="col-md-auto">Bags quantity</td>
+                <td class="col-md-auto">{{selectedItem.count}}</td>
+              </tr>
+              <tr class="col-md-auto" *ngFor="let panel of modelConfigView?.config3d.panels">
+                <td class="col-md-auto">panel: {{panel.name}}</td>
+                <td class="col-md-auto">{{panel.material.name}}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -90,31 +116,8 @@
 
   </div>
 <br>
-  <div class="container-fluid col-lg-12">
-    <div class="col-lg-4 d-inline-block">
-      <configurator-3d #config></configurator-3d>
-    </div>
-    <!--*ngIf="selectedModel!=null"-->
-    <div class="col-lg-4 d-inline-block" *ngIf="selectedModel!=null">
-      <!--&& selectedOrd.idOrder!= 0 &&
-      selectedOrd.items?.length > 0-->
-      <table class="table table-striped">
-        <tr class="col-md-auto">
-          <td class="col-md-auto">Model name</td>
-           <td class="col-md-auto">{{selectedModel.mname}}</td>
-        </tr>
-        <tr class="col-md-auto" *ngIf="selectedItem?.count">
-          <td class="col-md-auto">Bags quantity</td>
-          <td class="col-md-auto">{{selectedItem.count}}</td>
-        </tr>
-        <tr class="col-md-auto" *ngFor="let panel of modelConfigView?.config3d.panels">
-          <td class="col-md-auto">panel: {{panel.name}}</td>
-          <td class="col-md-auto">{{panel.material.name}}</td>
-        </tr>
-      </table>
-    </div>
-  </div>
+
   <br>
-  <button class="btn btn-primary" (click)="showOrders()">ORDERS</button>
-  <button class="btn btn-primary" (click)="showModels()">MODELS</button>
+  <!--<button class="btn btn-primary" (click)="showOrders()">ORDERS</button>-->
+  <!--<button class="btn btn-primary" (click)="showModels()">MODELS</button>-->
 </div>

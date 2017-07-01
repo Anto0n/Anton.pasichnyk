@@ -88,11 +88,8 @@ export class ConfiguratorComponent implements OnInit {
     this.tempPanels[2]="bag_front";
 
     this.restService.getData("./api/material/list").subscribe(data => {this.materials = data;
-      console.log("MATERIALS");
     console.log(data);
       this.restService.getData("./api/bag_type/list").subscribe((data: BagType[]) => {this.begtypes = data;
-        console.log("BAGTYPES");
-        console.log(data);
         this.modelPrice=this.begtypes[0].price+this.materials.find(p=>p.name==="jeans-blue").price;
         this.imageConfig = new ImageConfig();
         this.imageConfig.panels=this.begtypes[0].panels;
@@ -109,14 +106,6 @@ export class ConfiguratorComponent implements OnInit {
     });
 
     this.restService.getData("./api/material/types").subscribe((data: MaterialType[]) => this.materialTypes = data);
-
-    this.restService.getDataAny("/api/material/base64/cotton_2048_blue_preview").subscribe((data: string) => {
-      this.imgForTest = data;
-    }, (data) => console.log("cant receive leather"));
-
-
-
-
 
   }
 
@@ -192,7 +181,15 @@ export class ConfiguratorComponent implements OnInit {
   selectMaterial(material: BagMaterial, panel?: string) {
 
     if(this.selectedPanel!=null){
-      this.configurator.selectMaterial(material, this.selectedPanel.name);
+      console.log("selectMaterial PARENT CONFIGURATOR");
+      let tempMaterial = new BagMaterial();
+      tempMaterial.id=material.id;
+      tempMaterial.price=material.price;
+      tempMaterial.image=material.image;
+      tempMaterial.name=material.name;
+
+
+      this.configurator.selectMaterial(tempMaterial, this.selectedPanel.name);
     }
 
 

@@ -9,13 +9,7 @@ import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-manager',
-  templateUrl: './factory.component.html',
-  styles:[`
-      .modoverflow {
-        height:500px;
-        overflow-y: scroll;
-      }
-`]
+  templateUrl: './factory.component.html'
 })
 export class FactoryComponent implements OnInit {
   private uModels: IModel[] = [];

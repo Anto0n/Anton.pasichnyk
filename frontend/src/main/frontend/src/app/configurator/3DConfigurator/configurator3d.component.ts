@@ -355,7 +355,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       return;
     }
     this.alertService.clearMeessage();
-
+    console.log("SAVE MODEL!!!!!!!!!!!!");
+    console.log(this.modelConfig);
+    // console.log();
     this.modelConfig.config2d = new Config2d(); // for 2D
     let createModelT: CreateModel = new CreateModel(ModelStatus.NEW,
       this.bagType.id,
@@ -491,11 +493,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       this.modelConfig.config3d.panels[a].material.image = arr[a];
     }
     for (let i of this.modelConfig.config3d.panels) {
-      if (i.name === panel.name) {
-        console.log("(i.name===panel.name)");
+      if (panel && i.name === panel.name) {
+        console.log("GOT IMG");
         this.selectMaterial(i.material, i.name, imgConf.image[idx]);
       } else {
-        console.log("(i.name===panel.name)  NOT!!");
+        console.log("NO IMAGE");
         this.selectMaterial(i.material, i.name);
       }
 

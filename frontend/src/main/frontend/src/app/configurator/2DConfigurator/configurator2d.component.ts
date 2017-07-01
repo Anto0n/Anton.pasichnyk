@@ -191,7 +191,7 @@ export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy
       this.modelConfig.config3d = new Config3d(); // store for 3D
       //this.modelConfig.config3d.material = this.currentMaterial;
       let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, this.currentBag.id, this.currentMaterial.id,
-        this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig));
+        this.inModelName, +this.userRoleService.getUserId(), JSON.stringify(this.modelConfig), "");
       console.log(this.modelConfig);
       this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
         (data: IModel[]) => {

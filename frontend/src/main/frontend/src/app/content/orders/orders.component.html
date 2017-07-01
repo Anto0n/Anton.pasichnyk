@@ -5,7 +5,7 @@
 <!--<div class="row">-->
   <div class="col-md-12" *ngIf="showWhat === ShowView.ORDERS ">
     <div class="table-responsive, ordverflow">
-      <h1>Orders</h1>
+      <!--<h1>Orders</h1>-->
       <table class="table table-sm table-striped table-bordered table-cart">
         <tbody>
         <tr>
@@ -36,69 +36,8 @@
     </div>
   </div>
 
-  <!--<div class="col-md-12 " *ngIf="showWhat == ShowView.MODELS || showWhat === ShowView.MODELS_IN_ORDER">-->
-    <!--<h1 *ngIf="showWhat == ShowView.MODELS ">My models</h1>-->
-    <!--<div class="table-responsive, modoverflow">-->
-      <!--<table class="table table-sm table-striped-->
-       <!--table-bordered">-->
-        <!--<thead>-->
-        <!--<tr>-->
-          <!--&lt;!&ndash;<th>id</th>-->
-          <!--<th>user id</th>&ndash;&gt;-->
-          <!--&lt;!&ndash;<th>bagtype</th>&ndash;&gt;-->
-          <!--<th>model name</th>-->
-          <!--<th>status</th>-->
 
-        <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-        <!--<tr *ngFor="let model of uModels"-->
-            <!--[class.selected]="model === selectedModel" (click)="selectedModel = model">-->
-          <!--&lt;!&ndash;<th scope="row">1</th>&ndash;&gt; &lt;!&ndash;(click)="onSelect(model)"&ndash;&gt;-->
-          <!--&lt;!&ndash;<td class="col-md-auto">{{model.id}}</td>-->
-          <!--<td class="col-md-auto">{{model.userId}}</td>&ndash;&gt;-->
-          <!--&lt;!&ndash;<td class="col-md-auto">{{model.bagTypeId}}</td>&ndash;&gt;-->
-          <!--<td class="col-md-auto">{{model.mname}}</td>-->
-          <!--<td class="col-md-auto">{{model.approved}}</td>-->
-          <!--<td class="col-md-auto">-->
-
-            <!--<button (click)="selectModel(model)" class="btn-outline-info">Select</button>-->
-            <!--&lt;!&ndash;-->
-                        <!--<button (click)="selectModel3d()" class="btn-outline-info" >Select 3D</button>-->
-            <!--&ndash;&gt;-->
-          <!--</td>-->
-          <!--<td class="col-md-auto">-->
-            <!--<button *ngIf="model.approved==='NEW' " class="btn btn-danger"-->
-                    <!--(click)=" deleteModel(model); $event.stopPropagation()"> del-->
-            <!--</button>-->
-          <!--</td>-->
-          <!--&lt;!&ndash;quantity&ndash;&gt;-->
-          <!--<td class="col-md-auto">-->
-            <!--<input class="cell" #newItem (keyup.enter)="addModelToBucket(newItem.value, model);  newItem.value=''"-->
-                   <!--type="number" min="1"/>-->
-          <!--</td>-->
-          <!--<td class="col-md-auto">-->
-            <!--<button class="btn btn-success" (click)="addModelToBucket(newItem.value, model);  newItem.value=''">To-->
-              <!--bucket-->
-            <!--</button>-->
-          <!--<td>-->
-        <!--</tr>-->
-        <!--</tbody>-->
-      <!--</table>-->
-    <!--</div>-->
-  <!--</div>-->
-
-<!--</div>-->
-
-<!--<div  class="col-lg-12" >-->
-<!--<hr>-->
-<!--<configurator [selectModelToConfig]="selectedModel" [viewMode]="true" ></configurator>-->
-
-
-<!--</div>-->
-
-
-<div id="wrapper_container" class="col-lg-12" style="margin-top: 20px">
+<div id="wrapper_container" class="col-lg-12" style="margin-top: 20px" *ngIf="showWhat === ShowView.MODELS " >
   <div *ngIf="selectedModel!=null" id="model_manager" class="row flex-lg-row col-lg-12">
     <div class="col-lg-3">name: {{selectedModel.mname}}</div>
     <div class=" col-lg-2">
