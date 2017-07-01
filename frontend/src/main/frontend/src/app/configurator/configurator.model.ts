@@ -1,5 +1,6 @@
 import {ModelConfig} from "../models/modelConfig";
 import {BagMaterial, BagType, IModel} from "../models/model";
+import {ImageConfig} from "../models/image-config";
 export interface IConfigurator {
   /**
    *
@@ -25,7 +26,7 @@ export interface IConfigurator {
    * save model setting to user account (Create Model)
    * @param modelConfig
    */
-  save(modelConfig: ModelConfig);
+  save(modelConfig: ModelConfig, imageConfig: ImageConfig);
 
   /**
    * jeans cotton leather from DB

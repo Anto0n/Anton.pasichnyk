@@ -93,6 +93,7 @@ public class ModelService {
         model.setMname(modelDtoCreate.getMname());
         model.setApproved(modelDtoCreate.getApproved());
         model.setConfig(modelDtoCreate.getConfig());
+        model.setImageConfig(modelDtoCreate.getImageConfig());
         try{
             modelDao.save(model);
         }catch(Exception ex){

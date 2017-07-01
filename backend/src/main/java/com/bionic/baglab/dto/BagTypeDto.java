@@ -1,8 +1,11 @@
 package com.bionic.baglab.dto;
 
+import com.bionic.baglab.domains.PanelEntity;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
+
+import java.util.List;
 
 @ApiModel
 public class BagTypeDto {
@@ -10,19 +13,30 @@ public class BagTypeDto {
     private String name;
     private String script;
     private Integer price;
+    private List<PanelEntity> panels;
 
     @JsonCreator
     public BagTypeDto(@JsonProperty("id") long id,
                       @JsonProperty("name") String name,
                       @JsonProperty("script") String script,
-                      @JsonProperty("price") int price) {
+                      @JsonProperty("price") int price,
+                      @JsonProperty("panels") List<PanelEntity> panels) {
         this.id = id;
         this.name = name;
         this.script = script;
         this.price = price;
+        this.panels =panels;
     }
 
     public long getId() {  return id;  }
+
+    public List<PanelEntity> getPanels() {
+        return panels;
+    }
+
+    public void setPanels(List<PanelEntity> panels) {
+        this.panels = panels;
+    }
 
     public String getScript() {
         return script;

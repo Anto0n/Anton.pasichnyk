@@ -20,6 +20,7 @@ public class ModelEntity {
     private ModelStatusEnum approved;
     private String mname;
     private String config;
+    private String imageConfig;
 
 
     public ModelEntity(long idModel) {
@@ -78,6 +79,14 @@ public class ModelEntity {
         this.config = config;
     }
 
+    @Column(name = "[imageConfig]", columnDefinition="MEDIUMTEXT")
+    public String getImageConfig() {
+        return imageConfig;
+    }
+
+    public void setImageConfig(String imageConfig) {
+        this.imageConfig = imageConfig;
+    }
 
     @Basic
     @Column(name = "[modelCreate]")

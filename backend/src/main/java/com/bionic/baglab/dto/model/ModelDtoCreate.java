@@ -20,17 +20,19 @@ public class ModelDtoCreate {
     private ModelStatusEnum approved;
 
     private String config;
+    private String imageConfig;
 
     public ModelDtoCreate() {
     }
 
-    public ModelDtoCreate(long userId, long bagTypeId, long materialId, String mname, ModelStatusEnum approved, String config) {
+    public ModelDtoCreate(long userId, long bagTypeId, long materialId, String mname, ModelStatusEnum approved, String config, String imageConfig) {
         this.userId = userId;
         this.bagTypeId = bagTypeId;
         this.materialId = materialId;
         this.mname = mname;
         this.approved = approved;
         this.config = config;
+        this.imageConfig = imageConfig;
     }
 
     public long getUserId() {
@@ -81,5 +83,11 @@ public class ModelDtoCreate {
         this.config = config;
     }
 
+    public String getImageConfig() {
+        return imageConfig;
+    }
 
+    public void setImageConfig(String imageConfig) {
+        this.imageConfig = imageConfig;
+    }
 }
