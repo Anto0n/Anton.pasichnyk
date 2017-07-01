@@ -5,7 +5,6 @@ import com.bionic.baglab.dao.MaterialPriceDao;
 import com.bionic.baglab.domains.MaterialEntity;
 import com.bionic.baglab.domains.MaterialPriceEntity;
 import com.bionic.baglab.dto.MaterialDto;
-import com.bionic.baglab.dto.MaterialWithPreviewDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -75,7 +74,4 @@ public class MaterialService {
         saveMaterial(material);
     }
 
-    public List<MaterialWithPreviewDto> findPreviewDto() {
-        return  materialDao.findExistent().stream().map(MaterialWithPreviewDto::new).collect(Collectors.toList());
-    }
 }

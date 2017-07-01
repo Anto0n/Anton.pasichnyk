@@ -259,10 +259,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             return;
           }
           m_preloader.create_preloader({
-            container_color: "#000000", // background color of the container
+            container_color: "#ffffff", // background color of the container
             bar_color: "#6cbeee", // background color of the bar
             frame_color: "#ffffff", // color of the frame border
-            font_color: "#ffffff" // color of the font
+            font_color: "#000000" // color of the font
           });
 
           m_data.load('./assets/testConf/demo_bag.json', load_cb, preloader_cb);
