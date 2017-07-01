@@ -201,7 +201,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             let w = img.width;
             let h = img.height;
             ctx2Dpanel.drawImage(img, 0, 0, w, h, ctx2Dpanel.canvas.width *2/ 5, ctx2Dpanel.canvas.width *2/ 5,
-              ctx2Dpanel.canvas.width*1/5, ctx2Dpanel.canvas.height*1/5);
+              ctx2Dpanel.canvas.width/5, ctx2Dpanel.canvas.height/5);
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
 

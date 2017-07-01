@@ -3,24 +3,33 @@
      <script src="http://www.jqueryscript.net/demo/Responsive-jQuery-News-Ticker-Plugin-with-Bootstrap-3-Bootstrap-News-Box/scripts/jquery.bootstrap.newsbox.min.js" type="text/javascript"></script>
 
    </div>-->
-  <div class="topBar">
-    <img src="./assets/logo_bl.bmp">
-    <div  class="container-fluid" style="float:right; margin: 10px;">
-      <button *ngIf="!isAuth()" class="btn btn-outline-success" [routerLink]="['/register']" >Sign Up</button>
-      <button *ngIf="!isAuth()" class="btn btn-outline-success" [routerLink]="['/login']" >Log In</button>
+  <!--<div class="topBar">-->
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-4 col-sm-8 col-md-8 ">
+        <img src="./assets/logo_bl.bmp">
+      </div>
+      <div  class="col-xs-4 col-sm-2 col-md-4">
+        <div class="row">
+          <app-card-menu *ngIf="isAuth()" class="px-2 py-2"></app-card-menu>
+          <!--<div class="col-xs-4 col-sm-2 col-md-1">-->
+            <button *ngIf="isAuth()" class="btn btn-my btn-sm" (click)="onLogout()">Sign Out</button>
+            <button *ngIf="!isAuth()" class="btn btn-outline-success btn-sm" [routerLink]="['/register']">Sign Up</button>
+            <button *ngIf="!isAuth()" class="btn btn-outline-success btn-sm" [routerLink]="['/login']">Sign In</button>
+          <!--</div>-->
+        </div>
+      </div>
     </div>
   </div>
+  <!--</div>-->
   <!--items bucket-->
-  <app-card-menu></app-card-menu>
 
-  <div class="container-fluid" style="float:right;">
-    <ul class="nav navbar-nav" *ngIf="!isAuth()">
 
-    </ul>
-    <ul class="nav navbar-nav navbar-right" *ngIf="isAuth()">
-      <button class="btn btn-outline-danger" (click)="onLogout()" style="cursor: pointer;">Logout</button>
-    </ul>
-  </div>
+  <!--<div class="container-fluid" style="float:right;">-->
+    <!--<ul class="nav navbar-nav" *ngIf="!isAuth()">-->
+    <!--</ul>-->
+
+  <!--</div>-->
   <app-menu>loading...</app-menu>
   <!--  <div class="menuBar" >
       <div class="mainMenu" >
@@ -32,16 +41,16 @@
 
 <!-- main app container -->
 <!--<div class="jumbotron">-->
-  <!--<div class="container">-->
-    <!--<div class="row">-->
-      <!--<div class="col-sm-8 col-sm-offset-2">-->
+<!--<div class="container">-->
+<!--<div class="row">-->
+<!--<div class="col-sm-8 col-sm-offset-2">-->
 <div class="col-lg-12 col-md-12 col-sm-12">
-      <alert></alert>
-      <router-outlet></router-outlet>
+  <alert></alert>
+  <router-outlet></router-outlet>
 </div>
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 
 <footer>

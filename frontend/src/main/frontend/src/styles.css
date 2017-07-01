@@ -3153,6 +3153,17 @@ a.btn.disabled, fieldset[disabled] a.btn {
   border-color: transparent
 }
 
+.btn-my {
+  border-color: transparent;
+  background-color: transparent
+}
+
+.btn-my:hover {
+  cursor: pointer;
+  border-color: transparent;
+  background-color: transparent
+}
+
 .btn-link:focus, .btn-link:hover {
   color: #014c8c;
   text-decoration: underline;
