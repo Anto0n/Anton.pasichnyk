@@ -42,7 +42,6 @@ export class MenuComponent implements OnInit, OnDestroy {
           new Route("products", "PRODUCTS"),
           new Route("orders", "ORDERS"),
           new Route("configurator", "THEBAGLAB"),
-          new Route("testform", "TEST FORM"),
           new Route("faqs", "FAQ's"),
           new Route("contact", "CONTACT")
         ];
@@ -75,7 +74,6 @@ export class MenuComponent implements OnInit, OnDestroy {
           new Route("moderator", "MODERATOR"),
           new Route("factory", "FACTORY"),
           new Route("configurator", "THEBAGLAB"),
-          new Route("testform", "TEST FORM"),
           new Route("faqs", "FAQ's"),
           new Route("contact", "CONTACT")
         ];
