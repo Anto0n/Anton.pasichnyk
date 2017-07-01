@@ -16,63 +16,7 @@
             <button class="btn-block btn-success" (click)="switchCreateView()">create new</button>
           </div>
 
-          <!--CUSTOMIZER-->
-          <div hidden id="customizer">
-            Name:<br>
-            <input type="text" [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
-            <div ngbDropdown #myDrop4="ngbDropdown">
-
-              <button class="btn btn-outline-info btn-block" id="dropdownMenu4" ngbDropdownToggle>body materials
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu4">
-                <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
-                        (click)="selectMaterial(material, 'bag_body')"> {{material.name}}
-                </button>
-              </div>
-
-              <div ngbDropdown #myDrop5="ngbDropdown">
-                <button class="btn btn-outline-info btn-block" id="dropdownMenu5" ngbDropdownToggle>packet materials
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu5">
-                  <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
-                          (click)="selectMaterial(material, 'bag_front')"> {{material.name}}
-                  </button>
-                </div>
-              </div>
-              <div ngbDropdown #myDrop5="ngbDropdown">
-                <button class="btn btn-outline-info btn-block" id="dropdownMenu6" ngbDropdownToggle>bag top materials
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu6">
-                  <button class="btn btn-info btn-outline-info btn-block" *ngFor="let material of materials"
-                          (click)="selectMaterial(material, 'bag_body_top')"> {{material.name}}
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div ngbDropdown #myDrop3="ngbDropdown">
-              <button class="btn btn-outline-info btn-block" id="dropdownMenu3" ngbDropdownToggle>bag type</button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                <button class="btn btn-info btn-outline-info btn-block " *ngFor="let bagtype of begtypes"
-                        (click)="configurator.selectBagType(bagtype)">{{bagtype.name}}
-                </button>
-              </div>
-            </div>
-
-            <div>
-              <image-upload [preview]="false"
-                            (onFileUploadFinish)="configurator.imageUploaded($event)"
-                            [buttonCaption]="'Add image'"></image-upload>
-            </div>
-            <button class="btn btn-danger btn-outline-danger btn-block" (click)='configurator.resetModel()'>reset
-            </button>
-            <button class="btn btn-success btn-outline-success btn-block"
-                    (click)='configurator.save(configurator.getModelConfig())'>
-              save
-            </button>
-            <button class="btn-block btn-success" (click)="switchCreateView()">back to models</button>
-          </div>
-
-          <!--NEW DEMO CUSTOMIZER-->
+          <!--NEW CUSTOMIZER-->
           <div id="customizer2" hidden>
             Name:<br>
             <!--<img #image alt="alt text" [src]="imgForTest">-->
@@ -82,26 +26,24 @@
             <div *ngFor="let materialType of materialTypes">
               <div class="container-fluid">{{materialType.name}}</div>
               <div class="d-inline-block px-2 py-2" *ngFor="let material of materialType.materials">
-                <!--<button class="btn btn-block"> -&#45;&#45;{{material.name}}</button>-->
-                <!--<div> -&#45;&#45;{{material.imageMin}}</div>-->
                 <img [src]="material.imageMin" (click)="selectMaterial(material)">
               </div>
           </div>
             <div>
               <image-upload [preview]="false"
-                            (onFileUploadFinish)="configurator.imageUploaded($event)"
+                            (onFileUploadFinish)="imageUploaded($event)"
                             [buttonCaption]="'Add image'"></image-upload>
             </div>
             <button class="btn btn-danger btn-outline-danger btn-block" (click)='configurator.resetModel()'>reset
             </button>
             <button class="btn btn-success btn-outline-success btn-block"
-                    (click)='configurator.save(configurator.getModelConfig())'>
+                    (click)='save()'>
               save
             </button>
             <button class="btn-block btn-success" (click)="switchCreateView()">back to models</button>
 
           </div>
-
+          total sum: {{modelPrice}} $
         </div>
 
         <!--Configurator view-->

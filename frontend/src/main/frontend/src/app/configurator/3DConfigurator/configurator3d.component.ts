@@ -8,6 +8,8 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {AlertService} from "../../services/alert.service";
 import {Panel} from "./panel.model";
 import {Element} from "@angular/compiler";
+import {ImageConfig} from "../../models/image-config";
+import {Observable} from "rxjs/Observable";
 
 declare let b4w: any;
 
@@ -26,11 +28,15 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   @Input()
   editMode: boolean = false;
   @Output() onClearMname = new EventEmitter<string>();
+  @Output() onModelSelect = new EventEmitter<IModel>();
+
+  @Output() onChangePrice = new EventEmitter<number>();
 
   @Output()
   selectedPanelUpdated = new EventEmitter<string>();
 
   modelConfig: ModelConfig;
+  imageConfig: ImageConfig;
   private pathToMaterials: string;
   private selectedPanel: any;
   private material: BagMaterial;
@@ -155,41 +161,81 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         }
 
 
-        exports.chooseMaterial = function (material: string, panel?: Panel) {
+        exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string) {
 
+          if (customImage) {
+            console.log(" START customImage");
+            let object = m_scenes.get_object_by_name("bag_front");
+            let object_body = m_scenes.get_object_by_name("bag_body");
+            let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
+            let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
+            let img = new Image();
 
+            img.src = material;
 
-          let object = m_scenes.get_object_by_name("bag_front");
-          let object_body = m_scenes.get_object_by_name("bag_body");
-          let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
-          let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
-          let img = new Image();
+            img.onload = function () {
+              console.log(" START DRAW MATERIAL");
+              if (panel != null) {
+                let panel_object = m_scenes.get_object_by_name(panel.name);
+                let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+                if (panel.name === "bag_body") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
 
-          img.src = material;
+                } else {
+                }
+                m_tex.update_canvas_ctx(panel_object, panel.texture);
+              }
+              console.log(" END DRAW MATERIAL");
+            }
 
-          img.onload = function () {
-            if (panel != null) {
-              let panel_object = m_scenes.get_object_by_name(panel.name);
-              let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+            let customImageTemp = new Image();
 
-              ctx2Dpanel.drawImage(img, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-              ctx2Dpanel.drawImage(img, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-              ctx2Dpanel.drawImage(img, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+            customImageTemp.src = customImage;
+            let panel_object = m_scenes.get_object_by_name(panel.name);
+            let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+            customImageTemp.onload = function () {
+              console.log(" START DRAW CUSTOM IMAGE");
+              let w = customImageTemp.width;
+              let h = customImageTemp.height;
+              ctx2Dpanel.drawImage(customImageTemp, 0, 0, w, h, ctx2Dpanel.canvas.width * 2 / 5, ctx2Dpanel.canvas.width * 2 / 5,
+                ctx2Dpanel.canvas.width / 5, ctx2Dpanel.canvas.height / 5);
               m_tex.update_canvas_ctx(panel_object, panel.texture);
-            } else {
-              let object = m_scenes.get_object_by_name("bag_front");
-              rendering_ctx.drawImage(img, 0, 0, rendering_ctx.canvas.width, rendering_ctx.canvas.height);
-              m_tex.update_canvas_ctx(object, "bag_front_text_img");
-              ctx_image_body.drawImage(img, 0, 0, ctx_image_body.canvas.width, ctx_image_body.canvas.height);
-              m_tex.update_canvas_ctx(object_body, "bag_body_text_img");
+              console.log(" END DRAW CUSTOM IMAGE");
+            }
+
+          } else {
+
+
+            let object = m_scenes.get_object_by_name("bag_front");
+            let object_body = m_scenes.get_object_by_name("bag_body");
+            let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
+            let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
+            let img = new Image();
+
+            img.src = material;
+
+            img.onload = function () {
+              if (panel != null) {
+                let panel_object = m_scenes.get_object_by_name(panel.name);
+                let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+                if (panel.name === "bag_body") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+
+                } else {
+                }
+                m_tex.update_canvas_ctx(panel_object, panel.texture);
+              }
+
             }
           }
         }
         exports.drawPicture = function (src: string, panel: Panel) {
-
-
-
 
 
           let panel_object = m_scenes.get_object_by_name(panel.name);
@@ -200,8 +246,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           img.onload = function () {
             let w = img.width;
             let h = img.height;
-            ctx2Dpanel.drawImage(img, 0, 0, w, h, ctx2Dpanel.canvas.width *2/ 5, ctx2Dpanel.canvas.width *2/ 5,
-              ctx2Dpanel.canvas.width/5, ctx2Dpanel.canvas.height/5);
+            ctx2Dpanel.drawImage(img, 0, 0, w, h, ctx2Dpanel.canvas.width * 2 / 5, ctx2Dpanel.canvas.width * 2 / 5,
+              ctx2Dpanel.canvas.width / 5, ctx2Dpanel.canvas.height / 5);
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
 
@@ -213,10 +259,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             return;
           }
           m_preloader.create_preloader({
-            container_color: "#000000", // background color of the container
+            container_color: "#ffffff", // background color of the container
             bar_color: "#6cbeee", // background color of the bar
             frame_color: "#ffffff", // color of the frame border
-            font_color: "#ffffff" // color of the font
+            font_color: "#000000" // color of the font
           });
 
           m_data.load('./assets/testConf/demo_bag.json', load_cb, preloader_cb);
@@ -238,19 +284,27 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     if (this.modelConfig == null) {
       this.modelConfig = new ModelConfig();
       this.modelConfig.config3d = new Config3d();
+      this.imageConfig = new ImageConfig();
+
     }
     this.restService.getData('./api/panel/list').subscribe((data: any) => {
         this.modelConfig.config3d.panels = data;
+        this.imageConfig.panels = data;
       },
       () => console.log('cant receive panels'));
     if (this.currentModel != null) {
       for (let i of this.modelConfig.config3d.panels) {
         this.selectMaterial(i.material, i.name);
       }
+      for (let a = 0; a < this.imageConfig.panels.length; a++) {
+        if (this.imageConfig.image[a] !== null) {
+          b4w.require(this.appName).drawPicture(this.imageConfig.image[a], this.imageConfig.panels[a]);
+        }
+      }
     } else {
       setTimeout(() => {
 
-        this.restService.getData('./api/models/1').subscribe((data: any) => {
+        this.restService.getData('./api/models/1').subscribe((data: IModel) => {
             let jStr: string = JSON.parse(JSON.stringify(data.config));
             let obj: Config3d = new Config3d();
             obj.panels = [];
@@ -268,6 +322,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
               this.selectMaterial(i.material, i.name);
             }
             this.material.id = 1;
+            // this.onModelSelect.emit(data);
           },
           () => console.log('cant receive default model'));
       }, 3000);
@@ -282,7 +337,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
   }
 
-  save(modelConfig: ModelConfig) {
+  save(modelConfig: ModelConfig, imageConfig: ImageConfig) {
     if (!this.authService.isAuthenticated()) {
       this.alertService.error("Login to save models!");
       return;
@@ -300,14 +355,17 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       return;
     }
     this.alertService.clearMeessage();
-
+    console.log("SAVE MODEL!!!!!!!!!!!!");
+    console.log(this.modelConfig);
+    // console.log();
     this.modelConfig.config2d = new Config2d(); // for 2D
     let createModelT: CreateModel = new CreateModel(ModelStatus.NEW,
       this.bagType.id,
       this.material.id,
       this.inModelName,
       +this.userRoleService.getUserId(),
-      JSON.stringify(this.modelConfig));
+      JSON.stringify(this.modelConfig),
+      JSON.stringify(imageConfig));
     this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
       (data: IModel[]) => {
         this.resetModel();
@@ -323,11 +381,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
 
-    this.restService.getData('./api/panel/'+this.selectedPanel.name).subscribe(
-      (panel:Panel)=>{
+    this.restService.getData('./api/panel/' + this.selectedPanel.name).subscribe(
+      (panel: Panel) => {
         console.log(panel);
         b4w.require(this.appName).drawPicture(data.src, panel);
-      }, (panel:any)=>console.log("cant get panel by name"));
+        // this.imageConfig.image[this.imageConfig.panel.findIndex(p=>p===panel.name)]=data.src;
+      }, (panel: any) => console.log("cant get panel by name"));
 
   }
 
@@ -336,7 +395,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   }
 
-  selectMaterial(material: BagMaterial, panel?: string) {
+  selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string) {
+    // imgFunction?:{func: Function, funcParam: any[]}) {
 
 
     this.material = material;
@@ -347,6 +407,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
       selectedPanel.material = new BagMaterial();
       selectedPanel.material = material;
+      // this.onChangePrice.emit(material.price);
 
 
     } else {
@@ -357,7 +418,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     this.restService.getDataAny('./api/material/base64/' + material.image).subscribe(
       (data: any) => {
         this.pathToMaterials = data;
-        b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel);
+
+        if (imageOnPanel) {
+          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel, imageOnPanel);
+        } else {
+          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel);
+        }
       }, () => console.log('err'));
 
   }
@@ -378,6 +444,41 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   loadModel(model: IModel): void {
+
+    this.loadModelMaterial(model);
+
+  }
+
+  private loadModel1(model: IModel): void {
+    console.log("AFTER DRAW MATERIAL");
+    let imgConf: ImageConfig = JSON.parse(JSON.parse(JSON.stringify(model.imageConfig)));
+    for (let a = 0; a < imgConf.panels.length; a++) {
+      if (imgConf.image[a] !== null) {
+        b4w.require(this.appName).drawPicture(imgConf.image[a], imgConf.panels[a]);
+      }
+    }
+    // this.loadModelMaterial(model);
+  }
+
+  //що робити
+  //функция что выше должна вызываться после срабатывания нижней
+  // я пытаюсь сделать что то типо обсервбла, что бы оно последовательно было
+  //Який код треьа послідовно?
+  private loadModelMaterial(model: IModel): void {
+
+    console.log("AFTER DRAW MATERIAL");
+    let imgConf: ImageConfig = JSON.parse(JSON.parse(JSON.stringify(model.imageConfig)));
+    // for (let a = 0; a < imgConf.panels.length; a++) {
+    //   if (imgConf.image[a] !== null) {
+    //     b4w.require(this.appName).drawPicture(imgConf.image[a], imgConf.panels[a]);
+    //   }
+    // }
+    let idx = imgConf.image.findIndex(p => p != null);
+    let panel = imgConf.panels[idx];
+
+
+    //1й начало
+    console.log("BEFORRE DRAW MATERIAL");
     let jStr: string = JSON.parse(JSON.stringify(model.config));
     let obj: Config3d = new Config3d();
     obj.panels = [];
@@ -392,11 +493,24 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       this.modelConfig.config3d.panels[a].material.image = arr[a];
     }
     for (let i of this.modelConfig.config3d.panels) {
-      this.selectMaterial(i.material, i.name);
+      if (panel && i.name === panel.name) {
+        console.log("GOT IMG");
+        this.selectMaterial(i.material, i.name, imgConf.image[idx]);
+      } else {
+        console.log("NO IMAGE");
+        this.selectMaterial(i.material, i.name);
+      }
+
     }
+    console.log("DRAW MATERIAL FINISHED");
+    // this.loadModel1(model);
+    // е
+    //1й конец
+
   }
 
-  a: number = 10;
+
+  // a: number = 10;
 
   activateEditMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();

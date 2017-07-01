@@ -17,6 +17,9 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 # Drop SCHEMA baglab;
 CREATE SCHEMA IF NOT EXISTS `baglab` DEFAULT CHARACTER SET utf8 ;
 USE `baglab` ;
+
+
+
 -- -----------------------------------------------------
 -- Table `baglab`.`bag_type`
 -- -----------------------------------------------------
@@ -31,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `baglab`.`bag_type` (
   ENGINE = InnoDB
   DEFAULT CHARACTER SET = utf8;
 
-DROP TABLE IF EXISTS `baglab`.`palette` ;
 
+DROP TABLE IF EXISTS `baglab`.`palette` ;
 CREATE TABLE IF NOT EXISTS `baglab`.`palette` (
   `idColor` BIGINT NOT NULL AUTO_INCREMENT,
   `rgb` VARCHAR(45) NOT NULL,
@@ -146,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   `materialId` BIGINT NOT NULL,
   `mname` VARCHAR(45) NOT NULL,
   `config` MEDIUMTEXT,
+  `imageConfig` MEDIUMTEXT,
   `approved` INTEGER(5) NOT NULL DEFAULT 0,
   `deleted` BOOLEAN DEFAULT FALSE,
   `modelCreate` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -243,18 +247,6 @@ ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
--- -----------------------------------------------------
--- Table `baglab`.`panel`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `baglab`.`panel` ;
-
-CREATE TABLE IF NOT EXISTS `baglab`.`panel` (
-  `idPanel` BIGINT  NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NOT NULL,
-  `texture` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idPanel`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
@@ -406,6 +398,23 @@ CREATE TABLE `baglab`.`material_price` (
   FOREIGN KEY (`materialId`)
   REFERENCES `baglab`.`material` (`idmaterial`))
   ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `baglab`.`panel`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `baglab`.`panel` ;
+
+CREATE TABLE IF NOT EXISTS `baglab`.`panel` (
+  `idPanel` BIGINT  NOT NULL AUTO_INCREMENT,
+  `bagTypeId` BIGINT,
+  `name` VARCHAR(45) NOT NULL,
+  `texture` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idPanel`),
+  CONSTRAINT `fk_bagTypeId`
+  FOREIGN KEY (`bagTypeId`)
+  REFERENCES `baglab`.`bag_type` (`idBagType`))
+  ENGINE = InnoDB
+  DEFAULT CHARACTER SET = utf8;
 
 
 

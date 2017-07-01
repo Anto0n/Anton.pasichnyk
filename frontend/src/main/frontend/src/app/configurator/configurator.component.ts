@@ -11,6 +11,7 @@ import {AuthenticationService} from "../services/authentication.service";
 import {Configurator2dService} from "../services/configurator/configurator2d.service";
 import {MaterialType} from "../models/material-type.model";
 import {Panel} from "./3DConfigurator/panel.model";
+import {ImageConfig} from "../models/image-config";
 
 @Component({
   selector: 'configurator',
@@ -20,17 +21,22 @@ export class ConfiguratorComponent implements OnInit {
   private isEditMode: boolean = false;
   private modelName: string;
   private selectedPanel: Panel;
+  private selectedModel: IModel;
+
+  private tempMaterials: string[] = [];
+  private tempPanels: string[] = [];
 
 
   @ViewChild('config')
   configurator: IConfigurator;
-
+  private modelPrice: number;
   private materialTypes: MaterialType[];
   materials: BagMaterial [] = [];
   begtypes: BagType[] = [];
   private defaultModels: IModel[];
   private modelId: number = 0;
   modelConfig: ModelConfig = null;
+  imageConfig: ImageConfig = new ImageConfig();
   outBag: BagType = new BagType(); // for view mode only
   outMaterial: BagMaterial = new BagMaterial(); // for view mode only
 
@@ -74,25 +80,83 @@ export class ConfiguratorComponent implements OnInit {
 
   ngOnInit() {
 
-    this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
-    this.restService.getData("./api/bag_type/list").subscribe(data => this.begtypes = data);
+    this.tempMaterials[0]="jeans-blue";
+    this.tempMaterials[1]="jeans-blue";
+    this.tempMaterials[2]="jeans-blue";
+    this.tempPanels[0]="bag_body";
+    this.tempPanels[1]="bag_body-top";
+    this.tempPanels[2]="bag_front";
+
+    this.restService.getData("./api/material/list").subscribe(data => {this.materials = data;
+    console.log(data);
+      this.restService.getData("./api/bag_type/list").subscribe((data: BagType[]) => {this.begtypes = data;
+        this.modelPrice=this.begtypes[0].price+this.materials.find(p=>p.name==="jeans-blue").price;
+        this.imageConfig = new ImageConfig();
+        this.imageConfig.panels=this.begtypes[0].panels;
+        this.imageConfig.image=new Array(this.begtypes[0].panels.length);
+        // this.modelPrice=this.begtypes[0].price;
+        // this.modelPrice=this.begtypes[0].price;
+
+      });
+    });
+
     this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
       this.defaultModels=data;
 
     });
+
     this.restService.getData("./api/material/types").subscribe((data: MaterialType[]) => this.materialTypes = data);
 
-    this.restService.getDataAny("/api/material/base64/cotton_2048_blue_preview").subscribe((data: string) => {
-      this.imgForTest = data;
-    }, (data) => console.log("cant receive leather"));
+  }
+
+  save(){
+    this.configurator.save(this.modelConfig, this.imageConfig);
+  }
+
+  countPrice(materialOld, material:BagMaterial, panel: string){
+    console.log("materialOld");
+    console.log(materialOld);
+    console.log(panel);
+
+    let other = this.tempPanels.filter(p=>p!==panel);
+    let curr = this.tempPanels.find(p=>p===panel);
+    console.log(other);
+    console.log(curr);
+
+    let oldPrice = this.modelPrice;
+    console.log(oldPrice);
+    let panelsTotal = this.modelPrice-this.begtypes[0].price;
+    console.log(panelsTotal);
+    let oldPanelPrice = this.materials.find(p=>p.name===materialOld).price*0.6;
+    console.log(oldPanelPrice);
 
 
+    if(panel==="bag_body"){
+      let newBodyPrice = material.price*0.6;
+      console.log(newBodyPrice);
+      let price = panelsTotal-oldPanelPrice+newBodyPrice;
+      console.log(price);
+      this.modelPrice = price+ this.begtypes[0].price;
+    }else {
+      console.log("NO BAG BODY");
+      let newBodyPrice = material.price*0.2;
+      // let oldBodyPrice = panelsTotal*0.6;
+      let price = panelsTotal-oldPanelPrice*0.2+newBodyPrice;
+      this.modelPrice = price+ this.begtypes[0].price;
+    }
 
   }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
-
+    console.log("imageUploaded");
     this.configurator.imageUploaded(data);
+    console.log("IMAGE CONFIG");
+    console.log(this.imageConfig);
+    let indx = this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name);
+    this.imageConfig.image[indx]=data.src;
+    console.log("IMAGE CONFIG");
+    console.log(this.imageConfig);
+
   }
 
   private checkFile(imgFile: { type: string }): boolean {
@@ -115,23 +179,27 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   selectMaterial(material: BagMaterial, panel?: string) {
-    let panelLocal=panel;
+
     if(this.selectedPanel!=null){
-      this.configurator.selectMaterial(material, this.selectedPanel.name);
+      console.log("selectMaterial PARENT CONFIGURATOR");
+      let tempMaterial = new BagMaterial();
+      tempMaterial.id=material.id;
+      tempMaterial.price=material.price;
+      tempMaterial.image=material.image;
+      tempMaterial.name=material.name;
+
+
+      this.configurator.selectMaterial(tempMaterial, this.selectedPanel.name);
     }
+
+
 
   }
 
-  // switchCreateView() {
-  //   this.isEditMode = !this.isEditMode;
-  //   this.restService.getData('./api/models/default').subscribe((data: IModel[]) => {
-  //     this.defaultModels = data;
-  //   });
-  //   // document.getElementById("customizer").hidden = !this.isEditMode;
-  //   document.getElementById("customizer2").hidden = !this.isEditMode;
-  //   document.getElementById("model-selector").hidden = this.isEditMode;
-  //
-  // }
+  onChangePrice(price: number){
+    // this.modelPrice;
+  }
+
   switchCreateView() {
     this.isEditMode = !this.isEditMode;
     document.getElementById("customizer2").hidden = !this.isEditMode;
@@ -150,9 +218,16 @@ export class ConfiguratorComponent implements OnInit {
 
     this.selectedPanel=pickedObject;
   }
+
   loadModel(model: IModel) {
     this.configurator.loadModel(model);
+    this.selectedModel=model;
   };
+
+  onModelSelect(model: IModel){
+    this.selectedModel=model;
+  }
+
 }
 
 

@@ -16,9 +16,7 @@ insert into baglab.palette (rgb) value ('205,92,92');
 insert into baglab.palette (rgb) value ('255,69,0');
 insert into baglab.palette (rgb) value ('255,140,0');
 
-insert into baglab.panel (name, texture) value ('bag_front', 'bag_front_text_img');
-insert into baglab.panel (name, texture) value ('bag_body', 'bag_body_text_img');
-insert into baglab.panel (name, texture) value ('bag_body_top', 'bag_body_top_text_img');
+
 
 insert into baglab.order_status (code, description) values ('BUCKET', 'items in bucket, order is not created yet');
 insert into baglab.order_status (code, description) values ('NEW', 'new created order');
@@ -43,6 +41,10 @@ insert into baglab.material (name, image, imageMin, materialTypeId) values ('lea
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase1.png"}', 'Simle bag');
 INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('{"imgsrc" : "./images/2dbase/2dBase2.png"}', 'Bag pojo');
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase3.png"}', 'Extra bag');
+
+insert into baglab.panel (name, bagTypeId, texture) value ('bag_front', 1, 'bag_front_text_img');
+insert into baglab.panel (name, bagTypeId, texture) value ('bag_body', 1, 'bag_body_text_img');
+insert into baglab.panel (name, bagTypeId, texture) value ('bag_body_top', 1, 'bag_body_top_text_img');
 
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('admin@gmail','$2a$10$fUW27BBTeUySsBH3YS//gOtjGVKgKyXbh0RvdJ.hx4jF13l6azJGC','admin@gmail',  'Ivan', 'Onobrenko',1);
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('anna@gm','$2a$10$YYDV6kBqUN8LUYO6wuuDhus9cNjx.RhfTxc.hLgB6/t/H4klAYOYO', 'anna@gm',  'John', 'Doe', 2);

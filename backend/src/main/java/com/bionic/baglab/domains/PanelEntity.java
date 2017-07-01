@@ -1,5 +1,6 @@
 package com.bionic.baglab.domains;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -13,6 +14,9 @@ public class PanelEntity {
     private long id;
     private String name;
     private String texture;
+
+    @JsonIgnore
+    private BagTypeEntity bagTypeEntity;
 
     @Id
     @GeneratedValue
@@ -39,5 +43,15 @@ public class PanelEntity {
 
     public void setTexture(String texture) {
         this.texture = texture;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "[bagTypeId]")
+    public BagTypeEntity getBagTypeEntity() {
+        return bagTypeEntity;
+    }
+
+    public void setBagTypeEntity(BagTypeEntity bagTypeEntity) {
+        this.bagTypeEntity = bagTypeEntity;
     }
 }

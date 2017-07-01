@@ -35,7 +35,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   private subsOrderResp: Subscription;
   private currentOrder : OrderResp = new OrderResp();
   ShowView = ShowView; // allow to use enum in template
-  private showWhat : ShowView = ShowView.MODELS; //models first
+  private showWhat : ShowView = ShowView.ORDERS; //models first
    configView = ConfiguratorType.D2;
   @ViewChild('config') //old for 3d
   private configurator: Configurator3DComponent;
@@ -86,7 +86,8 @@ export class OrdersComponent implements OnInit, OnDestroy {
   }
 
   showModelsInOrder(ord : OrderResp){
-    this.showWhat = ShowView.MODELS_IN_ORDER;
+    this.showWhat = ShowView.MODELS;
+    // this.showWhat = ShowView.MODELS_IN_ORDER;
     this.uModels = [];  //clean arr
     for (let it  of ord.items){
       this.uModels.push(it.model);
@@ -140,16 +141,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
     });
 
   }
-/*
-  private createModel() {   // do not use
-    let iid  = this.roleService.getUserId(); //todo: model Config field
-    let createModelT : CreateModel = new CreateModel(ModelStatus.NEW, 1,1, "new model name", +iid, "");
-    this.restService.postJsonResp('./api/models/create', createModelT).subscribe(
-      (data: IModel[]) => {
-        this.selectedModel = null;
-        this.uModels = data;
-      }, () => console.log('err'));
-  }*/
+
 
   addModelToBucket(quantity: number, model:IModel){
     let modelid:number = model.id;
@@ -190,18 +182,9 @@ export class OrdersComponent implements OnInit, OnDestroy {
   selectModel3d(){
    this.configView = ConfiguratorType.D3;
   }
-  // focusFunction(){
-  //   document.getElementById("model_manager").hidden =false;
-  // }
-  //
-  // focusOutFunction(){
-  //   document.getElementById("model_manager").hidden =true;
-  // }
+
    ngOnDestroy() {
-    // unsubscribe to ensure no memory leaks
-     //this.subsOrderResp.unsubscribe();
-    //this.authService.subjectLogin.unsubscribe();  error Object unsecribed
-    //this.roleService.roleEmiter.unsubscribe(); //error ???
+
   }
 
 }

@@ -1,44 +1,50 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {IModel, ModelStatus} from "../../models/model";
+import {IModel, ModelStatus, BagMaterial} from "../../models/model";
 import {RestService} from "../../services/rest.service";
 import {UserRoleService} from "../../services/user/user-role.service";
-import {OrderResp, OrderStatusNameEnum} from "../../models/order";
+import {OrderResp, OrderStatusNameEnum, mItems} from "../../models/order";
 import {Configurator3DComponent} from "../../configurator/3DConfigurator/configurator3d.component";
-import {Config3d} from "../../models/modelConfig";
+import {Config3d, ModelConfig} from "../../models/modelConfig";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-manager',
-  templateUrl: './factory.component.html',
-  styles:[`
-      .modoverflow {
-        height:500px;
-        overflow-y: scroll;
-      }
-`]
+  templateUrl: './factory.component.html'
 })
 export class FactoryComponent implements OnInit {
   private uModels: IModel[] = [];
   private selectedModel:IModel;
+  private selectedOrd : OrderResp = null;
+  private  selectedItems : mItems [] = [];
+  private  selectedItem : mItems  = new mItems();
+
   // private selectedConfig: Config3d;
   private approved : string;
   @ViewChild("config")
   private configurator: Configurator3DComponent;
   private showEditOrder : boolean = true;
   private myOrders : OrderResp[] = [];
+  private modelConfigView : ModelConfig =  new ModelConfig();
 
-  constructor(private restService: RestService, private roleService: UserRoleService,) { }
+  constructor(private restService: RestService,
+              private roleService: UserRoleService,
+              private alertService: AlertService) { }
 
   ngOnInit() {
     this.getModelsByApproved(ModelStatus.APPROVED);
     this.getOrdersByStatus(2); //accepted
+ }
 
-
-
-
-  }
-
-  selectModel(model: IModel) {   //old for 3d
+  selectModel(model: IModel, item? : mItems) {
+    if(item === null){
+      this.selectedItem = null;
+    }else{
+      this.selectedItem = item;
+    }
     this.selectedModel=model;
+    this.modelConfigView.config3d = new Config3d();
+    let jStr: string = JSON.parse(JSON.stringify(model.config));
+    this.modelConfigView = JSON.parse(jStr);
     this.configurator.loadModel(model);
   }
 
@@ -51,6 +57,7 @@ export class FactoryComponent implements OnInit {
       .subscribe((data: IModel[]) => {
         this.uModels = data;
       }, () => console.log('err'));
+    this.selectedOrd = null;
   }
 
   /*EDIT/refactor  this code>>*/
@@ -70,8 +77,11 @@ export class FactoryComponent implements OnInit {
 
   showModelsInOrder(ord : OrderResp){
     //this.showWhat = ShowView.MODELS_IN_ORDER;
+    this.selectedOrd  = new OrderResp();
+    this.selectedOrd = ord;
     this.showEditOrder = false; // show models view
     this.uModels = [];  //clean arr
+    this.selectedItems = ord.items;
     for (let it  of ord.items){
       this.uModels.push(it.model);
     }
@@ -115,8 +125,11 @@ export class FactoryComponent implements OnInit {
 
         this.myOrders[foundIndex] = newOr;                                    // replace in arr
         this.getOrdersByStatus(2); //reload arr Accepted     Rewrite to change detection
+        this.alertService.success("Order "+ord.idOrder+" shipped");
       }
-    ),  () => console.log('err')
+    ),  (error) => {console.log(error);
+    this.alertService.error("error occured");
+    }
 
   }
 

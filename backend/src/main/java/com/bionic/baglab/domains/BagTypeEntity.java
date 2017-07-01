@@ -34,12 +34,23 @@ public class BagTypeEntity {
     @OneToMany(mappedBy = "bagTypeEntity", targetEntity = ModelEntity.class )
     private List<ModelEntity> modelEntities;
 
+    @OneToMany(mappedBy = "bagTypeEntity", targetEntity = PanelEntity.class )
+    private List<PanelEntity> panels;
+
     protected BagTypeEntity() {}
 
     public BagTypeEntity(String name, String script, int price) {
         this.name = name;
         this.script = script;
         this.prices.add(new BagTypePriceEntity(this, price));
+    }
+
+    public List<PanelEntity> getPanels() {
+        return panels;
+    }
+
+    public void setPanels(List<PanelEntity> panels) {
+        this.panels = panels;
     }
 
     public List<ModelEntity> getModelEntities() {

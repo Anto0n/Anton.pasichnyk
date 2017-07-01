@@ -22,6 +22,7 @@ public class ModelDto {
     private Timestamp modelCreate;
     private Timestamp modelUpdate;
     private String config;
+    private String imageConfig;
 
     public ModelDto() {
     }
@@ -37,6 +38,7 @@ public class ModelDto {
         this.approved = modelEntity.getApproved();
         this.mname = modelEntity.getMname();
         this.config = modelEntity.getConfig();
+        this.imageConfig = modelEntity.getImageConfig();
     }
 
     public long getId() {
@@ -109,5 +111,13 @@ public class ModelDto {
 
     public void setConfig(String config) {
         this.config = config;
+    }
+
+    public String getImageConfig() {
+        return imageConfig;
+    }
+
+    public void setImageConfig(String imageConfig) {
+        this.imageConfig = imageConfig;
     }
 }
