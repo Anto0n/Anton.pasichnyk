@@ -91,7 +91,6 @@ export class CardMenuComponent implements OnInit, OnDestroy {
       this.restService.getData(`./api/order/findbucket/${uId}`)
         .subscribe((data: OrderResp) => {
           this.orderRespListener = data;
-          console.log("BUCKET SEND MESS");
           this.cardServ.sendOrderResp(data); //req!!!! err
         }, () => console.log('err'));
 

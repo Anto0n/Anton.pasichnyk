@@ -55,7 +55,6 @@ export class UserCreate {
   }
 
   greet() {
-    console.log("Hello", this.firstname);
   }
 
 */

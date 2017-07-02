@@ -25,7 +25,6 @@ export class CardOrderService {
   }*/
 
   sendOrderResp(message: OrderResp) {
-    console.log("send OrdResp service");
     this.subjectOrderResp.next(message);
   }
 

@@ -120,6 +120,10 @@ export class ConfiguratorComponent implements OnInit {
     this.configurator.enableCamera();
   }
 
+  changeImage(){
+    this.configurator.changeImage("asd");
+  }
+
   countPrice(materialOld, material:BagMaterial, panel: string){
     console.log("materialOld");
     console.log(materialOld);

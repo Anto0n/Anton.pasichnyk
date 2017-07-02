@@ -7,9 +7,7 @@ import {CreateModel, IModel, ModelStatus, BagMaterial, BagType} from "../../mode
 import {AuthenticationService} from "../../services/authentication.service";
 import {AlertService} from "../../services/alert.service";
 import {Panel} from "./panel.model";
-import {Element} from "@angular/compiler";
 import {ImageConfig} from "../../models/image-config";
-import {Observable} from "rxjs/Observable";
 
 declare let b4w: any;
 
@@ -88,20 +86,18 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         let m_data = b4w.require("data");
         let m_scenes = require("scenes");
         let m_tex = require("textures");
+        let m_textures = require("__textures")
         let m_mat = require("material");
         let m_container = require("container");
         let m_preloader = require("preloader");
         let m_version = require("version");
-        let jeans_img = "./images/3d/jeans_2048.jpg";
         let DEBUG = (m_version.type() === "DEBUG");
 
         exports.getCanvas = m_container.get_canvas;
         exports.disableCamera = function(){
-          console.log("disableCamera");
           m_app.disable_camera_controls();
         };
         exports.enableCamera = function(){
-          console.log("enableCamera");
           m_app.enable_camera_controls();
         };
 
@@ -173,7 +169,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string) {
 
           if (customImage) {
-            console.log(" START customImage");
             let object = m_scenes.get_object_by_name("bag_front");
             let object_body = m_scenes.get_object_by_name("bag_body");
             let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
@@ -183,7 +178,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             img.src = material;
 
             img.onload = function () {
-              console.log(" START DRAW MATERIAL");
               if (panel != null) {
                 let panel_object = m_scenes.get_object_by_name(panel.name);
                 let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
@@ -197,7 +191,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
                 }
                 m_tex.update_canvas_ctx(panel_object, panel.texture);
               }
-              console.log(" END DRAW MATERIAL");
             }
 
             let customImageTemp = new Image();
@@ -206,13 +199,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             let panel_object = m_scenes.get_object_by_name(panel.name);
             let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
             customImageTemp.onload = function () {
-              console.log(" START DRAW CUSTOM IMAGE");
               let w = customImageTemp.width;
               let h = customImageTemp.height;
               ctx2Dpanel.drawImage(customImageTemp, 0, 0, w, h, ctx2Dpanel.canvas.width * 2 / 5, ctx2Dpanel.canvas.width * 2 / 5,
                 ctx2Dpanel.canvas.width / 5, ctx2Dpanel.canvas.height / 5);
               m_tex.update_canvas_ctx(panel_object, panel.texture);
-              console.log(" END DRAW CUSTOM IMAGE");
             }
 
           } else {
@@ -243,6 +234,15 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
             }
           }
+        }
+
+        exports.changeImg = function(src:string){
+          let image = new Image();
+          image.src=src;
+          image.onload = function(){
+
+          }
+
         }
         exports.drawPicture = function (src: string, panel: Panel) {
 
@@ -371,9 +371,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       return;
     }
     this.alertService.clearMeessage();
-    console.log("SAVE MODEL!!!!!!!!!!!!");
-    console.log(this.modelConfig);
-    // console.log();
     this.modelConfig.config2d = new Config2d(); // for 2D
     let createModelT: CreateModel = new CreateModel(ModelStatus.NEW,
       this.bagType.id,
@@ -399,7 +396,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
     this.restService.getData('./api/panel/' + this.selectedPanel.name).subscribe(
       (panel: Panel) => {
-        console.log(panel);
         b4w.require(this.appName).drawPicture(data.src, panel);
         // this.imageConfig.image[this.imageConfig.panel.findIndex(p=>p===panel.name)]=data.src;
       }, (panel: any) => console.log("cant get panel by name"));
@@ -408,7 +404,13 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
 
   changeImage(src: string) {
+    this.restService.getDataAny('./api/material/base64/1').subscribe(
+      (data: any) => {
+        this.pathToMaterials = data;
 
+          b4w.require(this.appName).changeImg(data);
+
+      }, () => console.log('err'));
   }
 
   selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string) {
@@ -466,35 +468,22 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   private loadModel1(model: IModel): void {
-    console.log("AFTER DRAW MATERIAL");
     let imgConf: ImageConfig = JSON.parse(JSON.parse(JSON.stringify(model.imageConfig)));
     for (let a = 0; a < imgConf.panels.length; a++) {
       if (imgConf.image[a] !== null) {
         b4w.require(this.appName).drawPicture(imgConf.image[a], imgConf.panels[a]);
       }
     }
-    // this.loadModelMaterial(model);
   }
 
-  //що робити
-  //функция что выше должна вызываться после срабатывания нижней
-  // я пытаюсь сделать что то типо обсервбла, что бы оно последовательно было
-  //Який код треьа послідовно?
   private loadModelMaterial(model: IModel): void {
 
-    console.log("AFTER DRAW MATERIAL");
     let imgConf: ImageConfig = JSON.parse(JSON.parse(JSON.stringify(model.imageConfig)));
-    // for (let a = 0; a < imgConf.panels.length; a++) {
-    //   if (imgConf.image[a] !== null) {
-    //     b4w.require(this.appName).drawPicture(imgConf.image[a], imgConf.panels[a]);
-    //   }
-    // }
     let idx = imgConf.image.findIndex(p => p != null);
     let panel = imgConf.panels[idx];
 
 
     //1й начало
-    console.log("BEFORRE DRAW MATERIAL");
     let jStr: string = JSON.parse(JSON.stringify(model.config));
     let obj: Config3d = new Config3d();
     obj.panels = [];
@@ -510,23 +499,15 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     }
     for (let i of this.modelConfig.config3d.panels) {
       if (panel && i.name === panel.name) {
-        console.log("GOT IMG");
         this.selectMaterial(i.material, i.name, imgConf.image[idx]);
       } else {
-        console.log("NO IMAGE");
         this.selectMaterial(i.material, i.name);
       }
 
     }
-    console.log("DRAW MATERIAL FINISHED");
-    // this.loadModel1(model);
-    // е
-    //1й конец
 
   }
 
-
-  // a: number = 10;
 
   activateEditMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();

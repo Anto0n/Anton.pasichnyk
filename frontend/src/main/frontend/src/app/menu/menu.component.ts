@@ -65,7 +65,6 @@ export class MenuComponent implements OnInit, OnDestroy {
         ];
         break;
       case 'Administrator' :
-        console.log("draw admin menu")
         this.urls = [
           new Route("home", "HOME"),
           new Route("products", "PRODUCTS"),
@@ -79,7 +78,6 @@ export class MenuComponent implements OnInit, OnDestroy {
         ];
         break;
       case 'Guest' :
-        console.log("draw GUEST menu")
         this.urls = [
           new Route("home", "HOME"),
           new Route("products", "PRODUCTS"),
@@ -89,7 +87,6 @@ export class MenuComponent implements OnInit, OnDestroy {
         ];
         break;
       default :
-        console.log("draw DEFAULT menu");
         this.urls = [
           new Route("home", "HOME"),
           new Route("products", "PRODUCTS"),
