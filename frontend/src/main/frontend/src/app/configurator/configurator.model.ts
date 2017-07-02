@@ -33,6 +33,9 @@ export interface IConfigurator {
    */
   selectMaterial(material: BagMaterial, panel?:string);
 
+  enableCamera();
+  disableCamera();
+
   /**
    *  select predefined bagtype from database
    * @param bagtype

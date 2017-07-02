@@ -113,6 +113,13 @@ export class ConfiguratorComponent implements OnInit {
     this.configurator.save(this.modelConfig, this.imageConfig);
   }
 
+  focusInput(){
+    this.configurator.disableCamera();
+  }
+  focusOutInput(){
+    this.configurator.enableCamera();
+  }
+
   countPrice(materialOld, material:BagMaterial, panel: string){
     console.log("materialOld");
     console.log(materialOld);

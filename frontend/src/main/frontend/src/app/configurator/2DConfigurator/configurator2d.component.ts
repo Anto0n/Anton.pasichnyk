@@ -20,6 +20,11 @@ import {debug} from "util";
 })
 
 export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
+  enableCamera() {
+  }
+
+  disableCamera() {
+  }
   activateViewDefaultMode() {
     throw new Error("Method not implemented.");
   }

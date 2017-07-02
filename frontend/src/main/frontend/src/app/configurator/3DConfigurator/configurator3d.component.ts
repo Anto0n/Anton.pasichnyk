@@ -96,6 +96,14 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         let DEBUG = (m_version.type() === "DEBUG");
 
         exports.getCanvas = m_container.get_canvas;
+        exports.disableCamera = function(){
+          console.log("disableCamera");
+          m_app.disable_camera_controls();
+        };
+        exports.enableCamera = function(){
+          console.log("enableCamera");
+          m_app.enable_camera_controls();
+        };
 
         exports.stopAnimate = function (obj) {
           m_scenes.clear_outline_anim(obj);
@@ -107,6 +115,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
         };
         exports.pickObject = function (event) {
+          m_app.enable_camera_controls();
           return m_scenes.pick_object(event.offsetX, event.offsetY);
         };
 
@@ -329,6 +338,13 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
     }
 
+  }
+
+  disableCamera(){
+    b4w.require(this.appName).disableCamera();
+  }
+  enableCamera(){
+    b4w.require(this.appName).enableCamera();
   }
 
   resetModel() {

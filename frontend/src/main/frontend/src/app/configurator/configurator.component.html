@@ -21,7 +21,7 @@
             Name:<br>
             <!--<img #image alt="alt text" [src]="imgForTest">-->
             <!--<button (click)="functioninTypeScript(image)">show img</button>-->
-            <input type="text" [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
+            <input type="text" (focus)="focusInput()" (focusout)="focusOutInput()"  [(ngModel)]="modelName" placeholder="new model" class="btn-block"/>
 
             <div *ngFor="let materialType of materialTypes">
               <div class="container-fluid">{{materialType.name}}</div>
