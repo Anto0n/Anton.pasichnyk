@@ -29,12 +29,29 @@
                 <img [src]="material.imageMin" (click)="selectMaterial(material)">
               </div>
           </div>
-            <div>
+            <div *ngIf="canUpload">
               <image-upload [preview]="false"
+                            [extensions]="['jpg','png','gif']"
+                            (onRemove)="imageRemoved($event)"
                             (onFileUploadFinish)="imageUploaded($event)"
                             [buttonCaption]="'Add image'"></image-upload>
+
+              <!--<div *ngIf="showImageScalor">-->
+              <div  *ngIf="showImageScalor" class="container-fluid">
+                <div>size:
+                <input #sizeScale (change)="changeImageSize(sizeScale.value)" class="float-right" type="range" min="0" max="10" step="1" value="5">
+                </div>
+                <div>
+                position x
+                <input #positionX (change)="changeImageX(positionX.value)" class="float-right" lass="float-right" type="range" min="0" max="10" step="1" value="5">
+                </div>
+                <div>
+                position y
+                <input #positionY (change)="changeImageY(positionY.value)" class="float-right" lass="float-right" type="range" min="0" max="10" step="1" value="5">
+              </div>
+              </div>
             </div>
-            <button class="btn btn-danger btn-outline-danger btn-block" (click)='configurator.resetModel()'>reset
+            <button class="btn btn-danger btn-outline-danger btn-block" (click)='resetModel()'>reset
             </button>
             <button class="btn btn-success btn-outline-success btn-block"
                     (click)='save()'>

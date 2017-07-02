@@ -19,7 +19,7 @@ import {debug} from "util";
   styleUrls:['./configurator2d.component.css'],
 })
 
-export class Configurator2DComponent implements IConfigurator, OnInit, OnDestroy  {
+export class Configurator2DComponent implements OnInit, OnDestroy  {
   enableCamera() {
   }
 

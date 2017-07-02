@@ -20,13 +20,15 @@ export interface IConfigurator {
    * Callback of image-upload component
    * @param data
    */
-  imageUploaded(data: { src: string, pending: boolean, file: {type:string} });
+  imageUploaded(data: { src: string, pending: boolean, file: {type:string} }, size?: number);
 
   /**
    * save model setting to user account (Create Model)
    * @param modelConfig
    */
   save(modelConfig: ModelConfig, imageConfig: ImageConfig);
+
+  resetModel();
 
   /**
    * jeans cotton leather from DB
@@ -48,5 +50,9 @@ export interface IConfigurator {
 
   activateEditMode();
   activateViewDefaultMode();
+  changeImageSize(value:number, src: string, panel: any);
+  changeImageX(value:number);
+  changeImageY(value:number);
+  stopAnimate(): void;
 
 }

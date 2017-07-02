@@ -8,6 +8,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {AlertService} from "../../services/alert.service";
 import {Panel} from "./panel.model";
 import {ImageConfig} from "../../models/image-config";
+import {MaterialType} from "../../models/material-type.model";
 
 declare let b4w: any;
 
@@ -16,6 +17,7 @@ declare let b4w: any;
   templateUrl: './configurator3d.component.html'
 })
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
+
 
 
   @Input() private inModelName: string;
@@ -37,6 +39,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   imageConfig: ImageConfig;
   private pathToMaterials: string;
   private selectedPanel: any;
+  private materialOfPanel: string;
   private material: BagMaterial;
   private materials: BagMaterial [] = [];
   private bagType: BagType;
@@ -75,6 +78,24 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
     }
 
+  }
+
+
+  changeImageSize(value: number, src: string, panel: any) {
+    console.log(value);
+    console.log(src);
+    console.log(panel);
+    console.log(this.modelConfig.config3d.panels.find(p=>p.name===panel.name).material.image);
+    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
+
+
+    b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
+  }
+
+  changeImageX(value: number) {
+  }
+
+  changeImageY(value: number) {
   }
 
   ngOnInit() {
@@ -244,7 +265,56 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           }
 
         }
-        exports.drawPicture = function (src: string, panel: Panel) {
+        exports.scalePicture = function (src: string, panel: Panel, size : number, materialSrc:string) {
+
+          console.log("IM GONNA DRAWING NOW");
+          console.log(panel);
+          console.log(size);
+          console.log(materialSrc==null);
+          console.log(src==null);
+
+          let panel_object = m_scenes.get_object_by_name(panel.name);
+          let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+          ctx2Dpanel.clearRect(0,0, ctx2Dpanel.canvas.width, ctx2Dpanel.canvas.height);
+          let img = new Image();
+          img.src = materialSrc;
+
+          img.onload = function () {
+            let w = img.width;
+            let h = img.height;
+
+            ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+
+            m_tex.update_canvas_ctx(panel_object, panel.texture);
+          }
+
+
+          console.log("IM GONNA DRAWING PIC NOW");
+          let img2 = new Image();
+          img2.src=src;
+          img2.onload = function () {
+            if(size){
+              let scaleFactor = size-5;
+              // img2.width=img2.width*(1+(scaleFactor)/10);
+              // img2.height=img2.height*(1+(scaleFactor)/10);
+            }
+            let w = img2.width;
+            let h = img2.height;
+
+            // if (size==5){
+            // if (true){
+            ctx2Dpanel.drawImage(img2, 0, 0, w, h,
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2,
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))/2,
+              ctx2Dpanel.canvas.width/5*(1+(size-5)/10), ctx2Dpanel.canvas.height/5*(1+(size-5)/10));
+            // }else{
+            //
+            // }
+            m_tex.update_canvas_ctx(panel_object, panel.texture);
+          }
+
+        }
+        exports.drawPicture = function (src: string, panel: Panel, size? : number) {
 
 
           let panel_object = m_scenes.get_object_by_name(panel.name);
@@ -253,9 +323,17 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           img.src = src;
 
           img.onload = function () {
+            if(size){
+              let scaleFactor = size-5;
+              img.width=img.width*(1+(scaleFactor)/10);
+              img.height=img.height*(1+(scaleFactor)/10);
+            }
             let w = img.width;
             let h = img.height;
-            ctx2Dpanel.drawImage(img, 0, 0, w, h, ctx2Dpanel.canvas.width * 2 / 5, ctx2Dpanel.canvas.width * 2 / 5,
+
+            ctx2Dpanel.drawImage(img, 0, 0, w, h,
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width / 5)/2 ,
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height / 5)/2,
               ctx2Dpanel.canvas.width / 5, ctx2Dpanel.canvas.height / 5);
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
@@ -351,6 +429,11 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     this.clearRectangle();
 
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
+    this.restService.getData('./api/models/1').subscribe((data:IModel)=> {
+
+
+      this.loadModel(data);
+    });
   }
 
   save(modelConfig: ModelConfig, imageConfig: ImageConfig) {
@@ -392,13 +475,22 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   }
 
-  imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
+  imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }, size?:number) {
 
     this.restService.getData('./api/panel/' + this.selectedPanel.name).subscribe(
       (panel: Panel) => {
-        b4w.require(this.appName).drawPicture(data.src, panel);
+        b4w.require(this.appName).drawPicture(data.src, panel, size);
         // this.imageConfig.image[this.imageConfig.panel.findIndex(p=>p===panel.name)]=data.src;
+        let materialOfPanelName = this.modelConfig.config3d.panels.find(p=>p.name===this.selectedPanel.name).material.image;
+        this.restService.getDataAny('./api/material/base64/'+materialOfPanelName).subscribe(
+          (data:string)=>{
+            this.materialOfPanel=data;
+            console.log("MATERIAL OF PANEL LOADED")
+          }
+        )
       }, (panel: any) => console.log("cant get panel by name"));
+
+
 
   }
 
@@ -483,7 +575,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     let panel = imgConf.panels[idx];
 
 
-    //1й начало
     let jStr: string = JSON.parse(JSON.stringify(model.config));
     let obj: Config3d = new Config3d();
     obj.panels = [];
@@ -508,7 +599,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   }
 
-
+  stopAnimate(): void {
+    b4w.require(this.appName).stopAnimate(this.selectedPanel);
+  }
   activateEditMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();
     canvasElement.addEventListener('mousedown', this.listenerCallback1.bind(this), false);
