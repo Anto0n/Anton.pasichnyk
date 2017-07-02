@@ -172,6 +172,7 @@ export class ConfiguratorComponent implements OnInit {
 
 
   changeImageSize(value:number){
+    this.imageConfig.scale[this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name)]=value;
     this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
     console.log(value);
   }

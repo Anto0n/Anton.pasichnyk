@@ -82,13 +82,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
 
   changeImageSize(value: number, src: string, panel: any) {
-    console.log(value);
-    console.log(src);
-    console.log(panel);
-    console.log(this.modelConfig.config3d.panels.find(p=>p.name===panel.name).material.image);
     let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
-
-
     b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
   }
 
@@ -187,75 +181,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         }
 
 
-        exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string) {
-
-          if (customImage) {
-            let object = m_scenes.get_object_by_name("bag_front");
-            let object_body = m_scenes.get_object_by_name("bag_body");
-            let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
-            let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
-            let img = new Image();
-
-            img.src = material;
-
-            img.onload = function () {
-              if (panel != null) {
-                let panel_object = m_scenes.get_object_by_name(panel.name);
-                let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-                if (panel.name === "bag_body") {
-                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-                } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
-                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-
-                } else {
-                }
-                m_tex.update_canvas_ctx(panel_object, panel.texture);
-              }
-            }
-
-            let customImageTemp = new Image();
-
-            customImageTemp.src = customImage;
-            let panel_object = m_scenes.get_object_by_name(panel.name);
-            let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-            customImageTemp.onload = function () {
-              let w = customImageTemp.width;
-              let h = customImageTemp.height;
-              ctx2Dpanel.drawImage(customImageTemp, 0, 0, w, h, ctx2Dpanel.canvas.width * 2 / 5, ctx2Dpanel.canvas.width * 2 / 5,
-                ctx2Dpanel.canvas.width / 5, ctx2Dpanel.canvas.height / 5);
-              m_tex.update_canvas_ctx(panel_object, panel.texture);
-            }
-
-          } else {
-
-
-            let object = m_scenes.get_object_by_name("bag_front");
-            let object_body = m_scenes.get_object_by_name("bag_body");
-            let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
-            let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
-            let img = new Image();
-
-            img.src = material;
-
-            img.onload = function () {
-              if (panel != null) {
-                let panel_object = m_scenes.get_object_by_name(panel.name);
-                let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-                if (panel.name === "bag_body") {
-                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-                } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
-                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-
-                } else {
-                }
-                m_tex.update_canvas_ctx(panel_object, panel.texture);
-              }
-
-            }
-          }
-        }
 
         exports.changeImg = function(src:string){
           let image = new Image();
@@ -265,7 +190,81 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           }
 
         }
-        exports.scalePicture = function (src: string, panel: Panel, size : number, materialSrc:string) {
+      exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string, size?:number) {
+
+        if (customImage) {
+          let object = m_scenes.get_object_by_name("bag_front");
+          let object_body = m_scenes.get_object_by_name("bag_body");
+          let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
+          let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
+          let img = new Image();
+
+          img.src = material;
+
+          img.onload = function () {
+            if (panel != null) {
+              let panel_object = m_scenes.get_object_by_name(panel.name);
+              let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+              if (panel.name === "bag_body") {
+                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+              } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
+                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+
+              } else {
+              }
+              m_tex.update_canvas_ctx(panel_object, panel.texture);
+            }
+          }
+
+          let customImageTemp = new Image();
+
+          customImageTemp.src = customImage;
+          let panel_object = m_scenes.get_object_by_name(panel.name);
+          let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+          customImageTemp.onload = function () {
+            let w = customImageTemp.width;
+            let h = customImageTemp.height;
+            ctx2Dpanel.drawImage(customImageTemp, 0, 0, w, h,
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2,
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))/2,
+              ctx2Dpanel.canvas.width/5*(1+(size-5)/10), ctx2Dpanel.canvas.height/5*(1+(size-5)/10));
+            m_tex.update_canvas_ctx(panel_object, panel.texture);
+          }
+
+        } else {
+
+
+          let object = m_scenes.get_object_by_name("bag_front");
+          let object_body = m_scenes.get_object_by_name("bag_body");
+          let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
+          let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
+          let img = new Image();
+
+          img.src = material;
+
+          img.onload = function () {
+            if (panel != null) {
+              let panel_object = m_scenes.get_object_by_name(panel.name);
+              let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+              if (panel.name === "bag_body") {
+                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+              } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
+                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+              } else {
+              }
+              m_tex.update_canvas_ctx(panel_object, panel.texture);
+            }
+
+          }
+        }
+      }
+
+
+
+
+      exports.scalePicture = function (src: string, panel: Panel, size : number, materialSrc:string) {
 
           console.log("IM GONNA DRAWING NOW");
           console.log(panel);
@@ -505,7 +504,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       }, () => console.log('err'));
   }
 
-  selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string) {
+  selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string, scale?: number) {
     // imgFunction?:{func: Function, funcParam: any[]}) {
 
 
@@ -530,7 +529,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         this.pathToMaterials = data;
 
         if (imageOnPanel) {
-          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel, imageOnPanel);
+          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel, imageOnPanel, scale);
         } else {
           b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel);
         }
@@ -590,7 +589,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     }
     for (let i of this.modelConfig.config3d.panels) {
       if (panel && i.name === panel.name) {
-        this.selectMaterial(i.material, i.name, imgConf.image[idx]);
+        this.selectMaterial(i.material, i.name, imgConf.image[idx], imgConf.scale[idx]);
       } else {
         this.selectMaterial(i.material, i.name);
       }
