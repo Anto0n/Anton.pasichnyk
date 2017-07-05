@@ -25,6 +25,7 @@ export class ConfiguratorComponent implements OnInit {
   private selectedPanel: Panel;
   private selectedModel: IModel;
   private uploadedImage: string;
+
   private tempMaterials: string[] = [];
   private tempPanels: string[] = [];
 
