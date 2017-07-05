@@ -615,6 +615,12 @@ hr {
   content: "\00A0 \2014"
 }
 
+.footer-my {
+  /*padding-bottom: 2%;*/
+  position: relative;
+  bottom: 0
+}
+
 .img-fluid {
   max-width: 100%;
   height: auto
@@ -3155,7 +3161,8 @@ a.btn.disabled, fieldset[disabled] a.btn {
 
 .btn-my {
   border-color: transparent;
-  background-color: transparent
+  background-color: transparent;
+  color: #1d1e1f;
 }
 
 .btn-my:hover {

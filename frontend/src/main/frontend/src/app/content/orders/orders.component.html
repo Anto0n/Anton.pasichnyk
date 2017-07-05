@@ -1,8 +1,10 @@
+<!--<div class="row">-->
+<div class="container">
 <button class="btn btn-primary" (click)="showOrders()">My orders</button>
 <button class="btn btn-primary" (click)="showModels()">My models</button>
 
 
-<!--<div class="row">-->
+
   <div class="col-md-12" *ngIf="showWhat === ShowView.ORDERS ">
     <div class="table-responsive, ordverflow">
       <!--<h1>Orders</h1>-->
@@ -78,4 +80,5 @@
 
   </div>
 
+</div>
 </div>
