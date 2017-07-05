@@ -1,6 +1,7 @@
 import {ModelConfig} from "../models/modelConfig";
 import {BagMaterial, BagType, IModel} from "../models/model";
 import {ImageConfig} from "../models/image-config";
+import {Panel} from "./3DConfigurator/panel.model";
 export interface IConfigurator {
   /**
    *
@@ -51,8 +52,9 @@ export interface IConfigurator {
   activateEditMode();
   activateViewDefaultMode();
   changeImageSize(value:number, src: string, panel: any);
-  changeImageX(value:number);
-  changeImageY(value:number);
+  changeImageX(value:number, src: string, panel: any);
+  changeImageY(value:number, src: string, panel: any);
   stopAnimate(): void;
+  positionImage(size, x, y, src: string, panel: Panel): void;
 
 }

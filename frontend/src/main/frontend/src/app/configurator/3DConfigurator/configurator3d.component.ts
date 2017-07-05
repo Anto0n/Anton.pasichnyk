@@ -86,10 +86,19 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
   }
 
-  changeImageX(value: number) {
+  changeImageX(value: number, src: string, panel: any) {
+    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
+    b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
   }
 
-  changeImageY(value: number) {
+  changeImageY(value: number, src: string, panel: any) {
+    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
+    b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
+  }
+
+  positionImage(scale, x, y, src:string, panel:Panel){
+    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
+    b4w.require(this.appName).scalePicture(src, panelTrue, scale, x, y, this.materialOfPanel);
   }
 
   ngOnInit() {
@@ -190,7 +199,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           }
 
         }
-      exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string, size?:number) {
+      exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string, size?:number, x?:number, y?:number) {
 
         if (customImage) {
           let object = m_scenes.get_object_by_name("bag_front");
@@ -226,8 +235,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
             let w = customImageTemp.width;
             let h = customImageTemp.height;
             ctx2Dpanel.drawImage(customImageTemp, 0, 0, w, h,
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2,
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))/2,
+              ((ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2)*(1+(x-5)/10),  //destination x
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))*(1+(y-5)/10)/2, //destination y
               ctx2Dpanel.canvas.width/5*(1+(size-5)/10), ctx2Dpanel.canvas.height/5*(1+(size-5)/10));
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
@@ -264,13 +273,13 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
 
 
-      exports.scalePicture = function (src: string, panel: Panel, size : number, materialSrc:string) {
+      exports.scalePicture = function (src: string, panel: Panel, size : number, x:number, y:number, materialSrc:string) {
 
           console.log("IM GONNA DRAWING NOW");
           console.log(panel);
           console.log(size);
-          console.log(materialSrc==null);
-          console.log(src==null);
+          console.log(x);
+          console.log(y);
 
           let panel_object = m_scenes.get_object_by_name(panel.name);
           let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
@@ -294,21 +303,14 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           img2.onload = function () {
             if(size){
               let scaleFactor = size-5;
-              // img2.width=img2.width*(1+(scaleFactor)/10);
-              // img2.height=img2.height*(1+(scaleFactor)/10);
             }
             let w = img2.width;
             let h = img2.height;
-
-            // if (size==5){
-            // if (true){
             ctx2Dpanel.drawImage(img2, 0, 0, w, h,
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2,
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))/2,
-              ctx2Dpanel.canvas.width/5*(1+(size-5)/10), ctx2Dpanel.canvas.height/5*(1+(size-5)/10));
-            // }else{
-            //
-            // }
+              ((ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2)*(1+(x-5)/10),  //destination x
+              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))*(1+(y-5)/10)/2, //destination y
+              ctx2Dpanel.canvas.width/5*(1+(size-5)/10),                              // destination width
+              ctx2Dpanel.canvas.height/5*(1+(size-5)/10));                            // destination height
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
 
@@ -504,7 +506,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       }, () => console.log('err'));
   }
 
-  selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string, scale?: number) {
+  selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string, scale?: number, x?:number, y?:number) {
     // imgFunction?:{func: Function, funcParam: any[]}) {
 
 
@@ -529,7 +531,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         this.pathToMaterials = data;
 
         if (imageOnPanel) {
-          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel, imageOnPanel, scale);
+          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel, imageOnPanel, scale, x, y);
         } else {
           b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel);
         }
@@ -589,7 +591,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     }
     for (let i of this.modelConfig.config3d.panels) {
       if (panel && i.name === panel.name) {
-        this.selectMaterial(i.material, i.name, imgConf.image[idx], imgConf.scale[idx]);
+        this.selectMaterial(i.material, i.name, imgConf.image[idx], imgConf.scale[idx],imgConf.posX[idx],imgConf.posY[idx]);
       } else {
         this.selectMaterial(i.material, i.name);
       }

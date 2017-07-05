@@ -165,6 +165,9 @@ export class ConfiguratorComponent implements OnInit {
     console.log(this.imageConfig);
     let indx = this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name);
     this.imageConfig.image[indx]=data.src;
+    this.imageConfig.scale[indx]=5;
+    this.imageConfig.posY[indx]=5;
+    this.imageConfig.posX[indx]=5;
     this.showImageScalor = true;
     this.uploadedImage=data.src;
 
@@ -172,15 +175,29 @@ export class ConfiguratorComponent implements OnInit {
 
 
   changeImageSize(value:number){
-    this.imageConfig.scale[this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name)]=value;
-    this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
-    console.log(value);
+    let idx = this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name);
+    this.imageConfig.scale[idx]=value;
+    let x = this.imageConfig.posX[idx];
+    let y = this.imageConfig.posY[idx];
+    // this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
+    this.configurator.positionImage(value, x ,y, this.uploadedImage,this.selectedPanel);
+
   }
   changeImageX(value:number){
-    console.log(value);
+    let idx = this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name);
+    this.imageConfig.posX[idx]=value;
+    let scale = this.imageConfig.scale[idx];
+    let y = this.imageConfig.posY[idx];
+    // this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
+    this.configurator.positionImage(scale, value ,y, this.uploadedImage,this.selectedPanel);
   }
   changeImageY(value:number){
-    console.log(value);
+    let idx = this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name);
+    this.imageConfig.posY[idx]=value;
+    let x = this.imageConfig.posX[idx];
+    let scale = this.imageConfig.scale[idx];
+    // this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
+    this.configurator.positionImage(scale, x ,value, this.uploadedImage,this.selectedPanel);
   }
   private checkFile(imgFile: { type: string }): boolean {
     return true;
