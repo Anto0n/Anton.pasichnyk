@@ -339,6 +339,11 @@ insert into baglab.material_price(materialId, date, price) values (1,NOW(), 178)
 insert into baglab.material_price(materialId, date, price) values (3,NOW(), 278);
 insert into baglab.material_price(materialId, date, price) values (1,NOW(), 378);
 insert into baglab.material_price(materialId, date, price) values (2,NOW(), 478);
+insert into baglab.material_price(materialId, date, price) values (4,NOW(), 100);
+insert into baglab.material_price(materialId, date, price) values (5,NOW(), 111);
+insert into baglab.material_price(materialId, date, price) values (6,NOW(), 212);
+insert into baglab.material_price(materialId, date, price) values (7,NOW(), 123);
+insert into baglab.material_price(materialId, date, price) values (8,NOW(), 321);
 
 #-------------------------
 insert into baglab.bag_type_price(bag_type_id, date, price) values (1,NOW(), 25);
