@@ -96,8 +96,6 @@ export class ConfiguratorComponent implements OnInit {
         this.imageConfig = new ImageConfig();
         this.imageConfig.panels=this.begtypes[0].panels;
         this.imageConfig.image=new Array(this.begtypes[0].panels.length);
-        // this.modelPrice=this.begtypes[0].price;
-        // this.modelPrice=this.begtypes[0].price;
 
       });
     });
@@ -179,7 +177,6 @@ export class ConfiguratorComponent implements OnInit {
     this.imageConfig.scale[idx]=value;
     let x = this.imageConfig.posX[idx];
     let y = this.imageConfig.posY[idx];
-    // this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
     this.configurator.positionImage(value, x ,y, this.uploadedImage,this.selectedPanel);
 
   }
@@ -188,7 +185,6 @@ export class ConfiguratorComponent implements OnInit {
     this.imageConfig.posX[idx]=value;
     let scale = this.imageConfig.scale[idx];
     let y = this.imageConfig.posY[idx];
-    // this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
     this.configurator.positionImage(scale, value ,y, this.uploadedImage,this.selectedPanel);
   }
   changeImageY(value:number){
@@ -196,28 +192,15 @@ export class ConfiguratorComponent implements OnInit {
     this.imageConfig.posY[idx]=value;
     let x = this.imageConfig.posX[idx];
     let scale = this.imageConfig.scale[idx];
-    // this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
     this.configurator.positionImage(scale, x ,value, this.uploadedImage,this.selectedPanel);
   }
-  private checkFile(imgFile: { type: string }): boolean {
-    return true;
-  }
 
-  changeType(configuratorType: ConfiguratorType) {
-    switch (configuratorType) {
-      case ConfiguratorType.D3:
-        this.configuratorType = ConfiguratorType.D2;
-        break;
-      case ConfiguratorType.D2:
-        this.configuratorType = ConfiguratorType.D3;
-        break;
-    }
-  }
   imageRemoved(e:any){
     console.log(e);
     console.log("IMAGE REMOVED");
     console.log("IMAGE REMOVED");
   }
+
   resetModel(){
     this.configurator.stopAnimate();
     this.selectedPanel=null;

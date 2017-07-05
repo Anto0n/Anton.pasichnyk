@@ -30,7 +30,8 @@
               </div>
           </div>
             <div *ngIf="canUpload">  <!-- [extensions]="['jpg','png','gif']"-->
-              <image-upload [preview]="false"
+              <image-upload [preview]="true"
+                            (max)="1"
                             (onRemove)="imageRemoved($event)"
                             (onFileUploadFinish)="imageUploaded($event)"
                             [buttonCaption]="'Add image'"></image-upload>

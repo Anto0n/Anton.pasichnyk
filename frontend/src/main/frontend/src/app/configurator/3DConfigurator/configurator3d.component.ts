@@ -81,21 +81,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
 
-  changeImageSize(value: number, src: string, panel: any) {
-    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
-    b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
-  }
-
-  changeImageX(value: number, src: string, panel: any) {
-    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
-    b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
-  }
-
-  changeImageY(value: number, src: string, panel: any) {
-    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
-    b4w.require(this.appName).scalePicture(src, panelTrue, value, this.materialOfPanel);
-  }
-
   positionImage(scale, x, y, src:string, panel:Panel){
     let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
     b4w.require(this.appName).scalePicture(src, panelTrue, scale, x, y, this.materialOfPanel);
