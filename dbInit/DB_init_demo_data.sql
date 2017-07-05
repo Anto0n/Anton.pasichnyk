@@ -37,6 +37,7 @@ insert into baglab.material (name, image, imageMin, materialTypeId) values ('jea
 insert into baglab.material (name, image, imageMin, materialTypeId) values ('jeans-green', 'jeans_2048_green.jpg', 'jeans_2048_green_preview',2);
 insert into baglab.material (name, image, imageMin, materialTypeId) values ('jeans-yellow', 'jeans_2048_yellow.jpg', 'jeans_2048_yellow_preview',2);
 insert into baglab.material (name, image, imageMin, materialTypeId) values ('leather', 'leather_2048.jpg', 'leather_2048_preview',3);
+insert into baglab.material (name, image, imageMin, materialTypeId) values ('leather-black', 'leather_black_2048.jpg', 'leather_black_2048_preview',3);
 
 INSERT INTO `baglab`.`bag_type` (script, name) VALUES ('{"imgsrc" : "./images/2dbase/2dBase1.png"}', 'Simle bag');
 INSERT INTO `baglab`.`bag_type` (script, name)VALUES ('{"imgsrc" : "./images/2dbase/2dBase2.png"}', 'Bag pojo');
@@ -54,34 +55,30 @@ insert into baglab.user  (login,password,email, firstname, lastname, roleId) val
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('manager@m','$2a$10$2TWwSqLR/o8yOqyOojc8RuJzpoGsSXLIoOIk1kmRtyRdgAYUt6e/C','manager@m', 'Lao','Dzi',4);
 insert into baglab.user  (login,password,email, firstname, lastname, roleId) values ('lao@22','passm','lao@22', 'Lao2','Dzi2',4);
 
-insert into baglab.order (userId, orderStatusId) VALUES (1,3);
-insert into baglab.order (userId, orderStatusId) VALUES (1,2);
-insert into baglab.order (userId, orderStatusId) VALUES (1,2);
-insert into baglab.order (userId, orderStatusId) VALUES (1,2);
-insert into baglab.order (userId, orderStatusId) VALUES (2,2);
-insert into baglab.order (userId, orderStatusId) VALUES (2,2);
-insert into baglab.order (userId, orderStatusId) VALUES (3,3);
-insert into baglab.order (userId, orderStatusId) VALUES (3,2);
-insert into baglab.order (userId, orderStatusId) VALUES (3,2);
-insert into baglab.order (userId, orderStatusId) VALUES (3,2);
-insert into baglab.order (userId, orderStatusId) VALUES (3,3);
+# insert into baglab.order (userId, orderStatusId) VALUES (1,3);
+# insert into baglab.order (userId, orderStatusId) VALUES (1,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (1,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (1,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (2,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (2,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (3,3);
+# insert into baglab.order (userId, orderStatusId) VALUES (3,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (3,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (3,2);
+# insert into baglab.order (userId, orderStatusId) VALUES (3,3);
 
 
-insert into baglab.model (userId, bagTypeId, materialId, mname, config, approved) VALUES (1, 1, 4,'Cotton Standard' ,'{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":4,"name":"jeans-blue","price":-1,"image":"jeans_2048_blue.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":4,"name":"jeans-blue","price":-1,"image":"jeans_2048_blue.jpg"}}],"material":{}}}', 3);
-insert into baglab.model (userId, bagTypeId, materialId, mname, config, approved) VALUES (1, 1, 6,'Leather Dream' ,'{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":6,"name":"jeans-yellow","price":-1,"image":"jeans_2048_yellow.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":7,"name":"leather","price":-1,"image":"leather_2048.jpg"}}],"material":{}}}', 3);
-insert into baglab.model (userId, bagTypeId, materialId, mname, config) VALUES (1, 3, 4, '3dmodel_no image', '{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":4,"name":"jeans-blue","price":-1,"image":"jeans_2048_blue.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":4,"name":"jeans-blue","price":-1,"image":"jeans_2048_blue.jpg"}}],"material":{}}}');
-insert into baglab.model (userId, bagTypeId, materialId, mname, config) VALUES (1, 1, 2, '3d_model_noimage_pocket','{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":2,"name":"cotton-green","price":478,"image":"cotton_2048_green.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":6,"name":"jeans-yellow","price":-1,"image":"jeans_2048_yellow.jpg"}}],"material":{}}}');
+insert into baglab.model (userId, bagTypeId, materialId, mname, config, imageConfig, approved) VALUES (1, 1, 4,'Cotton Standard' ,'{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":4,"price":-1,"image":"jeans_2048_blue.jpg","name":"jeans-blue"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":4,"price":-1,"image":"jeans_2048_blue.jpg","name":"jeans-blue"}},{"id":3,"name":"bag_body_top","texture":"bag_body_top_text_img","material":{"id":4,"price":-1,"image":"jeans_2048_blue.jpg","name":"jeans-blue"}}],"material":{}}}','{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img"},{"id":2,"name":"bag_body","texture":"bag_body_text_img"},{"id":3,"name":"bag_body_top","texture":"bag_body_top_text_img"}],"image":[null,null,null],"scale":[],"posX":[],"posY":[]}', 3);
+insert into baglab.model (userId, bagTypeId, materialId, mname, config, imageConfig, approved) VALUES (1, 1, 6,'Leather Dream' ,'{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":7,"price":-1,"image":"leather_2048.jpg","name":"leather"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":7,"price":-1,"image":"leather_2048.jpg","name":"leather"}},{"id":3,"name":"bag_body_top","texture":"bag_body_top_text_img","material":{"id":7,"price":-1,"image":"leather_2048.jpg","name":"leather"}}],"material":{}}}','{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img"},{"id":2,"name":"bag_body","texture":"bag_body_text_img"},{"id":3,"name":"bag_body_top","texture":"bag_body_top_text_img"}],"image":[null,null,null],"scale":[],"posX":[],"posY":[]}', 3);
 
-INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '1', '21', '243');
-INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '2', '123', '235');
-INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '1', '32', '234');
-INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '3', '43', '11');
-INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '1', '34', '23');
-INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '2', '54', '23');
+# INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '1', '21', '243');
+# INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('1', '2', '123', '235');
+# INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '1', '32', '234');
+# INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('2', '3', '43', '11');
+# INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '1', '34', '23');
+# INSERT INTO `baglab`.`order_item` (`modelId`, `orderId`, `count`, `price`) VALUES ('3', '2', '54', '23');
 
-INSERT INTO baglab.model (userId, bagTypeId, materialId, mname, config, approved, deleted, modelCreate, modelUpdate) VALUES (3, 1, 6, 'sviatDemo1', '{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":6,"name":"jeans-yellow","price":-1,"image":"jeans_2048_yellow.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":4,"name":"jeans-blue","price":-1,"image":"jeans_2048_blue.jpg"}}]}}', 0, 0, '2017-06-15 23:25:25', '2017-06-15 23:25:25');
-INSERT INTO baglab.model (userId, bagTypeId, materialId, mname, config, approved, deleted, modelCreate, modelUpdate) VALUES (3, 1, 7, 'sviatDemo2', '{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":7,"name":"leather","price":-1,"image":"leather_2048.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":6,"name":"jeans-yellow","price":-1,"image":"jeans_2048_yellow.jpg"}}],"material":{}}}', 0, 0, '2017-06-16 01:30:33', '2017-06-16 01:30:33');
-INSERT INTO baglab.model (userId, bagTypeId, materialId, mname, config, approved, deleted, modelCreate, modelUpdate) VALUES (3, 1, 5, 'sviatDemo3', '{"config2d":{"topPos":0,"leftPos":-50,"width":500,"height":500},"config3d":{"panels":[{"id":1,"name":"bag_front","texture":"bag_front_text_img","material":{"id":5,"name":"jeans-green","price":-1,"image":"jeans_2048_green.jpg"}},{"id":2,"name":"bag_body","texture":"bag_body_text_img","material":{"id":5,"name":"jeans-green","price":-1,"image":"jeans_2048_green.jpg"}}],"material":{}}}', 0, 0, '2017-06-16 01:38:58', '2017-06-16 01:38:58');
+
 #------------------------------------------------------
 insert into baglab.country (name) values ('Andorra');
 insert into baglab.country (name) values ('United Arab Emirates');

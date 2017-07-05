@@ -13,8 +13,8 @@ public class ModelDto {
     private UserLightDto user;
     @NotNull(message = "error.bagTypeId.notnull")
     private long bagTypeId;
-    @NotNull(message = "error.bagTypeId.notnull")
-    private long materialId;
+
+    private long materialId=1;
     @NotNull(message = "error.bagmname.notnull")
     private String mname;
     @NotNull(message = "error.modelStatus.notnull")
@@ -32,7 +32,7 @@ public class ModelDto {
         this.id = modelEntity.getIdModel();
         this.user = new UserLightDto(modelEntity.getUserEntity());
         this.bagTypeId = modelEntity.getBagTypeEntity().getId();
-        this.materialId = modelEntity.getMaterialEntity().getId();
+//        this.materialId = modelEntity.getMaterialEntity().getId();
         this.modelCreate = modelEntity.getModelCreate();
         this.modelUpdate = modelEntity.getModelCreate();
         this.approved = modelEntity.getApproved();

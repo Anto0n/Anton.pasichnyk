@@ -89,7 +89,7 @@ public class ModelService {
         ModelEntity model = new ModelEntity();
         model.setUserEntity(userDao.findOne(modelDtoCreate.getUserId()));
         model.setBagTypeEntity(bagTypeDao.findOne(modelDtoCreate.getBagTypeId()));
-        model.setMaterialEntity(materialDao.findOne(modelDtoCreate.getMaterialId()));
+        model.setMaterialEntity(materialDao.findOne(1l));
         model.setMname(modelDtoCreate.getMname());
         model.setApproved(modelDtoCreate.getApproved());
         model.setConfig(modelDtoCreate.getConfig());

@@ -264,6 +264,7 @@ export class ConfiguratorComponent implements OnInit {
   loadModel(model: IModel) {
     this.configurator.loadModel(model);
     this.selectedModel=model;
+    this.selectedModel.config=JSON.parse(JSON.parse(JSON.stringify(model.config)));
   };
 
   onModelSelect(model: IModel){

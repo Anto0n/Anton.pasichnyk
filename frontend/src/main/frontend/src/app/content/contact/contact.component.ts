@@ -8,18 +8,18 @@ import {Router} from "@angular/router";
 @Component({
   selector: 'app-contsct',
   templateUrl: './contact.component.html',
-  styles: [
-      `input.ng-invalid {
-      border: 1px solid red;
-    }
-
-    .ng-valid[required], .ng-valid.required {
-      border-left: 5px solid #42A948; /* green */
-    }
-
-    .ng-invalid:not(form) {
-      border-left: 5px solid #a94442; /* red */
-    }`]
+  // styles: [
+  //     `input.ng-invalid {
+  //     border: 1px solid red;
+  //   }
+  //
+  //   .ng-valid[required], .ng-valid.required {
+  //     border-left: 5px solid #42A948; /* green */
+  //   }
+  //
+  //   .ng-invalid:not(form) {
+  //     border-left: 5px solid #a94442; /* red */
+  //   }`]
 })
 export class ContactComponent implements OnInit {
   active = true;
