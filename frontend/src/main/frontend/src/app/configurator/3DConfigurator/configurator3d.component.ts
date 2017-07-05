@@ -221,6 +221,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
             let customImageTemp = new Image();
 
+            setTimeout(console.log("1500"), 1500);
             customImageTemp.src = customImage;
             let panel_object = m_scenes.get_object_by_name(panel.name);
             let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
@@ -233,6 +234,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
                 ctx2Dpanel.canvas.width / 5 * (1 + (size - 5) / 10), ctx2Dpanel.canvas.height / 5 * (1 + (size - 5) / 10));
               m_tex.update_canvas_ctx(panel_object, panel.texture);
             }
+
 
           } else {
 
@@ -566,7 +568,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
   loadModel(model: IModel): void {
-
+    // this.modelConfig=model.config
     this.loadModelMaterial(model);
 
   }

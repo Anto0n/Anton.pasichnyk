@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `baglab`.`model` (
   `idModel` BIGINT NOT NULL AUTO_INCREMENT,
   `userId` BIGINT NOT NULL,
   `bagTypeId` BIGINT NOT NULL,
-  `materialId` BIGINT NOT NULL,
+  `materialId` BIGINT,
   `mname` VARCHAR(45) NOT NULL,
   `config` MEDIUMTEXT,
   `imageConfig` MEDIUMTEXT,
