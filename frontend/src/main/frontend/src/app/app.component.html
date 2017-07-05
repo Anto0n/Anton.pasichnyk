@@ -14,8 +14,8 @@
           <app-card-menu *ngIf="isAuth()" class="px-2 py-2"></app-card-menu>
           <!--<div class="col-xs-4 col-sm-2 col-md-1">-->
             <button *ngIf="isAuth()" class="btn btn-my btn-sm" (click)="onLogout()">Sign Out</button>
-            <button *ngIf="!isAuth()" class="btn btn-outline-success btn-sm" [routerLink]="['/register']">Sign Up</button>
-            <button *ngIf="!isAuth()" class="btn btn-outline-success btn-sm" [routerLink]="['/login']">Sign In</button>
+            <button *ngIf="!isAuth()" class="btn btn-my btn-sm" [routerLink]="['/register']">Sign Up</button>
+            <button *ngIf="!isAuth()" class="btn btn-my btn-sm" [routerLink]="['/login']">Sign In</button>
           <!--</div>-->
         </div>
       </div>

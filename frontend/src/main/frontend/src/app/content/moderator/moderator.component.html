@@ -50,7 +50,7 @@
             <td>
               <button *ngIf="selectedModel?.approved==='NEW' || selectedModel?.approved==='APPROVED' ||  selectedModel?.approved==='DEFAULT'"
                       class="btn btn-warning"
-                      (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECTE
+                      (click)=" approveModel(selectedModel,'2'); $event.stopPropagation()"> REJECT
               </button>
             </td>
           </tr>
@@ -63,7 +63,7 @@
     </div>
 
     <!--orders-->
-    <div class="col-md-9" *ngIf="showEditOrder">
+    <div class="col-md-12" *ngIf="showEditOrder">
       <br>
       <h3> Orders</h3>
       <button class="btn btn-outline-info" (click)="getOrdersByApproved('1')"> NEW</button>
@@ -71,8 +71,7 @@
       <button class="btn btn-outline-warning" (click)="getOrdersByApproved('4')"> REJECTED</button>
 
       <div class="table-responsive,  ordverflow">
-        <table class="table table-sm table-striped
- table-bordered table-cart">
+        <table class="table table-sm table-striped table-bordered table-cart">
           <tbody>
           <tr>
             <td>id</td>
@@ -98,7 +97,7 @@
             </td>
             <td class="font-weight-bold">
               <button *ngIf="order.status.code==='NEW' " class="btn btn-warning"
-                      (click)=" approveOrder(order,'4'); $event.stopPropagation()"> REJECTE
+                      (click)=" approveOrder(order,'4'); $event.stopPropagation()"> REJECT
               </button>
             </td>
 
