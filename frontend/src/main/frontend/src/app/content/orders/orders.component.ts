@@ -28,6 +28,7 @@ import {ConfiguratorComponent, ConfiguratorType} from "../../configurator/config
 })
 export class OrdersComponent implements OnInit, OnDestroy {
   private uId: string;
+  private haveOrders: boolean;
   private createModelobj: CreateModel;
   private uModels: IModel[] = [];
   private selectedModel:IModel;
@@ -55,16 +56,14 @@ export class OrdersComponent implements OnInit, OnDestroy {
 
     this.authService.isAuthenticatedSubject.subscribe((auth: boolean ) => {
       if(auth){
-        console.log("send reload bucket on login");
         this.getModelsByUserId();  //refresh models on login
-        // this.cardOrderService.sendEmitReloadBucket();  //reload bucket on login
       }else{
-        //this.cardOrderService.clearMessage(); // clear local bucket (front only)
       }
     });
 
     this.subsOrderResp = this.cardOrderService.getMessage().subscribe(orderResp => {
       this.currentOrder = orderResp;
+
     });
     this.reloadMyOrdersList();
   }
@@ -99,14 +98,20 @@ export class OrdersComponent implements OnInit, OnDestroy {
     this.restService.getData('./api/order/findall' + `/${id}`).subscribe(
       (data: OrderResp[]) => {
         this.myOrders = data;
+
         this.myOrders = this.myOrders.filter(o => o.status.code != OrderStatusNameEnum[OrderStatusNameEnum.BUCKET]); //Filter Bucket
         this.myOrders =  this.myOrders.sort((a, b): number => {   //sor array by
           if (a.status.code < b.status.code) return -1;
           if (a.status.code > b.status.code) return 1;
           return 0;
-        })
-      }, () => console.log('err')
+        });
+        this.haveOrders=this.myOrders.length > 0;
+        }, () => console.log('err')
     );
+
+    // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    // console.log(data);
+    // console.log(data.length > 0);
   }
 
 

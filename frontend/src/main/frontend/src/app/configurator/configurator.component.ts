@@ -25,13 +25,14 @@ export class ConfiguratorComponent implements OnInit {
   private selectedPanel: Panel;
   private selectedModel: IModel;
   private uploadedImage: string;
+
   private tempMaterials: string[] = [];
   private tempPanels: string[] = [];
-
+  private modelPrice: number;
 
   @ViewChild('config')
   configurator: IConfigurator;
-  private modelPrice: number;
+
   private materialTypes: MaterialType[];
   materials: BagMaterial [] = [];
   begtypes: BagType[] = [];
@@ -88,10 +89,11 @@ export class ConfiguratorComponent implements OnInit {
     this.tempPanels[1]="bag_body-top";
     this.tempPanels[2]="bag_front";
 
-    this.restService.getData("./api/material/list").subscribe(data => {this.materials = data;
-    console.log(data);
-      this.restService.getData("./api/bag_type/list").subscribe((data: BagType[]) => {this.begtypes = data;
-        this.modelPrice=this.begtypes[0].price+this.materials.find(p=>p.name==="jeans-blue").price;
+    this.restService.getData("./api/material/list").subscribe((data:BagMaterial[]) => {
+      this.materials = data;
+      this.restService.getData("./api/bag_type/list").subscribe((bagTypes: BagType[]) => {
+        this.begtypes = bagTypes;
+        this.modelPrice=this.begtypes[0].price+data.find(p=>p.name=="jeans-blue").price;
         this.imageConfig = new ImageConfig();
         this.imageConfig.panels=this.begtypes[0].panels;
         this.imageConfig.image=new Array(this.begtypes[0].panels.length);
@@ -123,39 +125,39 @@ export class ConfiguratorComponent implements OnInit {
     this.configurator.changeImage("asd");
   }
 
-  countPrice(materialOld, material:BagMaterial, panel: string){
-    console.log("materialOld");
-    console.log(materialOld);
-    console.log(panel);
-
-    let other = this.tempPanels.filter(p=>p!==panel);
-    let curr = this.tempPanels.find(p=>p===panel);
-    console.log(other);
-    console.log(curr);
-
-    let oldPrice = this.modelPrice;
-    console.log(oldPrice);
-    let panelsTotal = this.modelPrice-this.begtypes[0].price;
-    console.log(panelsTotal);
-    let oldPanelPrice = this.materials.find(p=>p.name===materialOld).price*0.6;
-    console.log(oldPanelPrice);
-
-
-    if(panel==="bag_body"){
-      let newBodyPrice = material.price*0.6;
-      console.log(newBodyPrice);
-      let price = panelsTotal-oldPanelPrice+newBodyPrice;
-      console.log(price);
-      this.modelPrice = price+ this.begtypes[0].price;
-    }else {
-      console.log("NO BAG BODY");
-      let newBodyPrice = material.price*0.2;
-      // let oldBodyPrice = panelsTotal*0.6;
-      let price = panelsTotal-oldPanelPrice*0.2+newBodyPrice;
-      this.modelPrice = price+ this.begtypes[0].price;
-    }
-
-  }
+  // countPrice(materialOld, material:BagMaterial, panel: string){
+  //   console.log("materialOld");
+  //   console.log(materialOld);
+  //   console.log(panel);
+  //
+  //   let other = this.tempPanels.filter(p=>p!==panel);
+  //   let curr = this.tempPanels.find(p=>p===panel);
+  //   console.log(other);
+  //   console.log(curr);
+  //
+  //   let oldPrice = this.modelPrice;
+  //   console.log(oldPrice);
+  //   let panelsTotal = this.modelPrice-this.begtypes[0].price;
+  //   console.log(panelsTotal);
+  //   let oldPanelPrice = this.materials.find(p=>p.name===materialOld).price*0.6;
+  //   console.log(oldPanelPrice);
+  //
+  //
+  //   if(panel==="bag_body"){
+  //     let newBodyPrice = material.price*0.6;
+  //     console.log(newBodyPrice);
+  //     let price = panelsTotal-oldPanelPrice+newBodyPrice;
+  //     console.log(price);
+  //     this.modelPrice = price+ this.begtypes[0].price;
+  //   }else {
+  //     console.log("NO BAG BODY");
+  //     let newBodyPrice = material.price*0.2;
+  //     // let oldBodyPrice = panelsTotal*0.6;
+  //     let price = panelsTotal-oldPanelPrice*0.2+newBodyPrice;
+  //     this.modelPrice = price+ this.begtypes[0].price;
+  //   }
+  //
+  // }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
     this.configurator.imageUploaded(data);
@@ -211,9 +213,22 @@ export class ConfiguratorComponent implements OnInit {
     this.modelName = newModelName;
   }
 
+  calculatePrice(material: BagMaterial, panel: string){
+
+    let oldMaterialName= this.tempMaterials[this.tempPanels.findIndex(p=>p===this.selectedPanel.name)];
+    this.tempMaterials[this.tempPanels.findIndex(p=>p===this.selectedPanel.name)]=material.name;
+    let oldPrice= this.materials.find(m=>m.name===oldMaterialName).price;
+    console.log(oldPrice);
+    this.modelPrice =panel==="bag_body"?
+      this.modelPrice-Math.round(oldPrice*0.6)+Math.round(0.6*this.materials.find(m=>m.name===material.name).price):
+      this.modelPrice = this.modelPrice-Math.round(oldPrice*0.2)+Math.round(0.2*this.materials.find(m=>m.name===material.name).price);
+
+  }
+
   selectMaterial(material: BagMaterial, panel?: string) {
 
     if(this.selectedPanel!=null){
+      this.calculatePrice(material,panel);
       console.log("selectMaterial PARENT CONFIGURATOR");
       let tempMaterial = new BagMaterial();
       tempMaterial.id=material.id;
@@ -223,6 +238,7 @@ export class ConfiguratorComponent implements OnInit {
 
 
       this.configurator.selectMaterial(tempMaterial, this.selectedPanel.name);
+
     }
 
 
@@ -250,11 +266,7 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   handleSelectedPanelUpdated(pickedObject:any){
-    // if(pickedObject.name==="bag_body"){
       this.canUpload=pickedObject.name !== "bag_body";
-    // }else {
-    //   this.canUpload=true;
-    // }
     if(this.selectedPanel!==pickedObject){
       this.showImageScalor=false;
     }

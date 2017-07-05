@@ -6,7 +6,9 @@
 
 
   <div class="col-md-12" *ngIf="showWhat === ShowView.ORDERS ">
-    <div class="table-responsive, ordverflow">
+    <div  *ngIf="!haveOrders">You haven't orders yet</div>
+    <div class="table-responsive, ordverflow" *ngIf="haveOrders">
+    <!--<div class="table-responsive, ordverflow" *ngIf="!haveOrders">-->
       <!--<h1>Orders</h1>-->
       <table class="table table-sm table-striped table-bordered table-cart">
         <tbody>
@@ -20,12 +22,6 @@
           <td>{{order.idOrder}}</td>
           <td>{{order.status.code}}</td>
           <td>{{order.items?.length}}</td>
-          <!--  <td>
-               <input type="number"
-                      name="{{item.product.id}}" min="1"
-                      [ngModel]="item.count"
-                      (ngModelChange)="item.count = update($event, item)">
-             </td>-->
           <td>{{order.sumPrice |
             currency:'USD':true:'1.2-2'}}
           </td>

@@ -71,22 +71,23 @@
                   <td class="col-md-auto">{{panel.material.name}}</td>
 
                 </tr>
-                <div *ngIf="hasImage" class="scroll-arrow">
-                  <button *ngIf="!showImagesOnBag" class="btn-block btn-info"
-                          (click)='showImagesOnBag=!showImagesOnBag'>Show images
-                  </button>
-                  <div class="container-fluid">
-                    <div class="row" *ngIf="showImagesOnBag">
-                      <div *ngFor="let item of imageConfig.image">
-                        <div class="col-md-auto d-inline-block" *ngIf="item!=null">
-                          <img class="py-2 px-2" [src]="item">
-                        </div>
+
+              </table>
+              <div *ngIf="hasImage" class="scroll-arrow">
+                <button *ngIf="!showImagesOnBag" class="btn-block btn-info"
+                        (click)='showImagesOnBag=!showImagesOnBag'>Show images
+                </button>
+                <div class="container-fluid">
+                  <div class="row" *ngIf="showImagesOnBag">
+                    <div *ngFor="let item of imageConfig.image">
+                      <div class="col-md-auto d-inline-block" *ngIf="item!=null">
+                        <img class="py-2 px-2" [src]="item">
                       </div>
-                      <button class="btn-block btn-info" (click)='showImagesOnBag=!showImagesOnBag'>Hide images</button>
                     </div>
+                    <button class="btn-block btn-info" (click)='showImagesOnBag=!showImagesOnBag'>Hide images</button>
                   </div>
                 </div>
-              </table>
+              </div>
             </div>
           </div>
         </div>

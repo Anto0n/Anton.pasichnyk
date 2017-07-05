@@ -24,8 +24,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   @Input()
   viewMode: boolean = false;
 
-  @Input()
-  editMode: boolean = false;
+  @Input() editMode: boolean = false;
   @Output() onClearMname = new EventEmitter<string>();
   @Output() onModelSelect = new EventEmitter<IModel>();
 
@@ -585,10 +584,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   private loadModelMaterial(model: IModel): void {
 
 
-    // let idx = imgConf.image.findIndex(p => p != null);
-    // let panel = imgConf.panels[idx];
-
-
     let jStr: string = JSON.parse(JSON.stringify(model.config));
     let obj: Config3d = new Config3d();
     obj.panels = [];
@@ -636,10 +631,5 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   }
 
-  test(){
-    console.log(this.cachedMaterialsImage);
-    // console.log(this.cachedMaterialsName);
-
-  }
 
 }
