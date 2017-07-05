@@ -52,6 +52,7 @@ export class ConfiguratorComponent implements OnInit {
 
   private imgForTest: string;
 
+  //deprecated
   @Input() set selectModelToConfig(model: IModel) { // for view mode only SELECT bagType, Material, and model config by click
     if (this.viewMode && model && model.id) {
       this.modelId = model.id;
@@ -68,8 +69,6 @@ export class ConfiguratorComponent implements OnInit {
         this.outMaterial = data;
       });
     }
-    //todo method reload data on configurator
-    //this.configurator.
   }
 
   constructor(public userRoleService: UserRoleService,
@@ -251,11 +250,11 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   handleSelectedPanelUpdated(pickedObject:any){
-    if(pickedObject.name==="bag_body"){
-      this.canUpload=false;
-    }else {
-      this.canUpload=true;
-    }
+    // if(pickedObject.name==="bag_body"){
+      this.canUpload=pickedObject.name !== "bag_body";
+    // }else {
+    //   this.canUpload=true;
+    // }
     if(this.selectedPanel!==pickedObject){
       this.showImageScalor=false;
     }
@@ -269,6 +268,10 @@ export class ConfiguratorComponent implements OnInit {
 
   onModelSelect(model: IModel){
     this.selectedModel=model;
+  }
+
+  resetPanel(panel:Panel){
+    this.configurator.resetPanel(panel);
   }
 
 }

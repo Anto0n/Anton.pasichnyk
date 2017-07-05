@@ -29,7 +29,7 @@
                 <img [src]="material.imageMin" (click)="selectMaterial(material)">
               </div>
           </div>
-            <div *ngIf="canUpload">  <!-- [extensions]="['jpg','png','gif']"-->
+            <div *ngIf="canUpload">
               <image-upload [preview]="true"
                             (max)="1"
                             (onRemove)="imageRemoved($event)"

@@ -57,4 +57,6 @@ export interface IConfigurator {
   stopAnimate(): void;
   positionImage(size, x, y, src: string, panel: Panel): void;
 
+  resetPanel(panel:Panel):void;
+
 }

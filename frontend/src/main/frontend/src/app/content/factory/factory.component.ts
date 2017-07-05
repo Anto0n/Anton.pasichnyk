@@ -6,12 +6,16 @@ import {OrderResp, OrderStatusNameEnum, mItems} from "../../models/order";
 import {Configurator3DComponent} from "../../configurator/3DConfigurator/configurator3d.component";
 import {Config3d, ModelConfig} from "../../models/modelConfig";
 import {AlertService} from "../../services/alert.service";
+import {ImageConfig} from "../../models/image-config";
 
 @Component({
   selector: 'app-manager',
   templateUrl: './factory.component.html'
 })
 export class FactoryComponent implements OnInit {
+  imageConfig: ImageConfig;
+  private hasImage:boolean;
+  private showImagesOnBag:boolean;
   private uModels: IModel[] = [];
   private selectedModel:IModel;
   private selectedOrd : OrderResp = null;
@@ -36,13 +40,21 @@ export class FactoryComponent implements OnInit {
  }
 
   selectModel(model: IModel, item? : mItems) {
+    this.hasImage=false;
     if(item === null){
       this.selectedItem = null;
     }else{
       this.selectedItem = item;
     }
     this.selectedModel=model;
+    // let a =
+    this.imageConfig =JSON.parse(JSON.parse(JSON.stringify(this.selectedModel.imageConfig)));
     this.modelConfigView.config3d = new Config3d();
+    for (let i of this.imageConfig.image){
+      if(i!=null){
+        this.hasImage=true;
+      }
+    }
     let jStr: string = JSON.parse(JSON.stringify(model.config));
     this.modelConfigView = JSON.parse(jStr);
     this.configurator.loadModel(model);

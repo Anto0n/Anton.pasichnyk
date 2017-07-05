@@ -7,7 +7,7 @@
       <div class="col-md-12" *ngIf="!showEditOrder">
 
         <h3 *ngIf="!selectedOrd"> Factory models </h3>
-        <h3 *ngIf="selectedOrd"> Models in  order id # {{selectedOrd.idOrder}}  </h3>
+        <h3 *ngIf="selectedOrd"> Models in order id # {{selectedOrd.idOrder}} </h3>
         <div>
           <table class="table table-striped">
             <thead>
@@ -49,28 +49,45 @@
 
         </div>
         <div class="container-fluid col-lg-12">
+          <div class="row">
+            <div class="col-lg-6 d-inline-block">
+              <configurator-3d #config></configurator-3d>
+            </div>
+            <!--*ngIf="selectedModel!=null"-->
+            <div class="col-lg-5 d-inline-block align-top" *ngIf="selectedModel!=null">
+              <!--&& selectedOrd.idOrder!= 0 &&
+              selectedOrd.items?.length > 0-->
+              <table class="table table-striped">
+                <tr class="col-md-auto">
+                  <td class="col-md-auto">Model name</td>
+                  <td class="col-md-auto">{{selectedModel.mname}}</td>
+                </tr>
+                <tr class="col-md-auto" *ngIf="selectedItem?.count">
+                  <td class="col-md-auto">Bags quantity</td>
+                  <td class="col-md-auto">{{selectedItem.count}}</td>
+                </tr>
+                <tr class="col-md-auto" *ngFor="let panel of modelConfigView?.config3d.panels">
+                  <td class="col-md-auto">panel: {{panel.name}}</td>
+                  <td class="col-md-auto">{{panel.material.name}}</td>
 
-          <div class="col-lg-6 d-inline-block">
-            <configurator-3d #config></configurator-3d>
-          </div>
-          <!--*ngIf="selectedModel!=null"-->
-          <div class="col-lg-4 d-inline-block" *ngIf="selectedModel!=null">
-            <!--&& selectedOrd.idOrder!= 0 &&
-            selectedOrd.items?.length > 0-->
-            <table class="table table-striped">
-              <tr class="col-md-auto">
-                <td class="col-md-auto">Model name</td>
-                <td class="col-md-auto">{{selectedModel.mname}}</td>
-              </tr>
-              <tr class="col-md-auto" *ngIf="selectedItem?.count">
-                <td class="col-md-auto">Bags quantity</td>
-                <td class="col-md-auto">{{selectedItem.count}}</td>
-              </tr>
-              <tr class="col-md-auto" *ngFor="let panel of modelConfigView?.config3d.panels">
-                <td class="col-md-auto">panel: {{panel.name}}</td>
-                <td class="col-md-auto">{{panel.material.name}}</td>
-              </tr>
-            </table>
+                </tr>
+                <div *ngIf="hasImage" class="scroll-arrow">
+                  <button *ngIf="!showImagesOnBag" class="btn-block btn-info"
+                          (click)='showImagesOnBag=!showImagesOnBag'>Show images
+                  </button>
+                  <div class="container-fluid">
+                    <div class="row" *ngIf="showImagesOnBag">
+                      <div *ngFor="let item of imageConfig.image">
+                        <div class="col-md-auto d-inline-block" *ngIf="item!=null">
+                          <img class="py-2 px-2" [src]="item">
+                        </div>
+                      </div>
+                      <button class="btn-block btn-info" (click)='showImagesOnBag=!showImagesOnBag'>Hide images</button>
+                    </div>
+                  </div>
+                </div>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -115,7 +132,7 @@
     </div>
 
   </div>
-<br>
+  <br>
 
   <br>
   <!--<button class="btn btn-primary" (click)="showOrders()">ORDERS</button>-->

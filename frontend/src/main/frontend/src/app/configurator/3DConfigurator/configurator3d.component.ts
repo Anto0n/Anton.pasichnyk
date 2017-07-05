@@ -19,7 +19,6 @@ declare let b4w: any;
 export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator {
 
 
-
   @Input() private inModelName: string;
   @Input() private currentModel: ModelConfig;
   @Input()
@@ -38,6 +37,8 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   modelConfig: ModelConfig;
   imageConfig: ImageConfig;
   private pathToMaterials: string;
+  private cachedMaterialsImage: string[] = [];
+  private cachedMaterialsName: string[] = [];
   private selectedPanel: any;
   private materialOfPanel: string;
   private material: BagMaterial;
@@ -81,21 +82,29 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   }
 
 
-  positionImage(scale, x, y, src:string, panel:Panel){
-    let panelTrue = this.modelConfig.config3d.panels.find(p=>p.name===panel.name);
+  positionImage(scale, x, y, src: string, panel: Panel) {
+    let panelTrue = this.modelConfig.config3d.panels.find(p => p.name === panel.name);
     b4w.require(this.appName).scalePicture(src, panelTrue, scale, x, y, this.materialOfPanel);
   }
 
   ngOnInit() {
 
-    this.restService.getData("./api/material/list").subscribe(data => this.materials = data);
+    this.restService.getData("./api/material/list").subscribe((data: BagMaterial[]) => {
+        this.materials = data;
+        let i = 0;
+        for (let m of this.materials) {
+          console.log(i);
+          this.cachedMaterialsName[i++] = m.image;
+        }
+      }
+    );
     b4w.register(this.appName, function (exports, require) {
         let m_app = b4w.require("app");
         let m_mouse = b4w.require("mouse");
         let m_data = b4w.require("data");
         let m_scenes = require("scenes");
         let m_tex = require("textures");
-        let m_textures = require("__textures")
+        let m_textures = require("__textures");
         let m_mat = require("material");
         let m_container = require("container");
         let m_preloader = require("preloader");
@@ -103,10 +112,10 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         let DEBUG = (m_version.type() === "DEBUG");
 
         exports.getCanvas = m_container.get_canvas;
-        exports.disableCamera = function(){
+        exports.disableCamera = function () {
           m_app.disable_camera_controls();
         };
-        exports.enableCamera = function(){
+        exports.enableCamera = function () {
           m_app.enable_camera_controls();
         };
 
@@ -175,90 +184,87 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         }
 
 
-
-        exports.changeImg = function(src:string){
+        exports.changeImg = function (src: string) {
           let image = new Image();
-          image.src=src;
-          image.onload = function(){
+          image.src = src;
+          image.onload = function () {
 
           }
 
         }
-      exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string, size?:number, x?:number, y?:number) {
+        exports.chooseMaterial = function (material: string, panel?: Panel, customImage?: string, size?: number, x?: number, y?: number) {
 
-        if (customImage) {
-          let object = m_scenes.get_object_by_name("bag_front");
-          let object_body = m_scenes.get_object_by_name("bag_body");
-          let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
-          let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
-          let img = new Image();
+          if (customImage) {
+            let object = m_scenes.get_object_by_name("bag_front");
+            let object_body = m_scenes.get_object_by_name("bag_body");
+            let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
+            let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
+            let img = new Image();
 
-          img.src = material;
+            img.src = material;
 
-          img.onload = function () {
-            if (panel != null) {
-              let panel_object = m_scenes.get_object_by_name(panel.name);
-              let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-              if (panel.name === "bag_body") {
-                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-              } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
-                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+            img.onload = function () {
+              if (panel != null) {
+                let panel_object = m_scenes.get_object_by_name(panel.name);
+                let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+                if (panel.name === "bag_body") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
 
-              } else {
+                } else {
+                }
+                m_tex.update_canvas_ctx(panel_object, panel.texture);
               }
-              m_tex.update_canvas_ctx(panel_object, panel.texture);
             }
-          }
 
-          let customImageTemp = new Image();
+            let customImageTemp = new Image();
 
-          customImageTemp.src = customImage;
-          let panel_object = m_scenes.get_object_by_name(panel.name);
-          let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-          customImageTemp.onload = function () {
-            let w = customImageTemp.width;
-            let h = customImageTemp.height;
-            ctx2Dpanel.drawImage(customImageTemp, 0, 0, w, h,
-              ((ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2)*(1+(x-5)/10),  //destination x
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))*(1+(y-5)/10)/2, //destination y
-              ctx2Dpanel.canvas.width/5*(1+(size-5)/10), ctx2Dpanel.canvas.height/5*(1+(size-5)/10));
-            m_tex.update_canvas_ctx(panel_object, panel.texture);
-          }
-
-        } else {
-
-
-          let object = m_scenes.get_object_by_name("bag_front");
-          let object_body = m_scenes.get_object_by_name("bag_body");
-          let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
-          let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
-          let img = new Image();
-
-          img.src = material;
-
-          img.onload = function () {
-            if (panel != null) {
-              let panel_object = m_scenes.get_object_by_name(panel.name);
-              let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-              if (panel.name === "bag_body") {
-                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-              } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
-                ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
-              } else {
-              }
+            customImageTemp.src = customImage;
+            let panel_object = m_scenes.get_object_by_name(panel.name);
+            let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+            customImageTemp.onload = function () {
+              let w = customImageTemp.width;
+              let h = customImageTemp.height;
+              ctx2Dpanel.drawImage(customImageTemp, 0, 0, w, h,
+                ((ctx2Dpanel.canvas.width - ctx2Dpanel.canvas.width / 5 * (1 + (size - 5) / 10)) / 2) * (1 + (x - 5) / 10),  //destination x
+                (ctx2Dpanel.canvas.width - ctx2Dpanel.canvas.height / 5 * (1 + (size - 5) / 10)) * (1 + (y - 5) / 10) / 2, //destination y
+                ctx2Dpanel.canvas.width / 5 * (1 + (size - 5) / 10), ctx2Dpanel.canvas.height / 5 * (1 + (size - 5) / 10));
               m_tex.update_canvas_ctx(panel_object, panel.texture);
             }
 
+          } else {
+
+
+            let object = m_scenes.get_object_by_name("bag_front");
+            let object_body = m_scenes.get_object_by_name("bag_body");
+            let rendering_ctx = m_tex.get_canvas_ctx(object, "bag_front_text_img");
+            let ctx_image_body = m_tex.get_canvas_ctx(object_body, "bag_body_text_img");
+            let img = new Image();
+
+            img.src = material;
+
+            img.onload = function () {
+              if (panel != null) {
+                let panel_object = m_scenes.get_object_by_name(panel.name);
+                let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
+                if (panel.name === "bag_body") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, 0, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 2, 0, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                } else if (panel.name === "bag_front" || panel.name === "bag_body_top") {
+                  ctx2Dpanel.drawImage(img, 0, 0, img.width, img.height, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 4, ctx2Dpanel.canvas.width / 2, ctx2Dpanel.canvas.height / 2);
+                } else {
+                }
+                m_tex.update_canvas_ctx(panel_object, panel.texture);
+              }
+
+            }
           }
         }
-      }
 
 
-
-
-      exports.scalePicture = function (src: string, panel: Panel, size : number, x:number, y:number, materialSrc:string) {
+        exports.scalePicture = function (src: string, panel: Panel, size: number, x: number, y: number, materialSrc: string) {
 
           console.log("IM GONNA DRAWING NOW");
           console.log(panel);
@@ -268,7 +274,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
           let panel_object = m_scenes.get_object_by_name(panel.name);
           let ctx2Dpanel = m_tex.get_canvas_ctx(panel_object, panel.texture);
-          ctx2Dpanel.clearRect(0,0, ctx2Dpanel.canvas.width, ctx2Dpanel.canvas.height);
+          ctx2Dpanel.clearRect(0, 0, ctx2Dpanel.canvas.width, ctx2Dpanel.canvas.height);
           let img = new Image();
           img.src = materialSrc;
 
@@ -284,23 +290,23 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
           console.log("IM GONNA DRAWING PIC NOW");
           let img2 = new Image();
-          img2.src=src;
+          img2.src = src;
           img2.onload = function () {
-            if(size){
-              let scaleFactor = size-5;
+            if (size) {
+              let scaleFactor = size - 5;
             }
             let w = img2.width;
             let h = img2.height;
             ctx2Dpanel.drawImage(img2, 0, 0, w, h,
-              ((ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width/5*(1+(size-5)/10))/2)*(1+(x-5)/10),  //destination x
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height/5*(1+(size-5)/10))*(1+(y-5)/10)/2, //destination y
-              ctx2Dpanel.canvas.width/5*(1+(size-5)/10),                              // destination width
-              ctx2Dpanel.canvas.height/5*(1+(size-5)/10));                            // destination height
+              ((ctx2Dpanel.canvas.width - ctx2Dpanel.canvas.width / 5 * (1 + (size - 5) / 10)) / 2) * (1 + (x - 5) / 10),  //destination x
+              (ctx2Dpanel.canvas.width - ctx2Dpanel.canvas.height / 5 * (1 + (size - 5) / 10)) * (1 + (y - 5) / 10) / 2, //destination y
+              ctx2Dpanel.canvas.width / 5 * (1 + (size - 5) / 10),                              // destination width
+              ctx2Dpanel.canvas.height / 5 * (1 + (size - 5) / 10));                            // destination height
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
 
         }
-        exports.drawPicture = function (src: string, panel: Panel, size? : number) {
+        exports.drawPicture = function (src: string, panel: Panel, size?: number) {
 
 
           let panel_object = m_scenes.get_object_by_name(panel.name);
@@ -309,17 +315,17 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
           img.src = src;
 
           img.onload = function () {
-            if(size){
-              let scaleFactor = size-5;
-              img.width=img.width*(1+(scaleFactor)/10);
-              img.height=img.height*(1+(scaleFactor)/10);
+            if (size) {
+              let scaleFactor = size - 5;
+              img.width = img.width * (1 + (scaleFactor) / 10);
+              img.height = img.height * (1 + (scaleFactor) / 10);
             }
             let w = img.width;
             let h = img.height;
 
             ctx2Dpanel.drawImage(img, 0, 0, w, h,
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.width / 5)/2 ,
-              (ctx2Dpanel.canvas.width-ctx2Dpanel.canvas.height / 5)/2,
+              (ctx2Dpanel.canvas.width - ctx2Dpanel.canvas.width / 5) / 2,
+              (ctx2Dpanel.canvas.width - ctx2Dpanel.canvas.height / 5) / 2,
               ctx2Dpanel.canvas.width / 5, ctx2Dpanel.canvas.height / 5);
             m_tex.update_canvas_ctx(panel_object, panel.texture);
           }
@@ -404,18 +410,24 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   }
 
-  disableCamera(){
+
+  disableCamera() {
     b4w.require(this.appName).disableCamera();
   }
-  enableCamera(){
+
+  enableCamera() {
     b4w.require(this.appName).enableCamera();
+  }
+
+  resetPanel(panel: Panel): void {
+    throw new Error("Method not implemented.");
   }
 
   resetModel() {
     this.clearRectangle();
 
     this.onClearMname.emit("");        // send clear Emit modelNameMessage to parrent configurator.component
-    this.restService.getData('./api/models/1').subscribe((data:IModel)=> {
+    this.restService.getData('./api/models/1').subscribe((data: IModel) => {
 
 
       this.loadModel(data);
@@ -461,21 +473,27 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   }
 
-  imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }, size?:number) {
+  imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }, size?: number) {
 
     this.restService.getData('./api/panel/' + this.selectedPanel.name).subscribe(
       (panel: Panel) => {
         b4w.require(this.appName).drawPicture(data.src, panel, size);
-        // this.imageConfig.image[this.imageConfig.panel.findIndex(p=>p===panel.name)]=data.src;
-        let materialOfPanelName = this.modelConfig.config3d.panels.find(p=>p.name===this.selectedPanel.name).material.image;
-        this.restService.getDataAny('./api/material/base64/'+materialOfPanelName).subscribe(
-          (data:string)=>{
-            this.materialOfPanel=data;
-            console.log("MATERIAL OF PANEL LOADED")
-          }
-        )
-      }, (panel: any) => console.log("cant get panel by name"));
+        console.log(this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === materialOfPanelName)] == null);
+        let materialOfPanelName = this.modelConfig.config3d.panels.find(p => p.name === this.selectedPanel.name).material.image;
 
+        if (this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === materialOfPanelName)] == null) {
+          this.restService.getDataAny('./api/material/base64/' + materialOfPanelName).subscribe(
+
+            (data: string) => {
+              console.log("pulling "+ materialOfPanelName);
+              this.materialOfPanel = data;
+              this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === materialOfPanelName)] = data;
+            }
+          );
+        } else {
+          this.materialOfPanel = this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === materialOfPanelName)];
+        }
+      }, (panel: any) => console.log("cant get panel by name"));
 
 
   }
@@ -486,12 +504,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       (data: any) => {
         this.pathToMaterials = data;
 
-          b4w.require(this.appName).changeImg(data);
+        b4w.require(this.appName).changeImg(data);
 
       }, () => console.log('err'));
   }
 
-  selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string, scale?: number, x?:number, y?:number) {
+  selectMaterial(material: BagMaterial, panel?: string, imageOnPanel?: string, scale?: number, x?: number, y?: number) {
     // imgFunction?:{func: Function, funcParam: any[]}) {
 
 
@@ -503,7 +521,6 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
       selectedPanel.material = new BagMaterial();
       selectedPanel.material = material;
-      // this.onChangePrice.emit(material.price);
 
 
     } else {
@@ -511,16 +528,25 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
         i.material = material;
       }
     }
-    this.restService.getDataAny('./api/material/base64/' + material.image).subscribe(
-      (data: any) => {
-        this.pathToMaterials = data;
-
-        if (imageOnPanel) {
-          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel, imageOnPanel, scale, x, y);
-        } else {
-          b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel);
-        }
-      }, () => console.log('err'));
+    if (this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === material.image)] == null) {
+      this.restService.getDataAny('./api/material/base64/' + material.image).subscribe(
+        (data: any) => {
+          console.log("pulling "+ material.image);
+          this.pathToMaterials = data;
+          this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === material.image)] = data;
+          if (imageOnPanel) {
+            b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel, imageOnPanel, scale, x, y);
+          } else {
+            b4w.require(this.appName).chooseMaterial(this.pathToMaterials, selectedPanel);
+          }
+        }, () => console.log('err'));
+    } else {
+      if (imageOnPanel) {
+        b4w.require(this.appName).chooseMaterial(this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === material.image)], selectedPanel, imageOnPanel, scale, x, y);
+      } else {
+        b4w.require(this.appName).chooseMaterial(this.cachedMaterialsImage[this.cachedMaterialsName.findIndex(c => c === material.image)], selectedPanel);
+      }
+    }
 
   }
 
@@ -556,9 +582,9 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
 
   private loadModelMaterial(model: IModel): void {
 
-    let imgConf: ImageConfig = JSON.parse(JSON.parse(JSON.stringify(model.imageConfig)));
-    let idx = imgConf.image.findIndex(p => p != null);
-    let panel = imgConf.panels[idx];
+
+    // let idx = imgConf.image.findIndex(p => p != null);
+    // let panel = imgConf.panels[idx];
 
 
     let jStr: string = JSON.parse(JSON.stringify(model.config));
@@ -574,9 +600,13 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
       this.modelConfig.config3d.panels[a].material = new BagMaterial();
       this.modelConfig.config3d.panels[a].material.image = arr[a];
     }
+
+    let imgConf: ImageConfig = JSON.parse(JSON.parse(JSON.stringify(model.imageConfig)));
+
     for (let i of this.modelConfig.config3d.panels) {
-      if (panel && i.name === panel.name) {
-        this.selectMaterial(i.material, i.name, imgConf.image[idx], imgConf.scale[idx],imgConf.posX[idx],imgConf.posY[idx]);
+      if (imgConf.image[this.modelConfig.config3d.panels.findIndex(p=>p.name===i.name)]!=null) {
+        let idx = this.modelConfig.config3d.panels.findIndex(p=>p.name===i.name);
+        this.selectMaterial(i.material, i.name, imgConf.image[idx], imgConf.scale[idx], imgConf.posX[idx], imgConf.posY[idx]);
       } else {
         this.selectMaterial(i.material, i.name);
       }
@@ -588,6 +618,7 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
   stopAnimate(): void {
     b4w.require(this.appName).stopAnimate(this.selectedPanel);
   }
+
   activateEditMode() {
     let canvasElement: any = b4w.require(this.appName).getCanvas();
     canvasElement.addEventListener('mousedown', this.listenerCallback1.bind(this), false);
@@ -600,6 +631,12 @@ export class Configurator3DComponent implements OnInit, OnDestroy, IConfigurator
     b4w.require(this.appName).stopAnimate(this.selectedPanel);
     this.selectedPanel = null;
     this.selectedPanelUpdated.emit(this.selectedPanel);
+
+  }
+
+  test(){
+    console.log(this.cachedMaterialsImage);
+    // console.log(this.cachedMaterialsName);
 
   }
 
