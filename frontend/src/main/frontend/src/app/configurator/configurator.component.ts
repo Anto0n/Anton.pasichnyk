@@ -19,10 +19,12 @@ import {ImageConfig} from "../models/image-config";
 })
 export class ConfiguratorComponent implements OnInit {
   private isEditMode: boolean = false;
+  private showImageScalor: boolean = false;
+  private canUpload: boolean = false;
   private modelName: string;
   private selectedPanel: Panel;
   private selectedModel: IModel;
-
+  private uploadedImage: string;
   private tempMaterials: string[] = [];
   private tempPanels: string[] = [];
 
@@ -113,6 +115,17 @@ export class ConfiguratorComponent implements OnInit {
     this.configurator.save(this.modelConfig, this.imageConfig);
   }
 
+  focusInput(){
+    this.configurator.disableCamera();
+  }
+  focusOutInput(){
+    this.configurator.enableCamera();
+  }
+
+  changeImage(){
+    this.configurator.changeImage("asd");
+  }
+
   countPrice(materialOld, material:BagMaterial, panel: string){
     console.log("materialOld");
     console.log(materialOld);
@@ -148,17 +161,27 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   imageUploaded(data: { src: string, pending: boolean, file: { name: string, size: number, type: string } }) {
-    console.log("imageUploaded");
     this.configurator.imageUploaded(data);
-    console.log("IMAGE CONFIG");
     console.log(this.imageConfig);
     let indx = this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name);
     this.imageConfig.image[indx]=data.src;
-    console.log("IMAGE CONFIG");
-    console.log(this.imageConfig);
+    this.showImageScalor = true;
+    this.uploadedImage=data.src;
 
   }
 
+
+  changeImageSize(value:number){
+    this.imageConfig.scale[this.imageConfig.panels.findIndex(p=>p.name===this.selectedPanel.name)]=value;
+    this.configurator.changeImageSize(value,this.uploadedImage,this.selectedPanel);
+    console.log(value);
+  }
+  changeImageX(value:number){
+    console.log(value);
+  }
+  changeImageY(value:number){
+    console.log(value);
+  }
   private checkFile(imgFile: { type: string }): boolean {
     return true;
   }
@@ -173,7 +196,18 @@ export class ConfiguratorComponent implements OnInit {
         break;
     }
   }
-
+  imageRemoved(e:any){
+    console.log(e);
+    console.log("IMAGE REMOVED");
+    console.log("IMAGE REMOVED");
+  }
+  resetModel(){
+    this.configurator.stopAnimate();
+    this.selectedPanel=null;
+    this.canUpload=false;
+    this.showImageScalor=false;
+    this.configurator.resetModel();
+  }
   onClearMname(newModelName: string) { //clear model name for both components
     this.modelName = newModelName;
   }
@@ -202,6 +236,8 @@ export class ConfiguratorComponent implements OnInit {
 
   switchCreateView() {
     this.isEditMode = !this.isEditMode;
+    this.showImageScalor=false;
+    this.canUpload=false;
     document.getElementById("customizer2").hidden = !this.isEditMode;
     document.getElementById("model-selector").hidden = this.isEditMode;
     if(this.isEditMode){
@@ -215,7 +251,14 @@ export class ConfiguratorComponent implements OnInit {
   }
 
   handleSelectedPanelUpdated(pickedObject:any){
-
+    if(pickedObject.name==="bag_body"){
+      this.canUpload=false;
+    }else {
+      this.canUpload=true;
+    }
+    if(this.selectedPanel!==pickedObject){
+      this.showImageScalor=false;
+    }
     this.selectedPanel=pickedObject;
   }
 

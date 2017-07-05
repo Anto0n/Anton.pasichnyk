@@ -5,5 +5,8 @@ import {Panel} from "../configurator/3DConfigurator/panel.model";
 export class ImageConfig{
   panels: Panel[]= [];
   image: string[]= [];
+  scale: number[]=[];
+  posX: number[]=[];
+  posY:number[]=[];
 
 }
