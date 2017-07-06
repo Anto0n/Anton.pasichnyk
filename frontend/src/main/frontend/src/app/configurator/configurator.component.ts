@@ -86,7 +86,7 @@ export class ConfiguratorComponent implements OnInit {
     this.tempMaterials[1]="jeans-blue";
     this.tempMaterials[2]="jeans-blue";
     this.tempPanels[0]="bag_body";
-    this.tempPanels[1]="bag_body-top";
+    this.tempPanels[1]="bag_body_top";
     this.tempPanels[2]="bag_front";
 
     this.restService.getData("./api/material/list").subscribe((data:BagMaterial[]) => {
